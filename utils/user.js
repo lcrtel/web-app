@@ -1,9 +1,4 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
-
-
-export const FetchUserRole = async () => {
-    const supabase = createServerComponentClient({ cookies });
+export const FetchUserRole = async (supabase) => {
     let { data: user } = await supabase.from("profiles").select("*");
 
     if (user && user.length > 0) {
@@ -18,8 +13,7 @@ export const FetchUserRole = async () => {
     return;
 };
 
-export const FetchUserData = async () => {
-    const supabase = createServerComponentClient({ cookies });
+export const FetchUserData = async (supabase) => {
     let { data: user } = await supabase.from("profiles").select("*");
 
     return user;

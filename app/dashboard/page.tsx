@@ -1,4 +1,4 @@
-import { FetchUserRole } from "@/utils/user/user";
+import { FetchUserRole } from "@/utils/user";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -12,7 +12,7 @@ const page = async () => {
     if (!session) {
         redirect("/");
     }
-    const user = await FetchUserRole();
+    const user = await FetchUserRole(supabase);
 
     return (
         <div>

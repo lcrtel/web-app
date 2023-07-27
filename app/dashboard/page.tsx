@@ -1,4 +1,4 @@
-import { FetchUserData, FetchUserRole } from "@/utils/user/user";
+import { FetchUserRole } from "@/utils/user/user";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";

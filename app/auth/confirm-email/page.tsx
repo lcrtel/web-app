@@ -5,6 +5,8 @@ import Link from "next/link";
 import { HiOutlineMail } from "react-icons/hi";
 import Confirm from "./confirmation";
 
+export const dynamic = "force-dynamic";
+
 const page = async () => {
     const supabase = createServerComponentClient<Database>({ cookies });
 

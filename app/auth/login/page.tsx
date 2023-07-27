@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import LoginForm from "./login-form";
 
+export const dynamic = "force-dynamic";
+
 const page = async () => {
     const supabase = createServerComponentClient<Database>({ cookies });
 

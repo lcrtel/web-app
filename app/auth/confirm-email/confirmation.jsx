@@ -16,7 +16,7 @@ export default function Confirm() {
                 href={confirmation_url}
                 className="bg-primary-500 text-white py-2 px-3 rounded-lg"
             >
-                Verify
+                Verify Email
             </a>
         </div>
     );

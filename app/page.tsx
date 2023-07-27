@@ -1,113 +1,535 @@
-import Image from 'next/image'
+import Nav from "@/components/Nav";
+import Link from "next/link";
+import React from "react";
+import { HiCheck, HiOutlineArrowSmRight } from "react-icons/hi";
+import Image from "next/image";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
-export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+const HomePage = async () => {
+    const supabase = createServerComponentClient<Database>({ cookies });
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
+    const {
+        data: { session },
+    } = await supabase.auth.getSession();
+    if (session) {
+        redirect("/dashboard");
+    }
+    const HeroSection = () => (
+        <section
+            className="mx-auto flex min-h-[80vh] items-center justify-between bg-local"
+            style={{
+                backgroundImage: `url("/blue_wave_bg.jpg")`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+            }}
         >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+            <div className="mx-auto w-full max-w-8xl">
+                <div className="flex max-w-2xl flex-col items-start py-32 px-10 text-left sm:py-48 lg:py-56">
+                    <h1 className="text-4xl font-bold tracking-tight text-primary-500 sm:text-6xl">
+                        Streamline Your VoIP Trading Experience
+                    </h1>
+                    <p className="mt-6 text-lg leading-8 text-gray-600">
+                        Unlock new possibilities and maximize your VoIP trading
+                        potential with LCR Telcom&apos;s cutting-edge platform.
+                    </p>
+                    <div className="mt-10 flex items-center justify-center gap-x-6">
+                        <Link
+                            href="#features"
+                            className="rounded-xl bg-primary-500 px-3 py-2 text-sm font-medium text-white"
+                        >
+                            Get Started
+                        </Link>
+                        <Link
+                            passHref
+                            href="#market"
+                            className="flex items-center gap-1.5 rounded-xl bg-white px-3 py-2 text-sm font-medium text-primary-500"
+                        >
+                            Check our Rates
+                            <HiOutlineArrowSmRight />
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+    const MarketView = () => {
+        const routes = [
+            { id: 1 },
+            { id: 1 },
+            { id: 1 },
+            { id: 1 },
+            { id: 1 },
+            { id: 1 },
+            { id: 1 },
+            { id: 1 },
+            { id: 1 },
+            { id: 1 },
+            { id: 1 },
+            { id: 1 },
+            { id: 1 },
+            { id: 1 },
+            { id: 1 },
+            { id: 1 },
+            { id: 1 },
+            { id: 1 },
+            { id: 1 },
+            { id: 1 },
+            { id: 1 },
+            { id: 1 },
+        ];
+        return (
+            <section id="market" className="bg-surface  pb-20 pt-24 sm:py-32">
+                <div className="mx-auto max-w-8xl px-5 lg:px-8">
+                    <div className="mx-auto mb-16 max-w-2xl text-center">
+                        <h2 className="text-3xl font-bold tracking-tight text-primary-500 lg:text-4xl">
+                            Market View
+                        </h2>
+                        <p className="mt-2 text-lg leading-8 text-gray-600">
+                            Real-time Market Rates at Your Fingertips
+                        </p>
+                    </div>
+                    <div className="mx-auto w-full max-w-6xl mb-2.5 rounded-xl bg-white p-4"></div>
+                    <div className="mx-auto w-full max-w-6xl rounded-xl sp-shadow border p-4 bg-white ">
+                        <div className="grid gap-5 sm:grid-cols-2 h-[500px] overflow-y-auto sm:gap-5 md:grid-cols-3 lg:grid-cols-4 ">
+                            {routes.map((route, index) => (
+                                <div
+                                    key={index}
+                                    className="w-full rounded-xl bg-surface p-3.5 shadow"
+                                >
+                                    <div className="mb-2.5 flex justify-between">
+                                        <div>
+                                            <p className=" text-xs text-gray-400">
+                                                Destination
+                                            </p>
+                                            <h4 className="text-base font-bold text-primary-500">
+                                                United Kingdom
+                                            </h4>
+                                        </div>
+                                    </div>
+                                    <div className="mb-2.5 flex items-center">
+                                        <div className="flex-1 mr-1">
+                                            <p className=" text-xs text-gray-400">
+                                                Posted on
+                                            </p>
+                                            <h4 className="text-base font-bold text-primary-500">
+                                                23/07/2023
+                                            </h4>
+                                        </div>
+                                        <div className="flex-1">
+                                            <p className=" text-xs text-gray-400">
+                                                Rate
+                                            </p>
+                                            <h4 className="text-base font-bold text-primary-500">
+                                                $0.25
+                                            </h4>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col gap-2.5 rounded-xl bg-white p-2.5">
+                                        <div className="flex">
+                                            <div className="flex-1">
+                                                <p className=" text-[10px] text-gray-400">
+                                                    Route Type
+                                                </p>
+                                                <h4 className="text-sm font-semibold text-primary-500">
+                                                    CLI
+                                                </h4>
+                                            </div>
+                                            <div className="flex-1">
+                                                <p className=" text-[10px] text-gray-400">
+                                                    Prefix
+                                                </p>
+                                                <h4 className="text-sm font-semibold text-primary-500">
+                                                    0.2564
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <div className="flex">
+                                            <div className="flex-1">
+                                                <p className=" text-[10px] text-gray-400">
+                                                    ASR %
+                                                </p>
+                                                <h4 className="text-sm font-semibold text-primary-500">
+                                                    60%
+                                                </h4>
+                                            </div>
+                                            <div className="flex-1">
+                                                <p className=" text-[10px] text-gray-400">
+                                                    ACD
+                                                </p>
+                                                <h4 className="text-sm font-semibold text-primary-500">
+                                                    2mins
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <div className="flex">
+                                            <div className="flex-1">
+                                                <p className=" text-[10px] text-gray-400">
+                                                    Ports
+                                                </p>
+                                                <h4 className="text-sm font-semibold text-primary-500">
+                                                    23562
+                                                </h4>
+                                            </div>
+                                            <div className="flex-1">
+                                                <p className=" text-[10px] text-gray-400">
+                                                    Capacity
+                                                </p>
+                                                <h4 className="text-sm font-semibold text-primary-500">
+                                                    200mins
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </section>
+        );
+    };
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
+    const BuyersSection = () => {
+        return (
+            <section id="features" className="bg-white py-14 sm:py-32">
+                <div className="mx-auto max-w-7xl px-5 lg:px-8">
+                    <div className="mx-auto max-w-3xl lg:text-center">
+                        <h2 className="mt-2 text-3xl font-bold tracking-tight text-primary-500 sm:text-4xl">
+                            Empower Your Trading Experience
+                        </h2>
+                        <p className="mt-6 text-lg leading-8 text-gray-600">
+                            Discover, Buy, Sell, Compare, and Request Tailored
+                            Routes for Your Communication Needs
+                        </p>
+                    </div>
+                    <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
+                        <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
+                            <div className="relative pl-16">
+                                <dt className="text-base font-semibold leading-7 text-primary-500">
+                                    <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-500 bg-opacity-10">
+                                        <HiCheck className="h-6 w-6 text-primary-500" />
+                                    </div>
+                                    Sell VoIP Routes
+                                </dt>
+                                <dd className="mt-2 text-base leading-7 text-gray-600">
+                                    List and manage your VoIP routes for
+                                    potential buyers to explore and purchase.
+                                </dd>
+                            </div>
+                            <div className="relative pl-16">
+                                <dt className="text-base font-semibold leading-7 text-primary-500">
+                                    <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-500 bg-opacity-10">
+                                        <HiCheck className="h-6 w-6 text-primary-500" />
+                                    </div>
+                                    Buy VoIP Routes
+                                </dt>
+                                <dd className="mt-2 text-base leading-7 text-gray-600">
+                                    Browse and buy high-quality VoIP routes from
+                                    trusted users in the market.
+                                </dd>
+                            </div>
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
-}
+                            <div className="relative pl-16">
+                                <dt className="text-base font-semibold leading-7 text-primary-500">
+                                    <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-500 bg-opacity-10">
+                                        <HiCheck className="h-6 w-6 text-primary-500" />
+                                    </div>
+                                    Real-time Market View
+                                </dt>
+                                <dd className="mt-2 text-base leading-7 text-gray-600">
+                                    Stay updated with the latest market rates
+                                    for VoIP routes in real-time.
+                                </dd>
+                            </div>
+                            <div className="relative pl-16">
+                                <dt className="text-base font-semibold leading-7 text-primary-500">
+                                    <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-500 bg-opacity-10">
+                                        <HiCheck className="h-6 w-6 text-primary-500" />
+                                    </div>
+                                    Route Request
+                                </dt>
+                                <dd className="mt-2 text-base leading-7 text-gray-600">
+                                    Buyers can submit route requests, specifying
+                                    their desired destinations and requirements.
+                                </dd>
+                            </div>
+                            <div className="relative pl-16">
+                                <dt className="text-base font-semibold leading-7 text-primary-500">
+                                    <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-500 bg-opacity-10">
+                                        <HiCheck className="h-6 w-6 text-primary-500" />
+                                    </div>
+                                    Route Comparison
+                                </dt>
+                                <dd className="mt-2 text-base leading-7 text-gray-600">
+                                    Compare routes based on rates, quality, and
+                                    performance metrics like ASR and ACD.
+                                </dd>
+                            </div>
+                            <div className="relative pl-16">
+                                <dt className="text-base font-semibold leading-7 text-primary-500">
+                                    <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-500 bg-opacity-10">
+                                        <HiCheck className="h-6 w-6 text-primary-500" />
+                                    </div>
+                                    Route Management
+                                </dt>
+                                <dd className="mt-2 text-base leading-7 text-gray-600">
+                                    Edit, update, and remove your route listings
+                                    with ease for accurate and up-to-date
+                                    information.
+                                </dd>
+                            </div>
+                            <div className="relative pl-16">
+                                <dt className="text-base font-semibold leading-7 text-primary-500">
+                                    <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-500 bg-opacity-10">
+                                        <HiCheck className="h-6 w-6 text-primary-500" />
+                                    </div>
+                                    Advanced Filtering
+                                </dt>
+                                <dd className="mt-2 text-base leading-7 text-gray-600">
+                                    Easily filter routes based on destination,
+                                    rate, route type, and other relevant
+                                    criteria.
+                                </dd>
+                            </div>
+                            <div className="relative pl-16">
+                                <dt className="text-base font-semibold leading-7 text-primary-500">
+                                    <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-500 bg-opacity-10">
+                                        <HiCheck className="h-6 w-6 text-primary-500" />
+                                    </div>
+                                    Notifications
+                                </dt>
+                                <dd className="mt-2 text-base leading-7 text-gray-600">
+                                    Receive instant notifications about route
+                                    inquiries, purchases, and updates to stay
+                                    connected.
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                    <div className="mx-auto mt-16 flex max-w-3xl flex-col items-start justify-between rounded-xl bg-surface px-8 py-10 sm:mt-20 md:flex-row md:items-center md:px-16 md:py-20 lg:mt-24 lg:max-w-5xl">
+                        <h3 className="text-3xl font-bold tracking-tight text-primary-500 sm:text-4xl">
+                            Ready to dive in? <br />
+                            Sign up to start Trading.
+                        </h3>
+                        <Link
+                            href="/signup"
+                            className="mt-8 self-end rounded-xl bg-primary-500 px-3.5 py-2.5 text-base font-medium text-white md:mt-0 md:self-center"
+                        >
+                            Sign up
+                        </Link>
+                    </div>
+                </div>
+            </section>
+        );
+    };
+
+    const FAQ = () => {
+        const FaqContent = [
+            {
+                question: "How can I sell my VoIP routes on the platform?",
+                answer: "Simply create an account, navigate to the &#39;Sell Routes&#39; section, and list your routes with relevant details. Interested buyers can then view and purchase them.",
+            },
+            {
+                question: "How can I buy VoIP routes?",
+                answer: "Browse through the available routes in the &#39;Buy Routes&#39; section. Use advanced filtering options to find routes that match your requirements, and proceed to purchase securely.",
+            },
+            {
+                question:
+                    "Can I request Link specific route that is not listed?",
+                answer: "Absolutely! In the &#39;Route Request&#39; section, you can submit your specific requirements, such as destination and capacity, and our users will review and respond to your request.",
+            },
+            {
+                question:
+                    "How do I ensure the quality of the routes I purchase?",
+                answer: "Our platform provides important information such as ASR, ACD, and user ratings to help you make informed decisions. Additionally, buyer reviews and feedback contribute to Link trustworthy trading environment.",
+            },
+            {
+                question: "What happens after I make Link purchase?",
+                answer: "Upon successful purchase, you will receive access to the purchased route details. The user will coordinate with you regarding any necessary configuration or additional information.",
+            },
+            {
+                question: "Are my transactions secure?",
+                answer: "Absolutely! We prioritize the security of your transactions. Our platform utilizes secure payment gateways and offers optional escrow services for added peace of mind.",
+            },
+            {
+                question: "Can I manage and update my route listings?",
+                answer: "Yes, our user-friendly dashboard allows you to easily manage your route listings. You can edit, update, or remove listings as needed to ensure accurate and up-to-date information.",
+            },
+            {
+                question: "How can I stay updated on the latest market rates?",
+                answer: "Our real-time market view provides you with instant access to the current selling rates of VoIP routes, allowing you to make well-informed decisions.",
+            },
+            {
+                question: "Do you have customer support available?",
+                answer: "Certainly! If you have any further questions or concerns, please don&#39;t hesitate to contact our support team. We&#39;re here to assist you.",
+            },
+        ];
+        return (
+            <section id="faq" className="bg-surface py-16 sm:py-32">
+                <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                    <h2 className="mx-auto mt-2 max-w-3xl text-center text-3xl font-bold tracking-tight text-primary-500 sm:text-4xl">
+                        Frequently asked questions
+                    </h2>
+                    <dl className="mx-auto mt-8 divide-y divide-gray-300 sm:mt-10 md:max-w-4xl lg:px-0">
+                        {FaqContent.map((item, index) => (
+                            <div
+                                key={index}
+                                className="mt-10 grid gap-5 pt-10 text-base lg:grid-cols-5"
+                            >
+                                <dt className="col-span-2 font-semibold text-primary-500">
+                                    {item.question}
+                                </dt>
+                                <dd className="col-span-3">
+                                    <p>{item.answer}</p>
+                                </dd>
+                            </div>
+                        ))}
+                    </dl>
+                </div>
+            </section>
+        );
+    };
+
+    const Contact = () => {
+        return (
+            <section id="contact" className="bg-white py-14 sm:py-32">
+                <div className="mx-auto max-w-3xl px-5 lg:px-8">
+                    <h2 className="mb-10 text-4xl tracking-tight font-extrabold text-center text-primary-500">
+                        Contact Us
+                    </h2>
+                    <form action="#" className="space-y-8">
+                        <div>
+                            <label
+                                htmlFor="email"
+                                className="block mb-2 text-sm font-medium text-primary-500"
+                            >
+                                Your email
+                            </label>
+                            <input
+                                type="email"
+                                id="email"
+                                className="shadow-sm bg-gray-50 border border-gray-300 text-primary-500 text-sm rounded-xl focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
+                                placeholder="name@flowbite.com"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label
+                                htmlFor="subject"
+                                className="block mb-2 text-sm font-medium text-primary-500 "
+                            >
+                                Subject
+                            </label>
+                            <input
+                                type="text"
+                                id="subject"
+                                className="block p-3 w-full text-sm text-primary-500 bg-gray-50 rounded-xl border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500"
+                                placeholder="Let us know how we can help you"
+                                required
+                            />
+                        </div>
+                        <div className="sm:col-span-2">
+                            <label
+                                htmlFor="message"
+                                className="block mb-2 text-sm font-medium text-primary-500"
+                            >
+                                Your message
+                            </label>
+                            <textarea
+                                id="message"
+                                rows={6}
+                                className="block p-2.5 w-full text-sm text-primary-500 bg-gray-50 rounded-xl shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
+                                placeholder="Leave Link comment..."
+                            ></textarea>
+                        </div>
+                        <button
+                            type="submit"
+                            className="py-3 px-5 text-sm font-medium text-center text-white rounded-xl bg-primary-500 sm:w-fit focus:ring-4 focus:outline-none focus:ring-primary-500"
+                        >
+                            Send message
+                        </button>
+                    </form>
+                </div>
+            </section>
+        );
+    };
+
+    const Footer = () => {
+        return (
+            <footer className="bg-surface px-6 py-10">
+                <div className="mx-auto max-w-screen-xl">
+                    <div className="md:flex md:justify-between">
+                        <div className="mb-6 md:mb-0">
+                            <Link
+                                passHref
+                                href="/"
+                                className="flex items-center"
+                            >
+                                <Image
+                                    src="/lcrtelcom_logo.svg"
+                                    className="mr-3 "
+                                    alt="Flowbite Logo"
+                                    width={180}
+                                    height={20}
+                                />
+                            </Link>
+                        </div>
+                        <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
+                            <div>
+                                <h2 className="mb-6 text-sm font-semibold text-primary-500 uppercase ">
+                                    Legal
+                                </h2>
+                                <ul className="text-gray-600 ">
+                                    <li className="mb-4">
+                                        <Link
+                                            href="#"
+                                            className="hover:underline"
+                                        >
+                                            Privacy Policy
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            href="#"
+                                            className="hover:underline"
+                                        >
+                                            Terms &amp; Conditions
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <hr className="my-6 border-gray-300 sm:mx-auto lg:my-8" />
+                    <div className="flex items-center">
+                        <span className="text-sm text-gray-500 sm:text-center ">
+                            © 2023{" "}
+                            <Link href="/" className="hover:underline">
+                                LCRTelcom™
+                            </Link>
+                            . All Rights Reserved.
+                        </span>
+                    </div>
+                </div>
+            </footer>
+        );
+    };
+
+    return (
+        <main>
+            <Nav />
+            <HeroSection />
+            <MarketView />
+            <BuyersSection />
+            <FAQ />
+            <Contact />
+            <Footer />
+        </main>
+    );
+};
+
+export default HomePage;

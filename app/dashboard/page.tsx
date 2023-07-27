@@ -12,7 +12,7 @@ const page = async () => {
     if (!session) {
         redirect("/");
     }
-    const user = await FetchUserRole(supabase);
+    // const user = await fetch("/api/user-data");
 
     return (
         <div>

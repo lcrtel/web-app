@@ -72,8 +72,8 @@ const Navigation = (props) => {
                                 <li
                                     className={` ${
                                         pathname.includes("/dashboard/routes")
-                                            ? "bg-primary-500 shadow shadow-gray-200 bg-opacity-5 font-semibold"
-                                            : "lg:hover:bg-primary-500 lg:hover:bg-opacity-5"
+                                            ? "bg-surface shadow shadow-gray-200  font-semibold"
+                                            : "lg:hover:bg-surface"
                                     } rounded-md`}
                                 >
                                     {/* Link to the specified URL */}
@@ -90,8 +90,8 @@ const Navigation = (props) => {
                                         pathname.includes(
                                             "/dashboard/trade-history"
                                         )
-                                            ? "bg-primary-500 shadow shadow-gray-200 bg-opacity-5 font-semibold"
-                                            : "lg:hover:bg-primary-500 lg:hover:bg-opacity-5"
+                                            ? "bg-surface shadow shadow-gray-200  font-semibold"
+                                            : "lg:hover:bg-surface"
                                     } rounded-md`}
                                 >
                                     {/* Link to the specified URL */}
@@ -108,8 +108,8 @@ const Navigation = (props) => {
                                         pathname.includes(
                                             "/dashboard/transactions"
                                         )
-                                            ? "bg-primary-500 shadow shadow-gray-200 bg-opacity-5 font-semibold"
-                                            : "lg:hover:bg-primary-500 lg:hover:bg-opacity-5"
+                                            ? "bg-surface shadow shadow-gray-200  font-semibold"
+                                            : "lg:hover:bg-surface"
                                     } rounded-md`}
                                 >
                                     {/* Link to the specified URL */}
@@ -141,7 +141,7 @@ const Navigation = (props) => {
                                     onClick={setIsMenuOpen(false)}
                                     className={` ${
                                         pathname.includes("/dashboard/routes")
-                                            ? "bg-primary-500 bg-opacity-5 rounded-md font-semibold"
+                                            ? "bg-surface rounded-md font-semibold"
                                             : ""
                                     } w-full `}
                                 >
@@ -160,7 +160,7 @@ const Navigation = (props) => {
                                         pathname.includes(
                                             "/dashboard/trade-history"
                                         )
-                                            ? "bg-primary-500 bg-opacity-5 rounded-md font-semibold"
+                                            ? "bg-surface rounded-md font-semibold"
                                             : ""
                                     } w-full `}
                                 >
@@ -179,7 +179,7 @@ const Navigation = (props) => {
                                         pathname.includes(
                                             "/dashboard/transactions"
                                         )
-                                            ? "bg-primary-500 bg-opacity-5 rounded-md font-semibold"
+                                            ? "bg-surface rounded-md font-semibold"
                                             : ""
                                     } w-full `}
                                 >

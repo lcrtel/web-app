@@ -6,7 +6,7 @@ const TradeNav = () => {
     const pathname = usePathname();
 
     return (
-        <ul className="inline-flex overflow-x-auto bg-primary-500 bg-opacity-5 border-2 border-surface max-w-fit items-center p-1 rounded-xl gap-1 text-sm text-primary-500">
+        <ul className="inline-flex overflow-x-auto bg-surface border-2 border-surface max-w-fit items-center p-1 rounded-xl gap-1 text-sm text-primary-500">
             {[
                 ["Buy", "/dashboard/routes/buy"], // Home link
                 ["Sell", "/dashboard/routes/sell"], // Sell link

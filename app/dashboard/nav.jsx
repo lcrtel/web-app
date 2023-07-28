@@ -31,7 +31,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { supabaseClient } from "@/lib/supabase-client";
 
-const Navigation = (props: any) => {
+const Navigation = (props) => {
     const pathname = usePathname();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const toggleMenu = () => {

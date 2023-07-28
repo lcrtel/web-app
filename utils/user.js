@@ -1,20 +1,26 @@
-// export const FetchUserRole = async (supabase) => {
-//     let { data: user } = await supabase.from("profiles").select("*");
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs/dist";
+import { cookies } from "next/headers";
+export const dynamic = "force-dynamic";
 
-//     if (user && user.length > 0) {
-//         const userRoleId = user[0].role_id;
-//         let { data: role } = await supabase
-//             .from("roles")
-//             .select("name")
-//             .eq("id", userRoleId);
-//         return role[0].name;
-//     }
+export async function fetchUser() {
+    const supabase = createServerComponentClient({ cookies });
+    const {
+        data: { session },
+    } = await supabase.auth.getSession();
 
-//     return;
-// };
+    const { data: user } = await supabase.from("users").select("role");
+    if (user) {
+        return user[0].role;
+    }
+}
+export async function fetchUserData() {
+    const supabase = createServerComponentClient({ cookies });
+    const {
+        data: { session },
+    } = await supabase.auth.getSession();
 
-// export const FetchUserData = async (supabase) => {
-//     let { data: user } = await supabase.from("profiles").select("*");
-
-//     return user;
-// };
+    const { data: user } = await supabase.from("users").select("*");
+    if (user) {
+        return user;
+    }
+}

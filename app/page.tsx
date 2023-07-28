@@ -3,21 +3,22 @@ import Link from "next/link";
 import React from "react";
 import { HiCheck, HiOutlineArrowSmRight } from "react-icons/hi";
 import Image from "next/image";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
+import { supabaseServer } from "@/lib/supabase-server";
 
 export const dynamic = "force-dynamic";
 
 const HomePage = async () => {
-    const supabase = createServerComponentClient<Database>({ cookies });
+    const supabase = supabaseServer();
 
     const {
         data: { session },
     } = await supabase.auth.getSession();
+
     if (session) {
         redirect("/dashboard");
     }
+
     const HeroSection = () => (
         <section
             className="mx-auto flex min-h-[80vh] items-center justify-between bg-local"

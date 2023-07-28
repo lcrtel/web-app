@@ -28,7 +28,11 @@
         "**/*.ts",
         "**/*.tsx",
         ".next/types/**/*.ts",
-        "utils/user.js"
+        "utils/user.js",
+        "app/dashboard/nav.tsx",
+        "app/dashboard/routes/buy/page.jsx",
+        "app/dashboard/routes/sell/page.jsx",
+        "app/dashboard/routes/add/add-route.jsx"
     ],
     "exclude": ["node_modules"]
 }

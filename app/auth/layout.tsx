@@ -18,7 +18,7 @@ export default async function DashboardLayout({
 
     if (session) {
         redirect("/dashboard");
-    }
+    } 
     return (
         <section className="min-h-screen flex justify-between ">
             <div

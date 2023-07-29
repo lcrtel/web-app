@@ -69,9 +69,12 @@ const HomePage = async () => {
             .select("destination, destination_code, rate, route_type, asr");
 
         return (
-            <section id="market" className="bg-surface  pb-20 pt-24 sm:py-32">
-                <div className="mx-auto max-w-8xl px-5 lg:px-8 flex">
-                    <div className="mx-auto mb-16 max-w-2xl w-1/2">
+            <section
+                id="market"
+                className="bg-surface px-5  pb-20 pt-24 sm:py-32"
+            >
+                <div className="mx-auto max-w-8xl px-5 lg:px-8 flex flex-col lg:flex-row">
+                    <div className="mx-auto mb-16 max-w-2xl w-full lg:w-1/2">
                         <h2 className="text-3xl font-bold tracking-tight text-primary-500 lg:text-4xl">
                             Market View
                         </h2>
@@ -79,7 +82,7 @@ const HomePage = async () => {
                             Real-time Market Rates at Your Fingertips
                         </p>
                     </div>
-                    <ScrollArea className="mx-auto h-[500px] rounded-xl sp-shadow border bg-white w-1/2">
+                    <ScrollArea className="mx-auto h-[500px] rounded-xl sp-shadow border bg-white w-full lg:w-1/2">
                         <RatesTable data={routes} />
                     </ScrollArea>
                 </div>

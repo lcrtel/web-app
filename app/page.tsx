@@ -5,6 +5,8 @@ import { HiCheck, HiOutlineArrowSmRight } from "react-icons/hi";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { supabaseServer } from "@/lib/supabase-server";
+import { RatesTable } from "./rates-table";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export const dynamic = "force-dynamic";
 
@@ -59,35 +61,17 @@ const HomePage = async () => {
         </section>
     );
 
-    const MarketView = () => {
-        const routes = [
-            { id: 1 },
-            { id: 1 },
-            { id: 1 },
-            { id: 1 },
-            { id: 1 },
-            { id: 1 },
-            { id: 1 },
-            { id: 1 },
-            { id: 1 },
-            { id: 1 },
-            { id: 1 },
-            { id: 1 },
-            { id: 1 },
-            { id: 1 },
-            { id: 1 },
-            { id: 1 },
-            { id: 1 },
-            { id: 1 },
-            { id: 1 },
-            { id: 1 },
-            { id: 1 },
-            { id: 1 },
-        ];
+    const MarketView = async () => {
+        const supabase = supabaseServer();
+
+        let { data: routes, error } = await supabase
+            .from("routes")
+            .select("destination, destination_code, rate, route_type, asr");
+
         return (
             <section id="market" className="bg-surface  pb-20 pt-24 sm:py-32">
-                <div className="mx-auto max-w-8xl px-5 lg:px-8">
-                    <div className="mx-auto mb-16 max-w-2xl text-center">
+                <div className="mx-auto max-w-8xl px-5 lg:px-8 flex">
+                    <div className="mx-auto mb-16 max-w-2xl w-1/2">
                         <h2 className="text-3xl font-bold tracking-tight text-primary-500 lg:text-4xl">
                             Market View
                         </h2>
@@ -95,102 +79,9 @@ const HomePage = async () => {
                             Real-time Market Rates at Your Fingertips
                         </p>
                     </div>
-                    <div className="mx-auto w-full max-w-6xl mb-2.5 rounded-xl bg-white p-4"></div>
-                    <div className="mx-auto w-full max-w-6xl rounded-xl sp-shadow border p-4 bg-white ">
-                        <div className="grid gap-5 sm:grid-cols-2 h-[500px] overflow-y-auto sm:gap-5 md:grid-cols-3 lg:grid-cols-4 ">
-                            {routes.map((route, index) => (
-                                <div
-                                    key={index}
-                                    className="w-full rounded-xl bg-surface p-3.5 shadow"
-                                >
-                                    <div className="mb-2.5 flex justify-between">
-                                        <div>
-                                            <p className=" text-xs text-gray-400">
-                                                Destination
-                                            </p>
-                                            <h4 className="text-base font-bold text-primary-500">
-                                                United Kingdom
-                                            </h4>
-                                        </div>
-                                    </div>
-                                    <div className="mb-2.5 flex items-center">
-                                        <div className="flex-1 mr-1">
-                                            <p className=" text-xs text-gray-400">
-                                                Posted on
-                                            </p>
-                                            <h4 className="text-base font-bold text-primary-500">
-                                                23/07/2023
-                                            </h4>
-                                        </div>
-                                        <div className="flex-1">
-                                            <p className=" text-xs text-gray-400">
-                                                Rate
-                                            </p>
-                                            <h4 className="text-base font-bold text-primary-500">
-                                                $0.25
-                                            </h4>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-col gap-2.5 rounded-xl bg-white p-2.5">
-                                        <div className="flex">
-                                            <div className="flex-1">
-                                                <p className=" text-[10px] text-gray-400">
-                                                    Route Type
-                                                </p>
-                                                <h4 className="text-sm font-semibold text-primary-500">
-                                                    CLI
-                                                </h4>
-                                            </div>
-                                            <div className="flex-1">
-                                                <p className=" text-[10px] text-gray-400">
-                                                    Prefix
-                                                </p>
-                                                <h4 className="text-sm font-semibold text-primary-500">
-                                                    0.2564
-                                                </h4>
-                                            </div>
-                                        </div>
-                                        <div className="flex">
-                                            <div className="flex-1">
-                                                <p className=" text-[10px] text-gray-400">
-                                                    ASR %
-                                                </p>
-                                                <h4 className="text-sm font-semibold text-primary-500">
-                                                    60%
-                                                </h4>
-                                            </div>
-                                            <div className="flex-1">
-                                                <p className=" text-[10px] text-gray-400">
-                                                    ACD
-                                                </p>
-                                                <h4 className="text-sm font-semibold text-primary-500">
-                                                    2mins
-                                                </h4>
-                                            </div>
-                                        </div>
-                                        <div className="flex">
-                                            <div className="flex-1">
-                                                <p className=" text-[10px] text-gray-400">
-                                                    Ports
-                                                </p>
-                                                <h4 className="text-sm font-semibold text-primary-500">
-                                                    23562
-                                                </h4>
-                                            </div>
-                                            <div className="flex-1">
-                                                <p className=" text-[10px] text-gray-400">
-                                                    Capacity
-                                                </p>
-                                                <h4 className="text-sm font-semibold text-primary-500">
-                                                    200mins
-                                                </h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+                    <ScrollArea className="mx-auto h-[500px] rounded-xl sp-shadow border bg-white w-1/2">
+                        <RatesTable data={routes} />
+                    </ScrollArea>
                 </div>
             </section>
         );

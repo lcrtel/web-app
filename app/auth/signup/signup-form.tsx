@@ -83,7 +83,7 @@ const SignupForm = () => {
     return (
         <form
             onSubmit={formik.handleSubmit}
-            className="md:max-w-xl w-full mx-auto"
+            className="md:max-w-[360px] w-full mx-auto"
         >
             <div className="grid gap-4 mb-6 sm:grid-cols-2 text-primary-500">
                 <div>

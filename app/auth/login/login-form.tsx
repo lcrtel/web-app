@@ -41,9 +41,9 @@ const LoginForm = ({ session }: { session: Session | null }) => {
                 email: values.email,
                 password: values.password,
             });
-            setLoading(false);
 
             if (error) {
+                setLoading(false);
                 setErrorMessage(error.message);
                 return;
                 // console.error(error.message);

@@ -80,13 +80,13 @@ const Nav = () => {
                         <ul className="flex w-full flex-col rounded-lg border p-4 font-medium text-primary-500  md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-transparent md:p-0">
                             <li>
                                 <ScrollLink
-                                    to="market"
+                                    to="home"
                                     spy={true}
                                     smooth={true}
                                     duration={500}
                                     className="block rounded py-2 pl-3 pr-4 cursor-pointer hover:font-semibold md:p-0"
                                 >
-                                    Rates
+                                    Home
                                 </ScrollLink>
                             </li>
                             <li>
@@ -128,7 +128,7 @@ const Nav = () => {
                         <ul
                             className={`${
                                 isMenuOpen ? "slide-down" : "hidden"
-                            } absolute left-0 right-0 top-[74px] w-full gap-5 flex-col border border-gray-100 shadow bg-white p-5 font-medium text-gray-400`}
+                            } absolute left-0 right-0 top-[84px] w-full gap-5 flex-col border border-gray-100 shadow bg-white p-5 font-medium text-gray-400`}
                         >
                             <li>
                                 <ScrollLink
@@ -192,7 +192,7 @@ const Nav = () => {
                                 }}
                             >
                                 <Link
-                                    href="/login"
+                                    href="/auth/login"
                                     className="block rounded py-2 pl-3 pr-4 cursor-pointer text-primary-500 hover:font-semibold"
                                 >
                                     Log in

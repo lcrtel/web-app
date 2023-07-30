@@ -1,9 +1,11 @@
 // import { FetchUserRole } from "@/utils/user";
+import { buttonVariants } from "@/components/ui/button";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
+import { HiArrowCircleRight } from "react-icons/hi";
 
 export const dynamic = "force-dynamic";
 
@@ -16,17 +18,34 @@ const page = async () => {
 
     return (
         <main className="flex min-h-screen flex-col">
-            <div className="flex mb-4 justify-between items-center">
-                <h3 className="text-lg  font-semibold text-primary">
+            <div className="flex mb-5 mt-2 justify-between items-center">
+                <h3 className="text-2xl  font-semibold text-primary">
                     Welcome, {user !== null ? user[0].first_name : ""}
                 </h3>
             </div>
-            <Link
-                href="/dashboard/routes/buy"
-                className="border border-primary-200 w-32  rounded-lg p-2 bg-surface"
-            >
-                Start Buying Routes
-            </Link>
+            <div className="flex flex-col md:flex-row gap-5">
+                <Link
+                    href="/dashboard/routes/sell/add"
+                    className="px-5 py-4 bg-surface rounded-2xl justify-between flex gap-2 items-center"
+                >
+                    Sell Routes
+                    <HiArrowCircleRight className="h-6 w-6" />
+                </Link>
+                <Link
+                    href="/dashboard/routes/buy"
+                    className="px-5 py-4 bg-surface rounded-2xl justify-between flex gap-2 items-center"
+                >
+                    Buy Routes
+                    <HiArrowCircleRight className="h-6 w-6" />
+                </Link>
+                <Link
+                    href="/dashboard/routes/buy/request"
+                    className="px-5 py-4 bg-surface rounded-2xl justify-between flex gap-2 items-center"
+                >
+                    Request Routes
+                    <HiArrowCircleRight className="h-6 w-6" />
+                </Link>
+            </div>
         </main>
     );
 };

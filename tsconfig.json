@@ -29,10 +29,11 @@
         "**/*.tsx",
         ".next/types/**/*.ts",
         "utils/user.js",
-        "app/dashboard/nav.jsx",
+        "app/dashboard/nav.tsx",
         "app/dashboard/routes/buy/page.jsx",
         "app/dashboard/routes/sell/page.jsx",
-        "app/dashboard/routes/add/add-route.jsx"
+        "app/dashboard/routes/add/add-route.jsx",
+        "app/dashboard/routes/sell/add/routes.tsx"
     ],
     "exclude": ["node_modules"]
 }

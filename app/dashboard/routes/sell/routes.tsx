@@ -93,20 +93,20 @@ export function Routes<TData, TValue>({
 
     return (
         <div>
-            <div className="flex items-center py-4">
+            <div className="flex items-center pb-4">
                 <Input
-                    placeholder="Filter routes by destination"
+                    placeholder="Enter phone code"
                     value={
                         (table
-                            .getColumn("destination")
+                            .getColumn("destination_code")
                             ?.getFilterValue() as string) ?? ""
                     }
                     onChange={(event) =>
                         table
-                            .getColumn("destination")
+                            .getColumn("destination_code")
                             ?.setFilterValue(event.target.value)
                     }
-                    className="max-w-sm"
+                    className="max-w-[200px] mr-2"
                 />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>

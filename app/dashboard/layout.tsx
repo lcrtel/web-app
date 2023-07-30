@@ -1,7 +1,4 @@
-import { fetchUserData } from "@/utils/user";
 import Navigation from "./nav";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { supabaseServer } from "@/lib/supabase-server";
@@ -26,9 +23,8 @@ export default async function DashboardLayout({
 
     return (
         <section className="bg-white min-h-screen flex flex-col justify-between relative">
-            {/* Include shared UI here e.g. a header or sidebar */}
             <div>
-                <Navigation user={user} />
+                <Navigation user={user?.[0]} />
                 <div className="h-2 background-animate bg-gradient-to-r from-secondary to-primary-500 w-full"></div>
                 <section className="mx-auto max-w-8xl px-8 py-5">
                     {children}

@@ -7,6 +7,9 @@ import { redirect } from "next/navigation";
 import { supabaseServer } from "@/lib/supabase-server";
 import { RatesTable } from "./rates-table";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { buttonVariants } from "@/components/ui/button";
+import { columns } from "./dashboard/routes/buy/columns";
+import { Routes } from "./dashboard/routes/buy/routes";
 
 export const dynamic = "force-dynamic";
 
@@ -21,74 +24,89 @@ const HomePage = async () => {
         redirect("/dashboard");
     }
 
-    const HeroSection = () => (
-        <section
-            className="mx-auto flex min-h-[80vh] items-center justify-between bg-local"
-            style={{
-                backgroundImage: `url("/blue_wave_bg.jpg")`,
-                backgroundPosition: "center",
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat",
-            }}
-        >
-            <div className="mx-auto w-full max-w-8xl">
-                <div className="flex max-w-2xl flex-col items-start py-32 px-10 text-left sm:py-48 lg:py-56">
-                    <h1 className="text-4xl font-bold tracking-tight text-primary-500 sm:text-6xl">
-                        Streamline Your VoIP Trading Experience
-                    </h1>
-                    <p className="mt-6 text-lg leading-8 text-gray-600">
-                        Unlock new possibilities and maximize your VoIP trading
-                        potential with LCR Telcom&apos;s cutting-edge platform.
-                    </p>
-                    <div className="mt-10 flex items-center justify-center gap-x-6">
-                        <Link
-                            href="#features"
-                            className="rounded-xl bg-primary-500 px-3 py-2 text-sm font-medium text-white"
-                        >
-                            Get Started
-                        </Link>
-                        <Link
-                            passHref
-                            href="#market"
-                            className="flex items-center gap-1.5 rounded-xl bg-white px-3 py-2 text-sm font-medium text-primary-500"
-                        >
-                            Check our Rates
-                            <HiOutlineArrowSmRight />
-                        </Link>
-                    </div>
-                </div>
-            </div>
-        </section>
-    );
-
-    const MarketView = async () => {
+    const HeroSection = async () => {
         const supabase = supabaseServer();
 
         let { data: routes, error } = await supabase
             .from("routes")
-            .select("destination, destination_code, rate, route_type, asr");
+            .select(
+                "destination, destination_code, rate, route_type, asr, pdd"
+            );
 
         return (
             <section
-                id="market"
-                className="bg-surface px-5  pb-20 pt-24 sm:py-32"
+                id="home"
+                className="mx-auto flex min-h-screen items-center justify-between bg-local"
+                style={{
+                    backgroundImage: `url("/blue_wave_bg.jpg")`,
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                }}
             >
-                <div className="mx-auto max-w-8xl px-5 lg:px-8 flex flex-col lg:flex-row">
-                    <div className="mx-auto mb-16 max-w-2xl w-full lg:w-1/2">
-                        <h2 className="text-3xl font-bold tracking-tight text-primary-500 lg:text-4xl">
-                            Market View
-                        </h2>
-                        <p className="mt-2 text-lg leading-8 text-gray-600">
-                            Real-time Market Rates at Your Fingertips
-                        </p>
+                <div className="mx-auto w-full max-w-8xl">
+                    <div className="flex flex-col items-start sm:items-center py-32 px-10 max-w-4xl mx-auto">
+                        <div className="flex flex-col items-start sm:items-center bg-white bg-opacity-25 backdrop-blur p-10 rounded-2xl sm:rounded-3xl border-2">
+                            <h1 className="text-4xl sm:text-center font-bold tracking-tight text-primary-500 sm:text-5xl">
+                                Streamline Your VoIP Trading Experience
+                            </h1>
+                            <p className="mt-6 text-lg sm:text-center leading-8 max-w-2xl text-primary-500">
+                                Unlock new possibilities and maximize your VoIP
+                                trading potential with LCR Telcom&apos;s
+                                cutting-edge platform.
+                            </p>
+                            <div className="mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-center gap-4">
+                                <Link
+                                    href="/dashboard/routes/sell"
+                                    className={`${buttonVariants({
+                                        variant: "default",
+                                    })}`}
+                                >
+                                    Post your route offers!
+                                </Link>
+                                <Link
+                                    passHref
+                                    href="/dashboard/routes/buy/request"
+                                    className={`${buttonVariants({
+                                        variant: "secondary",
+                                    })}`}
+                                >
+                                    Post your buying target
+                                    <HiOutlineArrowSmRight />
+                                </Link>
+                            </div>
+                        </div>
+                        <div className="mt-10 rounded-2xl sm:rounded-3xl sp-shadow border bg-white w-full p-5">
+                            <h2 className="text-xl sm:text-center font-bold tracking-tight text-primary-500 lg:text-2xl">
+                                Market View
+                            </h2>
+                            <p className="mb-4 sm:text-center sm:text-md leading-8 text-gray-400">
+                                Real-time Market Rates at Your Fingertips
+                            </p>
+                            {routes?.length && <RatesTable data={routes} />}
+                        </div>
                     </div>
-                    <ScrollArea className="mx-auto h-[500px] rounded-xl sp-shadow border bg-white w-full lg:w-1/2">
-                        <RatesTable data={routes} />
-                    </ScrollArea>
                 </div>
             </section>
         );
     };
+
+    // const MarketView = async () => {
+    //     return (
+    //         <section
+    //             id="market"
+    //             className="bg-surface px-5  pb-20 pt-24 sm:py-32"
+    //         >
+    //             <div className="mx-auto max-w-8xl px-5 lg:px-8 flex flex-col lg:flex-row">
+    //                 <div className="mx-auto mb-16 max-w-2xl w-full lg:w-1/2">
+    //                     <h2 className="text-3xl font-bold tracking-tight text-primary-500 lg:text-4xl">
+    //                         Market View
+    //                     </h2>
+    //                 </div>
+    //             </div>
+    //         </section>
+    //     );
+    // };
 
     const BuyersSection = () => {
         return (
@@ -213,7 +231,7 @@ const HomePage = async () => {
                             Sign up to start Trading.
                         </h3>
                         <Link
-                            href="/signup"
+                            href="/auth/signup"
                             className="mt-8 self-end rounded-xl bg-primary-500 px-3.5 py-2.5 text-base font-medium text-white md:mt-0 md:self-center"
                         >
                             Sign up
@@ -420,7 +438,7 @@ const HomePage = async () => {
         <main>
             <Nav />
             <HeroSection />
-            <MarketView />
+            {/* <MarketView /> */}
             <BuyersSection />
             <FAQ />
             <Contact />

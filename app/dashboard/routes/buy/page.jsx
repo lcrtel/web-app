@@ -1,6 +1,9 @@
+import Link from "next/link";
 import { columns } from "./columns";
 import { Routes } from "./routes";
 import { supabaseServer } from "@/lib/supabase-server";
+import { HiOutlinePlusCircle } from "react-icons/hi";
+import { buttonVariants } from "@/components/ui/button";
 
 export const revalidate = 60; // revalidate this page every 60 seconds
 
@@ -9,10 +12,34 @@ export default async function Page() {
     let { data: routes, error } = await supabase.from("routes").select("*");
     return (
         <div className="">
+            <div className="flex mb-4 justify-between items-center">
+                <h3 className="text-lg  font-semibold text-primary-500">
+                    Buy VoIP Routes
+                </h3>
+                <Link
+                    passHref
+                    href="/dashboard/routes/buy/request"
+                    className={buttonVariants({
+                        variant: "default",
+                        size: "sm",
+                    })}
+                >
+                    <HiOutlinePlusCircle className="mr-1.5 h-5 w-5" />
+                    Request
+                </Link>
+            </div>
             {routes?.length ? (
                 <Routes columns={columns} data={routes} />
             ) : (
-                <p>No routes found</p>
+                <div className="gap-2  h-12 text-center flex items-center justify-center bg-surface py-10 rounded-lg">
+                    <p>No routes found</p>
+                    <Link
+                        href="/dashboard/routes/buy/request"
+                        className="bg-primary-500 px-3 ml-2 py-2 text-white rounded-md"
+                    >
+                        Request
+                    </Link>
+                </div>
             )}
         </div>
     );

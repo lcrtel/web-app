@@ -8,11 +8,11 @@ const ImportDropdown = ({ onDataImport }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [importedData, setImportedData] = useState(null);
 
-    useEffect(() => {
-        if (importedData !== null) {
-            onDataImport(importedData);
-        }
-    }, [importedData]);
+    // useEffect(() => {
+    //     if (importedData !== null) {
+    //         onDataImport(importedData);
+    //     }
+    // }, [importedData]);
 
     const handleFileChange = async (event) => {
         const file = event.target.files[0];

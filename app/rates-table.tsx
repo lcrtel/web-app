@@ -39,9 +39,26 @@ import {
 export const columns: ColumnDef<Route>[] = [
     {
         accessorKey: "destination",
-        header: "Destination",
+        header: ({ column }) => {
+            return <div className=" ">Destination</div>;
+        },
         cell: ({ row }) => (
             <div className="capitalize">{row.getValue("destination")}</div>
+        ),
+    },
+    {
+        accessorKey: "destination_code",
+        header: "Code",
+        cell: ({ row }) => (
+            <div className="lowercase">{row.getValue("destination_code")}</div>
+        ),
+    },
+
+    {
+        accessorKey: "route_type",
+        header: "Type",
+        cell: ({ row }) => (
+            <div className="lowercase">{row.getValue("route_type")}</div>
         ),
     },
     {
@@ -54,9 +71,7 @@ export const columns: ColumnDef<Route>[] = [
                 }
             >
                 Rate
-                <Button variant="ghost" size="sm">
-                    <ArrowUpDown className=" h-4 w-4" />
-                </Button>
+                <ArrowUpDown className=" h-4 w-4" />
             </div>
         ),
         cell: ({ row }) => {
@@ -71,21 +86,6 @@ export const columns: ColumnDef<Route>[] = [
             return <div className=" font-medium">{formatted}</div>;
         },
     },
-
-    {
-        accessorKey: "destination_code",
-        header: "Code",
-        cell: ({ row }) => (
-            <div className="lowercase">{row.getValue("destination_code")}</div>
-        ),
-    },
-    {
-        accessorKey: "route_type",
-        header: "Type",
-        cell: ({ row }) => (
-            <div className="lowercase">{row.getValue("route_type")}</div>
-        ),
-    },
     {
         accessorKey: "asr",
         header: ({ column }) => (
@@ -96,13 +96,28 @@ export const columns: ColumnDef<Route>[] = [
                 }
             >
                 ASR%
-                <Button variant="ghost" size="sm">
-                    <ArrowUpDown className=" h-4 w-4" />
-                </Button>
+                <ArrowUpDown className=" h-4 w-4" />
             </div>
         ),
         cell: ({ row }) => (
             <div className="lowercase">{row.getValue("asr")}</div>
+        ),
+    },
+    {
+        accessorKey: "pdd",
+        header: ({ column }) => (
+            <div
+                className="flex gap-2 items-center cursor-pointer"
+                onClick={() =>
+                    column.toggleSorting(column.getIsSorted() === "asc")
+                }
+            >
+                PDD
+                <ArrowUpDown className=" h-4 w-4" />
+            </div>
+        ),
+        cell: ({ row }) => (
+            <div className="lowercase">{row.getValue("pdd")}</div>
         ),
     },
 ];
@@ -135,24 +150,25 @@ export function RatesTable({ data }: any) {
     });
 
     return (
-        <div className=" m-4">
+        <div className="">
             <div className="flex items-center pb-4">
                 <Input
+                    type="number"
                     placeholder="Enter phone code"
                     value={
                         (table
                             .getColumn("destination_code")
-                            ?.getFilterValue() as string) ?? ""
+                            ?.getFilterValue() as number) ?? ""
                     }
                     onChange={(event) =>
                         table
                             .getColumn("destination_code")
                             ?.setFilterValue(event.target.value)
                     }
-                    className="max-w-sm"
+                    className="w-full"
                 />
             </div>
-            <div className="rounded-lg border">
+            <div className="rounded-xl border max-h-[500px] overflow-y-auto">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
@@ -174,7 +190,7 @@ export function RatesTable({ data }: any) {
                         ))}
                     </TableHeader>
                     <TableBody>
-                        {table.getRowModel().rows?.length ? (
+                        {table?.getRowModel().rows?.length ? (
                             table.getRowModel().rows.map((row) => (
                                 <TableRow
                                     key={row.id}

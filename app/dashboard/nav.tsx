@@ -31,13 +31,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { supabaseClient } from "@/lib/supabase-client";
 
-const Navigation = (props) => {
+const Navigation = ({ user }: { user: User | undefined }) => {
     const pathname = usePathname();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
-    const user = props.user;
 
     const router = useRouter();
     const supabase = supabaseClient();
@@ -48,16 +47,19 @@ const Navigation = (props) => {
     };
 
     return (
-        <nav className="py-4 px-8 max-w-8xl mx-auto flex items-center justify-between">
-            <div className="flex space-x-4 h-8">
+        <nav className="py-4 px-8 max-w-8xl mx-auto relative flex items-center justify-between">
+            <div className="flex  h-8">
                 <Image
                     src="/lcrtelcom_logo.svg"
-                    className="mr-3"
+                    className=""
                     alt="LCRTel Logo"
                     width={160}
                     height={20}
                 />
-                <Separator orientation="vertical" />
+                <Separator
+                    orientation="vertical"
+                    className="hidden md:block mx-5"
+                />
                 <div className="bg-white hidden md:block w-full">
                     {/* Navigation */}
                     <nav className="mx-auto flex flex-col gap-2.5 max-w-8xl">
@@ -88,7 +90,7 @@ const Navigation = (props) => {
                                 <li
                                     className={` ${
                                         pathname.includes(
-                                            "/dashboard/trade-history"
+                                            "/dashboard/user/trade-history"
                                         )
                                             ? "bg-surface shadow shadow-gray-200  font-semibold"
                                             : "lg:hover:bg-surface"
@@ -96,7 +98,7 @@ const Navigation = (props) => {
                                 >
                                     {/* Link to the specified URL */}
                                     <Link
-                                        href="/dashboard/trade-history"
+                                        href="/dashboard/user/trade-history"
                                         passHref
                                         className="py-2 px-3 block rounded-md lg:hover:bg-primary-500 whitespace-nowrap lg:hover:bg-opacity-5 "
                                     >
@@ -106,7 +108,7 @@ const Navigation = (props) => {
                                 <li
                                     className={` ${
                                         pathname.includes(
-                                            "/dashboard/transactions"
+                                            "/dashboard/user/transactions"
                                         )
                                             ? "bg-surface shadow shadow-gray-200  font-semibold"
                                             : "lg:hover:bg-surface"
@@ -114,7 +116,7 @@ const Navigation = (props) => {
                                 >
                                     {/* Link to the specified URL */}
                                     <Link
-                                        href="/dashboard/transactions"
+                                        href="/dashboard/user/transactions"
                                         passHref
                                         className="py-2 px-3 block rounded-md lg:hover:bg-primary-500 whitespace-nowrap lg:hover:bg-opacity-5 "
                                     >
@@ -128,7 +130,7 @@ const Navigation = (props) => {
                 <AnimatePresence>
                     {isMenuOpen && (
                         <motion.div
-                            className="w-full z-10 md:hidden absolute left-0 top-[56px]  p-5 shadow-xl bg-white"
+                            className="w-full z-10 md:hidden absolute left-0 top-[80px]  p-5 shadow-xl bg-white"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
@@ -138,7 +140,7 @@ const Navigation = (props) => {
                                 className="flex flex-col items-start gap-2.5 text-sm text-primary-500"
                             >
                                 <li
-                                    onClick={setIsMenuOpen(false)}
+                                    onClick={(event) => setIsMenuOpen(false)}
                                     className={` ${
                                         pathname.includes("/dashboard/routes")
                                             ? "bg-surface rounded-md font-semibold"
@@ -155,10 +157,10 @@ const Navigation = (props) => {
                                     </Link>
                                 </li>
                                 <li
-                                    onClick={setIsMenuOpen(false)}
+                                    onClick={(event) => setIsMenuOpen(false)}
                                     className={` ${
                                         pathname.includes(
-                                            "/dashboard/trade-history"
+                                            "/dashboard/user/trade-history"
                                         )
                                             ? "bg-surface rounded-md font-semibold"
                                             : ""
@@ -166,7 +168,7 @@ const Navigation = (props) => {
                                 >
                                     {/* Link to the specified URL */}
                                     <Link
-                                        href="/dashboard/trade-history"
+                                        href="/dashboard/user/trade-history"
                                         passHref
                                         className="py-2 px-3 block rounded-md lg:hover:bg-primary-500 whitespace-nowrap lg:hover:bg-opacity-5 "
                                     >
@@ -174,7 +176,7 @@ const Navigation = (props) => {
                                     </Link>
                                 </li>
                                 <li
-                                    onClick={setIsMenuOpen(false)}
+                                    onClick={(event) => setIsMenuOpen(false)}
                                     className={` ${
                                         pathname.includes(
                                             "/dashboard/transactions"
@@ -197,7 +199,7 @@ const Navigation = (props) => {
                     )}
                 </AnimatePresence>
             </div>
-            <div>
+            <div className="flex items-center gap-2">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button
@@ -218,20 +220,25 @@ const Navigation = (props) => {
                         <DropdownMenuLabel className="font-normal">
                             <div className="flex flex-col space-y-1">
                                 <p className="text-sm font-medium leading-none">
-                                    {user !== null ? user[0].first_name : ""}
+                                    {user?.first_name}
                                 </p>
                                 <p className="text-xs leading-none text-muted-foreground">
-                                    {user !== null ? user[0].email : ""}
+                                    {user?.email}
                                 </p>
                             </div>
                         </DropdownMenuLabel>
 
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                            <DropdownMenuItem>New Team</DropdownMenuItem>
+                            <DropdownMenuItem className="cursor-pointer">
+                                Account
+                            </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={handleSignOut}>
+                        <DropdownMenuItem
+                            className="cursor-pointer"
+                            onClick={handleSignOut}
+                        >
                             Sign out
                         </DropdownMenuItem>
                     </DropdownMenuContent>

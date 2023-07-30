@@ -51,7 +51,7 @@ const LoginForm = ({ session }: { session: Session | null }) => {
             router.push("/dashboard");
 
             // Handle successful login (e.g., set user state, redirect to dashboard, etc.)
-            console.log("Logged in user:", data?.user);
+            // console.log("Logged in user:", data?.user);
         },
     });
 
@@ -80,16 +80,16 @@ const LoginForm = ({ session }: { session: Session | null }) => {
                     ) : null}
                 </div>
                 <div>
-                    <Label htmlFor="password" className="flex gap-2 mb-2">
-                        Password
-                        <button onClick={() => setShowPassword(!showPassword)}>
-                            {showPassword ? (
-                                <HiEyeOff className="text-gray-400" />
-                            ) : (
-                                <HiEye className="text-gray-400" />
-                            )}
-                        </button>
-                    </Label>
+                    <div className="flex gap-2 mb-2">
+                        <Label htmlFor="password">Password</Label>{" "}
+                        <div
+                            className="text-gray-400 cursor-pointer"
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            {showPassword ? <HiEyeOff /> : <HiEye />}
+                        </div>
+                    </div>
+
                     <Input
                         type={showPassword ? "text" : "password"}
                         id="password"

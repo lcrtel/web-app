@@ -167,19 +167,17 @@ const SignupForm = () => {
                     ) : null}
                 </div>
                 <div>
-                    <Label
-                        htmlFor="confirmPassword"
-                        className="flex gap-2 mb-2"
-                    >
-                        Confirm Password
-                        <button onClick={() => setShowPassword(!showPassword)}>
-                            {showPassword ? (
-                                <HiEyeOff className="text-gray-400" />
-                            ) : (
-                                <HiEye className="text-gray-400" />
-                            )}
-                        </button>
-                    </Label>
+                    <div className="flex gap-2 mb-2">
+                        <Label htmlFor="confirmPassword">
+                            Confirm Password
+                        </Label>{" "}
+                        <div
+                            className="text-gray-400 cursor-pointer"
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            {showPassword ? <HiEyeOff /> : <HiEye />}
+                        </div>
+                    </div>
                     <Input
                         type={showPassword ? "text" : "password"}
                         id="confirmPassword"

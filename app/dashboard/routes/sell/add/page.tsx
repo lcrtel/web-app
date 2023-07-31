@@ -1,4 +1,3 @@
-import { React } from "react";
 import { AddRouteTable } from "./routes";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";

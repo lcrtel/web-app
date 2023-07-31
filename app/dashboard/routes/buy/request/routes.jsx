@@ -204,7 +204,12 @@ export function AddRouteTable() {
                 header: function Cell({ column }) {
                     return <div className=" min-w-[80px]">Prefix</div>;
                 },
-                cell: ({ getValue, row: { index }, column: { id }, table }) => {
+                cell: function Cell({
+                    getValue,
+                    row: { index },
+                    column: { id },
+                    table,
+                }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
                     const [value, setValue] = useState(initialValue);

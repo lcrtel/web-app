@@ -95,7 +95,12 @@ export function AddRouteTable() {
                 header: ({ column }) => {
                     return <div className=" min-w-[200px]">Destination</div>;
                 },
-                cell: ({ getValue, row: { index }, column: { id }, table }) => {
+                cell: function Cell({
+                    getValue,
+                    row: { index },
+                    column: { id },
+                    table,
+                }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
                     const [value, setValue] = useState(initialValue);
@@ -126,7 +131,12 @@ export function AddRouteTable() {
                 header: ({ column }) => {
                     return <div className=" min-w-[80px]">Code</div>;
                 },
-                cell: ({ getValue, row: { index }, column: { id }, table }) => {
+                cell: function Cell({
+                    getValue,
+                    row: { index },
+                    column: { id },
+                    table,
+                }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
                     const [value, setValue] = useState(initialValue);
@@ -158,7 +168,12 @@ export function AddRouteTable() {
                 header: ({ column }) => {
                     return <div className=" min-w-[80px]">Type</div>;
                 },
-                cell: ({ getValue, row: { index }, column: { id }, table }) => {
+                cell: function Cell({
+                    getValue,
+                    row: { index },
+                    column: { id },
+                    table,
+                }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
                     const [value, setValue] = useState(initialValue);
@@ -186,7 +201,7 @@ export function AddRouteTable() {
             },
             {
                 accessorKey: "prefix",
-                header: ({ column }) => {
+                header: function Cell({ column }) {
                     return <div className=" min-w-[80px]">Prefix</div>;
                 },
                 cell: ({ getValue, row: { index }, column: { id }, table }) => {
@@ -221,7 +236,12 @@ export function AddRouteTable() {
                 header: ({ column }) => {
                     return <div className=" min-w-[80px]">ASR</div>;
                 },
-                cell: ({ getValue, row: { index }, column: { id }, table }) => {
+                cell: function Cell({
+                    getValue,
+                    row: { index },
+                    column: { id },
+                    table,
+                }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
                     const [value, setValue] = useState(initialValue);
@@ -253,7 +273,12 @@ export function AddRouteTable() {
                 header: ({ column }) => {
                     return <div className=" min-w-[80px]">ACD</div>;
                 },
-                cell: ({ getValue, row: { index }, column: { id }, table }) => {
+                cell: function Cell({
+                    getValue,
+                    row: { index },
+                    column: { id },
+                    table,
+                }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
                     const [value, setValue] = useState(initialValue);
@@ -285,7 +310,12 @@ export function AddRouteTable() {
                 header: ({ column }) => {
                     return <div className=" min-w-[80px]">Ports</div>;
                 },
-                cell: ({ getValue, row: { index }, column: { id }, table }) => {
+                cell: function Cell({
+                    getValue,
+                    row: { index },
+                    column: { id },
+                    table,
+                }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
                     const [value, setValue] = useState(initialValue);
@@ -317,7 +347,12 @@ export function AddRouteTable() {
                 header: ({ column }) => {
                     return <div className=" min-w-[80px]">Capacity</div>;
                 },
-                cell: ({ getValue, row: { index }, column: { id }, table }) => {
+                cell: function Cell({
+                    getValue,
+                    row: { index },
+                    column: { id },
+                    table,
+                }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
                     const [value, setValue] = useState(initialValue);

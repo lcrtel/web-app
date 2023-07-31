@@ -1,35 +1,14 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
-    ColumnDef,
-    ColumnFiltersState,
-    SortingState,
-    VisibilityState,
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
-    getPaginationRowModel,
     getSortedRowModel,
     useReactTable,
-    RowData,
 } from "@tanstack/react-table";
-import {
-    ArrowUpDown,
-    ChevronDown,
-    Loader2,
-    MoreHorizontal,
-} from "lucide-react";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
     Table,
@@ -39,22 +18,20 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { motion, AnimatePresence } from "framer-motion";
-import { HiArrowLeft, HiPlus, HiPlusCircle, HiTrash } from "react-icons/hi";
+import { HiPlusCircle, HiTrash } from "react-icons/hi";
 import { supabaseClient } from "@/lib/supabase-client";
 import { v4 as uuidv4 } from "uuid";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 // import ImportDropdown from "./ImportDropdown";
 
 export function AddRouteTable() {
-    const [sorting, setSorting] = React.useState([]);
-    const [columnFilters, setColumnFilters] = React.useState([]);
-    const [columnVisibility, setColumnVisibility] = React.useState({});
-    const [posting, setPosting] = React.useState(false);
+    const [sorting, setSorting] = useState([]);
+    const [columnFilters, setColumnFilters] = useState([]);
+    const [columnVisibility, setColumnVisibility] = useState({});
+    const [posting, setPosting] = useState(false);
     const router = useRouter();
     const supabase = supabaseClient();
-    const [data, setData] = React.useState([]);
+    const [data, setData] = useState([]);
 
     const handleAddRoute = () => {
         setData((prevData) => [
@@ -111,7 +88,7 @@ export function AddRouteTable() {
         router.refresh();
     };
 
-    const columns = React.useMemo(
+    const columns = useMemo(
         () => [
             {
                 accessorKey: "destination",
@@ -121,7 +98,7 @@ export function AddRouteTable() {
                 cell: ({ getValue, row: { index }, column: { id }, table }) => {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = React.useState(initialValue);
+                    const [value, setValue] = useState(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -129,7 +106,7 @@ export function AddRouteTable() {
                     };
 
                     // If the initialValue is changed external, sync it up with our state
-                    React.useEffect(() => {
+                    useEffect(() => {
                         setValue(initialValue);
                     }, [initialValue]);
 
@@ -152,7 +129,7 @@ export function AddRouteTable() {
                 cell: ({ getValue, row: { index }, column: { id }, table }) => {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = React.useState(initialValue);
+                    const [value, setValue] = useState(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -160,7 +137,7 @@ export function AddRouteTable() {
                     };
 
                     // If the initialValue is changed external, sync it up with our state
-                    React.useEffect(() => {
+                    useEffect(() => {
                         setValue(initialValue);
                     }, [initialValue]);
 
@@ -184,7 +161,7 @@ export function AddRouteTable() {
                 cell: ({ getValue, row: { index }, column: { id }, table }) => {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = React.useState(initialValue);
+                    const [value, setValue] = useState(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -192,7 +169,7 @@ export function AddRouteTable() {
                     };
 
                     // If the initialValue is changed external, sync it up with our state
-                    React.useEffect(() => {
+                    useEffect(() => {
                         setValue(initialValue);
                     }, [initialValue]);
 
@@ -215,7 +192,7 @@ export function AddRouteTable() {
                 cell: ({ getValue, row: { index }, column: { id }, table }) => {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = React.useState(initialValue);
+                    const [value, setValue] = useState(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -223,7 +200,7 @@ export function AddRouteTable() {
                     };
 
                     // If the initialValue is changed external, sync it up with our state
-                    React.useEffect(() => {
+                    useEffect(() => {
                         setValue(initialValue);
                     }, [initialValue]);
 
@@ -247,7 +224,7 @@ export function AddRouteTable() {
                 cell: ({ getValue, row: { index }, column: { id }, table }) => {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = React.useState(initialValue);
+                    const [value, setValue] = useState(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -255,7 +232,7 @@ export function AddRouteTable() {
                     };
 
                     // If the initialValue is changed external, sync it up with our state
-                    React.useEffect(() => {
+                    useEffect(() => {
                         setValue(initialValue);
                     }, [initialValue]);
 
@@ -279,7 +256,7 @@ export function AddRouteTable() {
                 cell: ({ getValue, row: { index }, column: { id }, table }) => {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = React.useState(initialValue);
+                    const [value, setValue] = useState(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -287,7 +264,7 @@ export function AddRouteTable() {
                     };
 
                     // If the initialValue is changed external, sync it up with our state
-                    React.useEffect(() => {
+                    useEffect(() => {
                         setValue(initialValue);
                     }, [initialValue]);
 
@@ -311,7 +288,7 @@ export function AddRouteTable() {
                 cell: ({ getValue, row: { index }, column: { id }, table }) => {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = React.useState(initialValue);
+                    const [value, setValue] = useState(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -319,7 +296,7 @@ export function AddRouteTable() {
                     };
 
                     // If the initialValue is changed external, sync it up with our state
-                    React.useEffect(() => {
+                    useEffect(() => {
                         setValue(initialValue);
                     }, [initialValue]);
 
@@ -343,7 +320,7 @@ export function AddRouteTable() {
                 cell: ({ getValue, row: { index }, column: { id }, table }) => {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = React.useState(initialValue);
+                    const [value, setValue] = useState(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -351,7 +328,7 @@ export function AddRouteTable() {
                     };
 
                     // If the initialValue is changed external, sync it up with our state
-                    React.useEffect(() => {
+                    useEffect(() => {
                         setValue(initialValue);
                     }, [initialValue]);
 

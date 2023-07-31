@@ -30,7 +30,7 @@ const HomePage = async () => {
         let { data: routes, error } = await supabase
             .from("routes")
             .select(
-                "destination, destination_code, rate, route_type, asr, pdd"
+                "destination, destination_code, rate, route_type, asr, pdd, posted_on, prefix"
             );
 
         return (
@@ -45,8 +45,8 @@ const HomePage = async () => {
                 }}
             >
                 <div className="mx-auto w-full max-w-8xl">
-                    <div className="flex flex-col items-start sm:items-center py-32 px-10 max-w-4xl mx-auto">
-                        <div className="flex flex-col items-start sm:items-center bg-white bg-opacity-25 backdrop-blur p-10 rounded-2xl sm:rounded-3xl border-2">
+                    <div className="flex flex-col items-start sm:items-center py-32 px-5 max-w-4xl mx-auto">
+                        <div className="flex flex-col items-start sm:items-center bg-white bg-opacity-25 backdrop-blur p-5 rounded-2xl sm:rounded-3xl border-2">
                             <h1 className="text-4xl sm:text-center font-bold tracking-tight text-primary-500 sm:text-5xl">
                                 Streamline Your VoIP Trading Experience
                             </h1>

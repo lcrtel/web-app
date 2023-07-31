@@ -58,7 +58,7 @@ export const columns: ColumnDef<Route>[] = [
         accessorKey: "route_type",
         header: "Type",
         cell: ({ row }) => (
-            <div className="lowercase">{row.getValue("route_type")}</div>
+            <div className="uppercase">{row.getValue("route_type")}</div>
         ),
     },
     {
@@ -118,6 +118,40 @@ export const columns: ColumnDef<Route>[] = [
         ),
         cell: ({ row }) => (
             <div className="lowercase">{row.getValue("pdd")}</div>
+        ),
+    },
+    {
+        accessorKey: "prefix",
+        header: ({ column }) => (
+            <div
+                className="flex gap-2 items-center cursor-pointer"
+                onClick={() =>
+                    column.toggleSorting(column.getIsSorted() === "asc")
+                }
+            >
+                Prefix
+                <ArrowUpDown className=" h-4 w-4" />
+            </div>
+        ),
+        cell: ({ row }) => (
+            <div className="lowercase">{row.getValue("prefix")}</div>
+        ),
+    },
+    {
+        accessorKey: "posted_on",
+        header: ({ column }) => (
+            <div
+                className="flex gap-2 items-center cursor-pointer whitespace-nowrap"
+                onClick={() =>
+                    column.toggleSorting(column.getIsSorted() === "asc")
+                }
+            >
+                Posted on
+                <ArrowUpDown className=" h-4 w-4" />
+            </div>
+        ),
+        cell: ({ row }) => (
+            <div className="lowercase">{row.getValue("posted_on")}</div>
         ),
     },
 ];

@@ -40,60 +40,21 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { motion, AnimatePresence } from "framer-motion";
-import { HiArrowLeft, HiPlusCircle, HiTrash } from "react-icons/hi";
+import { HiArrowLeft, HiPlus, HiPlusCircle, HiTrash } from "react-icons/hi";
 import { supabaseClient } from "@/lib/supabase-client";
 import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 // import ImportDropdown from "./ImportDropdown";
 
-declare module "@tanstack/react-table" {
-    interface TableMeta<TData extends RowData> {
-        updateData: (
-            rowIndex: number,
-            columnId: string,
-            value: unknown
-        ) => void;
-    }
-}
-
-// const defaultColumn: Partial<ColumnDef<Route>> = {
-//     cell: ({ getValue, row: { index }, column: { id }, table }) => {
-//         const initialValue = getValue();
-//         // We need to keep and update the state of the cell normally
-//         const [value, setValue] = React.useState(initialValue);
-
-//         // When the input is blurred, we'll call our table meta's updateData function
-//         const onBlur = () => {
-//             table.options.meta?.updateData(index, id, value);
-//         };
-
-//         // If the initialValue is changed external, sync it up with our state
-//         React.useEffect(() => {
-//             setValue(initialValue);
-//         }, [initialValue]);
-
-//         return (
-//             <Input
-//                 value={value as string}
-//                 onChange={(e) => setValue(e.target.value)}
-//                 onBlur={onBlur}
-//                 required
-//             />
-//         );
-//     },
-// };
-
 export function AddRouteTable() {
-    const [sorting, setSorting] = React.useState<SortingState>([]);
-    const [columnFilters, setColumnFilters] =
-        React.useState<ColumnFiltersState>([]);
-    const [columnVisibility, setColumnVisibility] =
-        React.useState<VisibilityState>({});
+    const [sorting, setSorting] = React.useState([]);
+    const [columnFilters, setColumnFilters] = React.useState([]);
+    const [columnVisibility, setColumnVisibility] = React.useState({});
     const [posting, setPosting] = React.useState(false);
     const router = useRouter();
     const supabase = supabaseClient();
-    const [data, setData] = React.useState<Route>([]);
+    const [data, setData] = React.useState([]);
 
     const handleAddRoute = () => {
         setData((prevData) => [
@@ -101,7 +62,6 @@ export function AddRouteTable() {
             {
                 id: uuidv4(),
                 destination: "",
-                destination_code: "",
                 rate: "",
                 type: "",
                 prefix: "",
@@ -117,7 +77,7 @@ export function AddRouteTable() {
         setData([]);
     };
 
-    const handleRemoveRoute = (row: any) => {
+    const handleRemoveRoute = (row) => {
         setData((prevData) =>
             prevData.filter((route) => route.id !== row.original.id)
         );
@@ -125,12 +85,10 @@ export function AddRouteTable() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setPosting(true);
-
-        const { data: routes, error } = await supabase
-            .from("route_posts")
+        const { data: route, error } = await supabase
+            .from("route_requests")
             .insert(
-                data.map((route: any) => ({
+                data.map((route) => ({
                     destination: route.destination,
                     destination_code: route.destination_code,
                     rate: route.rate,
@@ -148,26 +106,17 @@ export function AddRouteTable() {
             console.error(error.message);
             return;
         }
-
+        console.log(data);
         setData([]);
         router.refresh();
-        router.push("/dashboard/routes/sell");
     };
 
-    // const handleDataImport = (importedData) => {
-    //     if (importedData) {
-    //         setData((prevData) => [...prevData, ...importedData]);
-    //     }
-    // };
-
-    const columns = React.useMemo<ColumnDef<Route>[]>(
+    const columns = React.useMemo(
         () => [
             {
                 accessorKey: "destination",
                 header: ({ column }) => {
-                    return (
-                        <div className=" min-w-[200px]">Destination Name</div>
-                    );
+                    return <div className=" min-w-[200px]">Destination</div>;
                 },
                 cell: ({ getValue, row: { index }, column: { id }, table }) => {
                     const initialValue = getValue();
@@ -186,7 +135,7 @@ export function AddRouteTable() {
 
                     return (
                         <Input
-                            value={value as string}
+                            value={value}
                             onChange={(e) => setValue(e.target.value)}
                             onBlur={onBlur}
                             required
@@ -218,43 +167,11 @@ export function AddRouteTable() {
                     return (
                         <Input
                             type="number"
-                            value={value as string}
+                            value={value}
                             onChange={(e) => setValue(e.target.value)}
                             onBlur={onBlur}
                             required
                             placeholder="eg: +971"
-                        />
-                    );
-                },
-            },
-            {
-                accessorKey: "rate",
-                header: ({ column }) => {
-                    return <div className=" min-w-[80px]">Rate</div>;
-                },
-                cell: ({ getValue, row: { index }, column: { id }, table }) => {
-                    const initialValue = getValue();
-                    // We need to keep and update the state of the cell normally
-                    const [value, setValue] = React.useState(initialValue);
-
-                    // When the input is blurred, we'll call our table meta's updateData function
-                    const onBlur = () => {
-                        table.options.meta?.updateData(index, id, value);
-                    };
-
-                    // If the initialValue is changed external, sync it up with our state
-                    React.useEffect(() => {
-                        setValue(initialValue);
-                    }, [initialValue]);
-
-                    return (
-                        <Input
-                            type="number"
-                            value={value as string}
-                            onChange={(e) => setValue(e.target.value)}
-                            onBlur={onBlur}
-                            required
-                            placeholder="$0.00"
                         />
                     );
                 },
@@ -281,7 +198,7 @@ export function AddRouteTable() {
 
                     return (
                         <Input
-                            value={value as string}
+                            value={value}
                             onChange={(e) => setValue(e.target.value)}
                             onBlur={onBlur}
                             required
@@ -313,7 +230,7 @@ export function AddRouteTable() {
                     return (
                         <Input
                             type="number"
-                            value={value as string}
+                            value={value}
                             onChange={(e) => setValue(e.target.value)}
                             onBlur={onBlur}
                             required
@@ -345,7 +262,7 @@ export function AddRouteTable() {
                     return (
                         <Input
                             type="number"
-                            value={value as string}
+                            value={value}
                             onChange={(e) => setValue(e.target.value)}
                             onBlur={onBlur}
                             required
@@ -377,7 +294,7 @@ export function AddRouteTable() {
                     return (
                         <Input
                             type="number"
-                            value={value as string}
+                            value={value}
                             onChange={(e) => setValue(e.target.value)}
                             onBlur={onBlur}
                             required
@@ -409,7 +326,7 @@ export function AddRouteTable() {
                     return (
                         <Input
                             type="number"
-                            value={value as string}
+                            value={value}
                             onChange={(e) => setValue(e.target.value)}
                             onBlur={onBlur}
                             required
@@ -441,7 +358,7 @@ export function AddRouteTable() {
                     return (
                         <Input
                             type="number"
-                            value={value as string}
+                            value={value}
                             onChange={(e) => setValue(e.target.value)}
                             onBlur={onBlur}
                             required
@@ -488,7 +405,7 @@ export function AddRouteTable() {
                     old.map((row, index) => {
                         if (index === rowIndex) {
                             return {
-                                ...old[rowIndex]!,
+                                ...old,
                                 [columnId]: value,
                             };
                         }
@@ -505,9 +422,8 @@ export function AddRouteTable() {
                 <Input
                     placeholder="Enter phone code"
                     value={
-                        (table
-                            .getColumn("destination_code")
-                            ?.getFilterValue() as string) ?? ""
+                        table.getColumn("destination_code")?.getFilterValue() ??
+                        ""
                     }
                     onChange={(event) =>
                         table
@@ -526,27 +442,20 @@ export function AddRouteTable() {
                     </Button>
                 </div>
             </div>
-            <form
-                onSubmit={handleSubmit}
-                className="border rounded-md mt-4 overflow-y-auto"
-            >
-                <div className="flex items-center justify-between gap-4 m-4">
+            <form className="border rounded-md mt-4 overflow-y-auto">
+                <div className="flex items-center gap-4 m-4">
                     <div className="flex-1 text-sm text-muted-foreground whitespace-nowrap">
                         {table.getFilteredRowModel().rows.length} routes
                     </div>
                     {data.length ? (
-                        <Button
-                            className="gap-2"
-                            type="submit"
-                            disabled={posting}
-                        >
+                        <Button type="submit" onSubmit={handleSubmit}>
                             {posting ? (
                                 <>
-                                    Posting Routes
+                                    Posting
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                 </>
                             ) : (
-                                "Post Routes"
+                                "Request Routes"
                             )}
                         </Button>
                     ) : (
@@ -577,6 +486,7 @@ export function AddRouteTable() {
                                 ))}
                             </TableHeader>
                         )}
+
                         <TableBody>
                             {table.getRowModel().rows?.length ? (
                                 table.getRowModel().rows.map((row) => (
@@ -612,17 +522,17 @@ export function AddRouteTable() {
                 </div>
             </form>
             {table.getRowModel().rows?.length > 0 && (
-                <div className="flex flex-col gap-2 mt-2">
+                <div className="flex justify-center gap-2 mt-2">
                     <Button
                         variant="secondary"
-                        className="w-full"
+                        className=""
                         onClick={handleAddRoute}
                     >
                         Add
                     </Button>
                     <Button
                         variant="secondary"
-                        className="w-full"
+                        className=""
                         onClick={handleClear}
                     >
                         Clear

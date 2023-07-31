@@ -33,7 +33,9 @@
         "app/dashboard/routes/buy/page.jsx",
         "app/dashboard/routes/sell/page.jsx",
         "app/dashboard/routes/add/add-route.jsx",
-        "app/dashboard/routes/sell/add/routes.tsx"
+        "app/dashboard/routes/sell/add/routes.jsx",
+        "app/dashboard/routes/buy/request/routes.jsx",
+        "app/dashboard/routes/buy/routes.jsx"
     ],
     "exclude": ["node_modules"]
 }

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Routes } from "./routes";
 import { columns } from "./columns";
 import { supabaseServer } from "@/lib/supabase-server";
+import { buttonVariants } from "@/components/ui/button";
 
 export default async function Page() {
     const supabase = supabaseServer();
@@ -12,12 +13,15 @@ export default async function Page() {
         data: { session },
     } = await supabase.auth.getSession();
 
-    const { data: routes } = await supabase
-        .from("route_posts")
-        .select("*")
-        .match({ seller_id: session.user.id });
+    const { data: routes } = await supabase.from("route_requests").select("*");
+
     return (
         <div className="">
+            <div className="flex mb-4 justify-between items-center">
+                <h3 className="text-lg  font-semibold text-primary-500">
+                    Route Requests
+                </h3>
+            </div>
             {routes?.length ? (
                 <Routes columns={columns} data={routes} />
             ) : (
@@ -27,16 +31,19 @@ export default async function Page() {
                             <HiOutlineSearch className="w-10 h-10 rounded-full p-2 text-primary-500 bg-primary-50" />
                         </div>
                         <p className="text-gray-500 max-w-lg text-center">
-                            It looks like you don&apos;t have any routes listed
+                            It looks like there are no buying targets listed
                             yet.
                         </p>
                         <Link
                             passHref
-                            href="/dashboard/routes/sell/post"
-                            className="flex mt-2 items-center justify-center rounded-xl bg-primary-500 px-3 gap-2 py-2 text-sm font-medium text-white "
+                            href="/dashboard/routes/requests/request"
+                            className={buttonVariants({
+                                variant: "default",
+                                size: "sm",
+                            })}
                         >
-                            <HiOutlinePlusCircle className=" h-5 w-5" />
-                            Post Routes
+                            <HiOutlinePlusCircle className="mr-2 h-5 w-5" />
+                            Post your buying target
                         </Link>
                     </div>
                 </div>

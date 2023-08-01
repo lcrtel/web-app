@@ -435,32 +435,8 @@ export function AddRouteTable() {
 
     return (
         <div className="w-full">
-            <div className="flex items-center justify-between gap-2">
-                <Input
-                    placeholder="Enter phone code"
-                    value={
-                        table.getColumn("destination_code")?.getFilterValue() ??
-                        ""
-                    }
-                    onChange={(event) =>
-                        table
-                            .getColumn("destination_code")
-                            ?.setFilterValue(event.target.value)
-                    }
-                    className="max-w-sm"
-                />
-                {/* <ImportDropdown onDataImport={handleDataImport} /> */}
-                <div className="flex gap-2">
-                    <Button variant="secondary" onClick={handleAddRoute}>
-                        Add
-                    </Button>
-                    <Button variant="secondary" onClick={handleClear}>
-                        Clear
-                    </Button>
-                </div>
-            </div>
-            <form className="border rounded-md mt-4 overflow-y-auto">
-                <div className="flex items-center gap-4 m-4">
+            <form className="border rounded-md mt-4 overflow-y-auto p-4">
+                <div className="flex items-center gap-4 mb-4">
                     <div className="flex-1 text-sm text-muted-foreground whitespace-nowrap">
                         {table.getFilteredRowModel().rows.length} routes
                     </div>
@@ -472,7 +448,7 @@ export function AddRouteTable() {
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                 </>
                             ) : (
-                                "Request Routes"
+                                "Post Requests"
                             )}
                         </Button>
                     ) : (
@@ -527,7 +503,7 @@ export function AddRouteTable() {
                                 <TableRow>
                                     <TableCell
                                         colSpan={columns.length}
-                                        className="h-[120px] flex bg-surface items-center justify-center cursor-pointer"
+                                        className="h-[120px] flex bg-surface shadow items-center justify-center cursor-pointer"
                                         onClick={handleAddRoute}
                                     >
                                         <HiPlusCircle className="w-5 h-5" />
@@ -539,17 +515,17 @@ export function AddRouteTable() {
                 </div>
             </form>
             {table.getRowModel().rows?.length > 0 && (
-                <div className="flex justify-center gap-2 mt-2">
+                <div className="flex flex-col gap-2 mt-2">
                     <Button
                         variant="secondary"
-                        className=""
+                        className="w-full shadow"
                         onClick={handleAddRoute}
                     >
                         Add
                     </Button>
                     <Button
                         variant="secondary"
-                        className=""
+                        className="w-full shadow"
                         onClick={handleClear}
                     >
                         Clear

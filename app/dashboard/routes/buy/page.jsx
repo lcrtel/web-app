@@ -16,17 +16,6 @@ export default async function Page() {
                 <h3 className="text-lg  font-semibold text-primary-500">
                     Buy VoIP Routes
                 </h3>
-                <Link
-                    passHref
-                    href="/dashboard/routes/buy/request"
-                    className={buttonVariants({
-                        variant: "default",
-                        size: "sm",
-                    })}
-                >
-                    <HiOutlinePlusCircle className="mr-1.5 h-5 w-5" />
-                    Request
-                </Link>
             </div>
             {routes?.length ? (
                 <Routes columns={columns} data={routes} />
@@ -34,7 +23,7 @@ export default async function Page() {
                 <div className="gap-2  h-12 text-center flex items-center justify-center bg-surface py-10 rounded-lg">
                     <p>No routes found</p>
                     <Link
-                        href="/dashboard/routes/buy/request"
+                        href="/dashboard/routes/requests/request"
                         className="bg-primary-500 px-3 ml-2 py-2 text-white rounded-md"
                     >
                         Request

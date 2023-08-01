@@ -8,10 +8,15 @@ const page = () => {
         <section className="">
             <div className="flex items-center gap-4 mb-4">
                 <Link
-                    href="/dashboard/routes/buy"
-                    className={buttonVariants({ variant: "secondary" })}
+                    passHref
+                    href="/dashboard/routes/requests"
+                    className={buttonVariants({
+                        variant: "secondary",
+                        size: "sm",
+                    })}
                 >
-                    <HiArrowLeft className="mr-1.5" /> Back
+                    <HiArrowLeft className="mr-2" />
+                    Requests
                 </Link>
                 <h3 className="text-lg  font-semibold text-primary">
                     Post your buying targets!

@@ -25,10 +25,10 @@ const page = async () => {
             </div>
             <div className="flex flex-col md:flex-row gap-5">
                 <Link
-                    href="/dashboard/routes/sell/add"
+                    href="/dashboard/routes/sell/post"
                     className="px-5 py-4 bg-surface rounded-2xl justify-between flex gap-2 items-center"
                 >
-                    Sell Routes
+                    Post your route offers!
                     <HiArrowCircleRight className="h-6 w-6" />
                 </Link>
                 <Link
@@ -39,10 +39,10 @@ const page = async () => {
                     <HiArrowCircleRight className="h-6 w-6" />
                 </Link>
                 <Link
-                    href="/dashboard/routes/buy/request"
+                    href="/dashboard/routes/requests/request"
                     className="px-5 py-4 bg-surface rounded-2xl justify-between flex gap-2 items-center"
                 >
-                    Request Routes
+                    Post your buying targets!
                     <HiArrowCircleRight className="h-6 w-6" />
                 </Link>
             </div>

@@ -179,7 +179,7 @@ export function Routes<TData, TValue>({
                                 >
                                     No routes matching your filter
                                     <Link
-                                        href="/dashboard/routes/buy/request"
+                                        href="/dashboard/routes/requests/request"
                                         className="bg-primary-500 px-3 ml-2 py-2 text-white rounded-md"
                                     >
                                         Request

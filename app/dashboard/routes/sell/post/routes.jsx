@@ -507,35 +507,11 @@ export function AddRouteTable() {
 
     return (
         <div className="w-full">
-            <div className="flex items-center justify-between gap-2">
-                <Input
-                    placeholder="Enter phone code"
-                    value={
-                        table.getColumn("destination_code")?.getFilterValue() ??
-                        ""
-                    }
-                    onChange={(event) =>
-                        table
-                            .getColumn("destination_code")
-                            ?.setFilterValue(event.target.value)
-                    }
-                    className="max-w-sm"
-                />
-                {/* <ImportDropdown onDataImport={handleDataImport} /> */}
-                <div className="flex gap-2">
-                    <Button variant="secondary" onClick={handleAddRoute}>
-                        Add
-                    </Button>
-                    <Button variant="secondary" onClick={handleClear}>
-                        Clear
-                    </Button>
-                </div>
-            </div>
             <form
                 onSubmit={handleSubmit}
-                className="border rounded-md mt-4 overflow-y-auto"
+                className="border rounded-md mt-4 overflow-y-auto p-4"
             >
-                <div className="flex items-center justify-between gap-4 m-4">
+                <div className="flex items-center justify-between gap-4 pb-4">
                     <div className="flex-1 text-sm text-muted-foreground whitespace-nowrap">
                         {table.getFilteredRowModel().rows.length} routes
                     </div>

@@ -46,7 +46,7 @@ const HomePage = async () => {
             >
                 <div className="mx-auto w-full max-w-8xl">
                     <div className="flex flex-col items-start sm:items-center pt-24 pb-10 px-5 max-w-4xl mx-auto">
-                        <div className="flex flex-col items-start sm:items-center bg-white bg-opacity-25 backdrop-blur p-5 rounded-2xl sm:rounded-3xl border-2">
+                        <div className="flex flex-col items-start sm:items-center bg-white bg-opacity-25 backdrop-blur p-5 md:p-10 rounded-2xl sm:rounded-3xl border-2 border-white">
                             <h1 className="text-4xl sm:text-center font-bold tracking-tight text-primary-500 sm:text-5xl">
                                 Streamline Your VoIP Trading Experience
                             </h1>
@@ -66,7 +66,7 @@ const HomePage = async () => {
                                 </Link>
                                 <Link
                                     passHref
-                                    href="/dashboard/routes/buy/request"
+                                    href="/dashboard/routes/requests/request"
                                     className={`${buttonVariants({
                                         variant: "secondary",
                                     })}`}

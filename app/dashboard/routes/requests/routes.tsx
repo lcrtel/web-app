@@ -197,6 +197,12 @@ export function Routes<TData, TValue>({
                                     className="gap-2  h-12 text-center"
                                 >
                                     No routes matching your filter
+                                    <Link
+                                        href="/dashboard/routes/requests/request"
+                                        className="bg-primary-500 px-3 ml-2 py-2 text-white rounded-md"
+                                    >
+                                        Post your buying target
+                                    </Link>
                                 </TableCell>
                             </TableRow>
                         )}

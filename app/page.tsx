@@ -6,10 +6,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import { supabaseServer } from "@/lib/supabase-server";
 import { RatesTable } from "./rates-table";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { buttonVariants } from "@/components/ui/button";
-import { columns } from "./dashboard/routes/buy/columns";
-import { Routes } from "./dashboard/routes/buy/routes";
 
 export const dynamic = "force-dynamic";
 

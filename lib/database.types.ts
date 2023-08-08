@@ -67,20 +67,7 @@ export interface Database {
           verification_by?: string | null
           verified_at?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "route_posts_seller_id_fkey"
-            columns: ["seller_id"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "route_posts_verification_by_fkey"
-            columns: ["verification_by"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
-        ]
+        Relationships: []
       }
       route_requests: {
         Row: {
@@ -137,20 +124,7 @@ export interface Database {
           status?: string
           updated_at?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "route_requests_customer_id_fkey"
-            columns: ["customer_id"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "route_requests_seller_id_fkey"
-            columns: ["seller_id"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
-        ]
+        Relationships: []
       }
       routes: {
         Row: {
@@ -163,6 +137,7 @@ export interface Database {
           id: string
           pdd: number | null
           ports: number
+          posted_on: string | null
           prefix: string
           rate: number
           route_type: string
@@ -181,6 +156,7 @@ export interface Database {
           id?: string
           pdd?: number | null
           ports: number
+          posted_on?: string | null
           prefix: string
           rate: number
           route_type: string
@@ -199,6 +175,7 @@ export interface Database {
           id?: string
           pdd?: number | null
           ports?: number
+          posted_on?: string | null
           prefix?: string
           rate?: number
           route_type?: string
@@ -207,14 +184,7 @@ export interface Database {
           verification_date?: string
           verified_by?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "routes_seller_id_fkey"
-            columns: ["seller_id"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
-        ]
+        Relationships: []
       }
       seller_applications: {
         Row: {
@@ -226,12 +196,12 @@ export interface Database {
           user_id: string
         }
         Insert: {
-          application_date: string
+          application_date?: string
           created_at?: string | null
-          id: string
-          status: string
+          id?: string
+          status?: string
           updated_at?: string | null
-          user_id: string
+          user_id?: string
         }
         Update: {
           application_date?: string
@@ -245,46 +215,6 @@ export interface Database {
           {
             foreignKeyName: "seller_applications_user_id_fkey"
             columns: ["user_id"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      users: {
-        Row: {
-          email: string | null
-          first_name: string | null
-          id: string
-          last_name: string | null
-          phone: string | null
-          role: string
-          skype_id: string | null
-          updated_at: string | null
-        }
-        Insert: {
-          email?: string | null
-          first_name?: string | null
-          id: string
-          last_name?: string | null
-          phone?: string | null
-          role?: string
-          skype_id?: string | null
-          updated_at?: string | null
-        }
-        Update: {
-          email?: string | null
-          first_name?: string | null
-          id?: string
-          last_name?: string | null
-          phone?: string | null
-          role?: string
-          skype_id?: string | null
-          updated_at?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "users_id_fkey"
-            columns: ["id"]
             referencedRelation: "users"
             referencedColumns: ["id"]
           }

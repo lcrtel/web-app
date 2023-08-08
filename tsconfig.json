@@ -28,14 +28,16 @@
         "**/*.ts",
         "**/*.tsx",
         ".next/types/**/*.ts",
-        "utils/user.js",
+        "utils/user.ts",
         "app/dashboard/nav.tsx",
-        "app/dashboard/routes/buy/page.jsx",
+        "app/user/routes/buy/page.jsx",
         "app/dashboard/routes/sell/page.jsx",
         "app/dashboard/routes/post/add-route.jsx",
-        "app/dashboard/routes/sell/post/routes.jsx",
+        "app/user/routes/sell/post/routes.jsx",
         "app/dashboard/routes/requests/routes.jsx",
-        "app/dashboard/routes/buy/routes.jsx"
+        "app/user/routes/buy/routes.jsx",
+        "app/dashboard/admin/users/users-table.jsx",
+        "app/dashboard/admin/users/users-table.jsx"
     ],
     "exclude": ["node_modules"]
 }

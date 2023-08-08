@@ -68,15 +68,17 @@ const SignupForm = () => {
                         email: values.email,
                         phone: values.phone,
                         skype_id: values.skype_id,
+                        role: "buyer",
                     },
                     emailRedirectTo: `${location.origin}/api/auth/callback`,
                 },
             });
-            setLoading(false);
             if (error) {
+                setLoading(false);
                 return;
             }
             router.push("/auth/check-email");
+            setLoading(false);
         },
     });
 
@@ -141,16 +143,15 @@ const SignupForm = () => {
                     ) : null}
                 </div>
                 <div>
-                    <Label htmlFor="password" className="flex gap-2 mb-2">
-                        Password{" "}
-                        <button onClick={() => setShowPassword(!showPassword)}>
-                            {showPassword ? (
-                                <HiEyeOff className="text-gray-400" />
-                            ) : (
-                                <HiEye className="text-gray-400" />
-                            )}
-                        </button>
-                    </Label>
+                    <div className="flex gap-2 mb-2">
+                        <Label htmlFor="password">Password</Label>{" "}
+                        <div
+                            className="text-gray-400 cursor-pointer"
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            {showPassword ? <HiEyeOff /> : <HiEye />}
+                        </div>
+                    </div>
                     <Input
                         type={showPassword ? "text" : "password"}
                         id="password"

@@ -12,12 +12,21 @@ export async function fetchUserRole() {
     }
 }
 
-export async function fetchUserData() {
+export async function fetchUserMetadata() {
     const supabase = createServerComponentClient({ cookies });
     const {
         data: { user },
     } = await supabase.auth.getUser();
     if (user) {
         return user.user_metadata;
+    }
+}
+export async function fetchUserData() {
+    const supabase = createServerComponentClient({ cookies });
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+    if (user) {
+        return user;
     }
 }

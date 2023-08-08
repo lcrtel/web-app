@@ -2,11 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { supabaseClient } from "@/lib/supabase-client";
-import { fetchUserRole } from "@/utils/user";
 import React, { useEffect, useState } from "react";
 import { HiBan, HiClock, HiEmojiSad } from "react-icons/hi";
 
-const SellerApplication: React.FC = async () => {
+const SellerApplication = ({ userID }: { userID: User }) => {
     const supabase = supabaseClient();
     const [applying, setApplying] = useState(false);
     const [status, setStatus] = useState<any>("");
@@ -15,17 +14,21 @@ const SellerApplication: React.FC = async () => {
             try {
                 const { data, error } = await supabase
                     .from("seller_applications")
-                    .select("status");
+                    .select("status").match({ user_id: userID });
+                console.log(data, error);
+
                 const applicationStatus = data?.[0].status;
-                setStatus(applicationStatus);
+                if (data) {
+                    setStatus(applicationStatus);
+                }
             } catch (error) {
                 console.error("Error fetching application status:", error);
             }
         }
         fetchApplicationStatus();
     }, []);
+    console.log(status);
 
-    const userRole = await fetchUserRole();
     const handleApply = async () => {
         setApplying(true);
         const { data, error } = await supabase
@@ -72,7 +75,7 @@ const SellerApplication: React.FC = async () => {
     );
     return (
         <div className="flex p-10 flex-col gap-2 items-center justify-center">
-            {userRole === "buyer" && apply}
+            {status === "" && apply}
             {status === "pending" && pending}
             {status === "declined" && declined}
         </div>

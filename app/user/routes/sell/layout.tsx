@@ -1,6 +1,6 @@
 import { Button, buttonVariants } from "@/components/ui/button";
 import { supabaseServer } from "@/lib/supabase-server";
-import { fetchUserRole } from "@/utils/user";
+import { fetchUserData, fetchUserRole } from "@/utils/user";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import Link from "next/link";
@@ -15,6 +15,8 @@ export default async function DashboardLayout({
 }: {
     children: React.ReactNode;
 }) {
+    const user = await fetchUserData()
+
     const userRole = await fetchUserRole();
     return (
         <section>
@@ -29,7 +31,7 @@ export default async function DashboardLayout({
                 </>
             ) : (
                 <div className="flex-1 border rounded-xl p-4">
-                    <SellerApplication />
+                    <SellerApplication userID={user?.id} />
                 </div>
             )}
         </section>

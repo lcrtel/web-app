@@ -2,10 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import { supabaseClient } from "@/lib/supabase-client";
+import { fetchUserRole } from "@/utils/user";
 import React, { useEffect, useState } from "react";
 import { HiBan, HiClock, HiEmojiSad } from "react-icons/hi";
 
-const SellerApplication: React.FC = () => {
+const SellerApplication: React.FC = async () => {
     const supabase = supabaseClient();
     const [applying, setApplying] = useState(false);
     const [status, setStatus] = useState<any>("");
@@ -23,6 +24,8 @@ const SellerApplication: React.FC = () => {
         }
         fetchApplicationStatus();
     }, []);
+
+    const userRole = await fetchUserRole();
     const handleApply = async () => {
         setApplying(true);
         const { data, error } = await supabase
@@ -69,7 +72,7 @@ const SellerApplication: React.FC = () => {
     );
     return (
         <div className="flex p-10 flex-col gap-2 items-center justify-center">
-            {status === "" && apply}
+            {userRole === "buyer" && apply}
             {status === "pending" && pending}
             {status === "declined" && declined}
         </div>

@@ -47,13 +47,13 @@ export default function DeleteRoute({ routeID }: { routeID: User }) {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel className="bg-red-100 hover:bg-red-200 text-red-500 hover:text-red-600 border-red-200">
-                        I'm not sure
+                        I&apos;m not sure
                     </AlertDialogCancel>
                     <AlertDialogAction
                         onClick={() => handleDelete()}
                         className="bg-red-500 hover:bg-red-600 text-white hover:white border-red-200"
                     >
-                        I'm sure
+                        I&apos;m sure
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>

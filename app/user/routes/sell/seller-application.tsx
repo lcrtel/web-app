@@ -14,7 +14,8 @@ const SellerApplication = ({ userID }: { userID: User }) => {
             try {
                 const { data, error } = await supabase
                     .from("seller_applications")
-                    .select("status").match({ user_id: userID });
+                    .select("status")
+                    .match({ user_id: userID });
                 console.log(data, error);
 
                 const applicationStatus = data?.[0].status;
@@ -26,7 +27,7 @@ const SellerApplication = ({ userID }: { userID: User }) => {
             }
         }
         fetchApplicationStatus();
-    }, []);
+    }, [supabase, userID]);
     console.log(status);
 
     const handleApply = async () => {

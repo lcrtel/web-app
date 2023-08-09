@@ -2,8 +2,7 @@ import { Separator } from "@/components/ui/separator";
 import { supabaseServer } from "@/lib/supabase-server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import formatTimestamptz from "@/utils/formatTimestamptz";
-import { HiTrash } from "react-icons/hi";
-import DeleteRoute from "./DeleteUser";
+import DeleteRoute from "./DeleteRoute";
 
 export default async function Page({ params }: { params: { id: string } }) {
     const supabase = supabaseServer();

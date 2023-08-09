@@ -7,18 +7,20 @@ import { redirect } from "next/navigation";
 import { supabaseServer } from "@/lib/supabase-server";
 import { RatesTable } from "./rates-table";
 import { buttonVariants } from "@/components/ui/button";
+import { fetchUserRole } from "@/utils/user";
 
 export const dynamic = "force-dynamic";
 
 const HomePage = async () => {
-    const supabase = supabaseServer();
-
-    const {
-        data: { session },
-    } = await supabase.auth.getSession();
-
-    if (session) {
-        redirect("/dashboard");
+    const userRole = await fetchUserRole();
+    if (userRole === "admin") {
+        redirect("/admin");
+    } else if (userRole === "manager") {
+        redirect("/manager");
+    } else if (userRole === "seller") {
+        redirect("/user");
+    } else if (userRole === "buyer") {
+        redirect("/user");
     }
 
     const HeroSection = async () => {

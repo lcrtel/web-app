@@ -1,11 +1,14 @@
 export default function formatTimestamptz(dateString) {
     const date = new Date(dateString);
-
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // months are zero-based
     const year = date.getFullYear();
+    const month = date.toLocaleString("default", { month: "short" });
+    const day = date.getDate();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
 
-    return `${hours}:${minutes} - ${day}/${month}/${year}`;
+    const formattedDate = `${day} ${month}, ${year} ${hours
+        .toString()
+        .padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
+
+    return formattedDate;
 }

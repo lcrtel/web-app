@@ -1,18 +1,13 @@
-import Navigation from "./nav";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import TradeNav from "./nav";
-
-export const dynamic = "force-dynamic";
+import { supabaseServer } from "@/lib/supabase-server";
 
 export default async function DashboardLayout({
     children, // will be a page or nested layout
 }: {
     children: React.ReactNode;
 }) {
-    const supabase = createServerComponentClient<Database>({ cookies });
+    const supabase = supabaseServer();
     const {
         data: { session },
     } = await supabase.auth.getSession();

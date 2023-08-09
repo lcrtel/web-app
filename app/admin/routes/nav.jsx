@@ -2,15 +2,15 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const UserManagementNav = () => {
+const RoutesNav = () => {
     const pathname = usePathname();
 
     return (
         <nav className="inline-flex overflow-x-auto bg-surface max-w-fit items-center p-1 rounded-lg space-x-1 text-sm text-primary-500">
             {[
-                ["All", "/admin/users"],
-                ["Sellers", "/admin/users/sellers"],
-                ["Managers", "/admin/users/managers"],
+                ["Offers", "/admin/routes"],
+                ["Requests", "/admin/routes/requests"],
+                ["sold", "/admin/routes/sold"],
             ].map(([title, url]) => (
                 <div
                     key={title}
@@ -33,4 +33,4 @@ const UserManagementNav = () => {
     );
 };
 
-export default UserManagementNav;
+export default RoutesNav;

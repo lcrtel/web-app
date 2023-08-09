@@ -26,6 +26,9 @@ import {
 import Link from "next/link";
 import formatTimestamptz from "@/utils/formatTimestamptz";
 import ReloadButton from "@/components/ReloadButton";
+import { HiOutlinePencilAlt, HiPencil } from "react-icons/hi";
+import { buttonVariants } from "@/components/ui/button";
+import DeleteUser from "./[id]/DeleteUser";
 
 export const columns: ColumnDef<Route>[] = [
     {
@@ -52,6 +55,26 @@ export const columns: ColumnDef<Route>[] = [
         ),
     },
     {
+        accessorKey: "last_sign_in_at",
+        header: ({ column }) => {
+            return (
+                <div className="flex gap-2 items-center cursor-pointer whitespace-nowrap">
+                    Last Sign In
+                </div>
+            );
+        },
+        cell: ({ row }) => {
+            const Date = row.getValue("last_sign_in_at");
+
+            if (Date) {
+                const formattedDate = formatTimestamptz(Date);
+                return <div className="font-medium">{formattedDate}</div>;
+            } else {
+                return <div className="font-medium">Never</div>;
+            }
+        },
+    },
+    {
         accessorKey: "created_at",
         header: ({ column }) => {
             return (
@@ -72,6 +95,7 @@ export const columns: ColumnDef<Route>[] = [
             return <div className="font-medium">{formattedDate}</div>;
         },
     },
+
     {
         accessorKey: "updated_at",
         header: ({ column }) => {
@@ -99,12 +123,14 @@ export const columns: ColumnDef<Route>[] = [
         cell: ({ row }) => {
             const id = row.getValue("id");
             return (
-                <Link
-                    href={`/admin/users/${id}`}
-                    className="font-medium  bg-blue-100 px-3 py-1.5 rounded-full text-blue-500"
-                >
-                    Details
-                </Link>
+                <div className="flex gap-2">
+                    <div className="text-red-500">
+                        <DeleteUser userID={id} />
+                    </div>{" "}
+                    <Link href={`/admin/users/${id}`} className="">
+                        <HiOutlinePencilAlt className="w-5 h-5" />
+                    </Link>
+                </div>
             );
         },
     },

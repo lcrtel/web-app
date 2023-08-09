@@ -6,11 +6,6 @@ import { toast } from "@/components/ui/use-toast";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 
 export default async function Page({ params }: { params: { id: string } }) {
-    const supabase = supabaseServer();
-    let { data: users, error } = await supabase
-        .from("users")
-        .select("*")
-        .match({ id: params.id });
     const admin = supabaseAdmin();
 
     const { data } = await admin.auth.admin.getUserById(params.id);

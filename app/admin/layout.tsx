@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { supabaseServer } from "@/lib/supabase-server";
-import { fetchUserRole, fetchUserData } from "@/utils/user";
+import { fetchUserRole, fetchUserMetadata } from "@/utils/user";
 import AdminNav from "./admin-nav";
 
 export const dynamic = "force-dynamic";
@@ -19,22 +19,19 @@ export default async function DashboardLayout({
     if (!session) {
         redirect("/");
     }
-    const userData = await fetchUserData();
+    const userData = await fetchUserMetadata();
     const userRole = await fetchUserRole();
     if (userRole !== "admin") {
         redirect("/user");
     }
 
     return (
-        <section className=" min-h-screen flex flex-col md:flex-row  relative ">
-            <div>
-                <AdminNav userRole={userRole} user={userData} />
-                {/* <div className="h-2 background-animate bg-gradient-to-r from-secondary to-primary-500 w-full"></div> */}
-            </div>
-            <div className="flex-1 flex flex-col mt-[68px] md:mt-0 md:ml-64 md:py-5 bg-surface overflow-x-auto">
-                <section className="px-5 md:px-6 py-5 bg-white md:rounded-l-xl min-h-screen">
+        <section className=" min-h-screen flex flex-col md:flex-row  ">
+            <AdminNav userRole={userRole} user={userData} />
+            <div className="h-screen w-full flex flex-col mt-[68px] md:mt-0 md:ml-64 md:py-5 bg-surface">
+                <div className="px-5 md:px-6 py-5 bg-white md:rounded-l-xl h-full relative overflow-y-auto ">
                     {children}
-                </section>
+                </div>
             </div>
 
             {/* <footer className="w-full">

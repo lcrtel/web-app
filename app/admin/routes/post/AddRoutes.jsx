@@ -1,35 +1,14 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
-    ColumnDef,
-    ColumnFiltersState,
-    SortingState,
-    VisibilityState,
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
-    getPaginationRowModel,
     getSortedRowModel,
     useReactTable,
-    RowData,
 } from "@tanstack/react-table";
-import {
-    ArrowUpDown,
-    ChevronDown,
-    Loader2,
-    MoreHorizontal,
-} from "lucide-react";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
     Table,
@@ -39,22 +18,20 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { motion, AnimatePresence } from "framer-motion";
-import { HiArrowLeft, HiPlusCircle, HiTrash } from "react-icons/hi";
+import { HiPlusCircle, HiTrash } from "react-icons/hi";
 import { supabaseClient } from "@/lib/supabase-client";
 import { v4 as uuidv4 } from "uuid";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 // import ImportDropdown from "./ImportDropdown";
 
 export function AddRouteTable() {
-    const [sorting, setSorting] = React.useState([]);
-    const [columnFilters, setColumnFilters] = React.useState([]);
-    const [columnVisibility, setColumnVisibility] = React.useState({});
-    const [posting, setPosting] = React.useState(false);
+    const [sorting, setSorting] = useState([]);
+    const [columnFilters, setColumnFilters] = useState([]);
+    const [columnVisibility, setColumnVisibility] = useState({});
+    const [posting, setPosting] = useState(false);
     const router = useRouter();
     const supabase = supabaseClient();
-    const [data, setData] = React.useState([]);
+    const [data, setData] = useState([]);
 
     const handleAddRoute = () => {
         setData((prevData) => [
@@ -62,13 +39,13 @@ export function AddRouteTable() {
             {
                 id: uuidv4(),
                 destination: "",
-                destination_code: "",
                 rate: "",
                 type: "",
                 prefix: "",
                 asr: "",
                 acd: "",
                 ports: "",
+                pdd: "",
                 capacity: "",
             },
         ]);
@@ -83,54 +60,43 @@ export function AddRouteTable() {
             prevData.filter((route) => route.id !== row.original.id)
         );
     };
-console.log(data);
-const handleSubmit = async (e) => {
-    e.preventDefault();
-    setPosting(true);
 
-    const { data: routes, error } = await supabase
-        .from("route_posts")
-        .insert(
-            data.map((route) => ({
-                destination: route.destination,
-                destination_code: route.destination_code,
-                rate: route.rate,
-                route_type: route.type,
-                prefix: route.prefix,
-                asr: route.asr,
-                acd: route.acd,
-                ports: route.ports,
-                capacity: route.capacity,
-            }))
-        )
-        .select();
-
-    if (error) {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const { data: route, error } = await supabase
+            .from("route_posts")
+            .insert(
+                data.map((route) => ({
+                    destination: route.destination,
+                    destination_code: route.destination_code,
+                    rate: route.rate,
+                    route_type: route.type,
+                    prefix: route.prefix,
+                    asr: route.asr,
+                    acd: route.acd,
+                    ports: route.ports,
+                    capacity: route.capacity,
+                    pdd: route.pdd,
+                }))
+            )
+            .select();
+        if (error) {
+            setPosting(false);
+            console.error(error.message);
+            return;
+        }
         setPosting(false);
-        console.error(error.message);
-        return;
-    }
+        setData([]);
+        router.refresh();
+        router.push("/admin/routes");
+    };
 
-    setPosting(false);
-    setData([]);
-    router.refresh();
-    router.push("/user/routes/sell");
-};
-
-    // const handleDataImport = (importedData) => {
-    //     if (importedData) {
-    //         setData((prevData) => [...prevData, ...importedData]);
-    //     }
-    // };
-
-    const columns = React.useMemo(
+    const columns = useMemo(
         () => [
             {
                 accessorKey: "destination",
                 header: ({ column }) => {
-                    return (
-                        <div className=" min-w-[200px]">Destination Name</div>
-                    );
+                    return <div className=" min-w-[200px]">Destination</div>;
                 },
                 cell: function Cell({
                     getValue,
@@ -140,7 +106,7 @@ const handleSubmit = async (e) => {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = React.useState(initialValue);
+                    const [value, setValue] = useState(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -148,7 +114,7 @@ const handleSubmit = async (e) => {
                     };
 
                     // If the initialValue is changed external, sync it up with our state
-                    React.useEffect(() => {
+                    useEffect(() => {
                         setValue(initialValue);
                     }, [initialValue]);
 
@@ -176,7 +142,7 @@ const handleSubmit = async (e) => {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = React.useState(initialValue);
+                    const [value, setValue] = useState(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -184,7 +150,7 @@ const handleSubmit = async (e) => {
                     };
 
                     // If the initialValue is changed external, sync it up with our state
-                    React.useEffect(() => {
+                    useEffect(() => {
                         setValue(initialValue);
                     }, [initialValue]);
 
@@ -196,43 +162,6 @@ const handleSubmit = async (e) => {
                             onBlur={onBlur}
                             required
                             placeholder="eg: +971"
-                        />
-                    );
-                },
-            },
-            {
-                accessorKey: "rate",
-                header: ({ column }) => {
-                    return <div className=" min-w-[80px]">Rate</div>;
-                },
-                cell: function Cell({
-                    getValue,
-                    row: { index },
-                    column: { id },
-                    table,
-                }) {
-                    const initialValue = getValue();
-                    // We need to keep and update the state of the cell normally
-                    const [value, setValue] = React.useState(initialValue);
-
-                    // When the input is blurred, we'll call our table meta's updateData function
-                    const onBlur = () => {
-                        table.options.meta?.updateData(index, id, value);
-                    };
-
-                    // If the initialValue is changed external, sync it up with our state
-                    React.useEffect(() => {
-                        setValue(initialValue);
-                    }, [initialValue]);
-
-                    return (
-                        <Input
-                            type="number"
-                            value={value}
-                            onChange={(e) => setValue(e.target.value)}
-                            onBlur={onBlur}
-                            required
-                            placeholder="$0.00"
                         />
                     );
                 },
@@ -250,7 +179,7 @@ const handleSubmit = async (e) => {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = React.useState(initialValue);
+                    const [value, setValue] = useState(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -258,7 +187,7 @@ const handleSubmit = async (e) => {
                     };
 
                     // If the initialValue is changed external, sync it up with our state
-                    React.useEffect(() => {
+                    useEffect(() => {
                         setValue(initialValue);
                     }, [initialValue]);
 
@@ -274,8 +203,45 @@ const handleSubmit = async (e) => {
                 },
             },
             {
+                accessorKey: "rate",
+                header: function Cell({ column }) {
+                    return <div className=" min-w-[80px]">Rate</div>;
+                },
+                cell: function Cell({
+                    getValue,
+                    row: { index },
+                    column: { id },
+                    table,
+                }) {
+                    const initialValue = getValue();
+                    // We need to keep and update the state of the cell normally
+                    const [value, setValue] = useState(initialValue);
+
+                    // When the input is blurred, we'll call our table meta's updateData function
+                    const onBlur = () => {
+                        table.options.meta?.updateData(index, id, value);
+                    };
+
+                    // If the initialValue is changed external, sync it up with our state
+                    useEffect(() => {
+                        setValue(initialValue);
+                    }, [initialValue]);
+
+                    return (
+                        <Input
+                            type="number"
+                            value={value}
+                            onChange={(e) => setValue(e.target.value)}
+                            onBlur={onBlur}
+                            required
+                            placeholder="Rate"
+                        />
+                    );
+                },
+            },
+            {
                 accessorKey: "prefix",
-                header: ({ column }) => {
+                header: function Cell({ column }) {
                     return <div className=" min-w-[80px]">Prefix</div>;
                 },
                 cell: function Cell({
@@ -286,7 +252,7 @@ const handleSubmit = async (e) => {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = React.useState(initialValue);
+                    const [value, setValue] = useState(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -294,7 +260,7 @@ const handleSubmit = async (e) => {
                     };
 
                     // If the initialValue is changed external, sync it up with our state
-                    React.useEffect(() => {
+                    useEffect(() => {
                         setValue(initialValue);
                     }, [initialValue]);
 
@@ -323,7 +289,7 @@ const handleSubmit = async (e) => {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = React.useState(initialValue);
+                    const [value, setValue] = useState(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -331,7 +297,7 @@ const handleSubmit = async (e) => {
                     };
 
                     // If the initialValue is changed external, sync it up with our state
-                    React.useEffect(() => {
+                    useEffect(() => {
                         setValue(initialValue);
                     }, [initialValue]);
 
@@ -360,7 +326,7 @@ const handleSubmit = async (e) => {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = React.useState(initialValue);
+                    const [value, setValue] = useState(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -368,7 +334,7 @@ const handleSubmit = async (e) => {
                     };
 
                     // If the initialValue is changed external, sync it up with our state
-                    React.useEffect(() => {
+                    useEffect(() => {
                         setValue(initialValue);
                     }, [initialValue]);
 
@@ -380,6 +346,43 @@ const handleSubmit = async (e) => {
                             onBlur={onBlur}
                             required
                             placeholder="ACD"
+                        />
+                    );
+                },
+            },
+            {
+                accessorKey: "pdd",
+                header: ({ column }) => {
+                    return <div className=" min-w-[80px]">PDD</div>;
+                },
+                cell: function Cell({
+                    getValue,
+                    row: { index },
+                    column: { id },
+                    table,
+                }) {
+                    const initialValue = getValue();
+                    // We need to keep and update the state of the cell normally
+                    const [value, setValue] = useState(initialValue);
+
+                    // When the input is blurred, we'll call our table meta's updateData function
+                    const onBlur = () => {
+                        table.options.meta?.updateData(index, id, value);
+                    };
+
+                    // If the initialValue is changed external, sync it up with our state
+                    useEffect(() => {
+                        setValue(initialValue);
+                    }, [initialValue]);
+
+                    return (
+                        <Input
+                            type="number"
+                            value={value}
+                            onChange={(e) => setValue(e.target.value)}
+                            onBlur={onBlur}
+                            required
+                            placeholder="PDD"
                         />
                     );
                 },
@@ -397,7 +400,7 @@ const handleSubmit = async (e) => {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = React.useState(initialValue);
+                    const [value, setValue] = useState(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -405,7 +408,7 @@ const handleSubmit = async (e) => {
                     };
 
                     // If the initialValue is changed external, sync it up with our state
-                    React.useEffect(() => {
+                    useEffect(() => {
                         setValue(initialValue);
                     }, [initialValue]);
 
@@ -434,7 +437,7 @@ const handleSubmit = async (e) => {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = React.useState(initialValue);
+                    const [value, setValue] = useState(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -442,7 +445,7 @@ const handleSubmit = async (e) => {
                     };
 
                     // If the initialValue is changed external, sync it up with our state
-                    React.useEffect(() => {
+                    useEffect(() => {
                         setValue(initialValue);
                     }, [initialValue]);
 
@@ -474,6 +477,7 @@ const handleSubmit = async (e) => {
         ],
         []
     );
+
     const table = useReactTable({
         data,
         columns,
@@ -496,7 +500,7 @@ const handleSubmit = async (e) => {
                     old.map((row, index) => {
                         if (index === rowIndex) {
                             return {
-                                ...old,
+                                ...old[rowIndex],
                                 [columnId]: value,
                             };
                         }
@@ -509,34 +513,31 @@ const handleSubmit = async (e) => {
 
     return (
         <div className="w-full">
+            {/* {JSON.stringify(data)} */}
             <form
-                onSubmit={handleSubmit}
                 className="border rounded-md mt-4 overflow-y-auto p-4"
+                onSubmit={handleSubmit}
             >
-                <div className="flex items-center justify-between gap-4 pb-4">
+                <div className="flex items-center gap-4 mb-4">
                     <div className="flex-1 text-sm text-muted-foreground whitespace-nowrap">
                         {table.getFilteredRowModel().rows.length} routes
                     </div>
                     {data.length ? (
-                        <Button
-                            className="gap-2"
-                            type="submit"
-                            disabled={posting}
-                        >
+                        <Button type="submit">
                             {posting ? (
                                 <>
-                                    Posting Routes
+                                    Posting
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                 </>
                             ) : (
-                                "Post Routes"
+                                "Post Requests"
                             )}
                         </Button>
                     ) : (
                         ""
                     )}
                 </div>
-                <div className="border rounded-md m-4">
+                <div className="border rounded-md">
                     <Table>
                         {table.getRowModel().rows?.length !== 0 && (
                             <TableHeader>
@@ -560,6 +561,7 @@ const handleSubmit = async (e) => {
                                 ))}
                             </TableHeader>
                         )}
+
                         <TableBody>
                             {table.getRowModel().rows?.length ? (
                                 table.getRowModel().rows.map((row) => (
@@ -583,7 +585,7 @@ const handleSubmit = async (e) => {
                                 <TableRow>
                                     <TableCell
                                         colSpan={columns.length}
-                                        className="h-[120px] flex bg-surface items-center justify-center cursor-pointer"
+                                        className="h-[120px] flex bg-surface shadow items-center justify-center cursor-pointer"
                                         onClick={handleAddRoute}
                                     >
                                         <HiPlusCircle className="w-5 h-5" />
@@ -598,14 +600,14 @@ const handleSubmit = async (e) => {
                 <div className="flex flex-col gap-2 mt-2">
                     <Button
                         variant="secondary"
-                        className="w-full"
+                        className="w-full shadow"
                         onClick={handleAddRoute}
                     >
                         Add
                     </Button>
                     <Button
                         variant="secondary"
-                        className="w-full"
+                        className="w-full shadow"
                         onClick={handleClear}
                     >
                         Clear

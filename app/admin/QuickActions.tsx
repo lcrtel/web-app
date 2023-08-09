@@ -1,5 +1,9 @@
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import React from "react";
+import CreateNewUser from "./users/CreateNewUser";
+import Link from "next/link";
+import CreateNewSeller from "./sellers/CreateNewSeller";
+import CreateNewManager from "./managers/CreateNewManager";
 
 const QuickActions = () => {
     return (
@@ -8,11 +12,25 @@ const QuickActions = () => {
                 Quick Actions (Temperory)
             </h2>
             <div className="flex gap-2 flex-wrap">
-                <Button>Add new Seller</Button>
-                <Button>Add new Buyer</Button>
-                <Button>Add new Manager</Button>
-                <Button>Post Route Offers</Button>
-                <Button>Post Buying Targets</Button>
+                <CreateNewUser />
+                <CreateNewSeller />
+                <CreateNewManager />
+                <Link
+                    href="/admin/routes/post"
+                    className={`${buttonVariants({
+                        variant: "secondary",
+                    })}`}
+                >
+                    Post Route Offers
+                </Link>
+                <Link
+                    href="/admin/routes/requests/post"
+                    className={`${buttonVariants({
+                        variant: "outline",
+                    })}`}
+                >
+                    Post Route Requests
+                </Link>
             </div>
         </section>
     );

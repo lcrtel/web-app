@@ -1,11 +1,7 @@
 import React from "react";
 import { UsersTable } from "./users-table";
-import UserManagementNav from "./nav";
 import { supabaseAdmin } from "@/lib/supabase-admin";
-import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
-import { HiOutlinePlusCircle, HiPlusCircle } from "react-icons/hi";
-import ReloadButton from "@/components/ReloadButton";
+import CreateNewUser from "./CreateNewUser";
 
 const page = async () => {
     const supabase = supabaseAdmin();
@@ -14,16 +10,29 @@ const page = async () => {
         error,
     } = await supabase.auth.admin.listUsers();
     const usersList = users.map((user) => {
-        const { id, created_at, updated_at, ...usersList } = user;
+        const { id, created_at, updated_at, last_sign_in_at, ...usersList } =
+            user;
         return {
             ...usersList.user_metadata,
             id,
             created_at,
             updated_at,
+            last_sign_in_at,
         };
     });
 
-    return <div>{usersList?.length && <UsersTable data={usersList} />}</div>;
+    return (
+        <div>
+            <div className="mb-5 ">
+                <div className="flex items-center mb-3 justify-between ">
+                    <h2 className="text-2xl font-bold text-primary">Users</h2>
+                    <CreateNewUser />
+                </div>
+            </div>
+
+            {usersList?.length && <UsersTable data={usersList} />}
+        </div>
+    );
 };
 
 export default page;

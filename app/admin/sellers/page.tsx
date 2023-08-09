@@ -2,10 +2,9 @@ import { supabaseServer } from "@/lib/supabase-server";
 import React, { use } from "react";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
-import { HiBan, HiCheckCircle } from "react-icons/hi";
-import UserManagementNav from "../nav";
-import { UsersTable } from "../users-table";
+import { UsersTable } from "../users/users-table";
 import { supabaseAdmin } from "@/lib/supabase-admin";
+import CreateNewSeller from "./CreateNewSeller";
 
 const page = async () => {
     const supabase = supabaseServer();
@@ -70,12 +69,19 @@ const page = async () => {
             (obj) => obj.user_metadata.role === "seller"
         );
         const sellersList = sellers.map((seller) => {
-            const { id, created_at, updated_at, ...usersList } = seller;
+            const {
+                id,
+                created_at,
+                updated_at,
+                last_sign_in_at,
+                ...usersList
+            } = seller;
             return {
                 ...usersList.user_metadata,
                 id,
                 created_at,
                 updated_at,
+                last_sign_in_at,
             };
         });
 
@@ -89,6 +95,12 @@ const page = async () => {
 
     return (
         <div className=" ">
+            <div className="mb-5 ">
+                <div className="flex items-center mb-3 justify-between ">
+                    <h2 className="text-2xl font-bold text-primary">Sellers</h2>
+                    <CreateNewSeller />
+                </div>
+            </div>
             <div className="flex flex-col gap-3 xl:flex-row w-full overflow-x-auto">
                 <Sellers />
                 <div className="w-full xl:w-1/3 xl:px-4">

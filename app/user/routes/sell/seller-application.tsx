@@ -48,7 +48,7 @@ const SellerApplication = ({ userID }: { userID: User }) => {
                 Apply to become a seller
             </h2>
             <p className="text-gray-500 max-w-lg text-center">
-                It looks like you don&apos;t the previliage to sell routes.
+                It looks like you don&apos;t have the previliage to sell routes.
             </p>
             <Button onClick={handleApply}>Apply</Button>
         </>

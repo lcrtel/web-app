@@ -1,4 +1,4 @@
-import { fetchUserData } from "@/utils/user";
+import { fetchUserMetadata } from "@/utils/user";
 import Link from "next/link";
 import React from "react";
 import { HiArrowCircleRight } from "react-icons/hi";
@@ -6,7 +6,7 @@ import { HiArrowCircleRight } from "react-icons/hi";
 export const dynamic = "force-dynamic";
 
 const page = async () => {
-    const user = await fetchUserData();
+    const user = await fetchUserMetadata();
 
     return (
         <main className="flex min-h-screen flex-col">

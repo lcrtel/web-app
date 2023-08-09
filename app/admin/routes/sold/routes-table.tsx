@@ -38,7 +38,6 @@ import {
 import Link from "next/link";
 import formatTimestamptz from "@/utils/formatTimestamptz";
 import formatDate from "@/utils/formatDate";
-import formatString from "@/utils/formatString";
 
 export const columns: ColumnDef<Route>[] = [
     // {
@@ -75,24 +74,14 @@ export const columns: ColumnDef<Route>[] = [
             );
         },
         cell: ({ row }) => (
-            <Link
-                href={`/admin/routes/${row.getValue("id")}`}
-                className="capitalize"
-            >
-                {row.getValue("destination")}
-            </Link>
+            <div className="capitalize">{row.getValue("destination")}</div>
         ),
     },
     {
         accessorKey: "destination_code",
         header: "Code",
         cell: ({ row }) => (
-            <Link
-                href={`/admin/routes/${row.getValue("id")}`}
-                className="capitalize"
-            >
-                {row.getValue("destination_code")}
-            </Link>
+            <div className="capitalize">{row.getValue("destination_code")}</div>
         ),
     },
     {
@@ -120,12 +109,7 @@ export const columns: ColumnDef<Route>[] = [
         //     return <div className="font-medium">{formatted}</div>;
         // },
         cell: ({ row }) => (
-            <Link
-                href={`/admin/routes/${row.getValue("id")}`}
-                className="uppercase"
-            >
-                {row.getValue("rate")}
-            </Link>
+            <div className="uppercase">{row.getValue("rate")}</div>
         ),
     },
     {
@@ -144,24 +128,16 @@ export const columns: ColumnDef<Route>[] = [
             );
         },
         cell: ({ row }) => (
-            <Link
-                href={`/admin/routes/${row.getValue("id")}`}
-                className="uppercase"
-            >
-                {row.getValue("route_type")}
-            </Link>
+            <div className="uppercase">{row.getValue("route_type")}</div>
         ),
     },
     {
         accessorKey: "status",
         header: "Status",
         cell: ({ row }) => (
-            <Link
-                href={`/admin/routes/${row.getValue("id")}`}
-                className="capitalize whitespace-nowrap"
-            >
-                {formatString(row.getValue("status"))}
-            </Link>
+            <div className="capitalize whitespace-nowrap">
+                {row.getValue("status")}
+            </div>
         ),
     },
     {
@@ -399,7 +375,7 @@ export function RoutesTable({ data }: any) {
                                     colSpan={columns.length}
                                     className="gap-2  h-12 text-center"
                                 >
-                                    No routes matching your filter
+                                    No routes found
                                 </TableCell>
                             </TableRow>
                         )}

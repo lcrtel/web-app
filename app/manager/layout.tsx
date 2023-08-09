@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { supabaseServer } from "@/lib/supabase-server";
-import { fetchUserRole, fetchUserData } from "@/utils/user";
+import { fetchUserRole, fetchUserMetadata } from "@/utils/user";
 import ManagerNav from "./manager-nav";
 
 export const dynamic = "force-dynamic";
@@ -19,7 +19,7 @@ export default async function DashboardLayout({
     if (!session) {
         redirect("/");
     }
-    const userData = await fetchUserData();
+    const userData = await fetchUserMetadata();
     const userRole = await fetchUserRole();
     if (userRole !== "manager") {
         redirect("/user");

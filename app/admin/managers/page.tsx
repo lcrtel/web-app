@@ -1,6 +1,7 @@
 import React, { use } from "react";
 import { UsersTable } from "./users-table";
 import { supabaseAdmin } from "@/lib/supabase-admin";
+import CreateNewManager from "./CreateNewManager";
 
 const page = async () => {
     const adminSupabase = supabaseAdmin();
@@ -35,10 +36,13 @@ const page = async () => {
 
     return (
         <div className=" ">
-            <div className="mb-5">
-                <h2 className="text-2xl mb-3 font-bold text-primary">
-                    Managers
-                </h2>
+            <div className="mb-5 ">
+                <div className="flex items-center mb-3 justify-between ">
+                    <h2 className="text-2xl font-bold text-primary">
+                        Managers
+                    </h2>
+                    <CreateNewManager />
+                </div>
             </div>
             <div className="flex flex-col gap-3 xl:flex-row w-full overflow-x-auto">
                 <Managers />

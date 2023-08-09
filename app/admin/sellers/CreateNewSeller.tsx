@@ -35,31 +35,16 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { revalidatePath } from "next/cache";
 
 const profileFormSchema = z.object({
-    first_name: z
-        .string()
-        .min(2, {
-            message: "Username must be at least 2 characters.",
-        })
-        .max(30, {
-            message: "Username must not be longer than 30 characters.",
-        }),
-    last_name: z
-        .string()
-        .min(2, {
-            message: "Username must be at least 2 characters.",
-        })
-        .max(30, {
-            message: "Username must not be longer than 30 characters.",
-        }),
+    first_name: z.string(),
+    last_name: z.string().optional(),
     email: z.string().email(),
     phone: z.string(),
     password: z.string(),
-    role: z.string(),
     skype_id: z.string().optional(),
     email_confirm: z.boolean().default(false),
 });
 
-const CreateNewUser = () => {
+const CreateNewSeller = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
@@ -96,7 +81,7 @@ const CreateNewUser = () => {
                 email: data.email,
                 phone: data.phone,
                 skype_id: data.skype_id,
-                role: data.role,
+                role: "seller",
             },
         });
         if (error) {
@@ -105,13 +90,14 @@ const CreateNewUser = () => {
             return;
         }
         toast({
-            title: "Created a new user",
+            title: "Created a new seller",
         });
-        router.push("/admin/users");
+        setIsOpen(false);
+        router.refresh();
     }
     return (
         <>
-            <Button onClick={(e) => setIsOpen(true)}>Add user</Button>
+            <Button onClick={(e) => setIsOpen(true)}>Add seller</Button>
             <AnimatePresence>
                 {isOpen && (
                     <>
@@ -123,7 +109,7 @@ const CreateNewUser = () => {
                         >
                             <div className="flex items-center justify-between mb-5">
                                 <h2 className="font-bold tracking-tight text-xl">
-                                    Create a new user
+                                    Create a new seller
                                 </h2>
                                 <Button
                                     onClick={(e) => setIsOpen(false)}
@@ -144,7 +130,7 @@ const CreateNewUser = () => {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                    User First Name
+                                                    Seller First Name
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
@@ -162,7 +148,7 @@ const CreateNewUser = () => {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                    User Last Name
+                                                    Seller Last Name
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
@@ -180,7 +166,7 @@ const CreateNewUser = () => {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                    User Phone
+                                                    Seller Phone
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
@@ -198,7 +184,7 @@ const CreateNewUser = () => {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                    User Email
+                                                    Seller Email
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
@@ -217,7 +203,7 @@ const CreateNewUser = () => {
                                             <FormItem>
                                                 <div className="flex gap-2 mb-2">
                                                     <FormLabel>
-                                                        User Password
+                                                        Seller Password
                                                     </FormLabel>
                                                     <div
                                                         className="text-gray-400 cursor-pointer"
@@ -241,7 +227,7 @@ const CreateNewUser = () => {
                                                                 ? "text"
                                                                 : "password"
                                                         }
-                                                        placeholder="User password"
+                                                        placeholder="Seller password"
                                                         {...field}
                                                     />
                                                 </FormControl>
@@ -254,49 +240,15 @@ const CreateNewUser = () => {
                                         name="skype_id"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Skype ID</FormLabel>
+                                                <FormLabel>
+                                                    Seller Skype ID
+                                                </FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         placeholder="Skype ID"
                                                         {...field}
                                                     />
                                                 </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <FormField
-                                        control={form.control}
-                                        name="role"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>User Role</FormLabel>
-                                                <Select
-                                                    onValueChange={
-                                                        field.onChange
-                                                    }
-                                                    defaultValue={field.value}
-                                                >
-                                                    <FormControl>
-                                                        <SelectTrigger>
-                                                            <SelectValue
-                                                                placeholder="Select a role"
-                                                                {...field}
-                                                            />
-                                                        </SelectTrigger>
-                                                    </FormControl>
-                                                    <SelectContent>
-                                                        <SelectItem value="buyer">
-                                                            Buyer
-                                                        </SelectItem>
-                                                        <SelectItem value="seller">
-                                                            Seller
-                                                        </SelectItem>
-                                                        <SelectItem value="manager">
-                                                            Manager
-                                                        </SelectItem>
-                                                    </SelectContent>
-                                                </Select>
                                                 <FormMessage />
                                             </FormItem>
                                         )}
@@ -332,7 +284,7 @@ const CreateNewUser = () => {
                                             {errorMessage}
                                         </div>
                                     )}
-                                    <Button type="submit">Create user</Button>
+                                    <Button type="submit">Create seller</Button>
                                 </form>
                             </Form>
                         </motion.div>
@@ -350,4 +302,4 @@ const CreateNewUser = () => {
     );
 };
 
-export default CreateNewUser;
+export default CreateNewSeller;

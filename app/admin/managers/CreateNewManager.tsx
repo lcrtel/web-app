@@ -54,12 +54,11 @@ const profileFormSchema = z.object({
     email: z.string().email(),
     phone: z.string(),
     password: z.string(),
-    role: z.string(),
     skype_id: z.string().optional(),
     email_confirm: z.boolean().default(false),
 });
 
-const CreateNewUser = () => {
+const CreateNewManager = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
@@ -96,7 +95,7 @@ const CreateNewUser = () => {
                 email: data.email,
                 phone: data.phone,
                 skype_id: data.skype_id,
-                role: data.role,
+                role: "manager",
             },
         });
         if (error) {
@@ -105,13 +104,13 @@ const CreateNewUser = () => {
             return;
         }
         toast({
-            title: "Created a new user",
+            title: "Created a new manager",
         });
-        router.push("/admin/users");
+        router.refresh();
     }
     return (
         <>
-            <Button onClick={(e) => setIsOpen(true)}>Add user</Button>
+            <Button onClick={(e) => setIsOpen(true)}>Add manager</Button>
             <AnimatePresence>
                 {isOpen && (
                     <>
@@ -123,7 +122,7 @@ const CreateNewUser = () => {
                         >
                             <div className="flex items-center justify-between mb-5">
                                 <h2 className="font-bold tracking-tight text-xl">
-                                    Create a new user
+                                    Create a new manager
                                 </h2>
                                 <Button
                                     onClick={(e) => setIsOpen(false)}
@@ -144,7 +143,7 @@ const CreateNewUser = () => {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                    User First Name
+                                                    Manager First Name
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
@@ -162,7 +161,7 @@ const CreateNewUser = () => {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                    User Last Name
+                                                    Manager Last Name
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
@@ -180,7 +179,7 @@ const CreateNewUser = () => {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                    User Phone
+                                                    Manager Phone
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
@@ -198,7 +197,7 @@ const CreateNewUser = () => {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                    User Email
+                                                    Manager Email
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
@@ -217,7 +216,7 @@ const CreateNewUser = () => {
                                             <FormItem>
                                                 <div className="flex gap-2 mb-2">
                                                     <FormLabel>
-                                                        User Password
+                                                        Manager Password
                                                     </FormLabel>
                                                     <div
                                                         className="text-gray-400 cursor-pointer"
@@ -241,7 +240,7 @@ const CreateNewUser = () => {
                                                                 ? "text"
                                                                 : "password"
                                                         }
-                                                        placeholder="User password"
+                                                        placeholder="Manager password"
                                                         {...field}
                                                     />
                                                 </FormControl>
@@ -254,49 +253,15 @@ const CreateNewUser = () => {
                                         name="skype_id"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Skype ID</FormLabel>
+                                                <FormLabel>
+                                                    Manager Skype ID
+                                                </FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         placeholder="Skype ID"
                                                         {...field}
                                                     />
                                                 </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <FormField
-                                        control={form.control}
-                                        name="role"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>User Role</FormLabel>
-                                                <Select
-                                                    onValueChange={
-                                                        field.onChange
-                                                    }
-                                                    defaultValue={field.value}
-                                                >
-                                                    <FormControl>
-                                                        <SelectTrigger>
-                                                            <SelectValue
-                                                                placeholder="Select a role"
-                                                                {...field}
-                                                            />
-                                                        </SelectTrigger>
-                                                    </FormControl>
-                                                    <SelectContent>
-                                                        <SelectItem value="buyer">
-                                                            Buyer
-                                                        </SelectItem>
-                                                        <SelectItem value="seller">
-                                                            Seller
-                                                        </SelectItem>
-                                                        <SelectItem value="manager">
-                                                            Manager
-                                                        </SelectItem>
-                                                    </SelectContent>
-                                                </Select>
                                                 <FormMessage />
                                             </FormItem>
                                         )}
@@ -332,7 +297,9 @@ const CreateNewUser = () => {
                                             {errorMessage}
                                         </div>
                                     )}
-                                    <Button type="submit">Create user</Button>
+                                    <Button type="submit">
+                                        Create manager
+                                    </Button>
                                 </form>
                             </Form>
                         </motion.div>
@@ -350,4 +317,4 @@ const CreateNewUser = () => {
     );
 };
 
-export default CreateNewUser;
+export default CreateNewManager;

@@ -37,7 +37,8 @@
         "app/dashboard/routes/requests/routes.jsx",
         "app/user/routes/buy/routes.jsx",
         "app/dashboard/admin/users/users-table.jsx",
-        "app/dashboard/admin/users/users-table.jsx"
+        "app/dashboard/admin/users/users-table.jsx",
+        "app/admin/routes/post/AddRoutes.jsx"
     ],
     "exclude": ["node_modules"]
 }

@@ -391,7 +391,8 @@ export function RoutesTable({ data }: any) {
                                     colSpan={columns.length}
                                     className="gap-2  h-12 text-center"
                                 >
-                                    Looks like you didn't post any route offers
+                                    Looks like you didn&apos;t post any route
+                                    offers
                                 </TableCell>
                             </TableRow>
                         )}

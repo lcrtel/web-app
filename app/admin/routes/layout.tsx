@@ -30,7 +30,7 @@ export default async function DashboardLayout({
                 >
                     Routes
                 </Link>
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-wrap">
                     <Link
                         passHref
                         href="/admin/routes/post"

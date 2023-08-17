@@ -84,34 +84,6 @@ export const columns: ColumnDef<Route>[] = [
         ),
     },
     {
-        accessorKey: "rate",
-        header: ({ column }) => {
-            return (
-                <div
-                    className="flex gap-2 items-center cursor-pointer"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Rate
-                    <ArrowUpDown className=" h-4 w-4" />
-                </div>
-            );
-        },
-        // cell: ({ row }) => {
-        //     const Rate = parseFloat(row.getValue("rate"));
-        //     const formatted = new Intl.NumberFormat("en-US", {
-        //         style: "currency",
-        //         currency: "USD",
-        //     }).format(Rate);
-
-        //     return <div className="font-medium">{formatted}</div>;
-        // },
-        cell: ({ row }) => (
-            <div className="uppercase">{row.getValue("rate")}</div>
-        ),
-    },
-    {
         accessorKey: "route_type",
         header: ({ column }) => {
             return (

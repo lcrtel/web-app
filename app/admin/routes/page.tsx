@@ -19,7 +19,7 @@ export default async function Page() {
         .match({ status: "not_verified" });
     return (
         <div className="h-full">
-            <div className="mb-5">
+            <div className="mb-3">
                 <RoutesNav />
             </div>
             <div className="h-full">

@@ -164,7 +164,7 @@ export function UsersTable({ data }: any) {
     });
 
     return (
-        <div className="">
+        <div className="w-full">
             <div className="flex items-center pb-4">
                 <Input
                     type="text"
@@ -184,7 +184,7 @@ export function UsersTable({ data }: any) {
 
                 <ReloadButton />
             </div>
-            <div className="rounded-xl border max-h-[500px] overflow-y-auto">
+            <div className="rounded-xl border overflow-x-auto w-full">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (

@@ -9,212 +9,135 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      route_posts: {
+      buying_targets: {
         Row: {
-          acd: number
-          asr: number
-          capacity: number
+          acd: string
+          asr: string
+          buyer_id: string
+          buying_rate: number | null
+          capacity: string
           created_at: string | null
           destination: string
-          destination_code: number | null
+          destination_code: string
           id: string
-          pdd: number | null
-          ports: number
+          pdd: string
+          ports: string
           prefix: string
           rate: number
           route_type: string
-          seller_id: string | null
+          status: string
+          updated_at: string | null
+        }
+        Insert: {
+          acd: string
+          asr: string
+          buyer_id?: string
+          buying_rate?: number | null
+          capacity: string
+          created_at?: string | null
+          destination: string
+          destination_code: string
+          id?: string
+          pdd: string
+          ports: string
+          prefix: string
+          rate: number
+          route_type: string
+          status?: string
+          updated_at?: string | null
+        }
+        Update: {
+          acd?: string
+          asr?: string
+          buyer_id?: string
+          buying_rate?: number | null
+          capacity?: string
+          created_at?: string | null
+          destination?: string
+          destination_code?: string
+          id?: string
+          pdd?: string
+          ports?: string
+          prefix?: string
+          rate?: number
+          route_type?: string
+          status?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "buying_targets_buyer_id_fkey"
+            columns: ["buyer_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      route_offers: {
+        Row: {
+          acd: string
+          asr: string
+          capacity: string
+          created_at: string | null
+          destination: string
+          destination_code: string
+          id: string
+          pdd: string
+          ports: string
+          prefix: string
+          rate: number
+          route_type: string
+          seller_id: string
+          selling_rate: number | null
           status: string
           updated_at: string | null
           verification_by: string | null
           verified_at: string | null
         }
         Insert: {
-          acd: number
-          asr: number
-          capacity: number
+          acd: string
+          asr: string
+          capacity: string
           created_at?: string | null
           destination: string
-          destination_code?: number | null
+          destination_code: string
           id?: string
-          pdd?: number | null
-          ports: number
+          pdd: string
+          ports: string
           prefix: string
           rate: number
           route_type: string
-          seller_id?: string | null
+          seller_id?: string
+          selling_rate?: number | null
           status?: string
           updated_at?: string | null
           verification_by?: string | null
           verified_at?: string | null
         }
         Update: {
-          acd?: number
-          asr?: number
-          capacity?: number
+          acd?: string
+          asr?: string
+          capacity?: string
           created_at?: string | null
           destination?: string
-          destination_code?: number | null
+          destination_code?: string
           id?: string
-          pdd?: number | null
-          ports?: number
-          prefix?: string
-          rate?: number
-          route_type?: string
-          seller_id?: string | null
-          status?: string
-          updated_at?: string | null
-          verification_by?: string | null
-          verified_at?: string | null
-        }
-        Relationships: []
-      }
-      route_requests: {
-        Row: {
-          acd: number
-          asr: number
-          capacity: number
-          created_at: string | null
-          customer_id: string | null
-          destination: string
-          destination_code: number | null
-          id: string
-          pdd: number | null
-          ports: number
-          prefix: string
-          rate: number
-          route_type: string
-          seller_id: string | null
-          status: string
-          updated_at: string | null
-        }
-        Insert: {
-          acd: number
-          asr: number
-          capacity: number
-          created_at?: string | null
-          customer_id?: string | null
-          destination: string
-          destination_code?: number | null
-          id?: string
-          pdd?: number | null
-          ports: number
-          prefix: string
-          rate: number
-          route_type: string
-          seller_id?: string | null
-          status?: string
-          updated_at?: string | null
-        }
-        Update: {
-          acd?: number
-          asr?: number
-          capacity?: number
-          created_at?: string | null
-          customer_id?: string | null
-          destination?: string
-          destination_code?: number | null
-          id?: string
-          pdd?: number | null
-          ports?: number
-          prefix?: string
-          rate?: number
-          route_type?: string
-          seller_id?: string | null
-          status?: string
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
-      routes: {
-        Row: {
-          acd: number
-          asr: number
-          capacity: number
-          created_at: string | null
-          destination: string
-          destination_code: number | null
-          id: string
-          pdd: number | null
-          ports: number
-          posted_on: string | null
-          prefix: string
-          rate: number
-          route_type: string
-          seller_id: string
-          updated_at: string | null
-          verification_date: string
-          verified_by: string
-        }
-        Insert: {
-          acd: number
-          asr: number
-          capacity: number
-          created_at?: string | null
-          destination: string
-          destination_code?: number | null
-          id?: string
-          pdd?: number | null
-          ports: number
-          posted_on?: string | null
-          prefix: string
-          rate: number
-          route_type: string
-          seller_id: string
-          updated_at?: string | null
-          verification_date: string
-          verified_by: string
-        }
-        Update: {
-          acd?: number
-          asr?: number
-          capacity?: number
-          created_at?: string | null
-          destination?: string
-          destination_code?: number | null
-          id?: string
-          pdd?: number | null
-          ports?: number
-          posted_on?: string | null
+          pdd?: string
+          ports?: string
           prefix?: string
           rate?: number
           route_type?: string
           seller_id?: string
-          updated_at?: string | null
-          verification_date?: string
-          verified_by?: string
-        }
-        Relationships: []
-      }
-      seller_applications: {
-        Row: {
-          application_date: string
-          created_at: string | null
-          id: string
-          status: string
-          updated_at: string | null
-          user_id: string
-        }
-        Insert: {
-          application_date?: string
-          created_at?: string | null
-          id?: string
+          selling_rate?: number | null
           status?: string
           updated_at?: string | null
-          user_id?: string
-        }
-        Update: {
-          application_date?: string
-          created_at?: string | null
-          id?: string
-          status?: string
-          updated_at?: string | null
-          user_id?: string
+          verification_by?: string | null
+          verified_at?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "seller_applications_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "route_offers_seller_id_fkey"
+            columns: ["seller_id"]
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -225,10 +148,7 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      get_user_role: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never

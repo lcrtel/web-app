@@ -9,7 +9,7 @@ const QuickActions = () => {
     return (
         <section className="mb-5">
             <h2 className="font-semibold tracking-tight text-lg mb-3">
-                Quick Actions (Temperory)
+                Quick Actions
             </h2>
             <div className="flex gap-2 flex-wrap">
                 <CreateNewUser />

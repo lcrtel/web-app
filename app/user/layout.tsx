@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { supabaseServer } from "@/lib/supabase-server";
 import { fetchUserRole, fetchUserMetadata } from "@/utils/user";
+import LoginModal from "./LoginModal";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 10; // revalidate at most every hour
@@ -17,7 +18,7 @@ export default async function DashboardLayout({
         data: { session },
     } = await supabase.auth.getSession();
     if (!session) {
-        redirect("/");
+        redirect("/auth/login");
     }
     const userData = await fetchUserMetadata();
     const userRole = await fetchUserRole();
@@ -28,6 +29,7 @@ export default async function DashboardLayout({
     }
     return (
         <section className="bg-white min-h-screen flex flex-col justify-between relative">
+            {!session && <LoginModal session={session} />}
             <div>
                 <Navigation userRole={userRole} user={userData} />
                 <div className="h-2 background-animate bg-gradient-to-r from-secondary to-primary-500 w-full"></div>

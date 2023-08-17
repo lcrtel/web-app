@@ -35,8 +35,9 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import formatTimestamptz from "@/utils/formatTimestamptz";
 
-export const columns: ColumnDef<Route>[] = [
+export const columns: ColumnDef<RouteOffer>[] = [
     {
         accessorKey: "destination",
         header: ({ column }) => {
@@ -138,7 +139,7 @@ export const columns: ColumnDef<Route>[] = [
         ),
     },
     {
-        accessorKey: "posted_on",
+        accessorKey: "created_at",
         header: ({ column }) => (
             <div
                 className="flex gap-2 items-center cursor-pointer whitespace-nowrap"
@@ -151,7 +152,9 @@ export const columns: ColumnDef<Route>[] = [
             </div>
         ),
         cell: ({ row }) => (
-            <div className="lowercase">{row.getValue("posted_on")}</div>
+            <div className="lowercase">
+                {formatTimestamptz(row.getValue("created_at"))}
+            </div>
         ),
     },
 ];
@@ -185,24 +188,7 @@ export function RatesTable({ data }: any) {
 
     return (
         <div className="">
-            <div className="flex items-center pb-4">
-                <Input
-                    type="number"
-                    placeholder="Enter phone code"
-                    value={
-                        (table
-                            .getColumn("destination_code")
-                            ?.getFilterValue() as number) ?? ""
-                    }
-                    onChange={(event) =>
-                        table
-                            .getColumn("destination_code")
-                            ?.setFilterValue(event.target.value)
-                    }
-                    className="w-full"
-                />
-            </div>
-            <div className="rounded-xl border max-h-[500px] overflow-y-auto">
+            <div className="rounded-xl border max-h-[300px] overflow-y-auto">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (

@@ -8,7 +8,7 @@ import { supabaseServer } from "@/lib/supabase-server";
 import { RatesTable } from "./rates-table";
 import { buttonVariants } from "@/components/ui/button";
 import { fetchUserRole } from "@/utils/user";
-
+import MarketSearch from "./MarketSearch";
 export const dynamic = "force-dynamic";
 
 const HomePage = async () => {
@@ -24,14 +24,6 @@ const HomePage = async () => {
     }
 
     const HeroSection = async () => {
-        const supabase = supabaseServer();
-
-        let { data: routes, error } = await supabase
-            .from("routes")
-            .select(
-                "destination, destination_code, rate, route_type, asr, pdd, posted_on, prefix"
-            );
-
         return (
             <section
                 id="home"
@@ -56,7 +48,7 @@ const HomePage = async () => {
                             </p>
                             <div className="mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-center gap-4">
                                 <Link
-                                    href="/dashboard/routes/sell"
+                                    href="/user/routes/offers/post"
                                     className={`${buttonVariants({
                                         variant: "default",
                                     })}`}
@@ -65,7 +57,7 @@ const HomePage = async () => {
                                 </Link>
                                 <Link
                                     passHref
-                                    href="/dashboard/routes/requests/request"
+                                    href="/user/routes/targets/post"
                                     className={`${buttonVariants({
                                         variant: "secondary",
                                     })}`}
@@ -82,7 +74,7 @@ const HomePage = async () => {
                             <p className="mb-4 sm:text-center sm:text-md leading-8 text-gray-400">
                                 Real-time Market Rates at Your Fingertips
                             </p>
-                            {routes?.length && <RatesTable data={routes} />}
+                            <MarketSearch />
                         </div>
                     </div>
                 </div>

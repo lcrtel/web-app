@@ -50,35 +50,15 @@ const Navigation = ({
 
     const handleSignOut = async () => {
         await supabase.auth.signOut();
-        router.push("/");
+        router.refresh();
     };
 
-    const buyerNav = [
-        ["Routes", "/user/routes"],
-        ["Trade History", "/user/trade-history"],
+    const Nav = [
+        ["My Offers", "/user/routes/offers"],
+        ["My Targets", "/user/routes/targets"],
+        ["Market", "/user/market"],
+        ["Connections", "/user/connections"],
         ["Transactions", "/user/transactions"],
-    ].map(([title, url]) => (
-        <li
-            key={title}
-            className={` ${
-                pathname.startsWith(url)
-                    ? "bg-surface shadow shadow-gray-200  font-semibold"
-                    : "lg:hover:bg-surface"
-            } rounded-md`}
-        >
-            <Link
-                href={url}
-                passHref
-                className="py-2 px-3 block whitespace-nowrap"
-            >
-                {title}
-            </Link>
-        </li>
-    ));
-    const sellerNav = [
-        ["Routes", "/dashboard/routes"],
-        ["Trade History", "/dashboard/user/trade-history"],
-        ["Transactions", "/dashboard/user/transactions"],
     ].map(([title, url]) => (
         <li
             key={title}
@@ -112,36 +92,29 @@ const Navigation = ({
                     orientation="vertical"
                     className="hidden md:block mx-5"
                 />
-                <div className="bg-white hidden md:block w-full">
-                    {/* Navigation */}
+                <div className="bg-white hidden md:block w-full overflow-x-auto">
                     <nav className="mx-auto flex flex-col gap-2.5 max-w-8xl">
-                        {/* user Dashboard header */}
-
-                        {/* Navigation links */}
-                        <div className="flex relative items-center">
-                            <ul
-                                id="scrollContainer"
-                                className="flex items-center gap-2.5 text-sm text-primary-500"
+                        <ul
+                            id="scrollContainer"
+                            className="flex items-center gap-2.5 text-sm text-primary-500"
+                        >
+                            <li
+                                className={` ${
+                                    pathname === "/user"
+                                        ? "bg-surface shadow shadow-gray-200  font-semibold"
+                                        : "lg:hover:bg-surface"
+                                } rounded-md`}
                             >
-                                <li
-                                    className={` ${
-                                        pathname === "/dashboard"
-                                            ? "bg-surface shadow shadow-gray-200  font-semibold"
-                                            : "lg:hover:bg-surface"
-                                    } rounded-md`}
+                                <Link
+                                    href="/user"
+                                    passHref
+                                    className="py-2 px-3 block whitespace-nowrap"
                                 >
-                                    <Link
-                                        href="/dashboard"
-                                        passHref
-                                        className="py-2 px-3 block whitespace-nowrap"
-                                    >
-                                        Dashboard
-                                    </Link>
-                                </li>
-                                {userRole === "buyer" && buyerNav}
-                                {userRole === "seller" && sellerNav}
-                            </ul>
-                        </div>
+                                    Dashboard
+                                </Link>
+                            </li>
+                            {Nav}
+                        </ul>
                     </nav>
                 </div>
                 <AnimatePresence>
@@ -159,21 +132,20 @@ const Navigation = ({
                             >
                                 <li
                                     className={` ${
-                                        pathname === "/dashboard"
+                                        pathname === "/user"
                                             ? "bg-surface shadow shadow-gray-200  font-semibold"
                                             : "lg:hover:bg-surface"
                                     } rounded-md`}
                                 >
                                     <Link
-                                        href="/dashboard"
+                                        href="/user"
                                         passHref
                                         className="py-2 px-3 block whitespace-nowrap"
                                     >
                                         Dashboard
                                     </Link>
                                 </li>
-                                {userRole === "buyer" && buyerNav}
-                                {userRole === "seller" && sellerNav}
+                                {Nav}
                             </ul>
                         </motion.div>
                     )}
@@ -211,7 +183,7 @@ const Navigation = ({
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
                             <DropdownMenuItem className="cursor-pointer">
-                                Account
+                                <Link href="/user/account"> Account</Link>
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />

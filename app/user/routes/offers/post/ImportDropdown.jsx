@@ -12,7 +12,7 @@ const ImportDropdown = ({ onDataImport }) => {
         if (importedData !== null) {
             onDataImport(importedData);
         }
-    }, [importedData]);
+    }, [importedData, onDataImport]);
 
     const handleFileChange = async (event) => {
         const file = event.target.files[0];

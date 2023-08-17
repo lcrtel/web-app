@@ -36,7 +36,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 </p>
             </div>
             <Separator className="mb-3" />
-            <RouteForm route={route?.[0]} />
+            {route?.length ? <RouteForm route={route?.[0]} /> : null}
             <div className="flex my-5 justify-between items-center border border-red-500 rounded-lg p-4 text-red-500">
                 <div>
                     <h3 className="font-semibold tracking-tight">

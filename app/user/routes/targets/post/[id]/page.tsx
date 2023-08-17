@@ -27,7 +27,8 @@ export default async function Page({ params }: { params: { id: string } }) {
                     </p>
                 </div>
                 <Separator />
-                <RouteForm route={route?.[0]} />
+                {route?.length ? <RouteForm route={route?.[0]} /> : null}
+
                 <div className="flex justify-between items-center border border-red-500 rounded-lg p-4 text-red-500">
                     <div>
                         <h3 className="font-semibold tracking-tight">

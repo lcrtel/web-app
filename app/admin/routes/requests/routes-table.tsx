@@ -38,7 +38,7 @@ import {
 import Link from "next/link";
 import formatDate from "@/utils/formatDate";
 
-export const columns: ColumnDef<Route>[] = [
+export const columns: ColumnDef<BuyingTarget>[] = [
     // {
     //     id: "select",
     //     header: ({ table }) => (

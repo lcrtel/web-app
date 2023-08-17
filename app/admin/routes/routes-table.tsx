@@ -40,7 +40,7 @@ import formatTimestamptz from "@/utils/formatTimestamptz";
 import formatDate from "@/utils/formatDate";
 import formatString from "@/utils/formatString";
 
-export const columns: ColumnDef<Route>[] = [
+export const columns: ColumnDef<RouteOffer>[] = [
     // {
     //     id: "select",
     //     header: ({ table }) => (

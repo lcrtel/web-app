@@ -39,7 +39,7 @@ import Link from "next/link";
 import formatTimestamptz from "@/utils/formatTimestamptz";
 import formatDate from "@/utils/formatDate";
 
-export const columns: ColumnDef<Route>[] = [
+export const columns: ColumnDef<RouteOffer>[] = [
     // {
     //     id: "select",
     //     header: ({ table }) => (

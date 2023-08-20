@@ -10,7 +10,7 @@
         "update-types": "npx supabase gen types typescript --project-id \"nikmyidemcjpcpvglaus\" > lib/database.types.ts"
     },
     "dependencies": {
-        "@headlessui/react": "^1.7.16",
+        "@headlessui/react": "^1.7.17",
         "@hookform/resolvers": "^3.1.1",
         "@radix-ui/react-alert-dialog": "^1.0.4",
         "@radix-ui/react-avatar": "^1.0.3",
@@ -40,18 +40,18 @@
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.0.0",
         "eslint": "8.45.0",
-        "eslint-config-next": "13.4.12",
         "exceljs": "^4.3.0",
         "formik": "^2.4.2",
         "framer-motion": "^10.14.0",
         "lucide": "^0.263.0",
         "lucide-react": "^0.263.1",
-        "next": "^13.4.12",
+        "next": "^13.4.18",
         "nodemailer": "^6.9.4",
         "postcss": "8.4.27",
-        "react": "18.2.0",
-        "react-dom": "18.2.0",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
         "react-hook-form": "^7.45.2",
+        "react-hot-toast": "^2.4.1",
         "react-icons": "^4.10.1",
         "react-scroll": "^1.8.9",
         "resend": "^0.17.2",
@@ -66,6 +66,7 @@
     },
     "devDependencies": {
         "@types/react-scroll": "^1.8.7",
-        "encoding": "^0.1.13"
+        "encoding": "^0.1.13",
+        "eslint-config-next": "^13.4.18"
     }
 }

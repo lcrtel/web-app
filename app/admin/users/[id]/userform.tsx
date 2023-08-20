@@ -25,10 +25,11 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "@/components/ui/use-toast";
+
 import { supabaseClient } from "@/lib/supabase-client";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 const profileFormSchema = z.object({
     first_name: z
@@ -68,16 +69,7 @@ export function ProfileForm({ user }: { user: User }) {
             await adminSupabase.auth.admin.updateUserById(userID, {
                 user_metadata: data,
             });
-        toast({
-            title: "User details updated",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-surface p-4">
-                    <code className="text-primary-500">
-                        {JSON.stringify(data, null, 2)}
-                    </code>
-                </pre>
-            ),
-        });
+        toast.success("User details updated");
     }
 
     return (

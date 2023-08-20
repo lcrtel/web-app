@@ -23,7 +23,8 @@ import { supabaseClient } from "@/lib/supabase-client";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
 import ImportDropdown from "./ImportDropdown";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "react-hot-toast";
+import { fetchUserRole } from "@/utils/user";
 
 export function PostRouteTable() {
     const [sorting, setSorting] = useState([]);
@@ -33,7 +34,12 @@ export function PostRouteTable() {
     const router = useRouter();
     const supabase = supabaseClient();
     const [data, setData] = useState([]);
-
+    useEffect(() => {
+        const storedRouteData = localStorage.getItem("pendingRouteOffersData");
+        if (storedRouteData) {
+            setData(JSON.parse(storedRouteData));
+        }
+    }, [setData]);
     const handleAddRoute = () => {
         setData((prevData) => [
             ...prevData,
@@ -54,6 +60,7 @@ export function PostRouteTable() {
 
     const handleClear = () => {
         setData([]);
+        localStorage.removeItem("pendingRouteOffersData");
     };
 
     const handleRemoveRoute = (row) => {
@@ -82,22 +89,22 @@ export function PostRouteTable() {
                 }))
             )
             .select();
-        const res = await fetch("http://localhost:3000/api/routes/post-offer", {
+        await fetch("http://localhost:3000/api/routes/post-offer", {
             method: "POST",
             body: JSON.stringify(data),
         });
-        if (res.ok) {
-            setPosting(false);
-            toast({
-                title: "Route Offers posted",
+        const userRole = await fetchUserRole();
+        if (userRole === "buyer") {
+            await supabase.auth.updateUser({
+                data: { role: "seller" },
             });
-            setData([]);
-            router.refresh();
-            router.back();
-        } else {
-            setPosting(false);
-            return;
         }
+        setPosting(false);
+        toast.success("Route Offers posted");
+        setData([]);
+        localStorage.removeItem("pendingRouteOffersData");
+        router.refresh();
+        router.push("/user/routes/offers");
     };
 
     const handleDataImport = (importedData) => {

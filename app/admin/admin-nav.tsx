@@ -13,7 +13,6 @@ import {
     HiOutlineX,
     HiUserCircle,
 } from "react-icons/hi";
-import { Transition } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

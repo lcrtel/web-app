@@ -48,7 +48,7 @@ const HomePage = async () => {
                             </p>
                             <div className="mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-center gap-4">
                                 <Link
-                                    href="/user/routes/offers/post"
+                                    href="/post/offers"
                                     className={`${buttonVariants({
                                         variant: "default",
                                     })}`}
@@ -57,7 +57,7 @@ const HomePage = async () => {
                                 </Link>
                                 <Link
                                     passHref
-                                    href="/user/routes/targets/post"
+                                    href="/post/targets"
                                     className={`${buttonVariants({
                                         variant: "secondary",
                                     })}`}

@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
 
 export default function DeleteUser({ userID }: { userID: User }) {
@@ -23,6 +24,7 @@ export default function DeleteUser({ userID }: { userID: User }) {
             userID
         );
         router.refresh();
+        toast.success("Deleted user");
         router.push("/admin/users");
     };
     return (

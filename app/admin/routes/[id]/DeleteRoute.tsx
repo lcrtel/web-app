@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { supabaseClient } from "@/lib/supabase-client";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
 
 export default function DeleteRoute({ routeID }: { routeID: User }) {
@@ -22,7 +23,7 @@ export default function DeleteRoute({ routeID }: { routeID: User }) {
             .from("route_posts")
             .delete()
             .eq("id", routeID);
-
+        toast.success("Deleted route");
         router.refresh();
         router.push("/admin/routes");
     };

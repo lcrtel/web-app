@@ -25,10 +25,11 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "@/components/ui/use-toast";
+
 import { supabaseClient } from "@/lib/supabase-client";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 const departmentSchema = z.object({
     name: z
@@ -60,9 +61,8 @@ export function CompanyForm({ user }: { user: User }) {
             const { data: User, error } = await supabase.auth.updateUser({
                 data: { finance_department: data },
             });
-            toast({
-                title: "Finance department details saved",
-            });
+            toast.success("Finance department details saved");
+
             router.refresh();
         }
         return (
@@ -151,9 +151,8 @@ export function CompanyForm({ user }: { user: User }) {
             const { data: User, error } = await supabase.auth.updateUser({
                 data: { noc_dipartment: data },
             });
-            toast({
-                title: "NOC department details saved",
-            });
+            toast.success("NOC department details saved");
+
             router.refresh();
         }
         return (
@@ -242,9 +241,8 @@ export function CompanyForm({ user }: { user: User }) {
             const { data: User, error } = await supabase.auth.updateUser({
                 data: { sales_dipartment: data },
             });
-            toast({
-                title: "Sales department details saved",
-            });
+            toast.success("Sales department details saved");
+
             router.refresh();
         }
         return (

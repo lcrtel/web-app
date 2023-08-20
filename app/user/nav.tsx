@@ -11,7 +11,6 @@ import {
     HiOutlineX,
     HiUserCircle,
 } from "react-icons/hi";
-import { Transition } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -183,7 +182,13 @@ const Navigation = ({
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
                             <DropdownMenuItem className="cursor-pointer">
-                                <Link href="/user/account"> Account</Link>
+                                <Link
+                                    href="/user/account"
+                                    className="block w-full h-full"
+                                >
+                                    {" "}
+                                    Account
+                                </Link>
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />

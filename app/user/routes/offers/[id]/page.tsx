@@ -5,7 +5,7 @@ import { HiOutlineArrowCircleLeft, HiOutlinePencilAlt } from "react-icons/hi";
 import Link from "next/link";
 import { RoutesTable } from "./routes-table";
 import { redirect } from "next/navigation";
-import { toast } from "@/components/ui/use-toast";
+
 import formatString from "@/utils/formatString";
 
 export default async function Page({ params }: { params: { id: string } }) {

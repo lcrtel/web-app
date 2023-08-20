@@ -35,6 +35,8 @@ import Link from "next/link";
 import { HiOutlineEye, HiOutlinePencilAlt } from "react-icons/hi";
 import DeleteRoute from "./DeleteRoute";
 import formatString from "@/utils/formatString";
+import formatTimestamptz from "@/utils/formatTimestamptz";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export const columns: ColumnDef<RouteOffer>[] = [
     // {
@@ -57,8 +59,6 @@ export const columns: ColumnDef<RouteOffer>[] = [
     //             aria-label="Select row"
     //         />
     //     ),
-    //     enableSorting: false,
-    //     enableHiding: false,
     // },
 
     {
@@ -237,7 +237,7 @@ export const columns: ColumnDef<RouteOffer>[] = [
         },
     },
     {
-        accessorKey: "capacity",
+        accessorKey: "created_at",
         header: ({ column }) => {
             return (
                 <div
@@ -246,11 +246,19 @@ export const columns: ColumnDef<RouteOffer>[] = [
                         column.toggleSorting(column.getIsSorted() === "asc")
                     }
                 >
-                    Capacity
+                    Posted on
                     <ArrowUpDown className=" h-4 w-4" />
                 </div>
             );
         },
+        cell: ({ row }) => (
+            <Link
+                href={`/user/routes/${row.getValue("id")}`}
+                className="capitalize"
+            >
+                {formatTimestamptz(row.getValue("created_at"))}
+            </Link>
+        ),
     },
     {
         accessorKey: "id",

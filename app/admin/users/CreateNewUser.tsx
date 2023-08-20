@@ -26,13 +26,14 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "@/components/ui/use-toast";
+
 import { supabaseClient } from "@/lib/supabase-client";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { useRouter } from "next/navigation";
 import { HiEye, HiEyeOff, HiX } from "react-icons/hi";
 import { Checkbox } from "@/components/ui/checkbox";
 import { revalidatePath } from "next/cache";
+import { toast } from "react-hot-toast";
 
 const profileFormSchema = z.object({
     first_name: z
@@ -104,9 +105,8 @@ const CreateNewUser = () => {
             setErrorMessage(error.message);
             return;
         }
-        toast({
-            title: "Created a new user",
-        });
+        toast.success("Created a new user");
+
         router.push("/admin/users");
     }
     return (

@@ -37,6 +37,8 @@ import formatDate from "@/utils/formatDate";
 import { HiOutlineEye, HiOutlinePencilAlt } from "react-icons/hi";
 import DeleteRoute from "./DeleteRoute";
 import formatString from "@/utils/formatString";
+import formatTimestamptz from "@/utils/formatTimestamptz";
+import { toast } from "react-hot-toast";
 
 export const columns: ColumnDef<RouteOffer>[] = [
     // {
@@ -239,7 +241,7 @@ export const columns: ColumnDef<RouteOffer>[] = [
         },
     },
     {
-        accessorKey: "capacity",
+        accessorKey: "created_at",
         header: ({ column }) => {
             return (
                 <div
@@ -248,11 +250,19 @@ export const columns: ColumnDef<RouteOffer>[] = [
                         column.toggleSorting(column.getIsSorted() === "asc")
                     }
                 >
-                    Capacity
+                    Posted on
                     <ArrowUpDown className=" h-4 w-4" />
                 </div>
             );
         },
+        cell: ({ row }) => (
+            <Link
+                href={`/user/routes/${row.getValue("id")}`}
+                className="capitalize"
+            >
+                {formatTimestamptz(row.getValue("created_at"))}
+            </Link>
+        ),
     },
     {
         accessorKey: "id",

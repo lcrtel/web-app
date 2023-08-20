@@ -18,12 +18,19 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { HiArrowLeft, HiPlusCircle, HiTrash } from "react-icons/hi";
+import {
+    HiArrowLeft,
+    HiOutlineArrowCircleLeft,
+    HiPlusCircle,
+    HiTrash,
+} from "react-icons/hi";
 import { supabaseClient } from "@/lib/supabase-client";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
 import ImportDropdown from "./ImportDropdown";
 import Link from "next/link";
+
+import fetchUser from "../fetchUser";
 import { toast } from "react-hot-toast";
 
 export function PostRouteTable() {
@@ -35,7 +42,9 @@ export function PostRouteTable() {
     const supabase = supabaseClient();
     const [data, setData] = useState([]);
     useEffect(() => {
-        const storedRouteData = localStorage.getItem("pendingBuyingTargetData");
+        const storedRouteData = localStorage.getItem(
+            "pendingBuyingTargetsData"
+        );
         if (storedRouteData) {
             setData(JSON.parse(storedRouteData));
         }
@@ -72,6 +81,13 @@ export function PostRouteTable() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setPosting(true);
+        localStorage.setItem("pendingBuyingTargetsData", JSON.stringify(data));
+        const user = await fetchUser();
+        if (!user) {
+            setPosting(false);
+            router.push("/post/auth");
+            return;
+        }
         const { data: route, error } = await supabase
             .from("buying_targets")
             .insert(
@@ -89,15 +105,19 @@ export function PostRouteTable() {
                 }))
             )
             .select();
+        if (error) {
+            toast.error(error.message);
+            setPosting(false);
+            return;
+        }
         await fetch("http://localhost:3000/api/routes/post-target", {
             method: "POST",
             body: JSON.stringify(data),
         });
         setPosting(false);
-        localStorage.removeItem("pendingBuyingTargetsData");
+        toast.success("Buying targets posted");
         setData([]);
-        toast.success("Targets posted!");
-        router.refresh();
+        localStorage.removeItem("pendingBuyingTargetsData");
         router.push("/user/routes/targets");
     };
     const handleDataImport = (importedData) => {
@@ -528,7 +548,13 @@ export function PostRouteTable() {
     });
 
     return (
-        <div className="w-full">
+        <div className="mx-auto min-h-screen max-w-8xl px-8 py-5 w-full">
+            <Link
+                href="/"
+                className="inline-flex mt-3 items-center text-gray-400 hover:text-primary-500 transition-all ease-in-out mb-2"
+            >
+                <HiOutlineArrowCircleLeft className="mr-1.5" /> Go back to home
+            </Link>
             <div className="flex justify-between items-center mb-4">
                 <h3 className="text-2xl font-bold text-primary tracking-tight">
                     Post your buying targets!

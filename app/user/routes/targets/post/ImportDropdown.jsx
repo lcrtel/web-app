@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Transition } from "@headlessui/react";
 import { HiOutlineCloudUpload } from "react-icons/hi";
 import ExcelJS from "exceljs";
 
@@ -101,39 +100,33 @@ const ImportDropdown = ({ onDataImport }) => {
                 <HiOutlineCloudUpload className="mr-1.5 h-4 w-4" />
                 Import
             </button>
-            <Transition
-                show={isOpen}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
-            >
-                <div className="border rounded-xl mt-1 shadow bg-white p-5 absolute right-0">
-                    <label
-                        htmlFor="file-upload"
-                        className="flex flex-col cursor-pointer items-center justify-center"
-                    >
-                        <div className="bg-primary-500/20 flex items-center justify-center p-2 rounded-full">
-                            <HiOutlineCloudUpload className="w-10 h-10 rounded-full p-2 text-primary bg-primary bg-opacity-10" />
-                        </div>
-                        <p className="whitespace-nowrap text-primary font-semibold mt-2">
-                            Click to Upload
-                        </p>
-                        <span className="text-gray-500 text-xs">
-                            CSV or XLS
-                        </span>
-                        <input
-                            id="file-upload"
-                            type="file"
-                            className="hidden"
-                            accept=".csv, .xlsx"
-                            onChange={handleFileChange}
-                        />
-                    </label>
+            {isOpen && (
+                <div>
+                    <div className="border rounded-xl mt-1 shadow bg-white p-5 absolute right-0">
+                        <label
+                            htmlFor="file-upload"
+                            className="flex flex-col cursor-pointer items-center justify-center"
+                        >
+                            <div className="bg-primary-500/20 flex items-center justify-center p-2 rounded-full">
+                                <HiOutlineCloudUpload className="w-10 h-10 rounded-full p-2 text-primary bg-primary bg-opacity-10" />
+                            </div>
+                            <p className="whitespace-nowrap text-primary font-semibold mt-2">
+                                Click to Upload
+                            </p>
+                            <span className="text-gray-500 text-xs">
+                                CSV or XLS
+                            </span>
+                            <input
+                                id="file-upload"
+                                type="file"
+                                className="hidden"
+                                accept=".csv, .xlsx"
+                                onChange={handleFileChange}
+                            />
+                        </label>
+                    </div>
                 </div>
-            </Transition>
+            )}
         </div>
     );
 };

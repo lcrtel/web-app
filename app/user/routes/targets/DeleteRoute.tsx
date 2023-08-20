@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { supabaseClient } from "@/lib/supabase-client";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
 
 export default function DeleteRoute({ routeID }: { routeID: string }) {
@@ -24,7 +25,7 @@ export default function DeleteRoute({ routeID }: { routeID: string }) {
             .from("buying_targets")
             .delete()
             .eq("id", routeID);
-
+        toast.success("Deleted target ");
         router.refresh();
     };
     return (

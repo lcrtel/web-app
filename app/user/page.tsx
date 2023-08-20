@@ -11,10 +11,13 @@ import {
 } from "react-icons/hi";
 import { OffersTable } from "./market/offers/offers-table";
 import { TargetsTable } from "./market/targets/targets-table";
+import { redirect } from "next/navigation";
+import FetchLocalStorage from "./FetchLocalStorage";
 export const dynamic = "force-dynamic";
 
 const page = async () => {
     const user = await fetchUserMetadata();
+
     const Links = () => {
         return (
             <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 ">
@@ -93,6 +96,7 @@ const page = async () => {
             <Links />
             <Transactions />
             <Connections />
+            <FetchLocalStorage />
         </main>
     );
 };

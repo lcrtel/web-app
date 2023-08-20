@@ -45,7 +45,8 @@
         "app/user/routes/offers/post/mailMatchingTargets.js",
         "app/user/routes/offers/post/mailPostedOffers.js",
         "app/user/routes/offers/post/mailMatchingTargets.jsx",
-        "app/user/routes/offers/post/mailPostedOffers.jsx"
+        "app/user/routes/offers/post/mailPostedOffers.jsx",
+        "app/Toast.jsx"
     ],
     "exclude": ["node_modules"]
 }

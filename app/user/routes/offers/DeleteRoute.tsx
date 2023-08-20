@@ -10,9 +10,10 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { toast } from "@/components/ui/use-toast";
+
 import { supabaseClient } from "@/lib/supabase-client";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
 
 export default function DeleteRoute({ routeID }: { routeID: string }) {
@@ -23,9 +24,8 @@ export default function DeleteRoute({ routeID }: { routeID: string }) {
             .from("route_offers")
             .delete()
             .eq("id", routeID);
-        toast({
-            title: "Route offer deleted",
-        });
+        toast.success("Route offer deleted");
+
         router.refresh();
     };
     return (

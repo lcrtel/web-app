@@ -25,10 +25,11 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "@/components/ui/use-toast";
+
 import { supabaseClient } from "@/lib/supabase-client";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 const routeFormSchema = z.object({
     destination: z.string(),
@@ -62,21 +63,11 @@ export function RouteForm({ route }: { route: RouteOffer }) {
             .eq("id", route.id)
             .select();
         if (error) {
-            toast({
-                title: error.message,
-            });
+            toast.error(error.message);
+
             return;
         }
-        toast({
-            title: "Route offer updated",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-surface p-4">
-                    <code className="text-primary-500">
-                        {JSON.stringify(data, null, 2)}
-                    </code>
-                </pre>
-            ),
-        });
+        toast.success("Route offer updated");
         router.refresh();
         router.back();
     }

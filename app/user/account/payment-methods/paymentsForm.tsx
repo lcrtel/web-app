@@ -25,12 +25,13 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "@/components/ui/use-toast";
+
 import { supabaseClient } from "@/lib/supabase-client";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
+import { toast } from "react-hot-toast";
 
 const bankDetailsSchema = z.object({
     accountHolderName: z.string(),
@@ -57,14 +58,11 @@ export function PaymentsForm({ user }: { user: User }) {
             password: data.password,
         });
         if (error) {
-            toast({
-                title: error.message,
-            });
+            toast.success(error.message);
+
             return;
         }
-        toast({
-            title: "Your password updated",
-        });
+        toast.success("Your password updated");
 
         router.refresh();
     }

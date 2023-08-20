@@ -249,7 +249,7 @@ export const columns: ColumnDef<BuyingTarget>[] = [
         },
         cell: ({ row }) => {
             const Date = row.getValue("created_at");
-            const formattedDate = formatDate(Date);
+            const formattedDate = formatTimestamptz(Date);
             return <div className="font-medium">{formattedDate}</div>;
         },
     },

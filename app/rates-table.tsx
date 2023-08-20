@@ -232,7 +232,7 @@ export function RatesTable({ data }: any) {
                             <TableRow>
                                 <TableCell
                                     colSpan={columns.length}
-                                    className="h-8 text-center"
+                                    className="h-8"
                                 >
                                     No results.
                                 </TableCell>

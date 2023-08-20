@@ -18,12 +18,19 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { HiArrowLeft, HiPlusCircle, HiTrash } from "react-icons/hi";
+import {
+    HiArrowLeft,
+    HiOutlineArrowCircleLeft,
+    HiPlusCircle,
+    HiTrash,
+} from "react-icons/hi";
 import { supabaseClient } from "@/lib/supabase-client";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
 import ImportDropdown from "./ImportDropdown";
+
 import Link from "next/link";
+import fetchUser from "../fetchUser";
 import { toast } from "react-hot-toast";
 
 export function PostRouteTable() {
@@ -35,7 +42,7 @@ export function PostRouteTable() {
     const supabase = supabaseClient();
     const [data, setData] = useState([]);
     useEffect(() => {
-        const storedRouteData = localStorage.getItem("pendingBuyingTargetData");
+        const storedRouteData = localStorage.getItem("pendingRouteOffersData");
         if (storedRouteData) {
             setData(JSON.parse(storedRouteData));
         }
@@ -59,8 +66,8 @@ export function PostRouteTable() {
     };
 
     const handleClear = () => {
-        localStorage.removeItem("pendingBuyingTargetsData");
         setData([]);
+        localStorage.removeItem("pendingRouteOffersData");
     };
 
     const handleRemoveRoute = (row) => {
@@ -72,8 +79,17 @@ export function PostRouteTable() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setPosting(true);
+        localStorage.setItem("pendingRouteOffersData", JSON.stringify(data));
+        const user = await fetchUser();
+        if (!user) {
+            setPosting(false);
+
+            router.push("/post/auth");
+            return;
+        }
+        console.log(user);
         const { data: route, error } = await supabase
-            .from("buying_targets")
+            .from("route_offers")
             .insert(
                 data.map((route) => ({
                     destination: route.destination,
@@ -89,22 +105,33 @@ export function PostRouteTable() {
                 }))
             )
             .select();
-        await fetch("http://localhost:3000/api/routes/post-target", {
+        if (error) {
+            toast.error(error.message);
+            setPosting(false);
+            return;
+        }
+        if (user?.user_metadata.role === "buyer") {
+            await supabase.auth.updateUser({
+                data: { role: "seller" },
+            });
+        }
+        fetch("http://localhost:3000/api/routes/post-offer", {
             method: "POST",
             body: JSON.stringify(data),
         });
         setPosting(false);
-        localStorage.removeItem("pendingBuyingTargetsData");
+        toast.success("Route Offers posted");
         setData([]);
-        toast.success("Targets posted!");
-        router.refresh();
-        router.push("/user/routes/targets");
+        localStorage.removeItem("pendingRouteOffersData");
+        router.push("/user/routes/offers");
     };
+
     const handleDataImport = (importedData) => {
         if (importedData) {
             setData((prevData) => [...prevData, ...importedData]);
         }
     };
+
     const columns = useMemo(
         () => [
             {
@@ -528,11 +555,18 @@ export function PostRouteTable() {
     });
 
     return (
-        <div className="w-full">
+        <div className="mx-auto min-h-screen max-w-8xl px-8 py-5 w-full">
+            {/* {JSON.stringify(data)} */}
+            <Link
+                href="/"
+                className="inline-flex mt-3 items-center text-gray-400 hover:text-primary-500 transition-all ease-in-out mb-2"
+            >
+                <HiOutlineArrowCircleLeft className="mr-1.5" /> Go back to home
+            </Link>
             <div className="flex justify-between items-center mb-4">
-                <h3 className="text-2xl font-bold text-primary tracking-tight">
-                    Post your buying targets!
-                </h3>
+                <h2 className="text-2xl font-bold text-primary tracking-tight">
+                    Post your route offers!
+                </h2>
                 <ImportDropdown onDataImport={handleDataImport} />
             </div>
             <form
@@ -551,7 +585,7 @@ export function PostRouteTable() {
                                     <Loader2 className="ml-2 h-4 w-4 animate-spin" />
                                 </>
                             ) : (
-                                "Post Targets"
+                                "Post Offers"
                             )}
                         </Button>
                     ) : (

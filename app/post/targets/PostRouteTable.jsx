@@ -82,7 +82,7 @@ export function PostRouteTable() {
         e.preventDefault();
         setPosting(true);
         localStorage.setItem("pendingBuyingTargetsData", JSON.stringify(data));
-        const user = await fetchUser();
+        const user = await supabase.auth.getUser();
         if (!user) {
             setPosting(false);
             router.push("/post/auth");

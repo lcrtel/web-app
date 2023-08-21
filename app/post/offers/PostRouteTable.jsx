@@ -80,7 +80,7 @@ export function PostRouteTable() {
         e.preventDefault();
         setPosting(true);
         localStorage.setItem("pendingRouteOffersData", JSON.stringify(data));
-        const user = await fetchUser();
+        const user = await supabase.auth.getUser();
         if (!user) {
             setPosting(false);
 

@@ -93,12 +93,13 @@ export function PostRouteTable() {
             method: "POST",
             body: JSON.stringify(data),
         });
-        const userRole = await fetchUserRole();
-        if (userRole === "buyer") {
-            await supabase.auth.updateUser({
-                data: { role: "seller" },
-            });
-        }
+            const user = await supabase.auth.getUser();
+
+            if (user?.user_metadata.role === "buyer") {
+                await supabase.auth.updateUser({
+                    data: { role: "seller" },
+                });
+            }
         setPosting(false);
         toast.success("Route Offers posted");
         setData([]);

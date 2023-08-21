@@ -24,7 +24,6 @@ import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
 import ImportDropdown from "./ImportDropdown";
 import { toast } from "react-hot-toast";
-import { fetchUserRole } from "@/utils/user";
 
 export function PostRouteTable() {
     const [sorting, setSorting] = useState([]);

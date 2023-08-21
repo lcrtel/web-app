@@ -29,8 +29,6 @@ import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
 import ImportDropdown from "./ImportDropdown";
 import Link from "next/link";
-
-import fetchUser from "../fetchUser";
 import { toast } from "react-hot-toast";
 
 export function PostRouteTable() {

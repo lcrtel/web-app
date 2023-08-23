@@ -1,14 +1,5 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
-import {
-    flexRender,
-    getCoreRowModel,
-    getFilteredRowModel,
-    getSortedRowModel,
-    useReactTable,
-} from "@tanstack/react-table";
-import { Loader2 } from "lucide-react";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
     Table,
@@ -18,15 +9,23 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { supabaseClient } from "@/lib/supabase-client";
 import {
-    HiArrowLeft,
+    flexRender,
+    getCoreRowModel,
+    getFilteredRowModel,
+    getSortedRowModel,
+    useReactTable,
+} from "@tanstack/react-table";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import {
     HiOutlineArrowCircleLeft,
     HiPlusCircle,
     HiTrash,
 } from "react-icons/hi";
-import { supabaseClient } from "@/lib/supabase-client";
 import { v4 as uuidv4 } from "uuid";
-import { useRouter } from "next/navigation";
 import ImportDropdown from "./ImportDropdown";
 
 import Link from "next/link";
@@ -79,48 +78,50 @@ export function PostRouteTable() {
         e.preventDefault();
         setPosting(true);
         localStorage.setItem("pendingRouteOffersData", JSON.stringify(data));
-        const user = await supabase.auth.getUser();
-        if (!user) {
+        const { data: user } = await supabase.auth.getUser();
+        if (!user.user) {
             setPosting(false);
 
             router.push("/post/auth");
             return;
-        }
-        console.log(user);
-        const { data: route, error } = await supabase
-            .from("route_offers")
-            .insert(
-                data.map((route) => ({
-                    destination: route.destination,
-                    destination_code: route.destination_code,
-                    rate: route.rate,
-                    route_type: route.route_type,
-                    prefix: route.prefix,
-                    asr: route.asr,
-                    acd: route.acd,
-                    ports: route.ports,
-                    capacity: route.capacity,
-                    pdd: route.pdd,
-                }))
-            )
-            .select();
-        if (error) {
-            toast.error(error.message);
-            setPosting(false);
-            return;
-        }
-        if (user?.user_metadata.role === "buyer") {
-            await supabase.auth.updateUser({
-                data: { role: "seller" },
+        } else if (user.user) {
+            const { data: route, error } = await supabase
+                .from("route_offers")
+                .insert(
+                    data.map((route) => ({
+                        destination: route.destination,
+                        destination_code: route.destination_code,
+                        rate: route.rate,
+                        route_type: route.route_type,
+                        prefix: route.prefix,
+                        asr: route.asr,
+                        acd: route.acd,
+                        ports: route.ports,
+                        capacity: route.capacity,
+                        pdd: route.pdd,
+                    }))
+                )
+                .select();
+            if (error) {
+                toast.success("Hey");
+                toast.error(error.message);
+                setPosting(false);
+                return;
+            }
+            if (user?.user.user_metadata.role === "buyer") {
+                await supabase.auth.updateUser({
+                    data: { role: "seller" },
+                });
+            }
+            fetch("http://localhost:3000/api/routes/post-offer", {
+                method: "POST",
+                body: JSON.stringify(data),
             });
         }
-        fetch("http://localhost:3000/api/routes/post-offer", {
-            method: "POST",
-            body: JSON.stringify(data),
-        });
         setPosting(false);
         toast.success("Route Offers posted");
         setData([]);
+
         localStorage.removeItem("pendingRouteOffersData");
         router.push("/user/routes/offers");
     };

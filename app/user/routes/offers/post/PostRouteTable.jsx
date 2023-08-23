@@ -1,14 +1,5 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
-import {
-    flexRender,
-    getCoreRowModel,
-    getFilteredRowModel,
-    getSortedRowModel,
-    useReactTable,
-} from "@tanstack/react-table";
-import { Loader2 } from "lucide-react";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
     Table,
@@ -18,12 +9,21 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { HiArrowLeft, HiPlusCircle, HiTrash } from "react-icons/hi";
 import { supabaseClient } from "@/lib/supabase-client";
-import { v4 as uuidv4 } from "uuid";
+import {
+    flexRender,
+    getCoreRowModel,
+    getFilteredRowModel,
+    getSortedRowModel,
+    useReactTable,
+} from "@tanstack/react-table";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import ImportDropdown from "./ImportDropdown";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
+import { HiPlusCircle, HiTrash } from "react-icons/hi";
+import { v4 as uuidv4 } from "uuid";
+import ImportDropdown from "./ImportDropdown";
 
 export function PostRouteTable() {
     const [sorting, setSorting] = useState([]);
@@ -92,13 +92,13 @@ export function PostRouteTable() {
             method: "POST",
             body: JSON.stringify(data),
         });
-            const user = await supabase.auth.getUser();
+        const user = await supabase.auth.getUser();
 
-            if (user?.user_metadata.role === "buyer") {
-                await supabase.auth.updateUser({
-                    data: { role: "seller" },
-                });
-            }
+        if (user?.user.user_metadata.role === "buyer") {
+            await supabase.auth.updateUser({
+                data: { role: "seller" },
+            });
+        }
         setPosting(false);
         toast.success("Route Offers posted");
         setData([]);

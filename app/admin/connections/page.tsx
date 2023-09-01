@@ -8,7 +8,7 @@ export default async function Page() {
     const supabase = supabaseAdmin();
     let { data: route_connections } = await supabase
         .from("route_connections")
-        .select(`*`);
+        .select(`*, route_offers (*)`);
     return (
         <div className=" ">
             <div className="mb-4 border-b pb-4 ">
@@ -31,9 +31,9 @@ export default async function Page() {
                             href={`/admin/routes/${connection.route_id}`}
                             className="capitalize flex gap-2 group"
                         >
-                            {connection.destination} -{" "}
+                            {connection?.route_offers?.destination} -{" "}
                             <span className="uppercase font-medium">
-                                {connection.type}
+                                {connection?.route_offers?.route_type}
                             </span>{" "}
                             <HiOutlineExternalLink className=" w-5 h-5 hidden group-hover:block" />
                         </Link>

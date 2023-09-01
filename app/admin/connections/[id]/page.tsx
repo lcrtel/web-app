@@ -148,9 +148,9 @@ export default async function Page({ params }: { params: { id: string } }) {
                                 </HoverCardContent>
                             </HoverCard>
                             <p className=" font-semibold ">
-                                {route_connection?.destination}-
+                                {route_connection?.route_offers?.destination}-
                                 <span className="uppercase">
-                                    {route_connection?.type}
+                                    {route_connection?.route_offers?.route_type}
                                 </span>
                             </p>
                         </div>
@@ -179,14 +179,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                     </div>{" "}
                     <EditRoute route={route_connection} />
                 </div>
-                <div>
-                    <h3 className="text-lg font-semibold tracking-tight mb-2">
-                        Call Detail Records (CDR)
-                    </h3>
-                    <div className="border rounded-lg p-4 text-center text-gray-400">
-                        No Records
-                    </div>
-                </div>
+
                 <div>
                     <h3 className="text-lg font-semibold tracking-tight mb-2">
                         Invoices
@@ -198,6 +191,14 @@ export default async function Page({ params }: { params: { id: string } }) {
                             No Invoices
                         </div>
                     )}
+                </div>
+                <div>
+                    <h3 className="text-lg font-semibold tracking-tight mb-2">
+                        Call Detail Records (CDR)
+                    </h3>
+                    <div className="border rounded-lg p-4 text-center text-gray-400">
+                        No Records
+                    </div>
                 </div>
                 {/* <div className="flex justify-between items-center border border-red-500 rounded-lg p-4 text-red-500">
                     <div>

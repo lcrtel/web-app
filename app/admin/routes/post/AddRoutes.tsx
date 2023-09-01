@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
     Table,
@@ -22,7 +22,7 @@ import {
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { HiPlusCircle, HiTrash } from "react-icons/hi";
+import { HiArrowLeft, HiPlusCircle, HiTrash } from "react-icons/hi";
 import { v4 as uuidv4 } from "uuid";
 import { Check, ChevronsUpDown } from "lucide-react";
 
@@ -49,6 +49,12 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { toast } from "react-hot-toast";
+import { HiOutlineCloudUpload } from "react-icons/hi";
+import ExcelJS from "exceljs";
+import { saveAs } from "file-saver";
+import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
+
 declare module "@tanstack/react-table" {
     interface TableMeta<TData extends RowData> {
         updateData: (
@@ -109,6 +115,7 @@ export function AddRouteTable({ users }: { users: any }) {
     }
     const handleSubmit = async (e: any) => {
         e.preventDefault();
+        setPosting(true);
         if (seller !== "") {
             const { data: route, error } = await supabase
                 .from("route_offers")
@@ -132,7 +139,7 @@ export function AddRouteTable({ users }: { users: any }) {
                 .select();
             if (error) {
                 setPosting(false);
-                console.error(error.message);
+                toast.error(error.message);
                 return;
             }
             setPosting(false);
@@ -264,6 +271,7 @@ export function AddRouteTable({ users }: { users: any }) {
                     column: { id },
                     table,
                 }) {
+                    const initialValue = getValue();
                     const onBlur = (val: any) => {
                         table.options.meta?.updateData(index, id, val);
                     };
@@ -271,6 +279,7 @@ export function AddRouteTable({ users }: { users: any }) {
                     return (
                         <>
                             <Select
+                                defaultValue={initialValue as string}
                                 onValueChange={(val) => {
                                     onBlur(val);
                                 }}
@@ -568,10 +577,144 @@ export function AddRouteTable({ users }: { users: any }) {
             },
         },
     });
+    const ImportDropdown = () => {
+        const [isOpen, setIsOpen] = useState(false);
 
+        const generateExcelSheet = async () => {
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet("Sheet1");
+            worksheet.addRow([
+                "prefix",
+                "destination",
+                "destination_code",
+                "route_type",
+                "rate",
+                "asr",
+                "acd",
+                "ports",
+                "pdd",
+                "capacity",
+            ]);
+            const blob = await workbook.xlsx.writeBuffer();
+            return new Blob([blob], {
+                type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            });
+        };
+
+        const EmptyFile = () => {
+            const handleDownload = async () => {
+                const excelBlob = await generateExcelSheet();
+                saveAs(excelBlob, "empty_file.xlsx");
+            };
+            return (
+                <span
+                    className="text-primary-500 underline whitespace-nowrap cursor-pointer"
+                    onClick={handleDownload}
+                >
+                    download empty file
+                </span>
+            );
+        };
+
+        const handleFileChange = async (e: any) => {
+            e.preventDefault();
+            const file = e.target.files[0];
+            const workbook = new ExcelJS.Workbook();
+            let headers: any = [];
+            await workbook.xlsx.load(file);
+            const worksheet = workbook.getWorksheet(1);
+            const jsonData: any = [];
+            worksheet.eachRow((row: any, rowNumber: any) => {
+                if (rowNumber === 1) {
+                    headers = row.values.map((header: any) =>
+                        header.toString()
+                    );
+                    return;
+                }
+                const rowData: any = {};
+                row.eachCell((cell: any, colNumber: any) => {
+                    const header = headers[colNumber];
+                    const cellValue = cell.value;
+                    rowData[header] = cellValue;
+                });
+                e.target.value = null;
+                jsonData.push(rowData);
+                setData(jsonData);
+            });
+            setIsOpen(false);
+        };
+
+        const handleCLick = () => {
+            setIsOpen(!isOpen);
+        };
+        return (
+            <div className="relative  text-left">
+                <div
+                    onClick={handleCLick}
+                    className="flex relative cursor-pointer shadow-sm items-center transition-all ease-in-out justify-center rounded-lg hover:bg-primary hover:bg-opacity-5 border px-3 py-2 text-sm font-medium text-primary"
+                >
+                    <HiOutlineCloudUpload className="mr-1.5 h-4 w-4" />
+                    Import
+                </div>
+                <AnimatePresence>
+                    {isOpen && (
+                        <>
+                            <motion.div
+                                className="z-10  w-60 absolute border-2  border-surface  right-0 top-10 rounded-lg  shadow-xl bg-white"
+                                initial={{ opacity: 0, y: "-10%" }}
+                                animate={{ opacity: 1, y: "0%" }}
+                                exit={{ opacity: 0, y: "-10%" }}
+                            >
+                                <div className="flex flex-col  items-center justify-center p-4">
+                                    <label
+                                        htmlFor="file-upload"
+                                        className=" cursor-pointer text-primary font-semibold mt-2 flex flex-col items-center"
+                                    >
+                                        <div className="p-2 mb-1 rounded-lg border-2 border-surface">
+                                            <HiOutlineCloudUpload className="w-5 h-5" />
+                                        </div>
+                                        Click to Upload{" "}
+                                    </label>
+                                    <span className="text-gray-500 text-xs">
+                                        .xlsx only
+                                    </span>
+                                    <p className="text-slate-400 mt-2 text-xs text-center">
+                                        To import from a filled spreadsheet, you
+                                        have to <EmptyFile /> and edit it, then
+                                        upload.
+                                    </p>
+                                </div>
+                                <input
+                                    id="file-upload"
+                                    type="file"
+                                    className="hidden"
+                                    accept=".xlsx"
+                                    onChange={handleFileChange}
+                                />
+                            </motion.div>
+                        </>
+                    )}
+                </AnimatePresence>
+            </div>
+        );
+    };
     return (
         <div className="w-full">
             {/* <pre> {JSON.stringify(data, null, 2)}</pre> */}
+            <div className="flex items-center gap-4 justify-between mb-4">
+                <div className="flex items-center gap-4">
+                    <Link
+                        href="/admin/routes"
+                        className={buttonVariants({ variant: "secondary" })}
+                    >
+                        <HiArrowLeft className="mr-1.5" /> Back
+                    </Link>
+                    <h3 className="text-lg  font-semibold text-primary">
+                        Post route offers!
+                    </h3>
+                </div>
+                <ImportDropdown />
+            </div>
             <form
                 className="border rounded-md mt-4 overflow-y-auto p-4"
                 onSubmit={handleSubmit}
@@ -631,7 +774,7 @@ export function AddRouteTable({ users }: { users: any }) {
                         </Popover>
                     </div>
                     <div className="text-sm flex gap-2 items-center whitespace-nowrap">
-                        <p>{table.getFilteredRowModel().rows.length} routes</p>
+                        <p>{table.getFilteredRowModel().rows.length} routes</p>{" "}
                         {data.length ? (
                             <Button type="submit">
                                 {posting ? (

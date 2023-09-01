@@ -7,7 +7,7 @@ import { ConnectionsTable } from "./ConnectionsTable";
 export default async function Page() {
     const supabase = supabaseAdmin();
     let { data: route_connections } = await supabase
-        .from("route_connections")
+        .from("purchase_requests")
         .select(`*`);
     return (
         <div className=" ">

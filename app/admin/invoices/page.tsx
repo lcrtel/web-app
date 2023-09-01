@@ -6,7 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 
 const page = async () => {
     const supabase = supabaseAdmin();
-    const { data: invoice } = await supabase
+    const { data: invoices } = await supabase
         .from("invoices")
         .select(`*, users`);
     return (
@@ -24,9 +24,14 @@ const page = async () => {
                     </Link>
                 </div>
             </div>
-            <div className="flex flex-col gap-3 xl:flex-row w-full overflow-x-auto">
-                {/* <InvoiceTable data={invoice}/> */}
-                <div className="w-full xl:w-1/3 px-4"></div>
+            <div className="">
+                {invoices?.length ? (
+                    <InvoiceTable data={invoices} />
+                ) : (
+                    <div className="gap-2  h-12 text-center flex items-center text-sm  justify-center border py-10 rounded-lg">
+                        <p>No invoices created yet</p>
+                    </div>
+                )}
             </div>
         </div>
     );

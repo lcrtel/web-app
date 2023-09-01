@@ -56,7 +56,7 @@ const AdminNav = ({ userRole, user }: { user: any; userRole: any }) => {
         ["Users", "/admin/users"],
         ["Sellers", "/admin/sellers"],
         ["Managers", "/admin/managers"],
-        ["Analytics", "/admin/analytics"],
+        // ["Analytics", "/admin/analytics"],
         ["Invoices", "/admin/invoices"],
     ].map(([title, url]) => (
         <li

@@ -159,7 +159,9 @@ export function ConnectionsTable({ data }: any) {
             )
             .subscribe();
 
-        return () => supabase.removeChannel(realTimeRoutes);
+        return () => {
+            supabase.removeChannel(realTimeRoutes);
+        };
     }, [supabase, router]);
     return (
         <div>

@@ -13,7 +13,6 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import { ArrowUpDown, ChevronDown } from "lucide-react";
-import * as React from "react";
 
 import ReloadButton from "@/components/ReloadButton";
 import { Button } from "@/components/ui/button";
@@ -38,6 +37,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { HiOutlineExternalLink, HiOutlinePencilAlt } from "react-icons/hi";
 import DeleteRoute from "./[id]/DeleteRoute";
+import { useEffect, useState } from "react";
 
 export const columns: ColumnDef<RouteOffer>[] = [
     // {
@@ -123,12 +123,12 @@ export const columns: ColumnDef<RouteOffer>[] = [
 ];
 
 export function ConnectionsTable({ data }: any) {
-    const [sorting, setSorting] = React.useState<SortingState>([]);
-    const [columnFilters, setColumnFilters] =
-        React.useState<ColumnFiltersState>([]);
-    const [columnVisibility, setColumnVisibility] =
-        React.useState<VisibilityState>({});
-    const [rowSelection, setRowSelection] = React.useState({});
+    const [sorting, setSorting] = useState<SortingState>([]);
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+        {}
+    );
+    const [rowSelection, setRowSelection] = useState({});
     const table = useReactTable({
         data,
         columns,
@@ -149,7 +149,7 @@ export function ConnectionsTable({ data }: any) {
     });
     const supabase = supabaseAdmin();
     const router = useRouter();
-    React.useEffect(() => {
+    useEffect(() => {
         const realTimeRoutes = supabase
             .channel("realtime_routes")
             .on(
@@ -159,7 +159,9 @@ export function ConnectionsTable({ data }: any) {
             )
             .subscribe();
 
-        return () => supabase.removeChannel(realTimeRoutes);
+        return () => {
+            supabase.removeChannel(realTimeRoutes);
+        };
     }, [supabase, router]);
     return (
         <div>

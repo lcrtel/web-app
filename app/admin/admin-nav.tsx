@@ -34,13 +34,7 @@ import {
 import { supabaseClient } from "@/lib/supabase-client";
 import { fetchUserRole } from "@/utils/user";
 
-const AdminNav = ({
-    userRole,
-    user,
-}: {
-    user: User | undefined;
-    userRole: any;
-}) => {
+const AdminNav = ({ userRole, user }: { user: any; userRole: any }) => {
     const pathname = usePathname();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const toggleMenu = () => {

@@ -54,16 +54,16 @@ const profileFormSchema = z.object({
     role: z.string(),
 });
 
-export function ProfileForm({ user }: { user: User }) {
+export function ProfileForm({ user }: { user: any }) {
     const defaultValues = user.user_metadata;
     const userID = user.id;
-    const form = useForm<User>({
+    const form = useForm<any>({
         resolver: zodResolver(profileFormSchema),
         defaultValues,
         mode: "onChange",
     });
 
-    async function onSubmit(data: User) {
+    async function onSubmit(data: anu) {
         const supabase = supabaseAdmin();
         const { data: user, error } = await supabase.auth.admin.updateUserById(
             userID,

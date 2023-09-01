@@ -10,13 +10,7 @@ import { HiOutlineMenuAlt4, HiOutlineX } from "react-icons/hi";
 import ProfileDropdown from "./ProfileDropdown";
 import { CartDropdown } from "./selected_routes/CartDropdown";
 
-const Navigation = ({
-    userRole,
-    user,
-}: {
-    user: User | undefined;
-    userRole: any;
-}) => {
+const Navigation = ({ userRole, user }: { user: any; userRole: any }) => {
     const pathname = usePathname();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const toggleMenu = () => {

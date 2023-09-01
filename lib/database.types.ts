@@ -171,32 +171,51 @@ export interface Database {
       payments: {
         Row: {
           amount: number
+          connection_id: string | null
           created_at: string
           invoice_id: number
           paid_at: string
           payment_id: number
           payment_status: string
           payout_status: string
+          user_id: string
         }
         Insert: {
           amount: number
+          connection_id?: string | null
           created_at?: string
           invoice_id: number
           paid_at: string
           payment_id?: number
           payment_status?: string
           payout_status?: string
+          user_id: string
         }
         Update: {
           amount?: number
+          connection_id?: string | null
           created_at?: string
           invoice_id?: number
           paid_at?: string
           payment_id?: number
           payment_status?: string
           payout_status?: string
+          user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "payments_connection_id_fkey"
+            columns: ["connection_id"]
+            referencedRelation: "route_connections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       profiles: {
         Row: {
@@ -250,7 +269,7 @@ export interface Database {
       purchase_requests: {
         Row: {
           buyer_id: string
-          buying_rate: number | null
+          buying_rate: string | null
           connection_id: string | null
           created_at: string
           id: string
@@ -262,7 +281,7 @@ export interface Database {
         }
         Insert: {
           buyer_id?: string
-          buying_rate?: number | null
+          buying_rate?: string | null
           connection_id?: string | null
           created_at?: string
           id?: string
@@ -274,7 +293,7 @@ export interface Database {
         }
         Update: {
           buyer_id?: string
-          buying_rate?: number | null
+          buying_rate?: string | null
           connection_id?: string | null
           created_at?: string
           id?: string
@@ -314,30 +333,24 @@ export interface Database {
       route_connections: {
         Row: {
           buyer_id: string
-          destination: string
           expiration_date: string
           id: string
           route_id: string
           status: string
-          type: string
         }
         Insert: {
           buyer_id: string
-          destination: string
           expiration_date: string
           id?: string
           route_id: string
           status: string
-          type: string
         }
         Update: {
           buyer_id?: string
-          destination?: string
           expiration_date?: string
           id?: string
           route_id?: string
           status?: string
-          type?: string
         }
         Relationships: [
           {

@@ -46,7 +46,7 @@ const departmentSchema = z.object({
     skype_id: z.string().optional(),
 });
 
-export function CompanyForm({ user }: { user: User }) {
+export function CompanyForm({ user }: { user: any }) {
     const userID = user.id;
     const router = useRouter();
 

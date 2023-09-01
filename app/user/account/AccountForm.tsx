@@ -33,7 +33,7 @@ const profileFormSchema = z.object({
     skype_id: z.string(),
 });
 
-export function AccountForm({ user }: { user: User }) {
+export function AccountForm({ user }: { user: any }) {
     const defaultValues = user?.user_metadata;
     const userID = user?.id;
     const router = useRouter();

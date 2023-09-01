@@ -19,13 +19,7 @@ export default function RootLayout({
         <html lang="en">
             <body className={`${inter.className} text-primary-500 `}>
                 <Toast />
-                <main>
-                    {" "}
-                    {children}{" "}
-                    <div className="absolute bg-primary-500 px-3 py-1 shadow-lg rounded-bl-lg top-0 right-0  text-white">
-                        Beta Version
-                    </div>
-                </main>
+                <main> {children} </main>
             </body>
         </html>
     );

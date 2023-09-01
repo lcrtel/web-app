@@ -162,6 +162,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                         </h3>
                         {purchase_requests?.map((purchase_request) => (
                             <div
+                                key={purchase_request.id}
                                 className={`flex flex-col mt-2 gap-2 shadow hover:translate-x-1 cursor-pointer transition-all ease-in-out border-[1.5px] rounded-md p-4  ${
                                     purchase_request.status === "approved"
                                         ? "bg-gradient-to-l from-green-100 to-green-50 border-green-100 shadow-green-100"
@@ -223,6 +224,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                         </h3>
                         {route_connections?.map((route_connection) => (
                             <div
+                                key={route_connection.id}
                                 className={`flex flex-col mt-2 gap-2 shadow hover:translate-x-1 cursor-pointer transition-all ease-in-out border-[1.5px] rounded-md p-4  ${
                                     route_connection.status === "active"
                                         ? "bg-gradient-to-l from-green-100 to-green-50 border-green-100 shadow-green-100"

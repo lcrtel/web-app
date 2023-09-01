@@ -29,7 +29,7 @@ export default async function Page() {
                 {selectedRoutes?.length ? (
                     <div className="grid gap-4 w-full">
                         {selectedRoutes?.map((item) => (
-                            <div>
+                            <div key={item.id}>
                                 <PurchaseRequestForm
                                     selectedRoute={item}
                                     user={user}

@@ -1,6 +1,6 @@
 import InvoiceForm from "./InvoiceForm";
 
-export default () => {
+export default function page() {
     return (
         <>
             <h3 className="text-2xl tracking-tight font-bold mb-4">

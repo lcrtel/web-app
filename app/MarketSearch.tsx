@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
     Form,
     FormControl,
@@ -41,6 +41,7 @@ import { RatesTable } from "./rates-table";
 import { supabaseClient } from "@/lib/supabase-client";
 import { destinations } from "@/lib/countries";
 import { Check, ChevronsUpDown } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 const FormSchema = z.object({
     route_type: z.string(),
@@ -75,60 +76,70 @@ export default function InputForm() {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="grid sm:grid-cols-3  gap-4 mb-4"
                 >
-                    <Popover open={open} onOpenChange={setOpen}>
-                        <PopoverTrigger asChild>
-                            <Button
-                                variant="outline"
-                                role="combobox"
-                                aria-expanded={open}
-                                className=" justify-between"
-                            >
-                                {destination
-                                    ? destinations.find(
-                                          (item: any) =>
-                                              item.code === destination
-                                      )?.country
-                                    : "Select Destination..."}
-                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent
-                            className=" max-h-60 overflow-y-auto p-0 w-full"
-                            align="start"
+                    <div className="relative w-full">
+                        <div
+                            className={`${buttonVariants({
+                                variant: "secondary",
+                            })} cursor-pointer w-full flex justify-between`}
+                            onClick={(event) => setOpen(!open)}
                         >
-                            <Command>
-                                <CommandInput placeholder="Search Destinations..." />
-                                <CommandEmpty>
-                                    No destinations found.
-                                </CommandEmpty>
-                                <CommandGroup>
-                                    {destinations.map((item) => (
-                                        <CommandItem
-                                            key={item.code}
-                                            onSelect={() => {
-                                                setDestination(
-                                                    item.code === destination
-                                                        ? ""
-                                                        : item.code
-                                                );
-                                                setOpen(false);
-                                            }}
-                                        >
-                                            <Check
-                                                className={cn(
-                                                    "mr-2 h-4 w-4",
-                                                    destination === item.code
-                                                        ? "opacity-100"
-                                                        : "opacity-0"
-                                                )}
-                                            />
-                                            {item.country}
-                                        </CommandItem>
-                                    ))}
-                                </CommandGroup>
-                            </Command>
-                        </PopoverContent>
-                    </Popover>
+                            {destination
+                                ? destinations.find(
+                                      (item: any) => item.code === destination
+                                  )?.country
+                                : "Select Destination..."}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </div>
+                        <AnimatePresence>
+                            {open && (
+                                <>
+                                    <motion.div
+                                        className=" z-20 w-full absolute border-2 max-h-60 overflow-y-auto border-surface left-0 top-11 rounded-lg  shadow-xl bg-white"
+                                        initial={{ opacity: 0, y: "-4%" }}
+                                        animate={{ opacity: 1, y: "0%" }}
+                                        exit={{ opacity: 0, y: "-4%" }}
+                                    >
+                                        <Command>
+                                            <CommandInput placeholder="Search Destinations..." />
+                                            <CommandEmpty>
+                                                No destinations found.
+                                            </CommandEmpty>
+                                            <CommandGroup>
+                                                {destinations.map((item) => (
+                                                    <CommandItem
+                                                        key={item.code}
+                                                        onClick={(event) =>
+                                                            setOpen(false)
+                                                        }
+                                                        onSelect={() => {
+                                                            setDestination(
+                                                                item.code ===
+                                                                    destination
+                                                                    ? ""
+                                                                    : item.code
+                                                            );
+                                                            setOpen(false);
+                                                        }}
+                                                    >
+                                                        <Check
+                                                            className={cn(
+                                                                "mr-2 h-4 w-4",
+                                                                destination ===
+                                                                    item.code
+                                                                    ? "opacity-100"
+                                                                    : "opacity-0"
+                                                            )}
+                                                        />
+                                                        {item.country}
+                                                    </CommandItem>
+                                                ))}
+                                            </CommandGroup>
+                                        </Command>
+                                    </motion.div>
+                                </>
+                            )}
+                        </AnimatePresence>
+                    </div>
                     <FormField
                         control={form.control}
                         name="route_type"

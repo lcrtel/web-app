@@ -23,18 +23,34 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+} from "@/components/ui/command";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { RatesTable } from "./rates-table";
 import { supabaseClient } from "@/lib/supabase-client";
+import { destinations } from "@/lib/countries";
+import { Check, ChevronsUpDown } from "lucide-react";
 
 const FormSchema = z.object({
-    destination_code: z.string(),
     route_type: z.string(),
 });
 
 export default function InputForm() {
     const supabase = supabaseClient();
     const [routeOffers, setRouteOffers] = useState<RouteOffer[]>([]);
+    const [destination, setDestination] = useState("");
+    const [open, setOpen] = useState(false);
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
     });
@@ -43,8 +59,10 @@ export default function InputForm() {
         let { data: routes, error } = await supabase
             .from("route_offers")
             .select("*")
-            .match({ route_type: data.route_type })
-            .eq("destination_code", data.destination_code);
+            .match({
+                route_type: data.route_type,
+                destination_code: destination,
+            });
         if (routes) {
             setRouteOffers(routes);
         }
@@ -57,21 +75,60 @@ export default function InputForm() {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="grid sm:grid-cols-3  gap-4 mb-4"
                 >
-                    <FormField
-                        control={form.control}
-                        name="destination_code"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormControl>
-                                    <Input
-                                        placeholder="Destination Code"
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                    <Popover open={open} onOpenChange={setOpen}>
+                        <PopoverTrigger asChild>
+                            <Button
+                                variant="outline"
+                                role="combobox"
+                                aria-expanded={open}
+                                className=" justify-between"
+                            >
+                                {destination
+                                    ? destinations.find(
+                                          (item: any) =>
+                                              item.code === destination
+                                      )?.country
+                                    : "Select Destination..."}
+                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent
+                            className=" max-h-60 overflow-y-auto p-0 w-full"
+                            align="start"
+                        >
+                            <Command>
+                                <CommandInput placeholder="Search Destinations..." />
+                                <CommandEmpty>
+                                    No destinations found.
+                                </CommandEmpty>
+                                <CommandGroup>
+                                    {destinations.map((item) => (
+                                        <CommandItem
+                                            key={item.code}
+                                            onSelect={() => {
+                                                setDestination(
+                                                    item.code === destination
+                                                        ? ""
+                                                        : item.code
+                                                );
+                                                setOpen(false);
+                                            }}
+                                        >
+                                            <Check
+                                                className={cn(
+                                                    "mr-2 h-4 w-4",
+                                                    destination === item.code
+                                                        ? "opacity-100"
+                                                        : "opacity-0"
+                                                )}
+                                            />
+                                            {item.country}
+                                        </CommandItem>
+                                    ))}
+                                </CommandGroup>
+                            </Command>
+                        </PopoverContent>
+                    </Popover>
                     <FormField
                         control={form.control}
                         name="route_type"

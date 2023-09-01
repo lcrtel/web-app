@@ -57,8 +57,8 @@ export default function ResetPassword({ user }: { user: any }) {
                                 Hello {user?.first_name} {user?.last_name},
                             </Text>
                             <Text className="text-gray-500  font-medium ">
-                                We're writing to inform you that your password
-                                for your LCRTel.com account has been
+                                We&apos;re writing to inform you that your
+                                password for your LCRTel.com account has been
                                 successfully reset. Here is your updated
                                 password:
                             </Text>

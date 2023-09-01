@@ -59,9 +59,10 @@ export default function Signup({ user }: { user: any }) {
                                 Hello {user?.first_name} {user?.last_name},
                             </Text>
                             <Text className="text-gray-500  font-medium ">
-                                Welcome to LCRTel.com! We're excited to have you
-                                join our platform. Below are your account
-                                details that you can use to access your account:
+                                Welcome to LCRTel.com! We&apos;re excited to
+                                have you join our platform. Below are your
+                                account details that you can use to access your
+                                account:
                             </Text>
                         </Section>
                         <Section className="mx-auto w-full max-w-[90%]">
@@ -105,7 +106,7 @@ export default function Signup({ user }: { user: any }) {
                             <Text className="text-gray-500  font-medium ">
                                 If you have any questions or need assistance,
                                 feel free to reach out to our support team.
-                                We're here to help! <br />
+                                We&apos;re here to help! <br />
                                 Thank you for choosing LCRTel.com! We look
                                 forward to supporting your business needs.
                             </Text>

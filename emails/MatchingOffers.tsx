@@ -71,16 +71,18 @@ export default function MatchingOffers({
                             </Text>
                             <Text className="text-gray-500  font-medium ">
                                 We are thrilled to share some exciting news with
-                                you! Our platform's matching algorithm has
+                                you! Our platform&apos;s matching algorithm has
                                 identified potential route offers that align
-                                with the buying targets you've posted on our
-                                platform. This means there are sellers who have
-                                posted route offers that match your criteria.
+                                with the buying targets you&apos;ve posted on
+                                our platform. This means there are sellers who
+                                have posted route offers that match your
+                                criteria.
                             </Text>
                         </Section>
                         <Section className="bg-white mx-auto w-full max-w-[90%]">
                             <Text className="text-gray-500 font-medium ">
-                                Here's a sneak peek of the potential matches:
+                                Here&apos;s a sneak peek of the potential
+                                matches:
                             </Text>
                             {data?.map((route) => (
                                 <Row

@@ -26,7 +26,9 @@ export function CartDropdown() {
                 .from("selected_routes")
                 .select(`*, route_offers (*)`)
                 .eq("user_id", user?.user?.id);
-            setCartItems(selectedRoutes);
+            if (selectedRoutes) {
+                setCartItems(selectedRoutes);
+            }
         };
 
         const selectedRoutes = supabase
@@ -45,7 +47,9 @@ export function CartDropdown() {
                     setTimeout(() => {
                         setIsMenuOpen(false);
                     }, 1000);
-                    setCartItems(selectedRoutes);
+                    if (selectedRoutes) {
+                        setCartItems(selectedRoutes);
+                    }
                 }
             )
             .subscribe();

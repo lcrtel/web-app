@@ -3,7 +3,6 @@ import { supabaseAdmin } from "@/lib/supabase-admin";
 import Link from "next/link";
 import { HiArrowLeft } from "react-icons/hi";
 import { AddRouteTable } from "./AddRoutes";
-import { SelectDemo } from "./combobox";
 
 const page = async () => {
     const supabase = supabaseAdmin();

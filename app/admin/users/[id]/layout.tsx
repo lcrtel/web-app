@@ -7,7 +7,6 @@ import Link from "next/link";
 import { HiArrowLeft, HiMail, HiPhoneOutgoing } from "react-icons/hi";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import SellerApplication from "./SellerApplication";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 
 export const metadata: Metadata = {

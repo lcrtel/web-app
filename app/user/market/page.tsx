@@ -17,7 +17,7 @@ const page = async () => {
             .from("route_offers")
             .select("*")
             .eq("verification", "verified")
-            .neq("seller_id", user.id)
+            .neq("seller_id", user?.id)
             .range(0, 4);
         return (
             <>
@@ -55,7 +55,7 @@ const page = async () => {
         let { data: routes, error } = await supabase
             .from("buying_targets")
             .select("*")
-            .neq("buyer_id", user.id)
+            .neq("buyer_id", user?.id)
             .range(0, 4);
         return (
             <div className="mt-5">

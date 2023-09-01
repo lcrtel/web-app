@@ -1,9 +1,6 @@
 import { supabaseServer } from "@/lib/supabase-server";
 import { fetchUserData } from "@/utils/user";
 import { PurchaseRequestForm } from "./PurchaseRequestForm";
-import { HiOutlineExternalLink } from "react-icons/hi";
-import Link from "next/link";
-import ReloadButton from "@/components/ReloadButton";
 import RealTimePurchaseRequests from "./RealTimePurchaseRequests";
 
 export default async function Page() {

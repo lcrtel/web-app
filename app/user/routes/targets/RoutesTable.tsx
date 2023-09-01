@@ -326,7 +326,9 @@ export function RoutesTable({ data }: any) {
             )
             .subscribe();
 
-        return () => supabase.removeChannel(realTimeTargets);
+        return () => {
+            supabase.removeChannel(realTimeTargets);
+        };
     }, [supabase, router]);
     return (
         <div>

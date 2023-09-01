@@ -21,7 +21,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { HiOutlineFolderAdd, HiTrash } from "react-icons/hi";
 
-export default function AddToWatchlist({ ID }: { ID: User }) {
+export default function AddToWatchlist({ ID }: { ID: any }) {
     const supabase = supabaseClient();
     const router = useRouter();
     const handleAdd = async () => {

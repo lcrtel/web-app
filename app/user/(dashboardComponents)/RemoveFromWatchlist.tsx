@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
 
-export default function RemoveFromWatchlist({ ID }: { ID: User }) {
+export default function RemoveFromWatchlist({ ID }: { ID: any }) {
     const supabase = supabaseClient();
     const router = useRouter();
     const handleDelete = async () => {

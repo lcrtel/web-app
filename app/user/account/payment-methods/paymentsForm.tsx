@@ -37,10 +37,10 @@ export function PaymentsForm({ user }: { user: any }) {
         mode: "onChange",
     });
 
-    async function onSubmit(data: User) {
+    async function onSubmit(data: any) {
         toast.success("Payment method saved");
         // const supabase = supabaseClient();
-        // const { data: User } = await supabase.auth.updateUser({
+        // const { data: any } = await supabase.auth.updateUser({
         //     data: { payment_method: data },
         // });
         // const { data: user, error } = await supabase

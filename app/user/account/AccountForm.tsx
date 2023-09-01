@@ -43,9 +43,9 @@ export function AccountForm({ user }: { user: any }) {
         mode: "onChange",
     });
 
-    async function onSubmit(data: User) {
+    async function onSubmit(data: any) {
         const supabase = supabaseClient();
-        const { data: User, error } = await supabase.auth.updateUser({
+        const { data: any, error } = await supabase.auth.updateUser({
             data: data,
         });
         if (error) {

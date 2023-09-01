@@ -116,7 +116,7 @@ export default function Signup({ user }: { user: any }) {
                     </Container>
                     <Container>
                         <Text className=" font-medium text-xs my-8 text-gray-500 text-center">
-                            &copy; 2023 LCRTel, All Rights Reserved
+                            &copy; 2023 (1445 AH) LCRTel, All Rights Reserved
                         </Text>
                     </Container>
                 </Body>

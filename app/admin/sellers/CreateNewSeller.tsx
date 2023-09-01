@@ -65,7 +65,7 @@ const CreateNewSeller = () => {
         mode: "onChange",
     });
 
-    async function onSubmit(data: User) {
+    async function onSubmit(data: any) {
         const supabase = supabaseAdmin();
         setErrorMessage(null);
         setLoading(true);

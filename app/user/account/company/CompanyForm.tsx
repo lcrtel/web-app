@@ -57,9 +57,9 @@ export function CompanyForm({ user }: { user: any }) {
             defaultValues,
             mode: "onChange",
         });
-        async function onSubmit(data: User) {
+        async function onSubmit(data: any) {
             const supabase = supabaseClient();
-            const { data: User } = await supabase.auth.updateUser({
+            const { data: any } = await supabase.auth.updateUser({
                 data: { finance_department: data },
             });
             const { data: user, error } = await supabase
@@ -157,9 +157,9 @@ export function CompanyForm({ user }: { user: any }) {
             mode: "onChange",
         });
 
-        async function onSubmit(data: User) {
+        async function onSubmit(data: any) {
             const supabase = supabaseClient();
-            const { data: User } = await supabase.auth.updateUser({
+            const { data: any } = await supabase.auth.updateUser({
                 data: { noc_dipartment: data },
             });
             const { data: user, error } = await supabase
@@ -256,9 +256,9 @@ export function CompanyForm({ user }: { user: any }) {
             defaultValues,
             mode: "onChange",
         });
-        async function onSubmit(data: User) {
+        async function onSubmit(data: any) {
             const supabase = supabaseClient();
-            const { data: User } = await supabase.auth.updateUser({
+            const { data: any } = await supabase.auth.updateUser({
                 data: { sales_dipartment: data },
             });
             const { data: user, error } = await supabase

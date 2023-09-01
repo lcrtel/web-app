@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
 
-export default function DeleteRoute({ routeID }: { routeID: User }) {
+export default function DeleteRoute({ routeID }: { routeID: any }) {
     const supabase = supabaseAdmin();
     const router = useRouter();
     const handleDelete = async () => {

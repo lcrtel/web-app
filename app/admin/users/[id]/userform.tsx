@@ -63,7 +63,7 @@ export function ProfileForm({ user }: { user: any }) {
         mode: "onChange",
     });
 
-    async function onSubmit(data: anu) {
+    async function onSubmit(data: any) {
         const supabase = supabaseAdmin();
         const { data: user, error } = await supabase.auth.admin.updateUserById(
             userID,

@@ -11,7 +11,7 @@ const page = () => {
             <Overview />
             <QuickActions />
             <Notifications />
-            <RecentActivities />
+            {/* <RecentActivities /> */}
         </div>
     );
 };

@@ -12,8 +12,8 @@ const page = async () => {
     const supabase = supabaseServer();
     const Links = () => {
         return (
-            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 ">
-                <Link
+            <div className="grid md:grid-cols-2  gap-5 ">
+                {/* <Link
                     href="/user/market"
                     passHref
                     className="bg-surface hover:scale-[102%] transition-all ease-in-out border-2 border-white rounded-lg shadow  p-5"
@@ -28,15 +28,15 @@ const page = async () => {
                         Discover a diverse range of VoIP routes and services in
                         our vibrant marketplace.
                     </p>
-                </Link>
+                </Link> */}
                 <Link
-                    href="/user/routes/targets/post"
+                    href="/user/market/targets"
                     passHref
                     className="bg-surface hover:scale-[102%] transition-all ease-in-out border-2 border-white rounded-lg shadow  p-5"
                 >
                     <div className="flex justify-between items-center mb-3">
                         <h3 className="font-semibold tracking-tight text-xl">
-                            🎯 Post Buying Targets
+                            🎯 Our Buying Targets
                         </h3>
                         <HiArrowRight className="w-5 h-5" />
                     </div>
@@ -47,13 +47,13 @@ const page = async () => {
                     </p>
                 </Link>
                 <Link
-                    href="/user/routes/offers/post"
+                    href="/user/market/offers"
                     passHref
                     className="bg-surface hover:scale-[102%] transition-all ease-in-out border-2 border-white rounded-lg shadow  p-5"
                 >
                     <div className="flex justify-between items-center mb-3">
                         <h3 className="font-semibold tracking-tight text-xl">
-                            🏷️ Post Route Offers
+                            🏷️ Our Selling Rates
                         </h3>
                         <HiArrowRight className="w-5 h-5" />
                     </div>

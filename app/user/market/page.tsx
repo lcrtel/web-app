@@ -23,7 +23,7 @@ const page = async () => {
             <>
                 <div className="flex mb-4 justify-between items-center">
                     <h3 className="text-lg  font-semibold text-primary-500">
-                        Explore Route Offers
+                        Selling Rates
                     </h3>
                     <Link
                         href="/user/market/offers"
@@ -39,7 +39,7 @@ const page = async () => {
                     <OffersTable data={routes} />
                 ) : (
                     <div className="gap-2  h-12 text-center flex items-center justify-center bg-surface py-10 rounded-lg">
-                        <p>No route offers found</p>
+                        <p>No selling rates found</p>
                         {/* <Link
                         href="/user/routes/requests/request"
                         className="bg-primary-500 px-3 ml-2 py-2 text-white rounded-md"
@@ -61,7 +61,7 @@ const page = async () => {
             <div className="mt-5">
                 <div className="flex mb-4 justify-between items-center">
                     <h3 className="text-lg  font-semibold text-primary-500">
-                        Explore our Buying Targets
+                        Buying Targets
                     </h3>
                     <Link
                         href="/user/market/targets"

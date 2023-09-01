@@ -17,7 +17,7 @@ export default async function DashboardLayout({
     } = await supabase.auth.getSession();
 
     if (session) {
-        redirect("/dashboard");
+        redirect("/user");
     } 
     return (
         <section className="min-h-screen flex justify-between ">

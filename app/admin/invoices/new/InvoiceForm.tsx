@@ -35,9 +35,16 @@ import { supabaseAdmin } from "@/lib/supabase-admin";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { Check, CalendarIcon, ChevronsUpDown } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+} from "@/components/ui/command";
 
 const bankSchema = z.object({
     bank_name: z.string(),
@@ -45,11 +52,6 @@ const bankSchema = z.object({
     account_number: z.string(),
     ifsc_code: z.string(),
     branch: z.string(),
-});
-const itemsSchema = z.object({
-    description: z.string(),
-    rate: z.number(),
-    quantity: z.number(),
 });
 const routeFormSchema = z.object({
     invoice_id: z.string(),
@@ -65,33 +67,37 @@ const routeFormSchema = z.object({
     note: z.string(),
     total_amount: z.number(),
 });
-const defaultValues: z.infer<typeof routeFormSchema> = {
-    invoice_id: "",
-    date_issued: new Date(),
-    date_due: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000),
-    bill_to: {
-        bank_name: "",
-        account_name: "",
-        account_number: "",
-        ifsc_code: "",
-        branch: "",
-    },
-    invoice_to: "",
-    description: "",
-    rate: 0,
-    quantity: 0,
-    agent: "",
-    deal_id: 0,
-    note: "",
-    total_amount: 0,
-};
-export default function InvoiceForm() {
+
+export default function InvoiceForm({ users }: { users: any }) {
+    const defaultValues: z.infer<typeof routeFormSchema> = {
+        invoice_id: "",
+        date_issued: new Date(),
+        date_due: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000),
+        bill_to: {
+            bank_name: "",
+            account_name: "",
+            account_number: "",
+            ifsc_code: "",
+            branch: "",
+        },
+        invoice_to: "",
+        description: "",
+        rate: 0,
+        quantity: 0,
+        agent: "",
+        deal_id: 0,
+        note: "",
+        total_amount: 0,
+    };
     const form = useForm<z.infer<typeof routeFormSchema>>({
         resolver: zodResolver(routeFormSchema),
         defaultValues,
         mode: "onChange",
     });
-    const [invoiceTo, setInvoiceTo] = useState();
+    const [invoiceTo, setInvoiceTo] = useState<any>();
+    const [rate, setRate] = useState(0);
+    const [calls, setCalls] = useState(0);
+    const [open, setOpen] = useState(false);
     // const [items, setItems] = useState<z.infer<typeof itemsSchema>[]>([
     //     {
     //         description: "",
@@ -262,13 +268,75 @@ export default function InvoiceForm() {
                     </div>
                     <div className="flex justify-between p-4 border-b">
                         <div className="">
-                            <h2>Invoice To:</h2>
+                            <h2 className="mb-2">Invoice To:</h2>{" "}
+                            <Popover open={open} onOpenChange={setOpen}>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        role="combobox"
+                                        aria-expanded={open}
+                                        className=" justify-between"
+                                    >
+                                        {invoiceTo
+                                            ? users.find(
+                                                  (user: any) =>
+                                                      user.id === invoiceTo.id
+                                              )?.email
+                                            : "Select User..."}
+                                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className=" p-0" align="start">
+                                    <Command>
+                                        <CommandInput placeholder="Search users..." />
+                                        <CommandEmpty>
+                                            No users found.
+                                        </CommandEmpty>
+                                        <CommandGroup>
+                                            {users.map((user: any) => (
+                                                <CommandItem
+                                                    key={user.id}
+                                                    onSelect={() => {
+                                                        setInvoiceTo(
+                                                            user === invoiceTo
+                                                                ? ""
+                                                                : user
+                                                        );
+                                                        setOpen(false);
+                                                    }}
+                                                >
+                                                    <Check
+                                                        className={cn(
+                                                            "mr-2 h-4 w-4",
+                                                            user === user.id
+                                                                ? "opacity-100"
+                                                                : "opacity-0"
+                                                        )}
+                                                    />
+                                                    {user.email}
+                                                </CommandItem>
+                                            ))}
+                                        </CommandGroup>
+                                    </Command>
+                                </PopoverContent>
+                            </Popover>
+                            {invoiceTo !== "" ? (
+                                <div className="mt-2 text-sm text-slate-500">
+                                    <p>
+                                        {invoiceTo?.user_metadata?.first_name}{" "}
+                                        {invoiceTo?.user_metadata?.last_name}
+                                    </p>
+                                    <p>{invoiceTo?.email}</p>
+                                    <p>{invoiceTo?.user_metadata?.phone}</p>
+                                </div>
+                            ) : null}
                         </div>
                         <div className="w-[300px] flex flex-col gap-2">
                             <h2>Bill To:</h2>
                         </div>
                     </div>
-
+                    <div className="p-4 border-b"></div>
                     <div className="flex gap-4 p-4 border-b">
                         <FormField
                             control={form.control}
@@ -297,14 +365,15 @@ export default function InvoiceForm() {
                                     <FormLabel className=" font-medium">
                                         Rate
                                     </FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="$0.00"
-                                            type="number"
-                                            className=""
-                                            {...field}
-                                        />
-                                    </FormControl>
+                                    <Input
+                                        placeholder="$0.00"
+                                        type="number"
+                                        className=""
+                                        onChange={(e) =>
+                                            setRate(e.target.valueAsNumber)
+                                        }
+                                    />
+
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -317,14 +386,14 @@ export default function InvoiceForm() {
                                     <FormLabel className=" font-medium">
                                         Qty
                                     </FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="0"
-                                            type="number"
-                                            className=""
-                                            {...field}
-                                        />
-                                    </FormControl>
+                                    <Input
+                                        placeholder="0"
+                                        type="number"
+                                        className=""
+                                        onChange={(e) =>
+                                            setCalls(e.target.valueAsNumber)
+                                        }
+                                    />
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -335,58 +404,32 @@ export default function InvoiceForm() {
                             <h2>Agent:</h2>
                         </div>
                         <div className="flex flex-col gap-2 w-[300px]">
-                            <div className="flex justify-between">
-                                <p>Subtotal: </p>
-                                <p></p>
-                            </div>
-                            <div className="flex justify-between">
-                                <p>Discount: </p>
-                                <p></p>
-                            </div>
-                            <div className="flex justify-between ">
-                                <p>Tax: </p>
-                                <p></p>
-                            </div>
-                            <div className="flex justify-between pt-2 border-t">
-                                <p>Total: </p>
-                                <p></p>
-                            </div>
+                            <p className=" font-semibold">
+                                Total: ${rate * calls}
+                            </p>
                         </div>
                     </div>
-                    <div className="flex justify-between p-4"></div>
+                    <div className="p-4 w-full">
+                        <FormField
+                            control={form.control}
+                            name="note"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Notes</FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            placeholder="It was a pleasure working with you and your team. Thank You!"
+                                            className="resize-none w-full"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
                 </div>
                 <div className="w-1/4 bg-white border-2 border-white rounded-lg shadow-lg p-4"></div>
-                {/* <FormField
-                        control={form.control}
-                        name="bill_to"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Route Type</FormLabel>
-                                <Select
-                                    onValueChange={field.onChange}
-                                    defaultValue={field.value}
-                                >
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectValue
-                                                placeholder="Choose a type"
-                                                {...field}
-                                            />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        <SelectItem value="cli">CLI</SelectItem>
-                                        <SelectItem value="non-cli">
-                                            Non-CLI
-                                        </SelectItem>
-                                        <SelectItem value="sms">SMS</SelectItem>
-                                        <SelectItem value="did">DID</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    /> */}
             </form>
         </Form>
     );

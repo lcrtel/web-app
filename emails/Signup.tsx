@@ -1,6 +1,5 @@
 import {
     Body,
-    Column,
     Container,
     Font,
     Head,
@@ -8,7 +7,6 @@ import {
     Html,
     Img,
     Preview,
-    Row,
     Section,
     Tailwind,
     Text,

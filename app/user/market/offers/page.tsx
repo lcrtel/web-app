@@ -5,14 +5,18 @@ import { HiOutlinePlusCircle } from "react-icons/hi";
 import { buttonVariants } from "@/components/ui/button";
 import { OffersTable } from "./offers-table";
 import TradeNav from "../nav";
+import { fetchUserData } from "@/utils/user";
 
 export const revalidate = 60; // revalidate this page every 60 seconds
 
 export default async function Page() {
+    const user = await fetchUserData();
     const supabase = supabaseServer();
     let { data: routes, error } = await supabase
         .from("route_offers")
-        .select("*");
+        .select("*")
+        .eq("verification", "verified")
+        .neq("seller_id", user?.id);
     return (
         <div className="">
             <div className="mb-5 pt-5 ">
@@ -23,10 +27,7 @@ export default async function Page() {
             </div>
             <div className="flex mb-4 justify-between items-center">
                 <h3 className="text-xl  font-semibold text-primary-500 flex items-center tracking-tight">
-                    Route Offers{" "}
-                    <span className="text-xs bg-primary-50 border border-primary-100 rounded-full px-2 py-1 ml-2">
-                        {routes?.length} Routes
-                    </span>
+                    Selling Rates
                 </h3>
                 <Link
                     href="/user/routes/offers/post"
@@ -34,7 +35,7 @@ export default async function Page() {
                         variant: "default",
                     })}`}
                 >
-                    Post Route Offers
+                    Post your rates
                 </Link>
             </div>
             {routes?.length ? (

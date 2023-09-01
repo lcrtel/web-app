@@ -12,10 +12,12 @@ import {
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import {
     flexRender,
+    ColumnDef,
     getCoreRowModel,
     getFilteredRowModel,
     getSortedRowModel,
     useReactTable,
+    RowData,
 } from "@tanstack/react-table";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -47,7 +49,17 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { toast } from "react-hot-toast";
-export function AddRouteTable({ users }) {
+declare module "@tanstack/react-table" {
+    interface TableMeta<TData extends RowData> {
+        updateData: (
+            rowIndex: number,
+            columnId: string,
+            value: unknown
+        ) => void;
+    }
+}
+
+export function AddRouteTable({ users }: { users: any }) {
     const [sorting, setSorting] = useState([]);
     const [columnFilters, setColumnFilters] = useState([]);
     const [columnVisibility, setColumnVisibility] = useState({});
@@ -80,9 +92,9 @@ export function AddRouteTable({ users }) {
         setData([]);
     };
 
-    const handleRemoveRoute = (row) => {
-        setData((prevData) =>
-            prevData.filter((route) => route.id !== row.original.id)
+    const handleRemoveRoute = (row: any) => {
+        setData((prevData: any) =>
+            prevData.filter((route: any) => route.id !== row.original.id)
         );
     };
     function add20Percent(numberString: string) {
@@ -95,13 +107,13 @@ export function AddRouteTable({ users }) {
         const result = number + increase; // Add the increase to the original number
         return result.toString;
     }
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
         if (seller !== "") {
             const { data: route, error } = await supabase
                 .from("route_offers")
                 .insert(
-                    data.map((route) => ({
+                    data.map((route: any) => ({
                         seller_id: seller,
                         destination: route.destination,
                         destination_code: route.destination_code,
@@ -131,13 +143,11 @@ export function AddRouteTable({ users }) {
         } else toast.error("Select a seller to post");
     };
 
-    const columns = useMemo(
+    const columns = useMemo<ColumnDef<any>[]>(
         () => [
             {
                 accessorKey: "prefix",
-                header: function Cell({ column }) {
-                    return <div className=" min-w-[80px]">Prefix</div>;
-                },
+                header: "Prefix",
                 cell: function Cell({
                     getValue,
                     row: { index },
@@ -146,7 +156,7 @@ export function AddRouteTable({ users }) {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = useState(initialValue);
+                    const [value, setValue] = useState<any>(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -183,7 +193,7 @@ export function AddRouteTable({ users }) {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = useState(initialValue);
+                    const [value, setValue] = useState<any>(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -219,7 +229,7 @@ export function AddRouteTable({ users }) {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = useState(initialValue);
+                    const [value, setValue] = useState<any>(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -254,7 +264,7 @@ export function AddRouteTable({ users }) {
                     column: { id },
                     table,
                 }) {
-                    const onBlur = (val) => {
+                    const onBlur = (val: any) => {
                         table.options.meta?.updateData(index, id, val);
                     };
 
@@ -296,7 +306,7 @@ export function AddRouteTable({ users }) {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = useState(initialValue);
+                    const [value, setValue] = useState<any>(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -333,7 +343,7 @@ export function AddRouteTable({ users }) {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = useState(initialValue);
+                    const [value, setValue] = useState<any>(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -370,7 +380,7 @@ export function AddRouteTable({ users }) {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = useState(initialValue);
+                    const [value, setValue] = useState<any>(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -407,7 +417,7 @@ export function AddRouteTable({ users }) {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = useState(initialValue);
+                    const [value, setValue] = useState<any>(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -444,7 +454,7 @@ export function AddRouteTable({ users }) {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = useState(initialValue);
+                    const [value, setValue] = useState<any>(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -481,7 +491,7 @@ export function AddRouteTable({ users }) {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = useState(initialValue);
+                    const [value, setValue] = useState<any>(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -532,8 +542,6 @@ export function AddRouteTable({ users }) {
         data,
         columns,
         // defaultColumn,
-        onSortingChange: setSorting,
-        onColumnFiltersChange: setColumnFilters,
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
@@ -583,7 +591,7 @@ export function AddRouteTable({ users }) {
                                 >
                                     {seller
                                         ? users.find(
-                                              (user) => user.id === seller
+                                              (user: any) => user.id === seller
                                           )?.email
                                         : "Select Seller..."}
                                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -594,7 +602,7 @@ export function AddRouteTable({ users }) {
                                     <CommandInput placeholder="Search users..." />
                                     <CommandEmpty>No users found.</CommandEmpty>
                                     <CommandGroup>
-                                        {users.map((user) => (
+                                        {users.map((user: any) => (
                                             <CommandItem
                                                 key={user.id}
                                                 onSelect={() => {

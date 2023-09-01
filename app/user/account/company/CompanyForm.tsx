@@ -52,7 +52,7 @@ export function CompanyForm({ user }: { user: any }) {
 
     const FinanceDipartment = () => {
         const defaultValues = user.user_metadata.finance_department;
-        const form = useForm<User>({
+        const form = useForm<any>({
             resolver: zodResolver(departmentSchema),
             defaultValues,
             mode: "onChange",
@@ -151,7 +151,7 @@ export function CompanyForm({ user }: { user: any }) {
     };
     const NOCDipartment = () => {
         const defaultValues = user.user_metadata.noc_dipartment;
-        const form = useForm<User>({
+        const form = useForm<any>({
             resolver: zodResolver(departmentSchema),
             defaultValues,
             mode: "onChange",
@@ -251,7 +251,7 @@ export function CompanyForm({ user }: { user: any }) {
     };
     const SalesDipartment = () => {
         const defaultValues = user.user_metadata.sales_dipartment;
-        const form = useForm<User>({
+        const form = useForm<any>({
             resolver: zodResolver(departmentSchema),
             defaultValues,
             mode: "onChange",

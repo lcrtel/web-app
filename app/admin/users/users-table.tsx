@@ -30,7 +30,7 @@ import { HiOutlinePencilAlt, HiPencil } from "react-icons/hi";
 import { buttonVariants } from "@/components/ui/button";
 import DeleteUser from "./[id]/DeleteUser";
 
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<any>[] = [
     {
         accessorKey: "first_name",
         header: ({ column }) => {

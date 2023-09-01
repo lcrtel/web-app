@@ -38,7 +38,7 @@ import {
 import Link from "next/link";
 import formatTimestamptz from "@/utils/formatTimestamptz";
 
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<any>[] = [
     {
         accessorKey: "first_name",
         header: ({ column }) => {

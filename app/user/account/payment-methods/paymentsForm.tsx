@@ -31,7 +31,7 @@ export function PaymentsForm({ user }: { user: any }) {
     const userID = user?.id;
     const defaultValues = user.user_metadata.payment_method;
     const router = useRouter();
-    const form = useForm<User>({
+    const form = useForm<any>({
         resolver: zodResolver(bankDetailsSchema),
         defaultValues,
         mode: "onChange",

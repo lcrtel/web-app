@@ -46,7 +46,7 @@ const routeFormSchema = z.object({
 
 export function RouteForm({ route }: { route: BuyingTarget }) {
     const defaultValues = route;
-    const form = useForm<User>({
+    const form = useForm<any>({
         resolver: zodResolver(routeFormSchema),
         defaultValues,
         mode: "onChange",

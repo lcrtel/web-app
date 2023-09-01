@@ -51,7 +51,7 @@ const CreateNewSeller = () => {
     const router = useRouter();
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
-    const form = useForm<User>({
+    const form = useForm<any>({
         resolver: zodResolver(profileFormSchema),
         defaultValues: {
             email_confirm: false,

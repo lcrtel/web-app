@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -13,17 +12,15 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, ChevronDown } from "lucide-react";
+import * as React from "react";
 
+import ReloadButton from "@/components/ReloadButton";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -35,10 +32,12 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import Link from "next/link";
+import { supabaseAdmin } from "@/lib/supabase-admin";
 import formatTimestamptz from "@/utils/formatTimestamptz";
-import formatDate from "@/utils/formatDate";
-import formatString from "@/utils/formatString";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { HiOutlineExternalLink, HiOutlinePencilAlt } from "react-icons/hi";
+import DeleteRoute from "./[id]/DeleteRoute";
 
 export const columns: ColumnDef<RouteOffer>[] = [
     // {
@@ -61,10 +60,23 @@ export const columns: ColumnDef<RouteOffer>[] = [
     //             aria-label="Select row"
     //         />
     //     ),
-    //     enableSorting: false,
-    //     enableHiding: false,
     // },
-
+    {
+        accessorKey: "prefix",
+        header: ({ column }) => {
+            return (
+                <div
+                    className="flex gap-2 items-center cursor-pointer"
+                    onClick={() =>
+                        column.toggleSorting(column.getIsSorted() === "asc")
+                    }
+                >
+                    Prefix
+                    <ArrowUpDown className=" h-4 w-4" />
+                </div>
+            );
+        },
+    },
     {
         accessorKey: "destination",
         header: ({ column }) => {
@@ -110,23 +122,42 @@ export const columns: ColumnDef<RouteOffer>[] = [
                 </div>
             );
         },
-        // cell: ({ row }) => {
-        //     const Rate = parseFloat(row.getValue("rate"));
-        //     const formatted = new Intl.NumberFormat("en-US", {
-        //         style: "currency",
-        //         currency: "USD",
-        //     }).format(Rate);
+        cell: ({ row }) => {
+            const Rate = parseFloat(row.getValue("rate"));
+            const formatted = new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+            }).format(Rate);
 
-        //     return <div className="font-medium">{formatted}</div>;
-        // },
-        cell: ({ row }) => (
-            <Link
-                href={`/admin/routes/${row.getValue("id")}`}
-                className="uppercase"
-            >
-                {row.getValue("rate")}
-            </Link>
-        ),
+            return <div className="font-medium">{formatted}</div>;
+        },
+    },
+    {
+        accessorKey: "selling_rate",
+        header: ({ column }) => {
+            return (
+                <div
+                    className="flex gap-2 items-center cursor-pointer"
+                    onClick={() =>
+                        column.toggleSorting(column.getIsSorted() === "asc")
+                    }
+                >
+                    Selling Rate
+                    <ArrowUpDown className=" h-4 w-4" />
+                </div>
+            );
+        },
+        cell: ({ row }) => {
+            const Rate = parseFloat(row.getValue("selling_rate"));
+            const formatted = new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+            }).format(Rate);
+
+            return (
+                <div className="font-medium">{Rate ? formatted : "N/A"}</div>
+            );
+        },
     },
     {
         accessorKey: "route_type",
@@ -153,103 +184,11 @@ export const columns: ColumnDef<RouteOffer>[] = [
         ),
     },
     {
-        accessorKey: "status",
-        header: "Status",
-        cell: ({ row }) => (
-            <Link
-                href={`/admin/routes/${row.getValue("id")}`}
-                className="capitalize whitespace-nowrap"
-            >
-                {formatString(row.getValue("status"))}
-            </Link>
-        ),
-    },
-    {
-        accessorKey: "prefix",
-        header: ({ column }) => {
-            return (
-                <div
-                    className="flex gap-2 items-center cursor-pointer"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Prefix
-                    <ArrowUpDown className=" h-4 w-4" />
-                </div>
-            );
-        },
-    },
-    {
-        accessorKey: "asr",
-        header: ({ column }) => {
-            return (
-                <div
-                    className="flex gap-2 items-center cursor-pointer"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    ASR
-                    <ArrowUpDown className=" h-4 w-4" />
-                </div>
-            );
-        },
-    },
-    {
-        accessorKey: "acd",
-        header: ({ column }) => {
-            return (
-                <div
-                    className="flex gap-2 items-center cursor-pointer"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    ACD
-                    <ArrowUpDown className=" h-4 w-4" />
-                </div>
-            );
-        },
-    },
-    {
-        accessorKey: "ports",
-        header: ({ column }) => {
-            return (
-                <div
-                    className="flex gap-2 items-center cursor-pointer"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Ports
-                    <ArrowUpDown className=" h-4 w-4" />
-                </div>
-            );
-        },
-    },
-    {
-        accessorKey: "capacity",
-        header: ({ column }) => {
-            return (
-                <div
-                    className="flex gap-2 items-center cursor-pointer"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Capacity
-                    <ArrowUpDown className=" h-4 w-4" />
-                </div>
-            );
-        },
-    },
-    {
         accessorKey: "created_at",
         header: ({ column }) => {
             return (
                 <div
-                    className="flex gap-2 items-center cursor-pointer whitespace-nowrap"
+                    className="flex gap-2 items-center cursor-pointer"
                     onClick={() =>
                         column.toggleSorting(column.getIsSorted() === "asc")
                     }
@@ -259,11 +198,46 @@ export const columns: ColumnDef<RouteOffer>[] = [
                 </div>
             );
         },
-        cell: ({ row }) => {
-            const Date = row.getValue("created_at");
-            const formattedDate = formatDate(Date);
-            return <div className="font-medium">{formattedDate}</div>;
+        cell: ({ row }) => (
+            <Link
+                href={`/admin/routes/${row.getValue("id")}`}
+                className="capitalize"
+            >
+                {formatTimestamptz(row.getValue("created_at"))}
+            </Link>
+        ),
+    },
+    {
+        accessorKey: "verification",
+        header: ({ column }) => {
+            return (
+                <div
+                    className="flex gap-2 items-center cursor-pointer"
+                    onClick={() =>
+                        column.toggleSorting(column.getIsSorted() === "asc")
+                    }
+                >
+                    Verification
+                    <ArrowUpDown className=" h-4 w-4" />
+                </div>
+            );
         },
+        cell: ({ row }) => (
+            <Link
+                href={`/admin/routes/${row.getValue("id")}`}
+                className="capitalize"
+            >
+                {row.getValue("verification") === "verified" ? (
+                    <span className="text-xs font-medium bg-green-100 border-[1.5px] border-green-200 text-green-500 rounded-full px-2 py-1 ml-2">
+                        Verified
+                    </span>
+                ) : (
+                    <span className="text-xs bg-slate-100 border-[1.5px] border-slate-200  text-slate-500 rounded-full px-2 py-1 ml-2">
+                        Pending
+                    </span>
+                )}
+            </Link>
+        ),
     },
     {
         accessorKey: "id",
@@ -271,12 +245,14 @@ export const columns: ColumnDef<RouteOffer>[] = [
         cell: ({ row }) => {
             const id = row.getValue("id");
             return (
-                <Link
-                    href={`/admin/routes/${id}`}
-                    className="font-medium text-sm  bg-primary-50 px-3 py-1.5 rounded-full text-primary-500 whitespace-nowrap"
-                >
-                    Details
-                </Link>
+                <div className="flex gap-2">
+                    <div className="text-red-500">
+                        <DeleteRoute routeID={id as string} />
+                    </div>{" "}
+                    <Link href={`/admin/routes/${id}`} className="">
+                        <HiOutlineExternalLink className="w-5 h-5" />
+                    </Link>
+                </div>
             );
         },
     },
@@ -289,7 +265,6 @@ export function RoutesTable({ data }: any) {
     const [columnVisibility, setColumnVisibility] =
         React.useState<VisibilityState>({});
     const [rowSelection, setRowSelection] = React.useState({});
-
     const table = useReactTable({
         data,
         columns,
@@ -308,7 +283,20 @@ export function RoutesTable({ data }: any) {
             rowSelection,
         },
     });
+    const supabase = supabaseAdmin();
+    const router = useRouter();
+    React.useEffect(() => {
+        const realTimeRoutes = supabase
+            .channel("realtime_routes")
+            .on(
+                "postgres_changes",
+                { event: "*", schema: "public", table: "route_offers" },
+                () => router.refresh()
+            )
+            .subscribe();
 
+        return () => supabase.removeChannel(realTimeRoutes);
+    }, [supabase, router]);
     return (
         <div>
             <div className="flex items-center pb-4">
@@ -326,34 +314,37 @@ export function RoutesTable({ data }: any) {
                     }
                     className="max-w-[200px] mr-2"
                 />
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto">
-                            Columns <ChevronDown className="ml-2 h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        {table
-                            .getAllColumns()
-                            .filter((column) => column.getCanHide())
-                            .map((column) => {
-                                return (
-                                    <DropdownMenuCheckboxItem
-                                        key={column.id}
-                                        className="capitalize"
-                                        checked={column.getIsVisible()}
-                                        onCheckedChange={(value: boolean) =>
-                                            column.toggleVisibility(!!value)
-                                        }
-                                    >
-                                        {column.id}
-                                    </DropdownMenuCheckboxItem>
-                                );
-                            })}
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                <div className="flex gap-2 ml-auto">
+                    <ReloadButton />
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline" className="">
+                                Columns <ChevronDown className="ml-2 h-4 w-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            {table
+                                .getAllColumns()
+                                .filter((column) => column.getCanHide())
+                                .map((column) => {
+                                    return (
+                                        <DropdownMenuCheckboxItem
+                                            key={column.id}
+                                            className="capitalize"
+                                            checked={column.getIsVisible()}
+                                            onCheckedChange={(value: boolean) =>
+                                                column.toggleVisibility(!!value)
+                                            }
+                                        >
+                                            {column.id}
+                                        </DropdownMenuCheckboxItem>
+                                    );
+                                })}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
             </div>
-            <div className="rounded-lg border">
+            <div className="rounded-lg border ">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
@@ -399,13 +390,24 @@ export function RoutesTable({ data }: any) {
                                     colSpan={columns.length}
                                     className="gap-2  h-12 text-center"
                                 >
-                                    No routes matching your filter
+                                    No routes found
                                 </TableCell>
                             </TableRow>
                         )}
                     </TableBody>
                 </Table>
-            </div>
+            </div>{" "}
+            {/* <pre className="mt-2  rounded-md bg-slate-950 p-4">
+                <code className="text-white">
+                    {JSON.stringify(
+                        table
+                            .getFilteredSelectedRowModel()
+                            .flatRows.map((item) => item.original),
+                        null,
+                        2
+                    )}
+                </code>
+            </pre> */}
         </div>
     );
 }

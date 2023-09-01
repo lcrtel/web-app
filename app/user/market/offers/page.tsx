@@ -12,19 +12,21 @@ export default async function Page() {
     const supabase = supabaseServer();
     let { data: routes, error } = await supabase
         .from("route_offers")
-        .select("*")
-        .eq("verification", "verified");
+        .select("*");
     return (
         <div className="">
             <div className="mb-5 pt-5 ">
-                <h2 className="text-2xl font-bold text-primary mb-3">
+                <h2 className="text-2xl font-bold text-primary mb-3 tracking-tight">
                     Market View
                 </h2>
                 <TradeNav />
             </div>
             <div className="flex mb-4 justify-between items-center">
-                <h3 className="text-lg  font-semibold text-primary-500">
-                    Explore Route Offers
+                <h3 className="text-xl  font-semibold text-primary-500 flex items-center tracking-tight">
+                    Route Offers{" "}
+                    <span className="text-xs bg-primary-50 border border-primary-100 rounded-full px-2 py-1 ml-2">
+                        {routes?.length} Routes
+                    </span>
                 </h3>
                 <Link
                     href="/user/routes/offers/post"

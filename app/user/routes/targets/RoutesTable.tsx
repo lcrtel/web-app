@@ -39,6 +39,8 @@ import DeleteRoute from "./DeleteRoute";
 import formatString from "@/utils/formatString";
 import formatTimestamptz from "@/utils/formatTimestamptz";
 import { toast } from "react-hot-toast";
+import { supabaseClient } from "@/lib/supabase-client";
+import { useRouter } from "next/navigation";
 
 export const columns: ColumnDef<RouteOffer>[] = [
     // {
@@ -312,7 +314,20 @@ export function RoutesTable({ data }: any) {
             rowSelection,
         },
     });
+    const supabase = supabaseClient();
+    const router = useRouter();
+    React.useEffect(() => {
+        const realTimeTargets = supabase
+            .channel("realtime_targets")
+            .on(
+                "postgres_changes",
+                { event: "*", schema: "public", table: "buying_targets" },
+                () => router.refresh()
+            )
+            .subscribe();
 
+        return () => supabase.removeChannel(realTimeTargets);
+    }, [supabase, router]);
     return (
         <div>
             <div className="flex items-center pb-4">

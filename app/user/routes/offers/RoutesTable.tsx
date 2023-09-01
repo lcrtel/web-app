@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -14,7 +13,9 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import { ArrowUpDown, ChevronDown } from "lucide-react";
+import * as React from "react";
 
+import ReloadButton from "@/components/ReloadButton";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -31,12 +32,13 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import Link from "next/link";
-import { HiOutlineEye, HiOutlinePencilAlt } from "react-icons/hi";
-import DeleteRoute from "./DeleteRoute";
 import formatString from "@/utils/formatString";
 import formatTimestamptz from "@/utils/formatTimestamptz";
-import { Checkbox } from "@/components/ui/checkbox";
+import Link from "next/link";
+import { HiOutlineExternalLink, HiOutlinePencilAlt } from "react-icons/hi";
+import DeleteRoute from "./DeleteRoute";
+import { supabaseClient } from "@/lib/supabase-client";
+import { useRouter } from "next/navigation";
 
 export const columns: ColumnDef<RouteOffer>[] = [
     // {
@@ -168,7 +170,15 @@ export const columns: ColumnDef<RouteOffer>[] = [
                 href={`/user/routes/${row.getValue("id")}`}
                 className="capitalize"
             >
-                {formatString(row.getValue("verification"))}
+                {row.getValue("verification") === "verified" ? (
+                    <span className="text-xs font-medium bg-green-100 border-[1.5px] border-green-200 text-green-500 rounded-full px-2 py-1 ml-2">
+                        Verified
+                    </span>
+                ) : (
+                    <span className="text-xs bg-slate-100 border-[1.5px] border-slate-200  text-slate-500 rounded-full px-2 py-1 ml-2">
+                        Pending
+                    </span>
+                )}
             </Link>
         ),
     },
@@ -274,7 +284,7 @@ export const columns: ColumnDef<RouteOffer>[] = [
                         <HiOutlinePencilAlt className="w-5 h-5" />
                     </Link>
                     <Link href={`/user/routes/offers/${id}`} className="">
-                        <HiOutlineEye className="w-5 h-5" />
+                        <HiOutlineExternalLink className="w-5 h-5" />
                     </Link>
                 </div>
             );
@@ -289,7 +299,6 @@ export function RoutesTable({ data }: any) {
     const [columnVisibility, setColumnVisibility] =
         React.useState<VisibilityState>({});
     const [rowSelection, setRowSelection] = React.useState({});
-
     const table = useReactTable({
         data,
         columns,
@@ -308,7 +317,20 @@ export function RoutesTable({ data }: any) {
             rowSelection,
         },
     });
+    const supabase = supabaseClient();
+    const router = useRouter();
+    React.useEffect(() => {
+        const realTimeRoutes = supabase
+            .channel("realtime_routes")
+            .on(
+                "postgres_changes",
+                { event: "*", schema: "public", table: "route_offers" },
+                () => router.refresh()
+            )
+            .subscribe();
 
+        return () => supabase.removeChannel(realTimeRoutes);
+    }, [supabase, router]);
     return (
         <div>
             <div className="flex items-center pb-4">
@@ -326,32 +348,35 @@ export function RoutesTable({ data }: any) {
                     }
                     className="max-w-[200px] mr-2"
                 />
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto">
-                            Columns <ChevronDown className="ml-2 h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        {table
-                            .getAllColumns()
-                            .filter((column) => column.getCanHide())
-                            .map((column) => {
-                                return (
-                                    <DropdownMenuCheckboxItem
-                                        key={column.id}
-                                        className="capitalize"
-                                        checked={column.getIsVisible()}
-                                        onCheckedChange={(value: boolean) =>
-                                            column.toggleVisibility(!!value)
-                                        }
-                                    >
-                                        {column.id}
-                                    </DropdownMenuCheckboxItem>
-                                );
-                            })}
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                <div className="flex gap-2 ml-auto">
+                    <ReloadButton />
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline" className="">
+                                Columns <ChevronDown className="ml-2 h-4 w-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            {table
+                                .getAllColumns()
+                                .filter((column) => column.getCanHide())
+                                .map((column) => {
+                                    return (
+                                        <DropdownMenuCheckboxItem
+                                            key={column.id}
+                                            className="capitalize"
+                                            checked={column.getIsVisible()}
+                                            onCheckedChange={(value: boolean) =>
+                                                column.toggleVisibility(!!value)
+                                            }
+                                        >
+                                            {column.id}
+                                        </DropdownMenuCheckboxItem>
+                                    );
+                                })}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
             </div>
             <div className="rounded-lg border ">
                 <Table>
@@ -406,7 +431,18 @@ export function RoutesTable({ data }: any) {
                         )}
                     </TableBody>
                 </Table>
-            </div>
+            </div>{" "}
+            {/* <pre className="mt-2  rounded-md bg-slate-950 p-4">
+                <code className="text-white">
+                    {JSON.stringify(
+                        table
+                            .getFilteredSelectedRowModel()
+                            .flatRows.map((item) => item.original),
+                        null,
+                        2
+                    )}
+                </code>
+            </pre> */}
         </div>
     );
 }

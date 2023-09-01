@@ -16,8 +16,11 @@ const page = async () => {
         <section className="">
             <div className="flex my-5 justify-between items-center flex-wrap gap-2">
                 <div>
-                    <h3 className="text-2xl tracking-tight font-bold text-primary-500">
-                        Your buying targets
+                    <h3 className="text-2xl tracking-tight font-bold text-primary-500 flex items-center">
+                        Your buying targets{" "}
+                        <span className="text-xs font-medium tracking-normal bg-primary-50 border border-primary-100 rounded-full px-2 py-1 ml-2">
+                            {routes?.length} Routes
+                        </span>
                     </h3>
                     <p className="text-gray-400 text-sm">
                         View and manage your buying targets

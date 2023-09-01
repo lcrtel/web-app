@@ -73,89 +73,67 @@ export interface Database {
           }
         ]
       }
-      deals: {
-        Row: {
-          buyer_id: string
-          confirmed_at: string | null
-          created_at: string
-          deal_id: number
-          price: number
-          route_id: string
-          seller_id: string
-          status: string
-        }
-        Insert: {
-          buyer_id: string
-          confirmed_at?: string | null
-          created_at?: string
-          deal_id?: number
-          price: number
-          route_id: string
-          seller_id: string
-          status?: string
-        }
-        Update: {
-          buyer_id?: string
-          confirmed_at?: string | null
-          created_at?: string
-          deal_id?: number
-          price?: number
-          route_id?: string
-          seller_id?: string
-          status?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "deals_buyer_id_fkey"
-            columns: ["buyer_id"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "deals_route_id_fkey"
-            columns: ["route_id"]
-            referencedRelation: "route_offers"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "deals_seller_id_fkey"
-            columns: ["seller_id"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
       invoices: {
         Row: {
-          created_at: string
-          deal_id: number
+          agent: string
+          balance: string
+          bill_to: Json
+          connection_id: string | null
+          date_due: string
+          date_issued: string
+          description: string
           invoice_id: number
-          paid_at: string
+          invoice_to: string
+          note: string | null
+          paid_at: string | null
+          payments: Json
           status: string
           total_amount: number
         }
         Insert: {
-          created_at?: string
-          deal_id: number
+          agent: string
+          balance: string
+          bill_to: Json
+          connection_id?: string | null
+          date_due: string
+          date_issued?: string
+          description: string
           invoice_id?: number
-          paid_at: string
+          invoice_to: string
+          note?: string | null
+          paid_at?: string | null
+          payments: Json
           status?: string
           total_amount: number
         }
         Update: {
-          created_at?: string
-          deal_id?: number
+          agent?: string
+          balance?: string
+          bill_to?: Json
+          connection_id?: string | null
+          date_due?: string
+          date_issued?: string
+          description?: string
           invoice_id?: number
-          paid_at?: string
+          invoice_to?: string
+          note?: string | null
+          paid_at?: string | null
+          payments?: Json
           status?: string
           total_amount?: number
         }
         Relationships: [
           {
-            foreignKeyName: "invoices_deal_id_fkey"
-            columns: ["deal_id"]
-            referencedRelation: "deals"
-            referencedColumns: ["deal_id"]
+            foreignKeyName: "invoices_connection_id_fkey"
+            columns: ["connection_id"]
+            referencedRelation: "route_connections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_invoice_to_fkey"
+            columns: ["invoice_to"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
           }
         ]
       }
@@ -218,38 +196,92 @@ export interface Database {
           payment_status?: string
           payout_status?: string
         }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          email: string | null
+          finance_department: Json | null
+          first_name: string | null
+          id: string
+          last_name: string | null
+          noc_dipartment: Json | null
+          payment_method: Json | null
+          phone: string | null
+          role: string | null
+          sales_dipartment: Json | null
+          skype_id: string | null
+        }
+        Insert: {
+          email?: string | null
+          finance_department?: Json | null
+          first_name?: string | null
+          id: string
+          last_name?: string | null
+          noc_dipartment?: Json | null
+          payment_method?: Json | null
+          phone?: string | null
+          role?: string | null
+          sales_dipartment?: Json | null
+          skype_id?: string | null
+        }
+        Update: {
+          email?: string | null
+          finance_department?: Json | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          noc_dipartment?: Json | null
+          payment_method?: Json | null
+          phone?: string | null
+          role?: string | null
+          sales_dipartment?: Json | null
+          skype_id?: string | null
+        }
         Relationships: [
           {
-            foreignKeyName: "payments_invoice_id_fkey"
-            columns: ["invoice_id"]
-            referencedRelation: "invoices"
-            referencedColumns: ["invoice_id"]
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
           }
         ]
       }
       purchase_requests: {
         Row: {
           buyer_id: string
+          buying_rate: number | null
+          connection_id: string | null
           created_at: string
+          id: string
           message: string | null
-          request_id: number
+          payment_type: string
           route_id: string
+          seller_id: string | null
           status: string
         }
         Insert: {
-          buyer_id: string
+          buyer_id?: string
+          buying_rate?: number | null
+          connection_id?: string | null
           created_at?: string
+          id?: string
           message?: string | null
-          request_id?: number
+          payment_type: string
           route_id: string
+          seller_id?: string | null
           status?: string
         }
         Update: {
           buyer_id?: string
+          buying_rate?: number | null
+          connection_id?: string | null
           created_at?: string
+          id?: string
           message?: string | null
-          request_id?: number
+          payment_type?: string
           route_id?: string
+          seller_id?: string | null
           status?: string
         }
         Relationships: [
@@ -260,7 +292,62 @@ export interface Database {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "purchase_requests_connection_id_fkey"
+            columns: ["connection_id"]
+            referencedRelation: "route_connections"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "purchase_requests_route_id_fkey"
+            columns: ["route_id"]
+            referencedRelation: "route_offers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "purchase_requests_seller_id_fkey"
+            columns: ["seller_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      route_connections: {
+        Row: {
+          buyer_id: string
+          destination: string
+          expiration_date: string
+          id: string
+          route_id: string
+          status: string
+          type: string
+        }
+        Insert: {
+          buyer_id: string
+          destination: string
+          expiration_date: string
+          id?: string
+          route_id: string
+          status: string
+          type: string
+        }
+        Update: {
+          buyer_id?: string
+          destination?: string
+          expiration_date?: string
+          id?: string
+          route_id?: string
+          status?: string
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "route_connections_buyer_id_fkey"
+            columns: ["buyer_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "route_connections_route_id_fkey"
             columns: ["route_id"]
             referencedRelation: "route_offers"
             referencedColumns: ["id"]
@@ -279,10 +366,10 @@ export interface Database {
           pdd: string
           ports: string
           prefix: string
-          rate: number
+          rate: string
           route_type: string
           seller_id: string
-          selling_rate: number | null
+          selling_rate: string | null
           updated_at: string | null
           verification: string
           verification_by: string | null
@@ -299,10 +386,10 @@ export interface Database {
           pdd: string
           ports: string
           prefix: string
-          rate: number
+          rate: string
           route_type: string
           seller_id?: string
-          selling_rate?: number | null
+          selling_rate?: string | null
           updated_at?: string | null
           verification?: string
           verification_by?: string | null
@@ -319,10 +406,10 @@ export interface Database {
           pdd?: string
           ports?: string
           prefix?: string
-          rate?: number
+          rate?: string
           route_type?: string
           seller_id?: string
-          selling_rate?: number | null
+          selling_rate?: string | null
           updated_at?: string | null
           verification?: string
           verification_by?: string | null
@@ -332,6 +419,68 @@ export interface Database {
           {
             foreignKeyName: "route_offers_seller_id_fkey"
             columns: ["seller_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      selected_routes: {
+        Row: {
+          id: string
+          route_id: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          route_id: string
+          user_id?: string
+        }
+        Update: {
+          id?: string
+          route_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "selected_routes_route_id_fkey"
+            columns: ["route_id"]
+            referencedRelation: "route_offers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "selected_routes_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      watchlist: {
+        Row: {
+          id: number
+          route_id: string
+          user_id: string | null
+        }
+        Insert: {
+          id?: number
+          route_id: string
+          user_id?: string | null
+        }
+        Update: {
+          id?: number
+          route_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "watchlist_route_id_fkey"
+            columns: ["route_id"]
+            referencedRelation: "route_offers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "watchlist_user_id_fkey"
+            columns: ["user_id"]
             referencedRelation: "users"
             referencedColumns: ["id"]
           }

@@ -5,6 +5,7 @@ import RoutesNav from "./nav";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { HiOutlinePlusCircle } from "react-icons/hi";
+import { supabaseServer } from "@/lib/supabase-server";
 
 export const dynamic = "force-dynamic";
 
@@ -13,7 +14,7 @@ export default async function DashboardLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const supabase = createServerComponentClient<Database>({ cookies });
+    const supabase = supabaseServer();
     const {
         data: { session },
     } = await supabase.auth.getSession();
@@ -44,14 +45,14 @@ export default async function DashboardLayout({
                     </Link>
                     <Link
                         passHref
-                        href="/admin/routes/requests/post"
+                        href="/admin/routes/targets/post"
                         className={buttonVariants({
                             variant: "default",
                             size: "sm",
                         })}
                     >
                         <HiOutlinePlusCircle className="mr-2 h-5 w-5" />
-                        Add Requests
+                        Add Targets
                     </Link>
                 </div>
             </div>

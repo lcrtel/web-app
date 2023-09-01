@@ -1,36 +1,22 @@
 "use client";
 
-import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 
 import { supabaseClient } from "@/lib/supabase-client";
-import { supabaseAdmin } from "@/lib/supabase-admin";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { HiEye, HiEyeOff } from "react-icons/hi";
 import { toast } from "react-hot-toast";
 
 const bankDetailsSchema = z.object({
@@ -43,28 +29,31 @@ const bankDetailsSchema = z.object({
 
 export function PaymentsForm({ user }: { user: User }) {
     const userID = user?.id;
-    const [showPassword, setShowPassword] = useState(false);
-
+    const defaultValues = user.user_metadata.payment_method;
     const router = useRouter();
     const form = useForm<User>({
         resolver: zodResolver(bankDetailsSchema),
+        defaultValues,
         mode: "onChange",
     });
 
     async function onSubmit(data: User) {
-        const supabase = supabaseClient();
+        toast.success("Payment method saved");
+        // const supabase = supabaseClient();
+        // const { data: User } = await supabase.auth.updateUser({
+        //     data: { payment_method: data },
+        // });
+        // const { data: user, error } = await supabase
+        //     .from("profiles")
+        //     .update({ payment_method: data })
+        //     .eq("id", userID)
+        //     .select();
+        // if (error) {
+        //     toast.success(error.message);
+        //     return;
+        // }
 
-        const { error } = await supabase.auth.updateUser({
-            password: data.password,
-        });
-        if (error) {
-            toast.success(error.message);
-
-            return;
-        }
-        toast.success("Your password updated");
-
-        router.refresh();
+        // router.refresh();
     }
 
     return (

@@ -1,16 +1,8 @@
 import { Separator } from "@/components/ui/separator";
-import { Metadata } from "next";
-import Image from "next/image";
-import { SidebarNav } from "./sidebar";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { HiArrowLeft, HiMail, HiPhoneOutgoing } from "react-icons/hi";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-import SellerApplication from "./SellerApplication";
-import { supabaseAdmin } from "@/lib/supabase-admin";
 import { fetchUserData } from "@/utils/user";
+import { Metadata } from "next";
 import { DropDownMenu } from "./dropdownMenu";
+import { SidebarNav } from "./sidebar";
 
 export const metadata: Metadata = {
     title: "Account Settings | LCRTel",

@@ -1,16 +1,13 @@
 import { supabaseAdmin } from "@/lib/supabase-admin";
-import { supabaseServer } from "@/lib/supabase-server";
 import Link from "next/link";
-import React from "react";
 
 const Overview = async () => {
-    const supabase = supabaseServer();
-    const adminSupabase = supabaseAdmin();
+    const supabase = supabaseAdmin();
     const ActiveListings = async () => {
         let { data: route_posts, error } = await supabase
-            .from("route_posts")
-            .select("status")
-            .match({ status: "verified" });
+            .from("route_offers")
+            .select("verification")
+            .eq("verification", "verified");
         return (
             <div className="bg-primary-500 rounded-lg pt-1">
                 <div className="rounded-md bg-surface px-5 py-4 shadow-sm border">
@@ -28,7 +25,7 @@ const Overview = async () => {
         const {
             data: { users },
             error,
-        } = await adminSupabase.auth.admin.listUsers();
+        } = await supabase.auth.admin.listUsers();
         return (
             <div className="bg-primary-500 rounded-lg pt-1">
                 <div className="rounded-md bg-surface px-5 py-4 shadow-sm border">
@@ -46,7 +43,7 @@ const Overview = async () => {
         const {
             data: { users },
             error,
-        } = await adminSupabase.auth.admin.listUsers();
+        } = await supabase.auth.admin.listUsers();
         const sellers = users.filter(
             (obj) => obj.user_metadata.role === "seller"
         );
@@ -70,7 +67,7 @@ const Overview = async () => {
         const {
             data: { users },
             error,
-        } = await adminSupabase.auth.admin.listUsers();
+        } = await supabase.auth.admin.listUsers();
         const managers = users.filter(
             (obj) => obj.user_metadata.role === "manager"
         );

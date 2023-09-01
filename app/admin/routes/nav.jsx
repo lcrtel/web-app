@@ -10,8 +10,7 @@ const RoutesNav = () => {
             <nav className="inline-flex  bg-surface  items-center p-1 rounded-lg space-x-1 text-sm text-primary-500">
                 {[
                     ["Offers", "/admin/routes"],
-                    ["Requests", "/admin/routes/requests"],
-                    ["sold", "/admin/routes/sold"],
+                    ["Targets", "/admin/routes/targets"],
                 ].map(([title, url]) => (
                     <div
                         key={title}

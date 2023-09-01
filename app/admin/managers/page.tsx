@@ -4,13 +4,13 @@ import { supabaseAdmin } from "@/lib/supabase-admin";
 import CreateNewManager from "./CreateNewManager";
 
 const page = async () => {
-    const adminSupabase = supabaseAdmin();
+    const supabase = supabaseAdmin();
 
     const Managers = async () => {
         const {
             data: { users },
             error,
-        } = await adminSupabase.auth.admin.listUsers();
+        } = await supabase.auth.admin.listUsers();
         const managers = users.filter(
             (obj) => obj.user_metadata.role === "manager"
         );

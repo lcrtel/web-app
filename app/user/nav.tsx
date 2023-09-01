@@ -1,35 +1,14 @@
 "use client";
-import Image from "next/image";
-import React from "react";
-import Link from "next/link";
-import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
-import {
-    HiChevronLeft,
-    HiChevronRight,
-    HiOutlineMenuAlt4,
-    HiOutlineX,
-    HiUserCircle,
-} from "react-icons/hi";
-import { AnimatePresence, motion } from "framer-motion";
 import { Separator } from "@/components/ui/separator";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import {
-    createClientComponentClient,
-    createServerComponentClient,
-} from "@supabase/auth-helpers-nextjs";
-import { useRouter } from "next/navigation";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuGroup,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { supabaseClient } from "@/lib/supabase-client";
+import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
+import { HiOutlineMenuAlt4, HiOutlineX } from "react-icons/hi";
+import ProfileDropdown from "./ProfileDropdown";
+import { CartDropdown } from "./selected_routes/CartDropdown";
 
 const Navigation = ({
     userRole,
@@ -53,9 +32,9 @@ const Navigation = ({
     };
 
     const Nav = [
+        ["Market", "/user/market"],
         ["My Offers", "/user/routes/offers"],
         ["My Targets", "/user/routes/targets"],
-        ["Market", "/user/market"],
         ["Connections", "/user/connections"],
         ["Transactions", "/user/transactions"],
     ].map(([title, url]) => (
@@ -78,15 +57,17 @@ const Navigation = ({
     ));
 
     return (
-        <nav className="py-4 px-8 max-w-8xl mx-auto relative flex items-center justify-between">
+        <nav className="py-3 px-8 max-w-8xl mx-auto relative flex items-center justify-between">
             <div className="flex items-center h-8">
-                <Image
-                    src="/lcrtelcom_logo.svg"
-                    className=""
-                    alt="LCRTel Logo"
-                    width={160}
-                    height={20}
-                />
+                <Link href="/user" passHref>
+                    <Image
+                        src="/lcrtelcom_logo.svg"
+                        className=""
+                        alt="LCRTel Logo"
+                        width={160}
+                        height={20}
+                    />
+                </Link>
                 <Separator
                     orientation="vertical"
                     className="hidden md:block mx-5"
@@ -151,55 +132,8 @@ const Navigation = ({
                 </AnimatePresence>
             </div>
             <div className="flex items-center gap-2">
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button
-                            variant="ghost"
-                            className="relative h-8 w-8 rounded-full"
-                        >
-                            <Avatar className="h-8 w-8">
-                                <AvatarImage src="/blue_wave_bg.jpg" alt="" />
-                                <AvatarFallback>SC</AvatarFallback>
-                            </Avatar>
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent
-                        className="w-56"
-                        align="end"
-                        forceMount
-                    >
-                        <DropdownMenuLabel className="font-normal">
-                            <div className="flex flex-col space-y-1">
-                                <p className="text-sm font-medium leading-none">
-                                    {user?.first_name}
-                                </p>
-                                <p className="text-xs leading-none text-muted-foreground">
-                                    {user?.email}
-                                </p>
-                            </div>
-                        </DropdownMenuLabel>
-
-                        <DropdownMenuSeparator />
-                        <DropdownMenuGroup>
-                            <DropdownMenuItem className="cursor-pointer">
-                                <Link
-                                    href="/user/account"
-                                    className="block w-full h-full"
-                                >
-                                    {" "}
-                                    Account
-                                </Link>
-                            </DropdownMenuItem>
-                        </DropdownMenuGroup>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                            className="cursor-pointer"
-                            onClick={handleSignOut}
-                        >
-                            Sign out
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                <CartDropdown />
+                <ProfileDropdown user={user} />
                 <button
                     type="button"
                     className="inline-flex items-center rounded-lg p-2 text-sm  focus:outline-none focus:ring-2 focus:ring-blue-300 md:hidden"

@@ -39,9 +39,10 @@ const departmentSchema = z.object({
         })
         .max(30, {
             message: "Username must not be longer than 30 characters.",
-        }),
-    email: z.string().email(),
-    phone: z.string(),
+        })
+        .optional(),
+    email: z.string().email().optional(),
+    phone: z.string().optional(),
     skype_id: z.string().optional(),
 });
 
@@ -50,7 +51,7 @@ export function CompanyForm({ user }: { user: User }) {
     const router = useRouter();
 
     const FinanceDipartment = () => {
-        const defaultValues = user.user_metadata.finance;
+        const defaultValues = user.user_metadata.finance_department;
         const form = useForm<User>({
             resolver: zodResolver(departmentSchema),
             defaultValues,
@@ -58,9 +59,18 @@ export function CompanyForm({ user }: { user: User }) {
         });
         async function onSubmit(data: User) {
             const supabase = supabaseClient();
-            const { data: User, error } = await supabase.auth.updateUser({
+            const { data: User } = await supabase.auth.updateUser({
                 data: { finance_department: data },
             });
+            const { data: user, error } = await supabase
+                .from("profiles")
+                .update({ finance_department: data })
+                .eq("id", userID)
+                .select();
+            if (error) {
+                toast.error(error.message);
+                return;
+            }
             toast.success("Finance department details saved");
 
             router.refresh();
@@ -140,17 +150,27 @@ export function CompanyForm({ user }: { user: User }) {
         );
     };
     const NOCDipartment = () => {
-        const defaultValues = user.user_metadata.finance;
+        const defaultValues = user.user_metadata.noc_dipartment;
         const form = useForm<User>({
             resolver: zodResolver(departmentSchema),
             defaultValues,
             mode: "onChange",
         });
+
         async function onSubmit(data: User) {
             const supabase = supabaseClient();
-            const { data: User, error } = await supabase.auth.updateUser({
+            const { data: User } = await supabase.auth.updateUser({
                 data: { noc_dipartment: data },
             });
+            const { data: user, error } = await supabase
+                .from("profiles")
+                .update({ noc_dipartment: data })
+                .eq("id", userID)
+                .select();
+            if (error) {
+                toast.error(error.message);
+                return;
+            }
             toast.success("NOC department details saved");
 
             router.refresh();
@@ -230,7 +250,7 @@ export function CompanyForm({ user }: { user: User }) {
         );
     };
     const SalesDipartment = () => {
-        const defaultValues = user.user_metadata.finance;
+        const defaultValues = user.user_metadata.sales_dipartment;
         const form = useForm<User>({
             resolver: zodResolver(departmentSchema),
             defaultValues,
@@ -238,9 +258,18 @@ export function CompanyForm({ user }: { user: User }) {
         });
         async function onSubmit(data: User) {
             const supabase = supabaseClient();
-            const { data: User, error } = await supabase.auth.updateUser({
+            const { data: User } = await supabase.auth.updateUser({
                 data: { sales_dipartment: data },
             });
+            const { data: user, error } = await supabase
+                .from("profiles")
+                .update({ sales_dipartment: data })
+                .eq("id", userID)
+                .select();
+            if (error) {
+                toast.error(error.message);
+                return;
+            }
             toast.success("Sales department details saved");
 
             router.refresh();

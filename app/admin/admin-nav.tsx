@@ -57,10 +57,13 @@ const AdminNav = ({
 
     const adminNav = [
         ["Routes", "/admin/routes"],
+        ["Connections", "/admin/connections"],
+        ["Deals", "/admin/deals"],
         ["Users", "/admin/users"],
         ["Sellers", "/admin/sellers"],
         ["Managers", "/admin/managers"],
         ["Analytics", "/admin/analytics"],
+        ["Invoices", "/admin/invoices"],
     ].map(([title, url]) => (
         <li
             key={title}

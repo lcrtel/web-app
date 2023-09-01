@@ -1,16 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { HiOutlineMail } from "react-icons/hi";
-import { supabaseServer } from "@/lib/supabase-server";
-
-export const dynamic = "force-dynamic";
-
 const page = async () => {
-    const supabase = supabaseServer();
-    const {
-        data: { session },
-    } = await supabase.auth.getSession();
-    console.log(session);
     return (
         <div className="w-full md:w-2/3 p-8  flex items-center justify-center">
             <section>

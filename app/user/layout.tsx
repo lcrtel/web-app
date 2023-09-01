@@ -1,9 +1,9 @@
-import Navigation from "./nav";
+import { supabaseServer } from "@/lib/supabase-server";
+import { fetchUserMetadata, fetchUserRole } from "@/utils/user";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { supabaseServer } from "@/lib/supabase-server";
-import { fetchUserRole, fetchUserMetadata } from "@/utils/user";
 import LoginModal from "./LoginModal";
+import Navigation from "./nav";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 10; // revalidate at most every hour

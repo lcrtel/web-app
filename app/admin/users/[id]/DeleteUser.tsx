@@ -17,12 +17,10 @@ import { toast } from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
 
 export default function DeleteUser({ userID }: { userID: User }) {
-    const adminSupabase = supabaseAdmin();
+    const supabase = supabaseAdmin();
     const router = useRouter();
     const handleDelete = async () => {
-        const { data, error } = await adminSupabase.auth.admin.deleteUser(
-            userID
-        );
+        const { data, error } = await supabase.auth.admin.deleteUser(userID);
         router.refresh();
         toast.success("Deleted user");
         router.push("/admin/users");

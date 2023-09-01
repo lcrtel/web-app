@@ -1,10 +1,14 @@
-import { PostRouteTable } from "./PostRouteTable";
 import Link from "next/link";
-import { HiArrowLeft, HiOutlineArrowCircleLeft } from "react-icons/hi";
+import { HiOutlineArrowCircleLeft } from "react-icons/hi";
+import { PostTargetTable } from "./PostTargetTable";
 import { supabaseServer } from "@/lib/supabase-server";
-import { fetchUserData } from "@/utils/user";
+import { OffersTable } from "@/app/user/market/offers/offers-table";
 
 const page = async () => {
+    const supabase = supabaseServer();
+    let { data: routes, error } = await supabase
+        .from("route_offers")
+        .select("*");
     return (
         <section className="">
             <Link
@@ -13,7 +17,15 @@ const page = async () => {
             >
                 <HiOutlineArrowCircleLeft className="mr-1.5" /> Manage targets
             </Link>
-            <PostRouteTable />{" "}
+            <PostTargetTable />
+            {routes?.length ? (
+                <>
+                    <h3 className="text-xl pt-4 mt-5 mb-2 border-t font-semibold text-primary-500 flex items-center tracking-tight">
+                        Our selling rates
+                    </h3>
+                    <OffersTable data={routes} />
+                </>
+            ) : null}
         </section>
     );
 };

@@ -53,7 +53,8 @@ const HomePage = async () => {
                                         variant: "default",
                                     })}`}
                                 >
-                                    Post your route offers!
+                                    Post your route offers
+                                    <HiOutlineArrowSmRight className="ml-2 w-5 h-5" />
                                 </Link>
                                 <Link
                                     passHref
@@ -63,7 +64,7 @@ const HomePage = async () => {
                                     })}`}
                                 >
                                     Post your buying target
-                                    <HiOutlineArrowSmRight />
+                                    <HiOutlineArrowSmRight className="ml-2 w-5 h-5" />
                                 </Link>
                             </div>
                         </div>

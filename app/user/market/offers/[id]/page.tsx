@@ -17,7 +17,13 @@ export default async function Page({ params }: { params: { id: string } }) {
 
     return (
         <div>
-            <div className="space-y-5">
+            <div className="space-y-4">
+                <Link
+                    href="/user/market/offers"
+                    className="inline-flex items-center text-gray-400 hover:text-primary-500 transition-all ease-in-out"
+                >
+                    <HiOutlineArrowCircleLeft className="mr-1.5" /> Offers
+                </Link>
                 <div>
                     <div className="flex justify-between">
                         <h3 className="text-lg font-semibold">Offer Details</h3>
@@ -105,12 +111,6 @@ export default async function Page({ params }: { params: { id: string } }) {
                         </p>
                     </div>
                 </div>
-                <Link
-                    href="/user/market/offers"
-                    className="inline-flex items-center text-gray-400 hover:text-primary-500 transition-all ease-in-out mb-2"
-                >
-                    <HiOutlineArrowCircleLeft className="mr-1.5" /> Offers
-                </Link>
             </div>
         </div>
     );

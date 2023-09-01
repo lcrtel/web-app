@@ -24,11 +24,11 @@ export default async function SettingsLayout({
     children,
     params,
 }: SettingsLayoutProps) {
-    const adminSupabase = supabaseAdmin();
+    const supabase = supabaseAdmin();
 
     const {
         data: { user },
-    } = await adminSupabase.auth.admin.getUserById(params.id);
+    } = await supabase.auth.admin.getUserById(params.id);
 
     const sidebarNavItems = [
         {

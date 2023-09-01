@@ -80,13 +80,13 @@ const CreateNewManager = () => {
     });
 
     async function onSubmit(data: User) {
-        const adminSupabase = supabaseAdmin();
+        const supabase = supabaseAdmin();
         setErrorMessage(null);
         setLoading(true);
         const {
             data: { user },
             error,
-        } = await adminSupabase.auth.admin.createUser({
+        } = await supabase.auth.admin.createUser({
             email: data.email,
             password: data.password,
             email_confirm: data.email_confirm,

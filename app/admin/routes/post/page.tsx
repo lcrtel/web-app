@@ -1,9 +1,16 @@
-import { AddRouteTable } from "./AddRoutes";
-import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
+import { supabaseAdmin } from "@/lib/supabase-admin";
+import Link from "next/link";
 import { HiArrowLeft } from "react-icons/hi";
+import { AddRouteTable } from "./AddRoutes";
+import { SelectDemo } from "./combobox";
 
-const page = () => {
+const page = async () => {
+    const supabase = supabaseAdmin();
+    const {
+        data: { users },
+        error,
+    } = await supabase.auth.admin.listUsers();
     return (
         <section className="">
             <div className="flex items-center gap-4 mb-4">
@@ -17,7 +24,7 @@ const page = () => {
                     Post route offers!
                 </h3>
             </div>
-            <AddRouteTable />
+            <AddRouteTable users={users} />
         </section>
     );
 };

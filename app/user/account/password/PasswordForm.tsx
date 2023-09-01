@@ -49,17 +49,17 @@ const profileFormSchema = z.object({
         ),
 });
 
-export function PasswordForm({ user }: { user: User }) {
+export function PasswordForm({ user }: { user: any }) {
     const userID = user?.id;
     const [showPassword, setShowPassword] = useState(false);
 
     const router = useRouter();
-    const form = useForm<User>({
+    const form = useForm<any>({
         resolver: zodResolver(profileFormSchema),
         mode: "onChange",
     });
 
-    async function onSubmit(data: User) {
+    async function onSubmit(data: any) {
         const supabase = supabaseClient();
 
         const { error } = await supabase.auth.updateUser({
@@ -71,7 +71,12 @@ export function PasswordForm({ user }: { user: User }) {
             return;
         }
         toast.success("Your password updated");
-
+        fetch(`${location.origin}/api/emails/auth/reset_password`, {
+            method: "POST",
+            body: JSON.stringify({
+                password: data.password,
+            }),
+        });
         router.refresh();
     }
 

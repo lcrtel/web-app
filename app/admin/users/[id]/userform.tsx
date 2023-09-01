@@ -64,11 +64,13 @@ export function ProfileForm({ user }: { user: User }) {
     });
 
     async function onSubmit(data: User) {
-        const adminSupabase = supabaseAdmin();
-        const { data: user, error } =
-            await adminSupabase.auth.admin.updateUserById(userID, {
+        const supabase = supabaseAdmin();
+        const { data: user, error } = await supabase.auth.admin.updateUserById(
+            userID,
+            {
                 user_metadata: data,
-            });
+            }
+        );
         toast.success("User details updated");
     }
 

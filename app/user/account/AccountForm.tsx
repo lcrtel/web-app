@@ -1,33 +1,21 @@
 "use client";
 
-import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 
 import { supabaseClient } from "@/lib/supabase-client";
-import { supabaseAdmin } from "@/lib/supabase-admin";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 
@@ -46,10 +34,10 @@ const profileFormSchema = z.object({
 });
 
 export function AccountForm({ user }: { user: User }) {
-    const defaultValues = user.user_metadata;
-    const userID = user.id;
+    const defaultValues = user?.user_metadata;
+    const userID = user?.id;
     const router = useRouter();
-    const form = useForm<User>({
+    const form = useForm<z.infer<typeof profileFormSchema>>({
         resolver: zodResolver(profileFormSchema),
         defaultValues,
         mode: "onChange",
@@ -60,6 +48,10 @@ export function AccountForm({ user }: { user: User }) {
         const { data: User, error } = await supabase.auth.updateUser({
             data: data,
         });
+        if (error) {
+            toast.error(error.message);
+            return;
+        }
         toast.success("Your details updated");
 
         router.refresh();

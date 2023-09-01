@@ -48,7 +48,7 @@ const routeFormSchema = z.object({
 
 export function RouteForm({ route }: { route: RouteOffer }) {
     const defaultValues = route;
-    const form = useForm<User>({
+    const form = useForm<RouteOffer>({
         resolver: zodResolver(routeFormSchema),
         defaultValues,
         mode: "onChange",

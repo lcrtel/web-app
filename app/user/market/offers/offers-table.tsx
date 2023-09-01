@@ -39,6 +39,18 @@ import Link from "next/link";
 import formatTimestamptz from "@/utils/formatTimestamptz";
 import formatDate from "@/utils/formatDate";
 import formatString from "@/utils/formatString";
+import { supabaseClient } from "@/lib/supabase-client";
+import { toast } from "react-hot-toast";
+import { FaCartPlus } from "react-icons/fa6";
+import { HiOutlineExternalLink, HiOutlineViewGridAdd } from "react-icons/hi";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { revalidatePath } from "next/cache";
+import AddToWatchlist from "./AddToWatchlist";
 
 export const columns: ColumnDef<RouteOffer>[] = [
     // {
@@ -257,14 +269,60 @@ export const columns: ColumnDef<RouteOffer>[] = [
         accessorKey: "id",
         header: "",
         cell: ({ row }) => {
+            const supabase = supabaseClient();
+
             const id = row.getValue("id");
+            const route = row.original;
+            const handleAdd = async () => {
+                const { data: selectedRoute, error } = await supabase
+                    .from("selected_routes")
+                    .select("*")
+                    .match({ route_id: id });
+                if (selectedRoute?.[0]?.route_id === id) {
+                    const { data, error } = await supabase
+                        .from("selected_routes")
+                        .update({ route_id: id as string })
+                        .eq("route_id", id)
+                        .select();
+                    if (error) {
+                        toast.error(error.message);
+                        return;
+                    }
+                    toast.success("Added to the selected routes");
+                } else {
+                    const { data, error } = await supabase
+                        .from("selected_routes")
+                        .insert({ route_id: id })
+                        .select();
+                    if (error) {
+                        toast.error(error.message);
+                        return;
+                    }
+                    toast.success("Added to the selected routes");
+                }
+            };
             return (
-                <Link
-                    href={`/user/market/offers/${id}`}
-                    className="font-medium text-sm  bg-primary-50 px-3 py-1.5 rounded-full text-primary-500 whitespace-nowrap"
-                >
-                    Details
-                </Link>
+                <div className="flex gap-2">
+                    <Link href={`/user/market/offers/${id}`} className="">
+                        <HiOutlineExternalLink className="w-5 h-5 hover:scale-[105%] transition-all ease-in-out" />
+                    </Link>
+                    <AddToWatchlist ID={id} />
+                    <TooltipProvider delayDuration={200}>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <button>
+                                    <FaCartPlus
+                                        onClick={() => handleAdd()}
+                                        className="w-5 h-5 cursor-pointer hover:scale-[105%] transition-all ease-in-out"
+                                    />
+                                </button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>Add to selected routes</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                </div>
             );
         },
     },
@@ -387,7 +445,7 @@ export function OffersTable({ data }: any) {
                                     colSpan={columns.length}
                                     className="gap-2  h-12 text-center"
                                 >
-                                    No market matching your filter
+                                    No offers matching your filter
                                 </TableCell>
                             </TableRow>
                         )}

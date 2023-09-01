@@ -1,7 +1,6 @@
-import Link from "next/link";
-import { redirect } from "next/navigation";
 import { supabaseServer } from "@/lib/supabase-server";
-import { fetchUserRole, fetchUserMetadata } from "@/utils/user";
+import { fetchUserMetadata, fetchUserRole } from "@/utils/user";
+import { redirect } from "next/navigation";
 import AdminNav from "./admin-nav";
 
 export const dynamic = "force-dynamic";

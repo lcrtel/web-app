@@ -46,12 +46,17 @@ const LoginForm = ({ session }: { session: Session | null }) => {
                 setLoading(false);
                 setErrorMessage(error.message);
                 return;
-                // console.error(error.message);
             }
-            router.push("/dashboard");
-
-            // Handle successful login (e.g., set user state, redirect to dashboard, etc.)
-            // console.log("Logged in user:", data?.user);
+            const userRole = data.user.user_metadata.role;
+            if (userRole === "admin") {
+                router.push("/admin");
+            } else if (userRole === "manager") {
+                router.push("/manager");
+            } else if (userRole === "seller") {
+                router.push("/user");
+            } else if (userRole === "buyer") {
+                router.push("/user");
+            }
         },
     });
 

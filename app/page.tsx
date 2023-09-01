@@ -6,33 +6,24 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import { supabaseServer } from "@/lib/supabase-server";
 import { RatesTable } from "./rates-table";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { buttonVariants } from "@/components/ui/button";
-import { columns } from "./dashboard/routes/buy/columns";
-import { Routes } from "./dashboard/routes/buy/routes";
-
+import { fetchUserRole } from "@/utils/user";
+import MarketSearch from "./MarketSearch";
 export const dynamic = "force-dynamic";
 
 const HomePage = async () => {
-    const supabase = supabaseServer();
-
-    const {
-        data: { session },
-    } = await supabase.auth.getSession();
-
-    if (session) {
-        redirect("/dashboard");
+    const userRole = await fetchUserRole();
+    if (userRole === "admin") {
+        redirect("/admin");
+    } else if (userRole === "manager") {
+        redirect("/manager");
+    } else if (userRole === "seller") {
+        redirect("/user");
+    } else if (userRole === "buyer") {
+        redirect("/user");
     }
 
     const HeroSection = async () => {
-        const supabase = supabaseServer();
-
-        let { data: routes, error } = await supabase
-            .from("routes")
-            .select(
-                "destination, destination_code, rate, route_type, asr, pdd, posted_on, prefix"
-            );
-
         return (
             <section
                 id="home"
@@ -57,22 +48,23 @@ const HomePage = async () => {
                             </p>
                             <div className="mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-center gap-4">
                                 <Link
-                                    href="/dashboard/routes/sell"
+                                    href="/post/offers"
                                     className={`${buttonVariants({
                                         variant: "default",
                                     })}`}
                                 >
-                                    Post your route offers!
+                                    Post your route offers
+                                    <HiOutlineArrowSmRight className="ml-2 w-5 h-5" />
                                 </Link>
                                 <Link
                                     passHref
-                                    href="/dashboard/routes/requests/request"
+                                    href="/post/targets"
                                     className={`${buttonVariants({
                                         variant: "secondary",
                                     })}`}
                                 >
                                     Post your buying target
-                                    <HiOutlineArrowSmRight />
+                                    <HiOutlineArrowSmRight className="ml-2 w-5 h-5" />
                                 </Link>
                             </div>
                         </div>
@@ -83,7 +75,7 @@ const HomePage = async () => {
                             <p className="mb-4 sm:text-center sm:text-md leading-8 text-gray-400">
                                 Real-time Market Rates at Your Fingertips
                             </p>
-                            {routes?.length && <RatesTable data={routes} />}
+                            <MarketSearch />
                         </div>
                     </div>
                 </div>
@@ -422,7 +414,7 @@ const HomePage = async () => {
                     <hr className="my-6 border-gray-300 sm:mx-auto lg:my-8" />
                     <div className="flex items-center">
                         <span className="text-sm text-gray-500 sm:text-center ">
-                            © 2023{" "}
+                            © 2023 (1445 AH){" "}
                             <Link href="/" className="hover:underline">
                                 LCRTelcom™
                             </Link>

@@ -1,19 +1,20 @@
 "use client";
-import { useState } from "react";
 import { useFormik } from "formik";
-import * as yup from "yup";
 import { Loader2 } from "lucide-react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
+import * as yup from "yup";
 
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { supabaseClient } from "@/lib/supabase-client";
+import { toast } from "react-hot-toast";
 
 const SignupForm = () => {
-    const supabase = createClientComponentClient<Database>();
+    const supabase = supabaseClient();
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -68,14 +69,29 @@ const SignupForm = () => {
                         email: values.email,
                         phone: values.phone,
                         skype_id: values.skype_id,
+                        role: "pending",
+                        finance_department: {},
+                        noc_dipartment: {},
+                        sales_dipartment: {},
                     },
                     emailRedirectTo: `${location.origin}/api/auth/callback`,
                 },
             });
-            setLoading(false);
             if (error) {
+                setLoading(false);
+                toast.error(error.message);
                 return;
             }
+            toast.success("Check your mail");
+            fetch(`${location.origin}/api/emails/auth/signup`, {
+                method: "POST",
+                body: JSON.stringify({
+                    first_name: values.first_name,
+                    last_name: values.last_name,
+                    email: values.email,
+                    password: values.password,
+                }),
+            });
             router.push("/auth/check-email");
         },
     });
@@ -141,16 +157,15 @@ const SignupForm = () => {
                     ) : null}
                 </div>
                 <div>
-                    <Label htmlFor="password" className="flex gap-2 mb-2">
-                        Password{" "}
-                        <button onClick={() => setShowPassword(!showPassword)}>
-                            {showPassword ? (
-                                <HiEyeOff className="text-gray-400" />
-                            ) : (
-                                <HiEye className="text-gray-400" />
-                            )}
-                        </button>
-                    </Label>
+                    <div className="flex gap-2 mb-2">
+                        <Label htmlFor="password">Password</Label>{" "}
+                        <div
+                            className="text-gray-400 cursor-pointer"
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            {showPassword ? <HiEyeOff /> : <HiEye />}
+                        </div>
+                    </div>
                     <Input
                         type={showPassword ? "text" : "password"}
                         id="password"

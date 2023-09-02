@@ -6,9 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 
 const page = async () => {
     const supabase = supabaseAdmin();
-    const { data: invoices } = await supabase
-        .from("invoices")
-        .select(`*, users`);
+    const { data: invoices } = await supabase.from("invoices").select(`*`);
     return (
         <div className=" ">
             <div className="mb-5 ">

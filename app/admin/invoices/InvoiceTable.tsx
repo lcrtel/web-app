@@ -45,7 +45,7 @@ interface InvoiceDetails {
     deal_id: number;
     invoice_id: number;
     invoice_to: string;
-    users: {
+    profiles: {
         user_id: string;
         email: string;
         first_name: string;
@@ -73,7 +73,7 @@ export const columns: ColumnDef<InvoiceDetails>[] = [
         ),
     },
     {
-        accessorKey: "client",
+        accessorKey: "invoice_to",
         header: "Client",
         cell: ({ row }) => (
             <div className="capitalize">{row.getValue("invoice_to")}</div>
@@ -115,10 +115,10 @@ export const columns: ColumnDef<InvoiceDetails>[] = [
         ),
     },
     {
-        accessorKey: "id",
+        accessorKey: "invoice_id",
         header: "Actions",
         cell: ({ row }) => {
-            const id = row.getValue("id");
+            const id = row.getValue("invoice_id");
             return (
                 <Link
                     href={`/admin/invoices/${id}`}
@@ -160,7 +160,7 @@ export function InvoiceTable({ data }: any) {
 
     return (
         <div className="">
-            <div className="flex items-center pb-4">
+            {/* <div className="flex items-center pb-4">
                 <Input
                     type="text"
                     placeholder="Search by clietn email"
@@ -176,7 +176,7 @@ export function InvoiceTable({ data }: any) {
                     }
                     className="w-full"
                 />
-            </div>
+            </div> */}
             <div className="rounded-xl border max-h-[500px] overflow-y-auto">
                 <Table>
                     <TableHeader>

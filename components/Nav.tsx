@@ -40,25 +40,23 @@ const Nav = () => {
         >
             <nav className="border-gray-200 relative">
                 <div className=" mx-auto flex max-w-8xl flex-wrap items-center justify-between px-4 py-6">
-                    <Link passHref href="/" className="flex items-center">
-                        <Image
+                    <Link passHref href="/" className="">
+                        <img
                             src="/lcrtelcom_logo.svg"
-                            className="mr-3"
-                            alt="Flowbite Logo"
-                            width={180}
-                            height={20}
+                            className="mr-3 h-8"
+                            alt="LCRTel Logo"
                         />
                     </Link>
                     <div className="flex md:order-2">
                         <Link
                             href="/auth/login"
-                            className="mr-3 hidden rounded-lg px-4 py-2 text-center text-sm font-medium text-primary-500 focus:outline-none focus:ring-4 focus:ring-blue-300 md:block "
+                            className="mr-3 hidden rounded-full px-4 py-2 text-center text-sm font-medium text-primary-500 focus:outline-none focus:ring-4 focus:ring-blue-300 md:block "
                         >
                             Log in
                         </Link>
                         <Link
                             href="/auth/signup"
-                            className="mr-3 rounded-lg bg-primary-500 px-4 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-blue-300 "
+                            className="mr-3 rounded-full bg-primary-500 px-4 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-blue-300 "
                         >
                             Sign up
                         </Link>

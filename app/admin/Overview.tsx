@@ -1,24 +1,64 @@
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import Link from "next/link";
+import { HiArrowRight } from "react-icons/hi";
 
 const Overview = async () => {
     const supabase = supabaseAdmin();
-    const ActiveListings = async () => {
-        let { data: route_posts, error } = await supabase
+    const ActiveConnections = async () => {
+        let { data: connections, error } = await supabase
+            .from("route_connections")
+            .select("status")
+            .eq("status", "active");
+        return (
+            <Link
+                href="/admin/connections"
+                className="bg-surface hover:scale-[102%] transition-all space-y-2 ease-in-out border-2 border-white rounded-2xl shadow  p-5"
+            >
+                <h3 className="text-sm font-medium text-gray-400 tracking-tight flex items-center justify-between">
+                    Active Connections <HiArrowRight className="" />
+                </h3>
+                <p className="font-bold tracking-tight text-3xl ">
+                    {connections?.length}
+                </p>
+            </Link>
+        );
+    };
+    const Rates = async () => {
+        let { data: offers, error } = await supabase
             .from("route_offers")
             .select("verification")
             .eq("verification", "verified");
         return (
-            <div className="bg-primary-500 rounded-lg pt-1">
-                <div className="rounded-md bg-surface px-5 py-4 shadow-sm border">
-                    <h3 className="text-sm font-medium text-gray-400 tracking-tight">
-                        Active Listings
-                    </h3>
-                    <p className="font-bold tracking-tight text-3xl ">
-                        {route_posts?.length}
-                    </p>
-                </div>
-            </div>
+            <Link
+                href="/admin/routes"
+                className="bg-surface hover:scale-[102%] transition-all space-y-2 ease-in-out border-2 border-white rounded-2xl shadow  p-5"
+            >
+                <h3 className="text-sm font-medium text-gray-400 tracking-tight flex items-center justify-between">
+                    Selling Rates <HiArrowRight className="" />
+                </h3>
+                <p className="font-bold tracking-tight text-3xl ">
+                    {offers?.length}
+                </p>
+            </Link>
+        );
+    };
+    const Targets = async () => {
+        let { data: targets, error } = await supabase
+            .from("buying_targets")
+            .select("id");
+        return (
+            <Link
+                href="/admin/routes/targets"
+                className="bg-surface hover:scale-[102%] transition-all space-y-2 ease-in-out border-2 border-white rounded-2xl shadow  p-5"
+            >
+                <h3 className="text-sm font-medium text-gray-400 tracking-tight flex items-center justify-between">
+                    Buying Targets
+                    <HiArrowRight className="" />
+                </h3>
+                <p className="font-bold tracking-tight text-3xl ">
+                    {targets?.length}
+                </p>
+            </Link>
         );
     };
     const TotalUsers = async () => {
@@ -27,16 +67,18 @@ const Overview = async () => {
             error,
         } = await supabase.auth.admin.listUsers();
         return (
-            <div className="bg-primary-500 rounded-lg pt-1">
-                <div className="rounded-md bg-surface px-5 py-4 shadow-sm border">
-                    <h3 className="text-sm font-medium text-gray-400 tracking-tight">
-                        Total Users
-                    </h3>
-                    <p className="font-bold tracking-tight text-3xl ">
-                        {users?.length}
-                    </p>
-                </div>
-            </div>
+            <Link
+                href="/admin/users"
+                className="bg-surface hover:scale-[102%] transition-all space-y-2 ease-in-out border-2 border-white rounded-2xl shadow  p-5"
+            >
+                <h3 className="text-sm font-medium text-gray-400 tracking-tight flex items-center justify-between">
+                    Total Users
+                    <HiArrowRight className="" />
+                </h3>
+                <p className="font-bold tracking-tight text-3xl ">
+                    {users?.length}
+                </p>
+            </Link>
         );
     };
     const TotalSellers = async () => {
@@ -50,16 +92,15 @@ const Overview = async () => {
         return (
             <Link
                 href="/admin/sellers"
-                className="bg-primary-500 rounded-lg pt-1"
+                className="bg-surface hover:scale-[102%] transition-all space-y-2 ease-in-out border-2 border-white rounded-2xl shadow  p-5"
             >
-                <div className="rounded-md bg-surface px-5 py-4 shadow-sm border">
-                    <h3 className="text-sm font-medium text-gray-400 tracking-tight">
-                        Total Sellers
-                    </h3>
-                    <p className="font-bold tracking-tight text-3xl ">
-                        {sellers?.length}
-                    </p>
-                </div>
+                <h3 className="text-sm font-medium text-gray-400 tracking-tight flex items-center justify-between">
+                    Total Sellers
+                    <HiArrowRight className="" />
+                </h3>
+                <p className="font-bold tracking-tight text-3xl ">
+                    {sellers?.length}
+                </p>
             </Link>
         );
     };
@@ -74,16 +115,15 @@ const Overview = async () => {
         return (
             <Link
                 href="/admin/managers"
-                className="bg-primary-500 rounded-lg pt-1"
+                className="bg-surface hover:scale-[102%] transition-all space-y-2 ease-in-out border-2 border-white rounded-2xl shadow  p-5"
             >
-                <div className="rounded-md bg-surface px-5 py-4 shadow-sm border">
-                    <h3 className="text-sm font-medium text-gray-400 tracking-tight">
-                        Total Managers
-                    </h3>
-                    <p className="font-bold tracking-tight text-3xl ">
-                        {managers?.length}
-                    </p>
-                </div>
+                <h3 className="text-sm font-medium text-gray-400 tracking-tight flex items-center justify-between">
+                    Total Managers
+                    <HiArrowRight className="" />
+                </h3>
+                <p className="font-bold tracking-tight text-3xl ">
+                    {managers?.length}
+                </p>
             </Link>
         );
     };
@@ -91,18 +131,12 @@ const Overview = async () => {
         <section className="mb-5">
             <h2 className="font-semibold text-lg mb-3">Overview</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-5 items-center">
-                <ActiveListings />
-                <div className="bg-primary-500 rounded-lg pt-1">
-                    <div className="rounded-md bg-surface px-5 py-4 shadow-sm border">
-                        <h3 className="text-sm font-medium text-gray-400 tracking-tight">
-                            Total Sales
-                        </h3>
-                        <p className="font-bold tracking-tight text-3xl ">0</p>
-                    </div>
-                </div>
+                <ActiveConnections />
+                <Rates />
+                <Targets />
                 <TotalUsers />
                 <TotalSellers />
-                <TotalManagers />
+                {/* <TotalManagers /> */}
             </div>
         </section>
     );

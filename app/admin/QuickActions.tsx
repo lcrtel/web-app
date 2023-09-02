@@ -24,12 +24,12 @@ const QuickActions = () => {
                     Post Route Offers
                 </Link>
                 <Link
-                    href="/admin/routes/requests/post"
+                    href="/admin/routes/targets/post"
                     className={`${buttonVariants({
                         variant: "outline",
                     })}`}
                 >
-                    Post Route Requests
+                    Post Buying Targets
                 </Link>
             </div>
         </section>

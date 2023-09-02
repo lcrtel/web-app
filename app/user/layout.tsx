@@ -33,7 +33,7 @@ export default async function DashboardLayout({
             <div>
                 <Navigation userRole={userRole} user={userData} />
                 <div className="h-2 background-animate bg-gradient-to-r from-secondary to-primary-500 w-full"></div>
-                <section className="mx-auto max-w-8xl px-8 py-5">
+                <section className="mx-auto max-w-8xl p-4 md:px-8 md:py-5">
                     {children}
                 </section>
             </div>

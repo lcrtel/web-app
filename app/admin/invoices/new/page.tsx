@@ -3,10 +3,7 @@ import InvoiceForm from "./InvoiceForm";
 
 export default async function page() {
     const supabase = supabaseAdmin();
-    const {
-        data: { users },
-        error,
-    } = await supabase.auth.admin.listUsers();
+   let { data: users } = await supabase.from("profiles").select("*");
      let { data: conncetions } = await supabase
          .from("route_connections")
          .select(`*, route_offers (*)`);

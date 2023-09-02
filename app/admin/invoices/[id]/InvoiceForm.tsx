@@ -59,7 +59,7 @@ export default function InvoiceForm({
     connections,
 }: {
     users: Profile[] | null;
-    connections: any;
+    connections: Connections[] | null;
 }) {
     const [open, setOpen] = useState(false);
     const [connectionOpen, setConnectionOpen] = useState(false);

@@ -12,16 +12,28 @@ export default async function DashboardLayout({
 }) {
     return (
         <section className=" relative">
-            <nav className="flex mx-auto max-w-8xl px-8 py-5 items-center justify-center ">
-                <Link passHref href="/" className="flex items-center">
-                    <Image
+            <nav className="flex mx-auto max-w-8xl p-4 md:px-8 md:py-6 items-center justify-between ">
+                <Link passHref href="/" className="">
+                    <img
                         src="/lcrtelcom_logo.svg"
-                        className="mr-3"
-                        alt="Flowbite Logo"
-                        width={180}
-                        height={20}
+                        className="h-8 mr-3"
+                        alt="LCRTel Logo"
                     />
                 </Link>
+                <div className="flex gap-2 whitespace-nowrap">
+                    <Link
+                        href="/auth/login"
+                        className="mr-3 hidden rounded-lg px-4 py-2 text-center text-sm font-medium text-primary-500 focus:outline-none focus:ring-4 focus:ring-blue-300 md:block "
+                    >
+                        Log in
+                    </Link>
+                    <Link
+                        href="/auth/signup"
+                        className=" rounded-lg bg-primary-500 px-4 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-blue-300 "
+                    >
+                        Sign up
+                    </Link>
+                </div>
             </nav>
 
             {children}

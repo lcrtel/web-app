@@ -38,12 +38,12 @@ const Navigation = ({ userRole, user }: { user: any; userRole: any }) => {
                 pathname.startsWith(url)
                     ? "bg-surface shadow shadow-gray-200  font-semibold"
                     : "lg:hover:bg-surface"
-            } rounded-md`}
+            } rounded-full`}
         >
             <Link
                 href={url}
                 passHref
-                className="py-2 px-3 block whitespace-nowrap"
+                className="py-2 px-4 block whitespace-nowrap"
             >
                 {title}
             </Link>
@@ -77,12 +77,12 @@ const Navigation = ({ userRole, user }: { user: any; userRole: any }) => {
                                     pathname === "/user"
                                         ? "bg-surface shadow shadow-gray-200  font-semibold"
                                         : "lg:hover:bg-surface"
-                                } rounded-md`}
+                                } rounded-full`}
                             >
                                 <Link
                                     href="/user"
                                     passHref
-                                    className="py-2 px-3 block whitespace-nowrap"
+                                    className="py-2 px-4 block whitespace-nowrap"
                                 >
                                     Dashboard
                                 </Link>

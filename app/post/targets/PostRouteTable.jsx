@@ -667,7 +667,7 @@ export function PostRouteTable() {
     };
 
     return (
-        <div className="mx-auto min-h-screen max-w-8xl px-8 py-5 w-full">
+        <div className="mx-auto min-h-screen max-w-8xl p-4 md:px-8 md:py-5 w-full">
             <Link
                 href="/"
                 className="inline-flex mt-3 items-center text-gray-400 hover:text-primary-500 transition-all ease-in-out mb-2"
@@ -675,7 +675,7 @@ export function PostRouteTable() {
                 <HiOutlineArrowCircleLeft className="mr-1.5" /> Go back to home
             </Link>
             <div className="flex justify-between items-center mb-4">
-                <h3 className="text-2xl font-bold text-primary tracking-tight">
+                <h3 className="text-lg md:text-2xl font-bold text-primary tracking-tight">
                     Post your buying targets!
                 </h3>
                 <ImportDropdown />

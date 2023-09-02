@@ -52,7 +52,7 @@ const AdminNav = ({ userRole, user }: { user: any; userRole: any }) => {
     const adminNav = [
         ["Routes", "/admin/routes"],
         ["Connections", "/admin/connections"],
-        ["Deals", "/admin/deals"],
+        // ["Deals", "/admin/deals"],
         ["Users", "/admin/users"],
         ["Sellers", "/admin/sellers"],
         ["Managers", "/admin/managers"],
@@ -65,12 +65,12 @@ const AdminNav = ({ userRole, user }: { user: any; userRole: any }) => {
                 pathname.startsWith(url)
                     ? "bg-primary-500 text-white font-semibold"
                     : "md:hover:bg-white"
-            } rounded-lg w-full transition-all ease-in-out`}
+            } rounded-full w-full transition-all ease-in-out`}
         >
             <Link
                 href={url}
                 passHref
-                className="py-2 px-3 block whitespace-nowrap"
+                className="py-2 px-4 block whitespace-nowrap"
             >
                 {title}
             </Link>
@@ -114,12 +114,12 @@ const AdminNav = ({ userRole, user }: { user: any; userRole: any }) => {
                             pathname === "/admin"
                                 ? "bg-primary-500 text-white font-semibold"
                                 : "md:hover:bg-white"
-                        } rounded-lg w-full transition-all ease-in-out`}
+                        } rounded-full w-full transition-all ease-in-out`}
                     >
                         <Link
                             href="/admin"
                             passHref
-                            className="py-2 px-3 block whitespace-nowrap"
+                            className="py-2 px-4 block whitespace-nowrap"
                         >
                             Home
                         </Link>

@@ -103,10 +103,8 @@ export function PostRouteTable() {
                         capacity: route.capacity,
                         pdd: route.pdd,
                     }))
-                )
-                .select();
+                );
             if (error) {
-                toast.success("Hey");
                 toast.error(error.message);
                 setPosting(false);
                 return;
@@ -672,7 +670,7 @@ export function PostRouteTable() {
     });
 
     return (
-        <div className="mx-auto min-h-screen max-w-8xl px-8 py-5 w-full">
+        <div className="mx-auto min-h-screen max-w-8xl p-4 md:px-8 md:py-5 w-full">
             {/* {JSON.stringify(data)} */}
             <Link
                 href="/"
@@ -681,7 +679,7 @@ export function PostRouteTable() {
                 <HiOutlineArrowCircleLeft className="mr-1.5" /> Go back to home
             </Link>
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold text-primary tracking-tight">
+                <h2 className="text-lg md:text-2xl font-bold text-primary tracking-tight">
                     Post your route offers!
                 </h2>
                 <ImportDropdown />

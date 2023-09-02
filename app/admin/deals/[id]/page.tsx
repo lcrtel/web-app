@@ -147,12 +147,12 @@ export default async function Page({ params }: { params: { id: string } }) {
                                     </div>
                                 </HoverCardContent>
                             </HoverCard>
-                            <p className=" font-semibold ">
+                            {/* <p className=" font-semibold ">
                                 {route_connection?.destination}-
                                 <span className="uppercase">
                                     {route_connection?.type}
                                 </span>
-                            </p>
+                            </p> */}
                         </div>
                         <div>
                             <p className=" text-sm text-gray-500">Buyer</p>
@@ -177,7 +177,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                             )}
                         </div>
                     </div>{" "}
-                    <EditRoute route={route_connection} />
+                    {/* <EditRoute route={route_connection} /> */}
                 </div>
                 <div>
                     <h3 className="text-lg font-semibold tracking-tight mb-2">

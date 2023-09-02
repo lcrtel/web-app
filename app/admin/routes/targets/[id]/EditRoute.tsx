@@ -71,7 +71,7 @@ export function EditRoute({ route }: { route: RouteOffer }) {
             .update({
                 ...data,
                 updated_at: new Date().toISOString(),
-                seller_id: route.seller_id,
+                buyer_id: route.seller_id,
             })
             .eq("id", route.id)
             .select();

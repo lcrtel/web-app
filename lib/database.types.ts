@@ -44,7 +44,7 @@ export interface Database {
           acd: string
           asr: string
           buyer_id: string
-          buying_rate: number | null
+          buying_rate: number
           capacity: string
           created_at: string | null
           destination: string
@@ -62,7 +62,7 @@ export interface Database {
           acd: string
           asr: string
           buyer_id?: string
-          buying_rate?: number | null
+          buying_rate?: number
           capacity: string
           created_at?: string | null
           destination: string
@@ -80,7 +80,7 @@ export interface Database {
           acd?: string
           asr?: string
           buyer_id?: string
-          buying_rate?: number | null
+          buying_rate?: number
           capacity?: string
           created_at?: string | null
           destination?: string

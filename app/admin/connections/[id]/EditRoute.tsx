@@ -156,7 +156,7 @@ export function EditRoute({ route }: { route: RouteOffer }) {
                                     </FormItem>
                                 )}
                             />
-                            <FormField
+                            {/* <FormField
                                 control={form.control}
                                 name="selling_rate"
                                 render={({ field }) => (
@@ -172,7 +172,7 @@ export function EditRoute({ route }: { route: RouteOffer }) {
                                         <FormMessage />
                                     </FormItem>
                                 )}
-                            />
+                            /> */}
                             <FormField
                                 control={form.control}
                                 name="route_type"

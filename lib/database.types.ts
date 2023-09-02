@@ -106,7 +106,7 @@ export interface Database {
       invoices: {
         Row: {
           agent: string | null
-          balance: string | null
+          balance: number | null
           bill_to: Json | null
           connection_id: string | null
           date_due: string | null
@@ -123,7 +123,7 @@ export interface Database {
         }
         Insert: {
           agent?: string | null
-          balance?: string | null
+          balance?: number | null
           bill_to?: Json | null
           connection_id?: string | null
           date_due?: string | null
@@ -140,7 +140,7 @@ export interface Database {
         }
         Update: {
           agent?: string | null
-          balance?: string | null
+          balance?: number | null
           bill_to?: Json | null
           connection_id?: string | null
           date_due?: string | null
@@ -389,7 +389,7 @@ export interface Database {
           {
             foreignKeyName: "route_connections_buyer_id_fkey"
             columns: ["buyer_id"]
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
           {
@@ -415,7 +415,7 @@ export interface Database {
           rate: string
           route_type: string
           seller_id: string
-          selling_rate: string | null
+          selling_rate: string
           updated_at: string | null
           verification: string
           verification_by: string | null
@@ -435,7 +435,7 @@ export interface Database {
           rate: string
           route_type: string
           seller_id?: string
-          selling_rate?: string | null
+          selling_rate?: string
           updated_at?: string | null
           verification?: string
           verification_by?: string | null
@@ -455,7 +455,7 @@ export interface Database {
           rate?: string
           route_type?: string
           seller_id?: string
-          selling_rate?: string | null
+          selling_rate?: string
           updated_at?: string | null
           verification?: string
           verification_by?: string | null

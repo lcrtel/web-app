@@ -12,7 +12,7 @@ export function CartDropdown() {
     const supabase = supabaseClient();
     const router = useRouter();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [cartItems, setCartItems] = useState<SelectedRoute[]>([]);
+    const [cartItems, setCartItems] = useState<any>([]);
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
         setTimeout(() => {
@@ -84,7 +84,7 @@ export function CartDropdown() {
                             </h3>
                             {cartItems.length ? (
                                 <div className="grid gap-2 mb-2">
-                                    {cartItems.map((route) => (
+                                    {cartItems.map((route: any) => (
                                         <div
                                             key={route.id}
                                             className=" px-2 py-1 bg-surface shadow-sm flex gap-2 justify-between rounded-md font-medium"

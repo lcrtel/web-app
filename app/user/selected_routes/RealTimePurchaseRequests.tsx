@@ -29,7 +29,7 @@ const RealTimePurchaseRequests = ({
     }, [supabase, router]);
     return (
         <>
-            {purchaseRequests?.map((purchaseRequest) => (
+            {purchaseRequests?.map((purchaseRequest: any) => (
                 <Link
                     href={`/user/purchase_requests/${purchaseRequest.id}`}
                     passHref

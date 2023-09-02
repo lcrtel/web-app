@@ -3,7 +3,6 @@ import { supabaseAdmin } from "@/lib/supabase-admin";
 import formatString from "@/utils/formatString";
 import formatTimestamptz from "@/utils/formatTimestamptz";
 import DeleteRoute from "./DeleteRoute";
-import { EditRoute } from "./EditRoute";
 import { redirect } from "next/navigation";
 
 export default async function Page({ params }: { params: { id: string } }) {
@@ -50,7 +49,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                             </p>
                         </div>
 
-                        <div>
+                        {/* <div>
                             <p className=" text-sm text-gray-500">Rate</p>
                             <p className=" font-semibold">
                                 {new Intl.NumberFormat("en-US", {
@@ -69,9 +68,9 @@ export default async function Page({ params }: { params: { id: string } }) {
                                     currency: "USD",
                                 }).format(parseFloat(route?.buying_rate))}
                             </p>
-                        </div>
+                        </div> */}
                     </div>{" "}
-                    <EditRoute route={route} />
+                    {/* <EditRoute route={route} /> */}
                 </div>
                 <Separator />
                 <div className="grid sm:grid-cols-2 gap-4 bg-surface rounded-lg p-4 mb-5">

@@ -289,10 +289,10 @@ export const columns: ColumnDef<RouteOffer>[] = [
                         return;
                     }
                     toast.success("Added to the selected routes");
-                } else {
+                } else  {
                     const { data, error } = await supabase
                         .from("selected_routes")
-                        .insert({ route_id: id })
+                        .insert({ route_id: id as string })
                         .select();
                     if (error) {
                         toast.error(error.message);

@@ -177,7 +177,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                             )}
                         </div>
                     </div>{" "}
-                    <EditRoute route={route_connection} />
+                    {/* <EditRoute route={route_connection} /> */}
                 </div>
 
                 <div>

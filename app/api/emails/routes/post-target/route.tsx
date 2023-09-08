@@ -28,7 +28,7 @@ export async function POST(request: Request) {
         },
     });
     const emailHtml = render(
-        <SubmitTargets data={buyingTargets} user={user} />
+        <SubmitTargets data={buyingTargets.slice(0, 10)} user={user} />
     );
     try {
         await transporter.sendMail({

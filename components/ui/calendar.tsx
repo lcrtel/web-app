@@ -36,13 +36,13 @@ function Calendar({
                 head_cell:
                     "text-slate-400 rounded-md w-9 font-normal text-[0.8rem] ",
                 row: "flex w-full mt-2",
-                cell: "text-center text-primary-100 text-sm p-0 relative [&:has([aria-selected])]:bg-primary-50 first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20 dark:[&:has([aria-selected])]:bg-primary-800",
+                cell: "text-center text-primary-100 rounded-full text-sm p-0 relative [&:has([aria-selected])]:bg-primary-50 first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20 dark:[&:has([aria-selected])]:bg-primary-800",
                 day: cn(
                     buttonVariants({ variant: "ghost" }),
                     "h-9 w-9 p-0 font-normal aria-selected:opacity-100 "
                 ),
                 day_selected:
-                    "bg-primary-500 text-slate-50 hover:bg-primary-500 hover:text-slate-50 focus:bg-primary-500 focus:text-slate-50 dark:bg-slate-50 ",
+                    "bg-primary-500 text-slate-50 hover:bg-primary-500 hover:text-slate-50 focus:bg-primary-500 focus:text-slate-50 dark:bg-slate-50 rounded-full",
                 day_today:
                     "bg-primary-50 text-primary-500 dark:bg-slate-800 dark:text-slate-50",
                 day_outside: "text-primary-500 opacity-50 ",

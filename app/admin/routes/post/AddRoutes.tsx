@@ -182,6 +182,7 @@ export function AddRouteTable({ users }: { users: any }) {
                             onChange={(e) => setValue(e.target.value)}
                             onBlur={onBlur}
                             required
+                            className="w-[80px]"
                             placeholder="Prefix"
                         />
                     );
@@ -190,7 +191,7 @@ export function AddRouteTable({ users }: { users: any }) {
             {
                 accessorKey: "destination",
                 header: ({ column }) => {
-                    return <div className=" min-w-[200px]">Destination</div>;
+                    return <div className="w-[200px]">Destination</div>;
                 },
                 cell: function Cell({
                     getValue,
@@ -226,7 +227,7 @@ export function AddRouteTable({ users }: { users: any }) {
             {
                 accessorKey: "destination_code",
                 header: ({ column }) => {
-                    return <div className=" min-w-[80px]">Code</div>;
+                    return <div className="">Code</div>;
                 },
                 cell: function Cell({
                     getValue,
@@ -255,6 +256,7 @@ export function AddRouteTable({ users }: { users: any }) {
                             onChange={(e) => setValue(e.target.value)}
                             onBlur={onBlur}
                             required
+                            className="w-[80px]"
                             placeholder="eg: +971"
                         />
                     );
@@ -279,12 +281,11 @@ export function AddRouteTable({ users }: { users: any }) {
                     return (
                         <>
                             <Select
-                                defaultValue={initialValue as string}
                                 onValueChange={(val) => {
                                     onBlur(val);
                                 }}
                             >
-                                <SelectTrigger className="min-w-[100px]">
+                                <SelectTrigger className="w-[120px]">
                                     <SelectValue placeholder="Route Type" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -532,15 +533,11 @@ export function AddRouteTable({ users }: { users: any }) {
             },
             {
                 id: "delete",
-                header: "Actions",
+                header: "",
                 cell: ({ row }) => (
-                    <Button
-                        onClick={() => handleRemoveRoute(row)}
-                        variant="destructive"
-                        size="icon"
-                    >
-                        <HiTrash className="h-5 w-5" />
-                    </Button>
+                    <div onClick={() => handleRemoveRoute(row)}>
+                        <HiTrash className="h-5 w-5 text-red-500 mx-2 cursor-pointer" />
+                    </div>
                 ),
             },
         ],
@@ -715,10 +712,7 @@ export function AddRouteTable({ users }: { users: any }) {
                 </div>
                 <ImportDropdown />
             </div>
-            <form
-                className="border rounded-md mt-4 overflow-y-auto p-4"
-                onSubmit={handleSubmit}
-            >
+            <form className=" mt-4 overflow-y-auto" onSubmit={handleSubmit}>
                 <div className="flex items-center justify-between gap-4 mb-4 ">
                     <div className="text-sm flex gap-2 items-center whitespace-nowrap">
                         <p className=" font-semibold text-lg tracking-tight">
@@ -791,7 +785,7 @@ export function AddRouteTable({ users }: { users: any }) {
                         )}
                     </div>
                 </div>
-                <div className="border rounded-md">
+                <div className="">
                     <Table>
                         {table.getRowModel().rows?.length !== 0 && (
                             <TableHeader>
@@ -826,7 +820,10 @@ export function AddRouteTable({ users }: { users: any }) {
                                         }
                                     >
                                         {row.getVisibleCells().map((cell) => (
-                                            <TableCell key={cell.id}>
+                                            <TableCell
+                                                key={cell.id}
+                                                className=" px-1"
+                                            >
                                                 {flexRender(
                                                     cell.column.columnDef.cell,
                                                     cell.getContext()
@@ -839,7 +836,7 @@ export function AddRouteTable({ users }: { users: any }) {
                                 <TableRow>
                                     <TableCell
                                         colSpan={columns.length}
-                                        className="h-[120px] flex bg-surface shadow items-center justify-center cursor-pointer"
+                                        className="h-[120px] rounded-lg flex bg-surface items-center justify-center cursor-pointer"
                                         onClick={handleAddRoute}
                                     >
                                         <HiPlusCircle className="w-5 h-5" />
@@ -854,14 +851,14 @@ export function AddRouteTable({ users }: { users: any }) {
                 <div className="flex flex-col gap-2 mt-2">
                     <Button
                         variant="secondary"
-                        className="w-full shadow"
+                        className="w-full"
                         onClick={handleAddRoute}
                     >
                         Add
                     </Button>
                     <Button
                         variant="secondary"
-                        className="w-full shadow"
+                        className="w-full mb-5"
                         onClick={handleClear}
                     >
                         Clear

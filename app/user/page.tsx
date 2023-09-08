@@ -41,9 +41,10 @@ const page = async () => {
                         <HiArrowRight className="w-5 h-5" />
                     </div>
                     <p className="text-gray-500 mr-5">
-                        Our platform empowers you to specify your exact
-                        communication needs, and our system will match you with
-                        route offers that align perfectly.
+                        Our comprehensive buying targets are designed to
+                        streamline your purchasing decisions. Stay
+                        cost-effective and explore tailored buying targets
+                        today.
                     </p>
                 </Link>
                 <Link
@@ -58,9 +59,9 @@ const page = async () => {
                         <HiArrowRight className="w-5 h-5" />
                     </div>
                     <p className="text-gray-500 mr-5">
-                        When you post your route offers, our intelligent system
-                        will identify buying targets that align seamlessly with
-                        your offerings.
+                        Our rates are meticulously calculated, ensuring you get
+                        the best deals in the market. Stay ahead of the
+                        competition and explore unbeatable rates today.
                     </p>
                 </Link>
             </div>

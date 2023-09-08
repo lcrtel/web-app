@@ -72,48 +72,58 @@ export function PostRouteTable() {
             prevData.filter((route) => route.id !== row.original.id)
         );
     };
+function add20Percent(numberString) {
+    const number = parseFloat(numberString); // Convert the string to a number
+    if (isNaN(number)) {
+        return;
+    }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        localStorage.setItem("pendingRouteOffersData", JSON.stringify(data));
-        setPosting(true);
-        const { data: route, error } = await supabase
-            .from("route_offers")
-            .insert(
-                data.map((route) => ({
-                    destination: route.destination,
-                    destination_code: route.destination_code,
-                    rate: route.rate,
-                    route_type: route.route_type,
-                    prefix: route.prefix,
-                    asr: route.asr,
-                    acd: route.acd,
-                    ports: route.ports,
-                    capacity: route.capacity,
-                    pdd: route.pdd,
-                }))
-            )
-            .select();
-        if (error) {
-            setPosting(false);
-            toast.error(error.message);
-            return;
-        }
-        fetch(`${location.origin}/api/emails/routes/post-offer`, {
-            method: "POST",
-            body: JSON.stringify(data),
-        });
-
-        router.refresh();
-        router.push("/user/routes/offers");
-        toast.success("Route Offers posted");
+    const increase = number * 0.2; // Calculate 20% of the number
+    const result = number + increase; // Add the increase to the original number
+    return result.toString();
+}
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    localStorage.setItem("pendingRouteOffersData", JSON.stringify(data));
+    setPosting(true);
+    const { data: route, error } = await supabase
+        .from("route_offers")
+        .insert(
+            data.map((route) => ({
+                destination: route.destination,
+                destination_code: route.destination_code,
+                rate: route.rate,
+                selling_rate: add20Percent(route.rate),
+                route_type: route.route_type,
+                prefix: route.prefix,
+                asr: route.asr,
+                acd: route.acd,
+                ports: route.ports,
+                capacity: route.capacity,
+                pdd: route.pdd,
+            }))
+        )
+        .select();
+    if (error) {
         setPosting(false);
-        setData([]);
-        const storedRouteData = localStorage.getItem("pendingRouteOffersData");
-        if (storedRouteData) {
-            localStorage.removeItem("pendingRouteOffersData");
-        }
-    };
+        toast.error(error.message);
+        return;
+    }
+    fetch(`${location.origin}/api/emails/routes/post-offer`, {
+        method: "POST",
+        body: JSON.stringify(data),
+    });
+
+    router.refresh();
+    router.push("/user/routes/offers");
+    toast.success("Route Offers posted");
+    setPosting(false);
+    setData([]);
+    const storedRouteData = localStorage.getItem("pendingRouteOffersData");
+    if (storedRouteData) {
+        localStorage.removeItem("pendingRouteOffersData");
+    }
+};
 
     const columns = useMemo(
         () => [

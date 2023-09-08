@@ -80,49 +80,50 @@ export default function SubmitRoutes({
                                 Here are the details of the first few route
                                 offers you posted:
                             </Text>
-                            {data?.map((route) => (
-                                <Row
-                                    key={route.id}
-                                    className="bg-surface rounded-md mb-2"
-                                >
-                                    <Column className="p-3">
-                                        <Text className="font-medium text-xs m-0 text-gray-500">
-                                            Destination:
-                                        </Text>
-                                        <Text className="font-semibold text-base m-0 text-primary">
-                                            {route.destination}
-                                        </Text>
-                                    </Column>{" "}
-                                    <Column className="p-3">
-                                        <Text className="font-medium text-xs m-0 text-gray-500">
-                                            Type:
-                                        </Text>
-                                        <Text className="font-semibold text-base uppercase m-0 text-primary">
-                                            {route.route_type}
-                                        </Text>
-                                    </Column>
-                                    <Column className="p-3">
-                                        <Text className="font-medium text-xs m-0 text-gray-500">
-                                            Rate:
-                                        </Text>
-                                        <Text className="font-semibold text-base m-0 text-primary">
-                                            ${route.rate}
-                                        </Text>
-                                    </Column>
-                                    <Column className="p-3">
-                                        <Text className="font-medium text-xs m-0 text-gray-500">
-                                            Capacity:
-                                        </Text>
-                                        <Text className="font-semibold text-base m-0 text-primary">
-                                            {route.capacity}
-                                        </Text>
-                                    </Column>
-                                </Row>
-                            ))}
+
+                            <table className="w-full  text-primary ">
+                                <thead>
+                                    <tr className=" ">
+                                        <th className="py-2 px-3 rounded-md bg-surface text-left">
+                                            Destination
+                                        </th>
+                                        <th className="py-2 px-3 rounded-md bg-surface  text-left">
+                                            Type
+                                        </th>
+                                        <th className="py-2 px-3 rounded-md bg-surface text-left">
+                                            Rate
+                                        </th>
+                                        <th className="py-2 px-3 rounded-md bg-surface text-left">
+                                            Capacity
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody className=" ">
+                                    {data?.map((route) => (
+                                        <tr
+                                            key={route.id}
+                                            className="font-medium text-slate-500"
+                                        >
+                                            <td className="py-2  rounded-md px-3 bg-slate-100">
+                                                {route.destination}
+                                            </td>{" "}
+                                            <td className="py-2  rounded-md px-3 bg-slate-100">
+                                                {route.route_type}
+                                            </td>
+                                            <td className="py-2  rounded-md px-3 bg-slate-100">
+                                                ${route.rate}
+                                            </td>
+                                            <td className="py-2  rounded-md px-3 bg-slate-100">
+                                                {route.capacity}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </Section>
                         <Section className="mx-auto w-full max-w-[90%]">
                             <Text className="text-gray-500  font-medium ">
-                                For your convenience, we have attached a Excel
+                                For your convenience, we have attached an Excel
                                 file containing the details of all the route
                                 offers you posted. You can download and keep it
                                 for your records.

@@ -25,7 +25,9 @@ const page = async () => {
         <div className="w-full">
             <div className="mb-5 ">
                 <div className="flex items-center mb-3 justify-between ">
-                    <h2 className="text-2xl font-bold text-primary">Users</h2>
+                    <h2 className="text-2xl tracking-tight font-bold text-primary">
+                        Users
+                    </h2>
                     <CreateNewUser />
                 </div>
             </div>

@@ -97,6 +97,7 @@ export function PurchaseRequestForm({
                     buying_rate: data.buying_rate,
                     message: data.message,
                     payment_type: data.payment_type,
+                    communication_status: "not_contacted",
                 },
             ]);
             if (error) {

@@ -174,7 +174,9 @@ export const columns: ColumnDef<RouteOffer>[] = [
                 href={`/user/routes/${row.getValue("id")}`}
                 className="capitalize"
             >
-                {formatString(row.getValue("status"))}
+                <span className="text-xs bg-slate-100 border-[1.5px] border-slate-200  text-slate-500 rounded-full px-2 py-1 ">
+                    {formatString(row.getValue("status"))}
+                </span>
             </Link>
         ),
     },

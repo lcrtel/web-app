@@ -116,7 +116,6 @@ export interface Database {
           invoice_to: string | null
           note: string | null
           paid_at: string | null
-          payments: Json | null
           quantity: number | null
           status: string | null
           total_amount: number | null
@@ -133,7 +132,6 @@ export interface Database {
           invoice_to?: string | null
           note?: string | null
           paid_at?: string | null
-          payments?: Json | null
           quantity?: number | null
           status?: string | null
           total_amount?: number | null
@@ -150,7 +148,6 @@ export interface Database {
           invoice_to?: string | null
           note?: string | null
           paid_at?: string | null
-          payments?: Json | null
           quantity?: number | null
           status?: string | null
           total_amount?: number | null
@@ -203,37 +200,37 @@ export interface Database {
       }
       payments: {
         Row: {
-          amount: number
+          amount: string
           connection_id: string | null
           created_at: string
           invoice_id: number
           paid_at: string
           payment_id: number
+          payment_method: string | null
           payment_status: string
-          payout_status: string
-          user_id: string
+          user_id: string | null
         }
         Insert: {
-          amount: number
+          amount: string
           connection_id?: string | null
           created_at?: string
           invoice_id: number
           paid_at: string
           payment_id?: number
+          payment_method?: string | null
           payment_status?: string
-          payout_status?: string
-          user_id: string
+          user_id?: string | null
         }
         Update: {
-          amount?: number
+          amount?: string
           connection_id?: string | null
           created_at?: string
           invoice_id?: number
           paid_at?: string
           payment_id?: number
+          payment_method?: string | null
           payment_status?: string
-          payout_status?: string
-          user_id?: string
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -243,9 +240,15 @@ export interface Database {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "payments_invoice_id_fkey"
+            columns: ["invoice_id"]
+            referencedRelation: "invoices"
+            referencedColumns: ["invoice_id"]
+          },
+          {
             foreignKeyName: "payments_user_id_fkey"
             columns: ["user_id"]
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
         ]
@@ -303,44 +306,44 @@ export interface Database {
         Row: {
           buyer_id: string
           buying_rate: string | null
+          communication_status: string
           connection_id: string | null
           created_at: string
           id: string
           message: string | null
           payment_type: string
           route_id: string
-          seller_id: string | null
           status: string
         }
         Insert: {
           buyer_id?: string
           buying_rate?: string | null
+          communication_status: string
           connection_id?: string | null
           created_at?: string
           id?: string
           message?: string | null
           payment_type: string
           route_id: string
-          seller_id?: string | null
           status?: string
         }
         Update: {
           buyer_id?: string
           buying_rate?: string | null
+          communication_status?: string
           connection_id?: string | null
           created_at?: string
           id?: string
           message?: string | null
           payment_type?: string
           route_id?: string
-          seller_id?: string | null
           status?: string
         }
         Relationships: [
           {
             foreignKeyName: "purchase_requests_buyer_id_fkey"
             columns: ["buyer_id"]
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
           {
@@ -354,34 +357,34 @@ export interface Database {
             columns: ["route_id"]
             referencedRelation: "route_offers"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "purchase_requests_seller_id_fkey"
-            columns: ["seller_id"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
           }
         ]
       }
       route_connections: {
         Row: {
           buyer_id: string
-          expiration_date: string
+          expiration_date: string | null
           id: string
+          payment_type: string | null
+          rate: string | null
           route_id: string
           status: string
         }
         Insert: {
           buyer_id: string
-          expiration_date: string
+          expiration_date?: string | null
           id?: string
+          payment_type?: string | null
+          rate?: string | null
           route_id: string
           status: string
         }
         Update: {
           buyer_id?: string
-          expiration_date?: string
+          expiration_date?: string | null
           id?: string
+          payment_type?: string | null
+          rate?: string | null
           route_id?: string
           status?: string
         }
@@ -414,7 +417,7 @@ export interface Database {
           prefix: string
           rate: string
           route_type: string
-          seller_id: string
+          seller_id: string | null
           selling_rate: string
           updated_at: string | null
           verification: string
@@ -434,7 +437,7 @@ export interface Database {
           prefix: string
           rate: string
           route_type: string
-          seller_id?: string
+          seller_id?: string | null
           selling_rate?: string
           updated_at?: string | null
           verification?: string
@@ -454,7 +457,7 @@ export interface Database {
           prefix?: string
           rate?: string
           route_type?: string
-          seller_id?: string
+          seller_id?: string | null
           selling_rate?: string
           updated_at?: string | null
           verification?: string
@@ -465,7 +468,7 @@ export interface Database {
           {
             foreignKeyName: "route_offers_seller_id_fkey"
             columns: ["seller_id"]
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
         ]

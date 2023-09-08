@@ -37,7 +37,9 @@ export async function POST(request: Request) {
             pass: process.env.SMTP_PASSWORD,
         },
     });
-    const emailHtml = render(<SubmitRoutes data={routeOffers} user={user} />);
+    const emailHtml = render(
+        <SubmitRoutes data={routeOffers.slice(0, 10)} user={user} />
+    );
     try {
         await transporter.sendMail({
             from: process.env.SMTP_USER,

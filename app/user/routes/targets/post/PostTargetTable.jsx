@@ -72,50 +72,58 @@ export function PostTargetTable() {
             prevData.filter((route) => route.id !== row.original.id)
         );
     };
+ function dec20Percent(numberString) {
+     const number = parseFloat(numberString); // Convert the string to a number
+     if (isNaN(number)) {
+         return;
+     }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        localStorage.setItem("pendingBuyingTargetsData", JSON.stringify(data));
+     const increase = number * 0.2; // Calculate 20% of the number
+     const result = number + increase; // Add the increase to the original number
+     return result.toString();
+ }
+ const handleSubmit = async (e) => {
+     e.preventDefault();
+     localStorage.setItem("pendingBuyingTargetsData", JSON.stringify(data));
 
-        setPosting(true);
-        const { data: route, error } = await supabase
-            .from("buying_targets")
-            .insert(
-                data.map((route) => ({
-                    destination: route.destination,
-                    destination_code: route.destination_code,
-                    rate: route.rate,
-                    route_type: route.route_type,
-                    prefix: route.prefix,
-                    asr: route.asr,
-                    acd: route.acd,
-                    ports: route.ports,
-                    capacity: route.capacity,
-                    pdd: route.pdd,
-                }))
-            )
-            .select();
-        if (error) {
-            setPosting(false);
-            toast.error(error.message);
-            return;
-        }
-        fetch(`${location.origin}/api/emails/routes/post-target`, {
-            method: "POST",
-            body: JSON.stringify(route),
-        });
-        router.refresh();
-        router.push("/user/routes/targets");
-        toast.success("Targets posted!");
-        setPosting(false);
-        setData([]);
-        const storedTargetData = localStorage.getItem(
-            "pendingBuyingTargetsData"
-        );
-        if (storedTargetData) {
-            localStorage.removeItem("pendingBuyingTargetsData");
-        }
-    };
+     setPosting(true);
+     const { data: route, error } = await supabase
+         .from("buying_targets")
+         .insert(
+             data.map((route) => ({
+                 destination: route.destination,
+                 destination_code: route.destination_code,
+                 rate: route.rate,
+                 buying_rate: dec20Percent(route.rate),
+                 route_type: route.route_type,
+                 prefix: route.prefix,
+                 asr: route.asr,
+                 acd: route.acd,
+                 ports: route.ports,
+                 capacity: route.capacity,
+                 pdd: route.pdd,
+             }))
+         )
+         .select();
+     if (error) {
+         setPosting(false);
+         toast.error(error.message);
+         return;
+     }
+     fetch(`${location.origin}/api/emails/routes/post-target`, {
+         method: "POST",
+         body: JSON.stringify(data),
+     });
+     router.refresh();
+     router.push("/user/routes/targets");
+     toast.success("Targets posted!");
+     setPosting(false);
+     setData([]);
+     const storedTargetData = localStorage.getItem("pendingBuyingTargetsData");
+     if (storedTargetData) {
+         localStorage.removeItem("pendingBuyingTargetsData");
+     }
+ };
 
     const columns = useMemo(
         () => [

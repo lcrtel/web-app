@@ -27,8 +27,8 @@ export default async function DashboardLayout({
     return (
         <section className="w-full h-screen overflow-hidden relative ">
             <AdminNav userRole={userRole} user={userData} />
-            <div className="h-full mt-[68px] md:mt-0 md:ml-64 md:py-5 bg-surface overflow-y-auto">
-                <div className="px-5 md:px-6 py-5 bg-white md:rounded-l-xl h-full relative overflow-y-auto flex-1 ">
+            <div className="flex h-screen mt-[68px] md:mt-0 md:ml-64 md:py-5 bg-surface overflow-y-auto">
+                <div className="flex-1 px-5 md:px-6 py-5 bg-white md:rounded-l-xl relative overflow-y-auto">
                     {children}
                 </div>
             </div>

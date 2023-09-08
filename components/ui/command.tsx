@@ -70,59 +70,59 @@ const CommandList = React.forwardRef<
 CommandList.displayName = CommandPrimitive.List.displayName
 
 const CommandEmpty = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.Empty>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive.Empty>
+    React.ElementRef<typeof CommandPrimitive.Empty>,
+    React.ComponentPropsWithoutRef<typeof CommandPrimitive.Empty>
 >((props, ref) => (
-  <CommandPrimitive.Empty
-    ref={ref}
-    className="py-6 text-center text-sm"
-    {...props}
-  />
-))
+    <CommandPrimitive.Empty
+        ref={ref}
+        className="py-6 text-center text-sm text-slate-400"
+        {...props}
+    />
+));
 
-CommandEmpty.displayName = CommandPrimitive.Empty.displayName
+CommandEmpty.displayName = CommandPrimitive.Empty.displayName;
 
 const CommandGroup = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.Group>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive.Group>
+    React.ElementRef<typeof CommandPrimitive.Group>,
+    React.ComponentPropsWithoutRef<typeof CommandPrimitive.Group>
 >(({ className, ...props }, ref) => (
-  <CommandPrimitive.Group
-    ref={ref}
-    className={cn(
-      "overflow-hidden p-1 text-slate-950 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-slate-500 dark:text-slate-50 dark:[&_[cmdk-group-heading]]:text-slate-400",
-      className
-    )}
-    {...props}
-  />
-))
+    <CommandPrimitive.Group
+        ref={ref}
+        className={cn(
+            "overflow-hidden p-1 text-primary-500 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-slate-500 dark:text-slate-50 dark:[&_[cmdk-group-heading]]:text-slate-400",
+            className
+        )}
+        {...props}
+    />
+));
 
-CommandGroup.displayName = CommandPrimitive.Group.displayName
+CommandGroup.displayName = CommandPrimitive.Group.displayName;
 
 const CommandSeparator = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.Separator>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive.Separator>
+    React.ElementRef<typeof CommandPrimitive.Separator>,
+    React.ComponentPropsWithoutRef<typeof CommandPrimitive.Separator>
 >(({ className, ...props }, ref) => (
-  <CommandPrimitive.Separator
-    ref={ref}
-    className={cn("-mx-1 h-px bg-slate-200 dark:bg-slate-800", className)}
-    {...props}
-  />
-))
-CommandSeparator.displayName = CommandPrimitive.Separator.displayName
+    <CommandPrimitive.Separator
+        ref={ref}
+        className={cn("-mx-1 h-px bg-slate-200 dark:bg-slate-800", className)}
+        {...props}
+    />
+));
+CommandSeparator.displayName = CommandPrimitive.Separator.displayName;
 
 const CommandItem = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item>
+    React.ElementRef<typeof CommandPrimitive.Item>,
+    React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item>
 >(({ className, ...props }, ref) => (
-  <CommandPrimitive.Item
-    ref={ref}
-    className={cn(
-      "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-slate-100 aria-selected:text-slate-900 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:aria-selected:bg-slate-800 dark:aria-selected:text-slate-50",
-      className
-    )}
-    {...props}
-  />
-))
+    <CommandPrimitive.Item
+        ref={ref}
+        className={cn(
+            "relative flex cursor-default select-none items-center rounded-xl px-2 py-1.5 text-slate-400 text-sm outline-none aria-selected:bg-slate-100 aria-selected:text-primary-500 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:aria-selected:bg-slate-800 dark:aria-selected:text-slate-50",
+            className
+        )}
+        {...props}
+    />
+));
 
 CommandItem.displayName = CommandPrimitive.Item.displayName
 

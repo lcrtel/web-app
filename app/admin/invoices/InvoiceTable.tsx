@@ -80,13 +80,6 @@ export const columns: ColumnDef<InvoiceDetails>[] = [
         ),
     },
     {
-        accessorKey: "total_amount",
-        header: "Total",
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("total_amount")}</div>
-        ),
-    },
-    {
         accessorKey: "date_issued",
         header: ({ column }) => {
             return (
@@ -102,16 +95,55 @@ export const columns: ColumnDef<InvoiceDetails>[] = [
             );
         },
         cell: ({ row }) => {
-            const Date = row.getValue("date_issued");
+            const Date: Date = row.getValue("date_issued");
             const formattedDate = formatTimestamptz(Date);
             return <div className="font-medium">{formattedDate}</div>;
         },
     },
     {
+        accessorKey: "date_due",
+        header: ({ column }) => {
+            return (
+                <div
+                    className="flex gap-2 items-center cursor-pointer whitespace-nowrap"
+                    onClick={() =>
+                        column.toggleSorting(column.getIsSorted() === "asc")
+                    }
+                >
+                    Due Date
+                    <ArrowUpDown className=" h-4 w-4" />
+                </div>
+            );
+        },
+        cell: ({ row }) => {
+            const Date: Date = row.getValue("date_due");
+            const formattedDate = formatTimestamptz(Date);
+            return <div className="font-medium">{formattedDate}</div>;
+        },
+    },
+    {
+        accessorKey: "total_amount",
+        header: "Total Amount",
+        cell: ({ row }) => (
+            <div className="capitalize">
+                {new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                }).format(row.getValue("total_amount"))}
+            </div>
+        ),
+    },
+
+    {
         accessorKey: "balance",
         header: "Balance",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("balance")}</div>
+            <div className="capitalize">
+                {new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                }).format(row.getValue("balance"))}
+            </div>
         ),
     },
     {

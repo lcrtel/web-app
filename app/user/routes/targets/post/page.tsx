@@ -8,7 +8,8 @@ const page = async () => {
     const supabase = supabaseServer();
     let { data: routes, error } = await supabase
         .from("route_offers")
-        .select("*");
+        .select("*")
+        .eq("verification", "verified");
     return (
         <section className="">
             <Link

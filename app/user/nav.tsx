@@ -38,7 +38,7 @@ const Navigation = ({ userRole, user }: { user: any; userRole: any }) => {
                 pathname.startsWith(url)
                     ? "bg-surface shadow shadow-gray-200  font-semibold"
                     : "lg:hover:bg-surface"
-            } rounded-full`}
+            } rounded-full m-1`}
         >
             <Link
                 href={url}
@@ -77,7 +77,7 @@ const Navigation = ({ userRole, user }: { user: any; userRole: any }) => {
                                     pathname === "/user"
                                         ? "bg-surface shadow shadow-gray-200  font-semibold"
                                         : "lg:hover:bg-surface"
-                                } rounded-full`}
+                                } rounded-full m-1`}
                             >
                                 <Link
                                     href="/user"

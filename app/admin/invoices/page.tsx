@@ -3,6 +3,8 @@ import { supabaseAdmin } from "@/lib/supabase-admin";
 import { InvoiceTable } from "./InvoiceTable";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
+import { size } from "pdfkit/js/page";
+import ReloadButton from "@/components/ReloadButton";
 
 const page = async () => {
     const supabase = supabaseAdmin();
@@ -14,12 +16,17 @@ const page = async () => {
                     <h2 className="text-2xl font-bold text-primary">
                         Invoices
                     </h2>
-                    <Link
-                        href="/admin/invoices/new"
-                        className={`${buttonVariants({ variant: "default" })}`}
-                    >
-                        Create Invoice
-                    </Link>
+                    <div className="flex items-center gap-2">
+                        <ReloadButton />
+                        <Link
+                            href="/admin/invoices/new"
+                            className={`${buttonVariants({
+                                variant: "default",
+                            })}`}
+                        >
+                            Create Invoice
+                        </Link>
+                    </div>
                 </div>
             </div>
             <div className="">
@@ -28,6 +35,15 @@ const page = async () => {
                 ) : (
                     <div className="gap-2  h-12 text-center flex items-center text-sm  justify-center border py-10 rounded-lg">
                         <p>No invoices created yet</p>
+                        <Link
+                            href="/admin/invoices/new"
+                            className={`${buttonVariants({
+                                variant: "default",
+                                size: "sm",
+                            })}`}
+                        >
+                            Create Invoice
+                        </Link>
                     </div>
                 )}
             </div>

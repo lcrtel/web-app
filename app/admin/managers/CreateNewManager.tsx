@@ -1,13 +1,11 @@
 "use client";
-import React, { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFieldArray, useForm } from "react-hook-form";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { cn } from "@/lib/utils";
 import {
     Form,
     FormControl,
@@ -18,22 +16,12 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 
-import { supabaseClient } from "@/lib/supabase-client";
+import { Checkbox } from "@/components/ui/checkbox";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { useRouter } from "next/navigation";
-import { HiEye, HiEyeOff, HiX } from "react-icons/hi";
-import { Checkbox } from "@/components/ui/checkbox";
-import { revalidatePath } from "next/cache";
 import { toast } from "react-hot-toast";
+import { HiEye, HiEyeOff, HiX } from "react-icons/hi";
 
 const profileFormSchema = z.object({
     first_name: z
@@ -96,7 +84,7 @@ const CreateNewManager = () => {
                 email: data.email,
                 phone: data.phone,
                 skype_id: data.skype_id,
-                role: "manager",
+                role: "agent",
             },
         });
         if (error) {
@@ -104,12 +92,12 @@ const CreateNewManager = () => {
             setErrorMessage(error.message);
             return;
         }
-        toast.success("Created a new manager");
+        toast.success("Created a new agent");
         router.refresh();
     }
     return (
         <>
-            <Button onClick={(e) => setIsOpen(true)}>Add manager</Button>
+            <Button onClick={(e) => setIsOpen(true)}>Add agent</Button>
             <AnimatePresence>
                 {isOpen && (
                     <>
@@ -121,7 +109,7 @@ const CreateNewManager = () => {
                         >
                             <div className="flex items-center justify-between mb-5">
                                 <h2 className="font-bold tracking-tight text-xl">
-                                    Create a new manager
+                                    Create a new agent
                                 </h2>
                                 <Button
                                     onClick={(e) => setIsOpen(false)}
@@ -142,7 +130,7 @@ const CreateNewManager = () => {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                    Manager First Name
+                                                    Agent First Name
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
@@ -160,7 +148,7 @@ const CreateNewManager = () => {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                    Manager Last Name
+                                                    Agent Last Name
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
@@ -178,7 +166,7 @@ const CreateNewManager = () => {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                    Manager Phone
+                                                    Agent Phone
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
@@ -196,7 +184,7 @@ const CreateNewManager = () => {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                    Manager Email
+                                                    Agent Email
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
@@ -215,7 +203,7 @@ const CreateNewManager = () => {
                                             <FormItem>
                                                 <div className="flex gap-2 mb-2">
                                                     <FormLabel>
-                                                        Manager Password
+                                                        Agent Password
                                                     </FormLabel>
                                                     <div
                                                         className="text-gray-400 cursor-pointer"
@@ -239,7 +227,7 @@ const CreateNewManager = () => {
                                                                 ? "text"
                                                                 : "password"
                                                         }
-                                                        placeholder="Manager password"
+                                                        placeholder="Agent password"
                                                         {...field}
                                                     />
                                                 </FormControl>
@@ -253,7 +241,7 @@ const CreateNewManager = () => {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                    Manager Skype ID
+                                                    Agent Skype ID
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
@@ -297,7 +285,7 @@ const CreateNewManager = () => {
                                         </div>
                                     )}
                                     <Button type="submit">
-                                        Create manager
+                                        Create Agent
                                     </Button>
                                 </form>
                             </Form>

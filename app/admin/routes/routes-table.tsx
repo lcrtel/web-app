@@ -300,7 +300,7 @@ export function RoutesTable({ data }: any) {
         };
     }, [supabase, router]);
     return (
-        <div>
+        <div className=" ">
             <div className="flex items-center pb-4">
                 <Input
                     placeholder="Enter phone code"
@@ -346,7 +346,7 @@ export function RoutesTable({ data }: any) {
                     </DropdownMenu>
                 </div>
             </div>
-            <div className="rounded-lg border ">
+            <div className="rounded-lg border max-h-[50vh] overflow-y-auto">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (

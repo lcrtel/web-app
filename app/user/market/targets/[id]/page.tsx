@@ -91,7 +91,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                         </p>
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
-                        <p className=" text-sm text-gray-500">Seller ID</p>
+                        <p className=" text-sm text-gray-500">Buyer ID</p>
                         <p className=" font-semibold">
                             {BuyingTarget?.[0]?.buyer_id}
                         </p>

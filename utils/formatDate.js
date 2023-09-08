@@ -3,11 +3,25 @@ export default function formatDate(timestamp) {
 
     // Get the day, month, and year from the date object
     const day = dateObj.getDate();
-    const month = dateObj.getMonth() + 1;
-    const year = dateObj.getFullYear();
+     const month = dateObj.getMonth();
+     const monthName = [
+         "Jan",
+         "Feb",
+         "Mar",
+         "Apr",
+         "May",
+         "Jun",
+         "Jul",
+         "Aug",
+         "Sep",
+         "Oct",
+         "Nov",
+         "Dec",
+     ][month];
+     const year = dateObj.getFullYear();
 
-    // Format the date string as dd/mm/yyyy
-    const formattedDate = `${day}/${month}/${year}`;
+     // Format the date string as dd/mm/yyyy
+     const formattedDate = `${day} ${monthName}, ${year}`;
 
     return formattedDate;
 }

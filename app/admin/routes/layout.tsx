@@ -24,7 +24,7 @@ export default async function DashboardLayout({
 
     return (
         <section className="h-full">
-            <div className="flex  gap-2  flex-wrap md:items-center mb-4 justify-between border-b pb-4 ">
+            <div className="flex  gap-2  flex-wrap md:items-center mb-4 justify-between ">
                 <Link
                     href="/admin/routes"
                     className="text-2xl font-bold text-primary"

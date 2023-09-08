@@ -58,6 +58,7 @@ const AdminNav = ({ userRole, user }: { user: any; userRole: any }) => {
         ["Managers", "/admin/managers"],
         // ["Analytics", "/admin/analytics"],
         ["Invoices", "/admin/invoices"],
+        ["Transactions", "/admin/transactions"],
     ].map(([title, url]) => (
         <li
             key={title}
@@ -92,13 +93,13 @@ const AdminNav = ({ userRole, user }: { user: any; userRole: any }) => {
             </button>{" "}
             <div className="flex flex-col gap-10 w-full">
                 <div className="flex  md:flex-col items-center justify-center   w-full rounded-xl gap-4">
-                    <Image
-                        src="/lcrtelcom_logo.svg"
-                        className=""
-                        alt="LCRTel Logo"
-                        width={160}
-                        height={20}
-                    />
+                    <Link passHref href="/admin" className="">
+                        <img
+                            src="/lcrtelcom_logo.svg"
+                            className="mr-3 h-8"
+                            alt="LCRTel Logo"
+                        />
+                    </Link>
                     <div className="flex justify-center px-4 py-1.5 md:w-full bg-white rounded-full">
                         <h2 className="text-primary-500 font-bold tracking-tight md:text-lg">
                             Admin

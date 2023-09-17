@@ -1,14 +1,11 @@
-import React from "react";
-import { TargetsTable } from "./targets/targets-table";
-import { HiArrowRight } from "react-icons/hi";
-import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
-import { OffersTable } from "./offers/offers-table";
 import { supabaseServer } from "@/lib/supabase-server";
-import { redirect } from "next/navigation";
-import TradeNav from "./nav";
 import { fetchUserData } from "@/utils/user";
-
+import Link from "next/link";
+import { HiArrowRight } from "react-icons/hi";
+import { OffersTable } from "./offers/offers-table";
+import { TargetsTable } from "./targets/targets-table";
+export const revalidate = 0;
 const page = async () => {
     const user = await fetchUserData();
     const supabase = supabaseServer();

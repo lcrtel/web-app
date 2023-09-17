@@ -7,7 +7,7 @@ import { OffersTable } from "./offers-table";
 import TradeNav from "../nav";
 import { fetchUserData } from "@/utils/user";
 
-export const revalidate = 60; // revalidate this page every 60 seconds
+export const revalidate = 0; // revalidate this page every 60 seconds
 
 export default async function Page() {
     const user = await fetchUserData();

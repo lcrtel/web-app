@@ -12,7 +12,7 @@ import { supabaseAdmin } from "@/lib/supabase-admin";
 import formatDate from "@/utils/formatDate";
 import formatString from "@/utils/formatString";
 import Link from "next/link";
-
+export const revalidate = 0;
 const Transactions = async () => {
     const supabase = supabaseAdmin();
 

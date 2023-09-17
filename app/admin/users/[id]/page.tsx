@@ -2,7 +2,7 @@ import { Separator } from "@/components/ui/separator";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import DeleteUser from "./DeleteUser";
 import { ProfileForm } from "./userform";
-
+export const revalidate = 0;
 export default async function Page({ params }: { params: { id: string } }) {
     const supabase = supabaseAdmin();
 

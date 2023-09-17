@@ -1,12 +1,9 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import RoutesNav from "./nav";
-import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
-import { HiOutlinePlusCircle } from "react-icons/hi";
 import { supabaseServer } from "@/lib/supabase-server";
-
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { HiOutlinePlusCircle } from "react-icons/hi";
+export const revalidate = 0;
 export const dynamic = "force-dynamic";
 
 export default async function DashboardLayout({

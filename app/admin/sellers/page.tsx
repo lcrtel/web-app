@@ -1,7 +1,7 @@
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { UsersTable } from "../users/users-table";
 import CreateNewSeller from "./CreateNewSeller";
-
+export const revalidate = 0;
 const page = async () => {
     const supabase = supabaseAdmin();
 

@@ -1,10 +1,9 @@
-import { Separator } from "@/components/ui/separator";
 import { supabaseServer } from "@/lib/supabase-server";
 import formatTimestamptz from "@/utils/formatTimestamptz";
-import { HiOutlineArrowCircleLeft, HiOutlinePencilAlt } from "react-icons/hi";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-
+import { HiOutlineArrowCircleLeft } from "react-icons/hi";
+export const revalidate = 0;
 export default async function Page({ params }: { params: { id: string } }) {
     const supabase = supabaseServer();
     let { data: BuyingTarget } = await supabase

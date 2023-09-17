@@ -201,6 +201,12 @@ export function EditRoute({ route }: { route: RouteOffer }) {
                                                 <SelectItem value="sms">
                                                     SMS
                                                 </SelectItem>
+                                                <SelectItem value="tdm">
+                                                    TDM
+                                                </SelectItem>
+                                                <SelectItem value="pri">
+                                                    PRI
+                                                </SelectItem>
                                                 <SelectItem value="did">
                                                     DID
                                                 </SelectItem>

@@ -1,8 +1,7 @@
-import React, { use } from "react";
-import { UsersTable } from "./users-table";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import CreateNewManager from "./CreateNewManager";
-
+import { UsersTable } from "./users-table";
+export const revalidate = 0;
 const page = async () => {
     const supabase = supabaseAdmin();
 

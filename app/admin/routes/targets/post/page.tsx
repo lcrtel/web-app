@@ -1,8 +1,6 @@
-import { AddRouteTable } from "./AddRoutes";
-import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
-import { HiArrowLeft } from "react-icons/hi";
 import { supabaseAdmin } from "@/lib/supabase-admin";
+import { AddRouteTable } from "./AddRoutes";
+export const revalidate = 0; // revalidate at most every hour
 
 const page = async () => {
     const supabase = supabaseAdmin();

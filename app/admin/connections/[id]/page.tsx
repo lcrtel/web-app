@@ -1,21 +1,16 @@
-import { Separator } from "@/components/ui/separator";
-import { supabaseAdmin } from "@/lib/supabase-admin";
-import formatString from "@/utils/formatString";
-import formatTimestamptz from "@/utils/formatTimestamptz";
-import DeleteRoute from "./DeleteRoute";
-import { EditRoute } from "./EditRoute";
-import { redirect } from "next/navigation";
-import Link from "next/link";
-import {
-    HiOutlineExclamationCircle,
-    HiOutlineExternalLink,
-    HiOutlineQuestionMarkCircle,
-} from "react-icons/hi";
 import {
     HoverCard,
     HoverCardContent,
     HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { supabaseAdmin } from "@/lib/supabase-admin";
+import Link from "next/link";
+import {
+    HiOutlineExclamationCircle,
+    HiOutlineExternalLink
+} from "react-icons/hi";
+export const revalidate = 0; // revalidate at most every hour
+
 import { InvoicesTable } from "./InvoicesTable";
 
 export default async function Page({ params }: { params: { id: string } }) {

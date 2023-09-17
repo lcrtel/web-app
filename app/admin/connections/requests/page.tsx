@@ -1,5 +1,4 @@
 import ReloadButton from "@/components/ReloadButton";
-import { supabaseAdmin } from "@/lib/supabase-admin";
 import {
     Table,
     TableBody,
@@ -9,10 +8,12 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { supabaseAdmin } from "@/lib/supabase-admin";
+import formatString from "@/utils/formatString";
 import Link from "next/link";
 import { HiOutlineExternalLink } from "react-icons/hi";
-import formatString from "@/utils/formatString";
 import { EditRequest } from "./EditRequest";
+export const revalidate = 0; // revalidate at most every hour
 
 const page = async () => {
     const supabase = supabaseAdmin();

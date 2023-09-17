@@ -2,7 +2,7 @@ import React from "react";
 import { UsersTable } from "./users-table";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import CreateNewUser from "./CreateNewUser";
-
+export const revalidate = 0;
 const page = async () => {
     const supabase = supabaseAdmin();
     const {

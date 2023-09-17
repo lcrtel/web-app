@@ -1,7 +1,7 @@
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import RoutesNav from "./nav";
 import { RoutesTable } from "./routes-table";
-
+export const revalidate = 0;
 export default async function Page() {
     const supabase = supabaseAdmin();
     let { data: verified_routes } = await supabase

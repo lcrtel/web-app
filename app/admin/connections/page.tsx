@@ -1,8 +1,3 @@
-import { supabaseAdmin } from "@/lib/supabase-admin";
-import { buttonVariants } from "@/components/ui/button";
-import { HiOutlineExternalLink, HiOutlinePlusCircle } from "react-icons/hi";
-import Link from "next/link";
-import { ConnectionsTable } from "./ConnectionsTable";
 import ReloadButton from "@/components/ReloadButton";
 import {
     Table,
@@ -13,8 +8,12 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { EditRequest } from "./requests/EditRequest";
+import { supabaseAdmin } from "@/lib/supabase-admin";
 import formatString from "@/utils/formatString";
+import Link from "next/link";
+import { HiOutlineExternalLink } from "react-icons/hi";
+import { EditRequest } from "./requests/EditRequest";
+export const revalidate = 0; // revalidate at most every hour
 
 export default async function Page() {
     const supabase = supabaseAdmin();

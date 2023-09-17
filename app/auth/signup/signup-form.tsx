@@ -69,7 +69,7 @@ const SignupForm = () => {
                         email: values.email,
                         phone: values.phone,
                         skype_id: values.skype_id,
-                        role: "pending",
+                        role: "buyer",
                         finance_department: {},
                         noc_dipartment: {},
                         sales_dipartment: {},

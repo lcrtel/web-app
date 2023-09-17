@@ -1,11 +1,9 @@
-import React, { use } from "react";
-import { supabaseAdmin } from "@/lib/supabase-admin";
-import { InvoiceTable } from "./InvoiceTable";
-import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
-import { size } from "pdfkit/js/page";
 import ReloadButton from "@/components/ReloadButton";
-
+import { buttonVariants } from "@/components/ui/button";
+import { supabaseAdmin } from "@/lib/supabase-admin";
+import Link from "next/link";
+import { InvoiceTable } from "./InvoiceTable";
+export const revalidate = 0;
 const page = async () => {
     const supabase = supabaseAdmin();
     const { data: invoices } = await supabase.from("invoices").select(`*`);

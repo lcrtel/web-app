@@ -1,9 +1,6 @@
-import { buttonVariants } from "@/components/ui/button";
 import { supabaseAdmin } from "@/lib/supabase-admin";
-import Link from "next/link";
-import { HiArrowLeft } from "react-icons/hi";
 import { AddRouteTable } from "./AddRoutes";
-
+export const revalidate = 0;
 const page = async () => {
     const supabase = supabaseAdmin();
     const {

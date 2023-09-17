@@ -1,9 +1,4 @@
-import React from "react";
-import Overview from "./Overview";
-import RecentActivities from "./RecentActivities";
-import Notifications from "./Notifications";
-import QuickActions from "./QuickActions";
-import { supabaseAdmin } from "@/lib/supabase-admin";
+import { buttonVariants } from "@/components/ui/button";
 import {
     Table,
     TableBody,
@@ -13,16 +8,17 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { supabaseAdmin } from "@/lib/supabase-admin";
+import formatDate from "@/utils/formatDate";
+import formatString from "@/utils/formatString";
 import Link from "next/link";
 import { HiOutlineExternalLink } from "react-icons/hi";
-import formatString from "@/utils/formatString";
+import Overview from "./Overview";
+import QuickActions from "./QuickActions";
 import { EditRequest } from "./connections/requests/EditRequest";
-import { RoutesTable } from "./routes/routes-table";
-import formatDate from "@/utils/formatDate";
-import ReloadButton from "@/components/ReloadButton";
 import { InvoiceTable } from "./invoices/InvoiceTable";
-import { buttonVariants } from "@/components/ui/button";
-
+import { RoutesTable } from "./routes/routes-table";
+export const revalidate = 0;
 const page = () => {
     const supabase = supabaseAdmin();
     const ConnectionRequests = async () => {

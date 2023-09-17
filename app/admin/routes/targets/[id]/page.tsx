@@ -2,9 +2,9 @@ import { Separator } from "@/components/ui/separator";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import formatString from "@/utils/formatString";
 import formatTimestamptz from "@/utils/formatTimestamptz";
-import DeleteRoute from "./DeleteRoute";
 import { redirect } from "next/navigation";
-
+import DeleteRoute from "./DeleteRoute";
+export const revalidate = 0;
 export default async function Page({ params }: { params: { id: string } }) {
     const supabase = supabaseAdmin();
     let { data: route } = await supabase

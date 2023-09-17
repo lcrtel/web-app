@@ -128,6 +128,8 @@ export function RouteForm({ route }: { route: BuyingTarget }) {
                                             Non-CLI
                                         </SelectItem>
                                         <SelectItem value="sms">SMS</SelectItem>
+                                        <SelectItem value="tdm">TDM</SelectItem>
+                                        <SelectItem value="pri">PRI</SelectItem>
                                         <SelectItem value="did">DID</SelectItem>
                                     </SelectContent>
                                 </Select>

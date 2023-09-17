@@ -5,7 +5,7 @@ import FetchLocalStorage from "./FetchLocalStorage";
 import { supabaseServer } from "@/lib/supabase-server";
 import { toast } from "react-hot-toast";
 import RemoveFromWatchlist from "./(dashboardComponents)/RemoveFromWatchlist";
-
+export const revalidate = 0;
 const page = async () => {
     const user = await fetchUserData();
     const userData = await fetchUserMetadata();

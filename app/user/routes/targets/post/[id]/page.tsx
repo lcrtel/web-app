@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { HiOutlineArrowCircleLeft } from "react-icons/hi";
 // import DeleteUser from "./DeleteUser";
-
+export const revalidate = 0;
 export default async function Page({ params }: { params: { id: string } }) {
     const supabase = supabaseServer();
     let { data: route } = await supabase

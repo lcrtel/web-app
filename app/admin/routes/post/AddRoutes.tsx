@@ -295,6 +295,8 @@ export function AddRouteTable({ users }: { users: any }) {
                                             Non-CLI
                                         </SelectItem>
                                         <SelectItem value="sms">SMS</SelectItem>
+                                        <SelectItem value="tdm">TDM</SelectItem>
+                                        <SelectItem value="pri">PRI</SelectItem>
                                         <SelectItem value="did">DID</SelectItem>
                                     </SelectGroup>
                                 </SelectContent>

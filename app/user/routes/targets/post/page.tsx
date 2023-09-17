@@ -3,7 +3,7 @@ import { HiOutlineArrowCircleLeft } from "react-icons/hi";
 import { PostTargetTable } from "./PostTargetTable";
 import { supabaseServer } from "@/lib/supabase-server";
 import { OffersTable } from "@/app/user/market/offers/offers-table";
-
+export const revalidate = 0;
 const page = async () => {
     const supabase = supabaseServer();
     let { data: routes, error } = await supabase

@@ -4,7 +4,7 @@ import { RoutesTable } from "./RoutesTable";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import { HiOutlinePlusCircle } from "react-icons/hi";
-
+export const revalidate = 0;
 const page = async () => {
     const supabase = supabaseServer();
     const user = await fetchUserData();

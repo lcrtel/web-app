@@ -2,7 +2,7 @@ import { supabaseServer } from "@/lib/supabase-server";
 import { fetchUserData } from "@/utils/user";
 import { PurchaseRequestForm } from "./PurchaseRequestForm";
 import RealTimePurchaseRequests from "./RealTimePurchaseRequests";
-
+export const revalidate = 0;
 export default async function Page() {
     const supabase = supabaseServer();
     const user = await fetchUserData();

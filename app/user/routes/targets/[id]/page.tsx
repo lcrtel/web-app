@@ -6,7 +6,7 @@ import Link from "next/link";
 import { RoutesTable } from "./routes-table";
 import { redirect } from "next/navigation";
 import formatString from "@/utils/formatString";
-
+export const revalidate = 0;
 export default async function Page({ params }: { params: { id: string } }) {
     const supabase = supabaseServer();
     let { data: BuyingTarget } = await supabase

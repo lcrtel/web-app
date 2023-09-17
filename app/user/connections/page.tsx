@@ -1,8 +1,7 @@
 import { supabaseServer } from "@/lib/supabase-server";
 import Link from "next/link";
-import React from "react";
 import { HiOutlineExternalLink } from "react-icons/hi";
-
+export const revalidate = 0;
 const page = async () => {
     const supabase = supabaseServer();
     let { data: conncetions, error } = await supabase

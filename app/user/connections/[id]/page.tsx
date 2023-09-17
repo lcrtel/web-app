@@ -1,17 +1,13 @@
-import { Separator } from "@/components/ui/separator";
 import { supabaseServer } from "@/lib/supabase-server";
 import formatTimestamptz from "@/utils/formatTimestamptz";
+import { fetchUserData } from "@/utils/user";
+import Link from "next/link";
 import {
     HiOutlineArrowCircleLeft,
-    HiOutlineExternalLink,
-    HiOutlinePencilAlt,
+    HiOutlineExternalLink
 } from "react-icons/hi";
-import Link from "next/link";
-import { redirect } from "next/navigation";
-import formatString from "@/utils/formatString";
 import { InvoiceTable } from "../../invoices/InvoiceTable";
-import { fetchUserData } from "@/utils/user";
-
+export const revalidate = 0;
 export default async function Page({ params }: { params: { id: string } }) {
     const user = await fetchUserData();
     const supabase = supabaseServer();

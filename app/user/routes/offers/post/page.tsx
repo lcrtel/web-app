@@ -3,7 +3,7 @@ import { supabaseServer } from "@/lib/supabase-server";
 import Link from "next/link";
 import { HiOutlineArrowCircleLeft } from "react-icons/hi";
 import { PostRouteTable } from "./PostRouteTable";
-
+export const revalidate = 0;
 const page = async () => {
     const supabase = supabaseServer();
     let { data: targets, error } = await supabase

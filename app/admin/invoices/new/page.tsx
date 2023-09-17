@@ -1,6 +1,6 @@
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import InvoiceForm from "./InvoiceForm";
-
+export const revalidate = 0;
 export default async function page() {
     const supabase = supabaseAdmin();
    let { data: users } = await supabase.from("profiles").select("*");

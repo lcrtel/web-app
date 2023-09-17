@@ -1,11 +1,3 @@
-import { supabaseAdmin } from "@/lib/supabase-admin";
-import formatDate from "@/utils/formatDate";
-import formatTimestamptz from "@/utils/formatTimestamptz";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-import { HiOutlineArrowCircleLeft } from "react-icons/hi";
-import InvoiceDetails from "./InvoiceDetails";
 import {
     Table,
     TableBody,
@@ -15,7 +7,11 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { supabaseAdmin } from "@/lib/supabase-admin";
+import formatDate from "@/utils/formatDate";
 import formatString from "@/utils/formatString";
+import InvoiceDetails from "./InvoiceDetails";
+export const revalidate = 0;
 
 const page = async ({ params }: { params: { id: string } }) => {
     const supabase = supabaseAdmin();

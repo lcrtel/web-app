@@ -1,13 +1,10 @@
 import Nav from "@/components/Nav";
-import Link from "next/link";
-import React from "react";
-import { HiCheck, HiOutlineArrowSmRight } from "react-icons/hi";
-import Image from "next/image";
-import { redirect } from "next/navigation";
-import { supabaseServer } from "@/lib/supabase-server";
-import { RatesTable } from "./rates-table";
 import { buttonVariants } from "@/components/ui/button";
 import { fetchUserRole } from "@/utils/user";
+import Image from "next/image";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { HiCheck, HiOutlineArrowSmRight } from "react-icons/hi";
 import MarketSearch from "./MarketSearch";
 export const dynamic = "force-dynamic";
 

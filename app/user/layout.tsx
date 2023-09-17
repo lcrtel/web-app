@@ -6,7 +6,7 @@ import LoginModal from "./LoginModal";
 import Navigation from "./nav";
 
 export const dynamic = "force-dynamic";
-export const revalidate = 10; // revalidate at most every hour
+export const revalidate = 0; // revalidate at most every hour
 
 export default async function DashboardLayout({
     children, // will be a page or nested layout

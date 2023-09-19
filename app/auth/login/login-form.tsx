@@ -138,6 +138,15 @@ const LoginForm = ({ session }: { session: Session | null }) => {
                     Sign up
                 </Link>
             </p>
+            <p className="text-sm font-light text-center text-gray-500">
+                Forgot password?{" "}
+                <Link
+                    href="/auth/reset-password"
+                    className="font-medium text-primary-600 hover:underline"
+                >
+                    Reset
+                </Link>
+            </p>
         </form>
     );
 };

@@ -37,7 +37,7 @@ const ResetForm = ({ session }: { session: Session | null }) => {
                 values.email,
                 {
                     redirectTo:
-                        "https://lcrtel.com/api/auth/reset_password?password_reset=/user/account/update-password",
+                        "https://lcrtel.com/api/auth/reset_password?password_reset=/user/account/password",
                 }
             );
             if (error) {

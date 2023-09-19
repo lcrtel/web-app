@@ -36,7 +36,8 @@ const ResetForm = ({ session }: { session: Session | null }) => {
             const { data, error } = await supabase.auth.resetPasswordForEmail(
                 values.email,
                 {
-                    redirectTo: `https://lcrtel.com/api/auth/callback?password_reset=/auth/update-password`,
+                    redirectTo:
+                        "https://lcrtel.com/api/auth/callback?password_reset=/auth/update-password",
                 }
             );
             if (error) {

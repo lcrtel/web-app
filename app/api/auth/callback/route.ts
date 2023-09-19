@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
     }
 
     if (passwordReset) {
-        NextResponse.redirect(passwordReset);
+        NextResponse.redirect(new URL(passwordReset, request.url));
         console.log("got password reset");
     } else {
         return NextResponse.redirect(new URL("/user", request.url));

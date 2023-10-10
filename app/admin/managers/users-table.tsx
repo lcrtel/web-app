@@ -37,6 +37,7 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import formatTimestamptz from "@/utils/formatTimestamptz";
+import ReloadButton from "@/components/ReloadButton";
 
 export const columns: ColumnDef<any>[] = [
     {
@@ -164,8 +165,9 @@ export function UsersTable({ data }: any) {
                             .getColumn("email")
                             ?.setFilterValue(event.target.value)
                     }
-                    className="w-full"
+                    className="w-full mr-2"
                 />
+                <ReloadButton />
             </div>
             <div className="rounded-xl border max-h-[500px] overflow-y-auto">
                 <Table>

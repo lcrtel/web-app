@@ -21,8 +21,8 @@ const page = async () => {
             <PostTargetTable />
             {routes?.length ? (
                 <>
-                    <h3 className="text-xl pt-4 mt-5 mb-2 border-t font-semibold text-primary-500 flex items-center tracking-tight">
-                        Our selling rates
+                    <h3 className="text-xl pt-4 mb-2 font-semibold text-primary-500 flex items-center tracking-tight">
+                        Market Rates
                     </h3>
                     <OffersTable data={routes} />
                 </>

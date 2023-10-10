@@ -31,7 +31,7 @@ const page = async () => {
         });
 
         return (
-            <div className="w-full xl:w-2/3">
+            <div className="w-full">
                 <h2 className="font-semibold text-lg mb-3">All Sellers</h2>
                 {<UsersTable data={sellersList} />}
             </div>

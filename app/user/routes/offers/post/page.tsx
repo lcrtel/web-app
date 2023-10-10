@@ -20,8 +20,8 @@ const page = async () => {
             <PostRouteTable />{" "}
             {targets?.length ? (
                 <>
-                    <h3 className="text-xl pt-4 mt-5 mb-2 border-t font-semibold text-primary-500 flex items-center tracking-tight">
-                        Our buying targets
+                    <h3 className="text-xl pt-4 mb-2 font-semibold text-primary-500 flex items-center tracking-tight">
+                        Market Rates
                     </h3>
                     <TargetsTable data={targets} />
                 </>

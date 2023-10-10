@@ -15,7 +15,7 @@ const Overview = async () => {
                 className="bg-surface hover:scale-[102%] transition-all space-y-2 ease-in-out border-2 border-white rounded-2xl shadow  p-5"
             >
                 <h3 className="text-sm font-medium text-gray-400 tracking-tight flex items-center justify-between">
-                    Active Connections <HiArrowRight className="" />
+                    Connections <HiArrowRight className="" />
                 </h3>
                 <p className="font-bold tracking-tight text-3xl ">
                     {connections?.length}
@@ -130,7 +130,7 @@ const Overview = async () => {
     return (
         <section className="mb-5">
             <h2 className="font-semibold text-lg mb-3">Overview</h2>
-            <div className="grid  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-5 items-center">
+            <div className="grid  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 items-center">
                 <ActiveConnections />
                 <Rates />
                 <Targets />

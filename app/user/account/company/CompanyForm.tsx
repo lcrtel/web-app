@@ -353,19 +353,19 @@ export function CompanyForm({ user }: { user: any }) {
         <section>
             <div className="p-5 border rounded-lg mb-5">
                 <h2 className=" font-semibold text-lg tracking-tight mb-2">
-                    Finance Dipartment
+                    Finance Department
                 </h2>
                 <FinanceDipartment />
             </div>
             <div className="p-5 border rounded-lg mb-5">
                 <h2 className=" font-semibold text-lg tracking-tight mb-2">
-                    NOC Dipartment
+                    NOC Department
                 </h2>
                 <NOCDipartment />
             </div>
             <div className="p-5 border rounded-lg mb-5">
                 <h2 className=" font-semibold text-lg tracking-tight mb-2">
-                    Sales Dipartment
+                    Sales Department
                 </h2>
                 <SalesDipartment />
             </div>

@@ -127,7 +127,7 @@ const page = () => {
                     </Link>
                 </div>
                 <RoutesTable data={unverified_routes} />
-                <Link
+                {/* <Link
                     href="/admin/routes"
                     className=" block text-slate-500 font-medium hover:underline text-center w-full py-5"
                 >
@@ -135,7 +135,7 @@ const page = () => {
                     {Number(unverified_routes_Count?.length) -
                         Number(unverified_routes?.length)}{" "}
                     more
-                </Link>
+                </Link> */}
             </div>
         );
     };

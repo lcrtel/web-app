@@ -24,7 +24,7 @@ const page = async () => {
         });
 
         return (
-            <div className="w-full xl:w-2/3">
+            <div className="w-full">
                 <h2 className="font-semibold text-lg mb-3 mt-2">
                     All Managers
                 </h2>
@@ -45,7 +45,6 @@ const page = async () => {
             </div>
             <div className="flex flex-col gap-3 xl:flex-row w-full overflow-x-auto">
                 <Managers />
-                <div className="w-full xl:w-1/3 px-4"></div>
             </div>
         </div>
     );

@@ -36,7 +36,7 @@ const page = async () => {
                 >
                     <div className="flex justify-between items-center mb-3">
                         <h3 className="font-semibold tracking-tight text-xl">
-                            🎯 Our Buying Targets
+                            🎯 Explore Buying Targets
                         </h3>
                         <HiArrowRight className="w-5 h-5" />
                     </div>
@@ -54,7 +54,7 @@ const page = async () => {
                 >
                     <div className="flex justify-between items-center mb-3">
                         <h3 className="font-semibold tracking-tight text-xl">
-                            🏷️ Our Selling Rates
+                            🏷️ Explore Selling Rates
                         </h3>
                         <HiArrowRight className="w-5 h-5" />
                     </div>

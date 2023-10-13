@@ -27,6 +27,7 @@ import { HiOutlineCloudUpload } from "react-icons/hi";
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 import { AnimatePresence, motion } from "framer-motion";
+import * as XLSX from "xlsx";
 
 export function PostRouteTable() {
     const [sorting, setSorting] = useState([]);
@@ -72,58 +73,58 @@ export function PostRouteTable() {
             prevData.filter((route) => route.id !== row.original.id)
         );
     };
-function add20Percent(numberString) {
-    const number = parseFloat(numberString); // Convert the string to a number
-    if (isNaN(number)) {
-        return;
-    }
+    function add20Percent(numberString) {
+        const number = parseFloat(numberString); // Convert the string to a number
+        if (isNaN(number)) {
+            return;
+        }
 
-    const increase = number * 0.2; // Calculate 20% of the number
-    const result = number + increase; // Add the increase to the original number
-    return result.toString();
-}
-const handleSubmit = async (e) => {
-    e.preventDefault();
-    localStorage.setItem("pendingRouteOffersData", JSON.stringify(data));
-    setPosting(true);
-    const { data: route, error } = await supabase
-        .from("route_offers")
-        .insert(
-            data.map((route) => ({
-                destination: route.destination,
-                destination_code: route.destination_code,
-                rate: route.rate,
-                selling_rate: add20Percent(route.rate),
-                route_type: route.route_type,
-                prefix: route.prefix,
-                asr: route.asr,
-                acd: route.acd,
-                ports: route.ports,
-                capacity: route.capacity,
-                pdd: route.pdd,
-            }))
-        )
-        .select();
-    if (error) {
+        const increase = number * 0.2; // Calculate 20% of the number
+        const result = number + increase; // Add the increase to the original number
+        return result.toString();
+    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        localStorage.setItem("pendingRouteOffersData", JSON.stringify(data));
+        setPosting(true);
+        const { data: route, error } = await supabase
+            .from("route_offers")
+            .insert(
+                data.map((route) => ({
+                    destination: route.destination,
+                    destination_code: route.destination_code,
+                    rate: route.rate,
+                    selling_rate: add20Percent(route.rate),
+                    route_type: route.route_type,
+                    prefix: route.prefix,
+                    asr: route.asr,
+                    acd: route.acd,
+                    ports: route.ports,
+                    capacity: route.capacity,
+                    pdd: route.pdd,
+                }))
+            )
+            .select();
+        if (error) {
+            setPosting(false);
+            toast.error(error.message);
+            return;
+        }
+        fetch(`${location.origin}/api/emails/routes/post-offer`, {
+            method: "POST",
+            body: JSON.stringify(data),
+        });
+
+        router.refresh();
+        router.push("/user/routes/offers");
+        toast.success("Route Offers posted");
         setPosting(false);
-        toast.error(error.message);
-        return;
-    }
-    fetch(`${location.origin}/api/emails/routes/post-offer`, {
-        method: "POST",
-        body: JSON.stringify(data),
-    });
-
-    router.refresh();
-    router.push("/user/routes/offers");
-    toast.success("Route Offers posted");
-    setPosting(false);
-    setData([]);
-    const storedRouteData = localStorage.getItem("pendingRouteOffersData");
-    if (storedRouteData) {
-        localStorage.removeItem("pendingRouteOffersData");
-    }
-};
+        setData([]);
+        const storedRouteData = localStorage.getItem("pendingRouteOffersData");
+        if (storedRouteData) {
+            localStorage.removeItem("pendingRouteOffersData");
+        }
+    };
 
     const columns = useMemo(
         () => [
@@ -546,88 +547,133 @@ const handleSubmit = async (e) => {
             },
         },
     });
+
     const ImportDropdown = () => {
         const [isOpen, setIsOpen] = useState(false);
 
-        const generateExcelSheet = async () => {
-            const workbook = new ExcelJS.Workbook();
-            const worksheet = workbook.addWorksheet("Sheet1");
-            worksheet.addRow([
-                "prefix",
-                "destination",
-                "destination_code",
-                "route_type",
-                "rate",
-                "asr",
-                "acd",
-                "ports",
-                "pdd",
-                "capacity",
+        const generateExcelSheet = () => {
+            const workbook = XLSX.utils.book_new();
+            const worksheet = XLSX.utils.aoa_to_sheet([
+                [
+                    "prefix",
+                    "destination",
+                    "destination_code",
+                    "route_type",
+                    "rate",
+                    "asr",
+                    "acd",
+                    "ports",
+                    "pdd",
+                    "capacity",
+                ],
             ]);
-            const blob = await workbook.xlsx.writeBuffer();
-            return new Blob([blob], {
+
+            // Add the worksheet to the workbook
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+            // Create a binary blob from the workbook
+            const ExcelSheet = XLSX.write(workbook, {
+                bookType: "xlsx",
+                type: "array",
+            });
+
+            const blob = new Blob([ExcelSheet], {
                 type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             });
+
+            return blob;
         };
 
         const EmptyFile = () => {
             const handleDownload = async () => {
-                const excelBlob = await generateExcelSheet();
-                saveAs(excelBlob, "empty_file.xlsx");
+                const excelBlob = generateExcelSheet();
+                if (excelBlob) {
+                    const url = URL.createObjectURL(excelBlob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "empty_file.xlsx";
+                    a.click();
+                }
             };
+
             return (
                 <span
                     className="text-primary-500 underline whitespace-nowrap cursor-pointer"
                     onClick={handleDownload}
                 >
-                    download empty file
+                    Download empty file
                 </span>
             );
         };
 
         const handleFileChange = async (e) => {
             e.preventDefault();
-            const file = e.target.files[0];
-            const workbook = new ExcelJS.Workbook();
-            let headers = [];
-            await workbook.xlsx.load(file);
-            const worksheet = workbook.getWorksheet(1);
-            const jsonData = [];
-            worksheet.eachRow((row, rowNumber) => {
-                if (rowNumber === 1) {
-                    headers = row.values.map((header) => header.toString());
-                    return;
+            const file = e.target.files?.[0]; // Use optional chaining
+
+            if (!file) {
+                // Handle the case where no file is selected
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                if (e.target?.result) {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: "array" });
+
+                    let headers = [];
+                    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const jsonData = [];
+
+                    XLSX.utils
+                        .sheet_to_json(worksheet)
+                        .forEach((row, rowIndex) => {
+                            if (rowIndex === 0) {
+                                headers = Object.keys(row);
+                            }
+
+                            const rowData = {};
+
+                            headers.forEach((header) => {
+                                rowData[header] = row[header];
+                            });
+
+                            jsonData.push(rowData);
+                        });
+
+                    // Clear the input value
+                    if (e.target) {
+                        e.target.value = "";
+                    }
+
+                    // Assuming you have a `setData` and `setIsOpen` function in your component
+                    setData((prevData) => [...prevData, ...jsonData]);
+                    setIsOpen(false);
                 }
-                const rowData = {};
-                row.eachCell((cell, colNumber) => {
-                    const header = headers[colNumber];
-                    const cellValue = cell.value;
-                    rowData[header] = cellValue;
-                });
-                e.target.value = null;
-                jsonData.push(rowData);
-                setData(jsonData);
-            });
-            setIsOpen(false);
+            };
+
+            reader.readAsArrayBuffer(file);
         };
 
         const handleCLick = () => {
             setIsOpen(!isOpen);
         };
+
         return (
-            <div className="relative inline-block text-left">
-                <button
+            <div className="relative  text-left">
+                <div
                     onClick={handleCLick}
-                    className="flex relative shadow-sm items-center transition-all ease-in-out justify-center rounded-lg hover:bg-primary hover:bg-opacity-5 border px-3 py-2 text-sm font-medium text-primary"
+                    className="flex relative cursor-pointer shadow-sm items-center transition-all ease-in-out justify-center rounded-lg hover:bg-primary hover:bg-opacity-5 border px-3 py-2 text-sm font-medium text-primary"
                 >
                     <HiOutlineCloudUpload className="mr-1.5 h-4 w-4" />
                     Import
-                </button>
+                </div>
                 <AnimatePresence>
                     {isOpen && (
                         <>
                             <motion.div
-                                className="z-10 max-w-md w-60 absolute border-2  border-surface  right-0 top-10 rounded-lg  shadow-xl bg-white"
+                                className="z-10  w-60 absolute border-2  border-surface  right-0 top-10 rounded-lg  shadow-xl bg-white"
                                 initial={{ opacity: 0, y: "-10%" }}
                                 animate={{ opacity: 1, y: "0%" }}
                                 exit={{ opacity: 0, y: "-10%" }}
@@ -665,6 +711,7 @@ const handleSubmit = async (e) => {
             </div>
         );
     };
+
     return (
         <div className="w-full">
             {/* <pre> {JSON.stringify(data, null, 2)}</pre> */}

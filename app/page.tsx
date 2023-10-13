@@ -25,7 +25,7 @@ const HomePage = async () => {
             <section
                 id="home"
                 className="mx-auto flex min-h-screen items-center justify-between bg-local"
-                style={{
+               style={{
                     backgroundImage: `url("/blue_wave_bg.jpg")`,
                     backgroundPosition: "center",
                     backgroundSize: "cover",
@@ -79,23 +79,6 @@ const HomePage = async () => {
             </section>
         );
     };
-
-    // const MarketView = async () => {
-    //     return (
-    //         <section
-    //             id="market"
-    //             className="bg-surface px-5  pb-20 pt-24 sm:py-32"
-    //         >
-    //             <div className="mx-auto max-w-8xl px-5 lg:px-8 flex flex-col lg:flex-row">
-    //                 <div className="mx-auto mb-16 max-w-2xl w-full lg:w-1/2">
-    //                     <h2 className="text-3xl font-bold tracking-tight text-primary-500 lg:text-4xl">
-    //                         Market View
-    //                     </h2>
-    //                 </div>
-    //             </div>
-    //         </section>
-    //     );
-    // };
 
     const BuyersSection = () => {
         return (

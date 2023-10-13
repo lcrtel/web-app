@@ -11,20 +11,20 @@ import {
 } from "@/components/ui/table";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import {
-    flexRender,
     ColumnDef,
+    RowData,
+    flexRender,
     getCoreRowModel,
     getFilteredRowModel,
     getSortedRowModel,
     useReactTable,
-    RowData,
 } from "@tanstack/react-table";
-import { Loader2 } from "lucide-react";
+import { Check, ChevronsUpDown, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { HiArrowLeft, HiPlusCircle, HiTrash } from "react-icons/hi";
 import { v4 as uuidv4 } from "uuid";
-import { Check, ChevronsUpDown } from "lucide-react";
+import * as XLSX from "xlsx";
 
 import {
     Command,
@@ -38,22 +38,19 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
 import {
     Select,
     SelectContent,
     SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { toast } from "react-hot-toast";
-import { HiOutlineCloudUpload } from "react-icons/hi";
-import ExcelJS from "exceljs";
-import { saveAs } from "file-saver";
+import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
+import { toast } from "react-hot-toast";
+import { HiOutlineCloudUpload } from "react-icons/hi";
 
 declare module "@tanstack/react-table" {
     interface TableMeta<TData extends RowData> {
@@ -103,20 +100,20 @@ export function AddRouteTable({ users }: { users: any }) {
             prevData.filter((route: any) => route.id !== row.original.id)
         );
     };
-    function add20Percent(numberString: string) {
-        const number = parseFloat(numberString); // Convert the string to a number
-        if (isNaN(number)) {
-            return;
-        }
 
-        const increase = number * 0.2; // Calculate 20% of the number
-        const result = number + increase; // Add the increase to the original number
-        return result.toString;
+    function add20Percent(rate: number) {
+        const increase = rate * 0.2; // Calculate 20% of the rate
+        const result = rate + increase; // Add the increase to the original number
+        return result;
     }
+
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        setPosting(true);
+        ``;
+        
+
         if (seller !== "") {
+            setPosting(true);
             const { data: route, error } = await supabase
                 .from("route_offers")
                 .insert(
@@ -147,7 +144,9 @@ export function AddRouteTable({ users }: { users: any }) {
             toast.success("Route Offer Posted");
             router.refresh();
             router.push("/admin/routes");
-        } else toast.error("Select a seller to post");
+        } else {
+            toast.error("Select a seller to post");
+        }
     };
 
     const columns = useMemo<ColumnDef<any>[]>(
@@ -182,7 +181,7 @@ export function AddRouteTable({ users }: { users: any }) {
                             onChange={(e) => setValue(e.target.value)}
                             onBlur={onBlur}
                             required
-                            className="w-[80px]"
+                            className=""
                             placeholder="Prefix"
                         />
                     );
@@ -256,7 +255,7 @@ export function AddRouteTable({ users }: { users: any }) {
                             onChange={(e) => setValue(e.target.value)}
                             onBlur={onBlur}
                             required
-                            className="w-[80px]"
+                            className=""
                             placeholder="eg: +971"
                         />
                     );
@@ -265,7 +264,7 @@ export function AddRouteTable({ users }: { users: any }) {
             {
                 accessorKey: "route_type",
                 header: ({ column }) => {
-                    return <div className=" min-w-[80px]">Type</div>;
+                    return <div className=" min-w-[120px]">Type</div>;
                 },
                 cell: function Cell({
                     getValue,
@@ -281,11 +280,12 @@ export function AddRouteTable({ users }: { users: any }) {
                     return (
                         <>
                             <Select
+                            defaultValue={initialValue as string}
                                 onValueChange={(val) => {
                                     onBlur(val);
                                 }}
                             >
-                                <SelectTrigger className="w-[120px]">
+                                <SelectTrigger className="">
                                     <SelectValue placeholder="Route Type" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -576,76 +576,119 @@ export function AddRouteTable({ users }: { users: any }) {
             },
         },
     });
+
     const ImportDropdown = () => {
         const [isOpen, setIsOpen] = useState(false);
 
-        const generateExcelSheet = async () => {
-            const workbook = new ExcelJS.Workbook();
-            const worksheet = workbook.addWorksheet("Sheet1");
-            worksheet.addRow([
-                "prefix",
-                "destination",
-                "destination_code",
-                "route_type",
-                "rate",
-                "asr",
-                "acd",
-                "ports",
-                "pdd",
-                "capacity",
+        const generateExcelSheet = () => {
+            const workbook = XLSX.utils.book_new();
+            const worksheet = XLSX.utils.aoa_to_sheet([
+                [
+                    "prefix",
+                    "destination",
+                    "destination_code",
+                    "route_type",
+                    "rate",
+                    "asr",
+                    "acd",
+                    "ports",
+                    "pdd",
+                    "capacity",
+                ],
             ]);
-            const blob = await workbook.xlsx.writeBuffer();
-            return new Blob([blob], {
+
+            // Add the worksheet to the workbook
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+            // Create a binary blob from the workbook
+            const ExcelSheet = XLSX.write(workbook, {
+                bookType: "xlsx",
+                type: "array",
+            });
+
+            const blob = new Blob([ExcelSheet], {
                 type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             });
+
+            return blob;
         };
 
         const EmptyFile = () => {
             const handleDownload = async () => {
-                const excelBlob = await generateExcelSheet();
-                saveAs(excelBlob, "empty_file.xlsx");
+                const excelBlob = generateExcelSheet();
+                if (excelBlob) {
+                    const url = URL.createObjectURL(excelBlob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "empty_file.xlsx";
+                    a.click();
+                }
             };
+
             return (
                 <span
                     className="text-primary-500 underline whitespace-nowrap cursor-pointer"
                     onClick={handleDownload}
                 >
-                    download empty file
+                    Download empty file
                 </span>
             );
         };
 
         const handleFileChange = async (e: any) => {
             e.preventDefault();
-            const file = e.target.files[0];
-            const workbook = new ExcelJS.Workbook();
-            let headers: any = [];
-            await workbook.xlsx.load(file);
-            const worksheet = workbook.getWorksheet(1);
-            const jsonData: any = [];
-            worksheet.eachRow((row: any, rowNumber: any) => {
-                if (rowNumber === 1) {
-                    headers = row.values.map((header: any) =>
-                        header.toString()
-                    );
-                    return;
+            const file: File | null = e.target.files?.[0]; // Use optional chaining
+
+            if (!file) {
+                // Handle the case where no file is selected
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = (e: any) => {
+                if (e.target?.result) {
+                    const data = new Uint8Array(e.target.result as ArrayBuffer);
+                    const workbook = XLSX.read(data, { type: "array" });
+
+                    let headers: string[] = [];
+                    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const jsonData: Record<string, any>[] = [];
+
+                    XLSX.utils
+                        .sheet_to_json(worksheet)
+                        .forEach((row: any, rowIndex: number) => {
+                            if (rowIndex === 0) {
+                                headers = Object.keys(row);
+                            }
+
+                            const rowData: Record<string, any> = {};
+
+                            headers.forEach((header: string) => {
+                                rowData[header] = row[header];
+                            });
+
+                            jsonData.push(rowData);
+                        });
+
+                    // Clear the input value
+                    if (e.target) {
+                        (e.target as HTMLInputElement).value = "";
+                    }
+
+                    // Assuming you have a `setData` and `setIsOpen` function in your component
+                    setData((prevData: any) => [...prevData, ...jsonData]);
+                    setIsOpen(false);
                 }
-                const rowData: any = {};
-                row.eachCell((cell: any, colNumber: any) => {
-                    const header = headers[colNumber];
-                    const cellValue = cell.value;
-                    rowData[header] = cellValue;
-                });
-                e.target.value = null;
-                jsonData.push(rowData);
-                setData(jsonData);
-            });
-            setIsOpen(false);
+            };
+
+            reader.readAsArrayBuffer(file);
         };
 
         const handleCLick = () => {
             setIsOpen(!isOpen);
         };
+
         return (
             <div className="relative  text-left">
                 <div
@@ -697,6 +740,7 @@ export function AddRouteTable({ users }: { users: any }) {
             </div>
         );
     };
+
     return (
         <div className="w-full">
             {/* <pre> {JSON.stringify(data, null, 2)}</pre> */}
@@ -741,29 +785,35 @@ export function AddRouteTable({ users }: { users: any }) {
                                     <CommandInput placeholder="Search users..." />
                                     <CommandEmpty>No users found.</CommandEmpty>
                                     <CommandGroup>
-                                        {users.map((user: any) => (
-                                            <CommandItem
-                                                key={user.id}
-                                                onSelect={() => {
-                                                    setSeller(
-                                                        user.id === seller
-                                                            ? ""
-                                                            : user.id
-                                                    );
-                                                    setOpen(false);
-                                                }}
-                                            >
-                                                <Check
-                                                    className={cn(
-                                                        "mr-2 h-4 w-4",
-                                                        seller === user.id
-                                                            ? "opacity-100"
-                                                            : "opacity-0"
-                                                    )}
-                                                />
-                                                {user.email}
-                                            </CommandItem>
-                                        ))}
+                                        {users
+                                            .filter(
+                                                (item: any) =>
+                                                    item.user_metadata.role ===
+                                                    "seller"
+                                            )
+                                            .map((user: any) => (
+                                                <CommandItem
+                                                    key={user.id}
+                                                    onSelect={() => {
+                                                        setSeller(
+                                                            user.id === seller
+                                                                ? ""
+                                                                : user.id
+                                                        );
+                                                        setOpen(false);
+                                                    }}
+                                                >
+                                                    <Check
+                                                        className={cn(
+                                                            "mr-2 h-4 w-4",
+                                                            seller === user.id
+                                                                ? "opacity-100"
+                                                                : "opacity-0"
+                                                        )}
+                                                    />
+                                                    {user.email}
+                                                </CommandItem>
+                                            ))}
                                     </CommandGroup>
                                 </Command>
                             </PopoverContent>
@@ -779,7 +829,7 @@ export function AddRouteTable({ users }: { users: any }) {
                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                     </>
                                 ) : (
-                                    "Post Requests"
+                                    "Post Offers"
                                 )}
                             </Button>
                         ) : (

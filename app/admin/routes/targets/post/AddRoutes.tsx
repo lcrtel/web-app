@@ -54,6 +54,7 @@ import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
+                    import * as XLSX from "xlsx";
 
 declare module "@tanstack/react-table" {
     interface TableMeta<TData extends RowData> {
@@ -103,19 +104,15 @@ export function AddRouteTable({ users }: { users: any }) {
             prevData.filter((route: any) => route.id !== row.original.id)
         );
     };
-    function dec20Percent(numberString: string) {
-        const number = parseFloat(numberString); // Convert the string to a number
-        if (isNaN(number)) {
-            return;
-        }
-
-        const increase = number * 0.2; // Calculate 20% of the number
-        const result = number + increase; // Add the increase to the original number
-        return result.toString();
+    function dec20Percent(rate: number) {
+       const increase = rate * 0.2; // Calculate 20% of the rate
+        const result = rate - increase; // Add the increase to the original number
+        return result;
     }
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         if (buyer !== "") {
+            setPosting(true);
             const { data: route, error } = await supabase
                 .from("buying_targets")
                 .insert(
@@ -152,9 +149,7 @@ export function AddRouteTable({ users }: { users: any }) {
         () => [
             {
                 accessorKey: "prefix",
-                header: function Cell({ column }) {
-                    return <div className=" min-w-[80px]">Prefix</div>;
-                },
+                header: "Prefix",
                 cell: function Cell({
                     getValue,
                     row: { index },
@@ -182,6 +177,7 @@ export function AddRouteTable({ users }: { users: any }) {
                             onChange={(e) => setValue(e.target.value)}
                             onBlur={onBlur}
                             required
+                            className=""
                             placeholder="Prefix"
                         />
                     );
@@ -190,7 +186,7 @@ export function AddRouteTable({ users }: { users: any }) {
             {
                 accessorKey: "destination",
                 header: ({ column }) => {
-                    return <div className=" min-w-[200px]">Destination</div>;
+                    return <div className="w-[200px]">Destination</div>;
                 },
                 cell: function Cell({
                     getValue,
@@ -226,7 +222,7 @@ export function AddRouteTable({ users }: { users: any }) {
             {
                 accessorKey: "destination_code",
                 header: ({ column }) => {
-                    return <div className=" min-w-[80px]">Code</div>;
+                    return <div className="">Code</div>;
                 },
                 cell: function Cell({
                     getValue,
@@ -255,6 +251,7 @@ export function AddRouteTable({ users }: { users: any }) {
                             onChange={(e) => setValue(e.target.value)}
                             onBlur={onBlur}
                             required
+                            className=""
                             placeholder="eg: +971"
                         />
                     );
@@ -277,28 +274,30 @@ export function AddRouteTable({ users }: { users: any }) {
                     };
 
                     return (
-                        <Select
-                            defaultValue={initialValue as string}
-                            onValueChange={(val) => {
-                                onBlur(val);
-                            }}
-                        >
-                            <SelectTrigger className="min-w-[100px]">
-                                <SelectValue placeholder="Route Type" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectItem value="cli">CLI</SelectItem>
-                                    <SelectItem value="non-cli">
-                                        Non-CLI
-                                    </SelectItem>
-                                    <SelectItem value="sms">SMS</SelectItem>
-                                    <SelectItem value="tdm">TDM</SelectItem>
-                                    <SelectItem value="pri">PRI</SelectItem>
-                                    <SelectItem value="did">DID</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
+                        <>
+                            <Select
+                                defaultValue={initialValue as string}
+                                onValueChange={(val) => {
+                                    onBlur(val);
+                                }}
+                            >
+                                <SelectTrigger className="w-[120px]">
+                                    <SelectValue placeholder="Route Type" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectItem value="cli">CLI</SelectItem>
+                                        <SelectItem value="non-cli">
+                                            Non-CLI
+                                        </SelectItem>
+                                        <SelectItem value="sms">SMS</SelectItem>
+                                        <SelectItem value="tdm">TDM</SelectItem>
+                                        <SelectItem value="pri">PRI</SelectItem>
+                                        <SelectItem value="did">DID</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </>
                     );
                 },
             },
@@ -532,15 +531,11 @@ export function AddRouteTable({ users }: { users: any }) {
             },
             {
                 id: "delete",
-                header: "Actions",
+                header: "",
                 cell: ({ row }) => (
-                    <Button
-                        onClick={() => handleRemoveRoute(row)}
-                        variant="destructive"
-                        size="icon"
-                    >
-                        <HiTrash className="h-5 w-5" />
-                    </Button>
+                    <div onClick={() => handleRemoveRoute(row)}>
+                        <HiTrash className="h-5 w-5 text-red-500 mx-2 cursor-pointer" />
+                    </div>
                 ),
             },
         ],
@@ -580,73 +575,115 @@ export function AddRouteTable({ users }: { users: any }) {
     const ImportDropdown = () => {
         const [isOpen, setIsOpen] = useState(false);
 
-        const generateExcelSheet = async () => {
-            const workbook = new ExcelJS.Workbook();
-            const worksheet = workbook.addWorksheet("Sheet1");
-            worksheet.addRow([
-                "prefix",
-                "destination",
-                "destination_code",
-                "route_type",
-                "rate",
-                "asr",
-                "acd",
-                "ports",
-                "pdd",
-                "capacity",
+        const generateExcelSheet = () => {
+            const workbook = XLSX.utils.book_new();
+            const worksheet = XLSX.utils.aoa_to_sheet([
+                [
+                    "prefix",
+                    "destination",
+                    "destination_code",
+                    "route_type",
+                    "rate",
+                    "asr",
+                    "acd",
+                    "ports",
+                    "pdd",
+                    "capacity",
+                ],
             ]);
-            const blob = await workbook.xlsx.writeBuffer();
-            return new Blob([blob], {
+
+            // Add the worksheet to the workbook
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+            // Create a binary blob from the workbook
+            const ExcelSheet = XLSX.write(workbook, {
+                bookType: "xlsx",
+                type: "array",
+            });
+
+            const blob = new Blob([ExcelSheet], {
                 type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             });
+
+            return blob;
         };
 
         const EmptyFile = () => {
             const handleDownload = async () => {
-                const excelBlob = await generateExcelSheet();
-                saveAs(excelBlob, "empty_file.xlsx");
+                const excelBlob = generateExcelSheet();
+                if (excelBlob) {
+                    const url = URL.createObjectURL(excelBlob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "empty_file.xlsx";
+                    a.click();
+                }
             };
+
             return (
                 <span
                     className="text-primary-500 underline whitespace-nowrap cursor-pointer"
                     onClick={handleDownload}
                 >
-                    download empty file
+                    Download empty file
                 </span>
             );
         };
 
         const handleFileChange = async (e: any) => {
             e.preventDefault();
-            const file = e.target.files[0];
-            const workbook = new ExcelJS.Workbook();
-            let headers: any = [];
-            await workbook.xlsx.load(file);
-            const worksheet = workbook.getWorksheet(1);
-            const jsonData: any = [];
-            worksheet.eachRow((row: any, rowNumber: any) => {
-                if (rowNumber === 1) {
-                    headers = row.values.map((header: any) =>
-                        header.toString()
-                    );
-                    return;
+            const file: File | null = e.target.files?.[0]; // Use optional chaining
+
+            if (!file) {
+                // Handle the case where no file is selected
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = (e: any) => {
+                if (e.target?.result) {
+                    const data = new Uint8Array(e.target.result as ArrayBuffer);
+                    const workbook = XLSX.read(data, { type: "array" });
+
+                    let headers: string[] = [];
+                    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const jsonData: Record<string, any>[] = [];
+
+                    XLSX.utils
+                        .sheet_to_json(worksheet)
+                        .forEach((row: any, rowIndex: number) => {
+                            if (rowIndex === 0) {
+                                headers = Object.keys(row);
+                            }
+
+                            const rowData: Record<string, any> = {};
+
+                            headers.forEach((header: string) => {
+                                rowData[header] = row[header];
+                            });
+
+                            jsonData.push(rowData);
+                        });
+
+                    // Clear the input value
+                    if (e.target) {
+                        (e.target as HTMLInputElement).value = "";
+                    }
+
+                    // Assuming you have a `setData` and `setIsOpen` function in your component
+                    setData((prevData: any) => [...prevData, ...jsonData]);
+                    setIsOpen(false);
                 }
-                const rowData: any = {};
-                row.eachCell((cell: any, colNumber: any) => {
-                    const header = headers[colNumber];
-                    const cellValue = cell.value;
-                    rowData[header] = cellValue;
-                });
-                e.target.value = null;
-                jsonData.push(rowData);
-                setData(jsonData);
-            });
-            setIsOpen(false);
+            };
+
+            reader.readAsArrayBuffer(file);
         };
 
         const handleCLick = () => {
             setIsOpen(!isOpen);
         };
+
         return (
             <div className="relative  text-left">
                 <div
@@ -716,14 +753,11 @@ export function AddRouteTable({ users }: { users: any }) {
                 </div>
                 <ImportDropdown />
             </div>
-            <form
-                className="border rounded-md mt-4 overflow-y-auto p-4"
-                onSubmit={handleSubmit}
-            >
+            <form className=" mt-4 overflow-y-auto" onSubmit={handleSubmit}>
                 <div className="flex items-center justify-between gap-4 mb-4 ">
                     <div className="text-sm flex gap-2 items-center whitespace-nowrap">
                         <p className=" font-semibold text-lg tracking-tight">
-                            Seller
+                            Buyer
                         </p>
                         <Popover open={open} onOpenChange={setOpen}>
                             <PopoverTrigger asChild>
@@ -784,7 +818,7 @@ export function AddRouteTable({ users }: { users: any }) {
                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                     </>
                                 ) : (
-                                    "Post Requests"
+                                    "Post Targets"
                                 )}
                             </Button>
                         ) : (
@@ -792,7 +826,7 @@ export function AddRouteTable({ users }: { users: any }) {
                         )}
                     </div>
                 </div>
-                <div className="border rounded-md">
+                <div className="">
                     <Table>
                         {table.getRowModel().rows?.length !== 0 && (
                             <TableHeader>
@@ -840,7 +874,7 @@ export function AddRouteTable({ users }: { users: any }) {
                                 <TableRow>
                                     <TableCell
                                         colSpan={columns.length}
-                                        className="h-[120px] flex bg-surface shadow items-center justify-center cursor-pointer"
+                                        className="h-[120px] rounded-lg flex bg-surface items-center justify-center cursor-pointer"
                                         onClick={handleAddRoute}
                                     >
                                         <HiPlusCircle className="w-5 h-5" />
@@ -855,14 +889,14 @@ export function AddRouteTable({ users }: { users: any }) {
                 <div className="flex flex-col gap-2 mt-2">
                     <Button
                         variant="secondary"
-                        className="w-full shadow"
+                        className="w-full "
                         onClick={handleAddRoute}
                     >
                         Add
                     </Button>
                     <Button
                         variant="secondary"
-                        className="w-full shadow"
+                        className="w-full mb-5"
                         onClick={handleClear}
                     >
                         Clear

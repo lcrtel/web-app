@@ -17,11 +17,11 @@ export const contentType = "image/png";
 export default async function ImageGeneration() {
 
     const interBold = fetch(
-        new URL("../../font/Inter-Bold.ttf", import.meta.url)
+        new URL("/font/Inter-Bold.ttf", import.meta.url)
     ).then((res) => res.arrayBuffer());
 
     const imageData: any = await fetch(
-        new URL("../../public/lcrtelcom_logo-01.png", import.meta.url)
+        new URL("/public/lcrtelcom_logo-01.png", import.meta.url)
     ).then((res) => res.arrayBuffer());
 
     

@@ -1,22 +1,17 @@
 import { ImageResponse } from "next/server";
-import Image from "next/image";
+// App router includes @vercel/og.
+// No need to install it.
 
-// Route segment config
 export const runtime = "edge";
-
-// Image metadata
-export const alt = "LCRTelcom";
+export const alt = "About Acme";
 export const size = {
     width: 1200,
     height: 630,
 };
 
-export const contentType = "image/png";
+export async function GET() {
 
-// Image generation
-export default async function ImageGeneration() {
-
-    const interBold = fetch(
+    const interSemiBold = fetch(
         new URL("../../font/Inter-Bold.ttf", import.meta.url)
     ).then((res) => res.arrayBuffer());
 
@@ -24,7 +19,6 @@ export default async function ImageGeneration() {
         new URL("../../public/lcrtelcom_logo-01.png", import.meta.url)
     ).then((res) => res.arrayBuffer());
 
-    
     return new ImageResponse(
         (
             <div
@@ -46,15 +40,13 @@ export default async function ImageGeneration() {
                 <img width="256" src={imageData} />
                 <div
                     style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
+                        display: "flex", flexDirection: "column", alignItems: "center",
                         fontSize: 60,
                         fontStyle: "normal",
                         color: "#276DB4",
                         fontWeight: 600,
                         marginTop: 30,
-                        letterSpacing: "-0.025em",
+                        letterSpacing: "-0.025em"
                     }}
                 >
                     <b>Streamline Your</b>
@@ -69,7 +61,7 @@ export default async function ImageGeneration() {
             fonts: [
                 {
                     name: "Inter",
-                    data: await interBold,
+                    data: await interSemiBold,
                     style: "normal",
                     weight: 400,
                 },

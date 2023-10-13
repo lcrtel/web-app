@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Loading() {
     return (
-        <div className="relative">
+        <div className="w-[1200px] h-[630px] relative">
             <Image
                 src="/blue_wave_bg.jpg"
                 width={2000}

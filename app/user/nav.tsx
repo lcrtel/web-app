@@ -30,7 +30,7 @@ const Navigation = ({ userRole, user }: { user: any; userRole: any }) => {
         ["My Offers", "/user/routes/offers"],
         ["My Targets", "/user/routes/targets"],
         ["Connections", "/user/connections"],
-        ["Transactions", "/user/transactions"],
+        // ["Transactions", "/user/transactions"],
     ].map(([title, url]) => (
         <li
             key={title}

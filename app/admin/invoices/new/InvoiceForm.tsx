@@ -115,8 +115,10 @@ export default function InvoiceForm({
                     description: `${startDate?.toDateString()} - ${endDate?.toDateString()}`,
                     bill_to: paymentInfo,
                     note: notes,
-                    total_amount: calls * Number(connection?.rate),
-                    balance: calls * Number(connection?.rate),
+                    total_amount:
+                        calls * Number(connection?.route_offers?.selling_rate),
+                    balance:
+                        calls * Number(connection?.route_offers?.selling_rate),
                 })
                 .select("invoice_id")
                 .single();
@@ -417,7 +419,9 @@ export default function InvoiceForm({
                                     {connection?.route_offers?.route_type}
                                 </span>
                             </p>
-                            <p>Rate: ${connection?.rate}</p>
+                            <p>
+                                Rate: ${connection?.route_offers?.selling_rate}
+                            </p>
                         </div>
                     ) : null}
                 </div>
@@ -492,7 +496,11 @@ export default function InvoiceForm({
                             disabled
                             type="number"
                             id="rate"
-                            value={connection?.rate ? +connection?.rate : 0}
+                            value={
+                                connection?.route_offers?.selling_rate
+                                    ? +connection?.route_offers?.selling_rate
+                                    : 0
+                            }
                         />
                     </div>
 
@@ -609,7 +617,10 @@ export default function InvoiceForm({
                     <div className="flex flex-col gap-2 w-[300px]">
                         <p className=" font-semibold">
                             Total Amount: $
-                            {connection?.rate ? +connection?.rate * calls : 0}
+                            {connection?.route_offers?.selling_rate
+                                ? +connection?.route_offers?.selling_rate *
+                                  calls
+                                : 0}
                         </p>
                     </div>
                 </div>

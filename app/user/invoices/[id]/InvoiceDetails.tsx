@@ -6,7 +6,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { createRef, useState } from "react";
 import { HiOutlineArrowCircleLeft } from "react-icons/hi";
-import { AddPayment } from "./AddPayment";
 
 const InvoiceDetails = ({
     invoice,
@@ -50,7 +49,7 @@ const InvoiceDetails = ({
 
     return (
         <div className="  flex items-starts max-w-8xl mx-auto gap-5 mb-5">
-            <Link href="/admin/invoices">
+            <Link href="/user/invoices">
                 <HiOutlineArrowCircleLeft className="w-6 h-6 mt-2 text-slate-400" />
             </Link>
             <div
@@ -200,7 +199,6 @@ const InvoiceDetails = ({
                 ) : null}
             </div>
             <div className=" w-[200px] space-y-2">
-                <Button className=" w-full">Send</Button>
                 <Button
                     onClick={handlePrint}
                     variant="outline"
@@ -208,7 +206,6 @@ const InvoiceDetails = ({
                 >
                     Print
                 </Button>
-                <AddPayment invoice={invoice} />
             </div>
         </div>
     );

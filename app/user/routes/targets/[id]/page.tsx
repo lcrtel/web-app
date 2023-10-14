@@ -53,7 +53,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                                 </span>
                             </p>
                             <p className="text-gray-500 mr-2">
-                                Offer Rate:{" "}
+                                Target Rate:{" "}
                                 <span className="font-semibold uppercase text-primary-500">
                                     ${BuyingTarget?.[0]?.rate}
                                 </span>

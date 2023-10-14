@@ -1,4 +1,4 @@
-import { PostRouteTable } from "./PostRouteTable";
+import { PostRouteTable } from "./PostTargetsTable";
 
 const page = async () => {
     return <PostRouteTable />;

@@ -41,10 +41,12 @@ const Nav = () => {
             <nav className="border-gray-200 relative">
                 <div className=" mx-auto flex max-w-8xl flex-wrap items-center justify-between px-4 py-6">
                     <Link passHref href="/" className="">
-                        <img
+                        <Image
                             src="/lcrtelcom_logo.svg"
-                            className="mr-3 h-8"
+                            className="mr-3"
                             alt="LCRTel Logo"
+                            width={160}
+                            height={32}
                         />
                     </Link>
                     <div className="flex md:order-2">

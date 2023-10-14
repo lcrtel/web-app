@@ -238,7 +238,7 @@ const page = () => {
     };
     return (
         <div>
-            <h1 className="text-2xl font-bold text-primary mb-5">Welcome, </h1>
+            <h1 className="text-2xl font-bold text-primary mb-5">Welcome 👋</h1>
             <Overview />
             <QuickActions />
             <ConnectionRequests />

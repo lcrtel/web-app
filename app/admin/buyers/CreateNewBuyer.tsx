@@ -1,11 +1,13 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useFieldArray, useForm } from "react-hook-form";
 import * as z from "zod";
 
+import { cn } from "@/lib/utils";
 import {
     Form,
     FormControl,
@@ -16,30 +18,26 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
-import { Checkbox } from "@/components/ui/checkbox";
+import { supabaseClient } from "@/lib/supabase-client";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
 import { HiEye, HiEyeOff, HiX } from "react-icons/hi";
+import { Checkbox } from "@/components/ui/checkbox";
+import { revalidatePath } from "next/cache";
+import { toast } from "react-hot-toast";
 
 const profileFormSchema = z.object({
-    first_name: z
-        .string()
-        .min(2, {
-            message: "Username must be at least 2 characters.",
-        })
-        .max(30, {
-            message: "Username must not be longer than 30 characters.",
-        }),
-    last_name: z
-        .string()
-        .min(2, {
-            message: "Username must be at least 2 characters.",
-        })
-        .max(30, {
-            message: "Username must not be longer than 30 characters.",
-        }),
+    first_name: z.string(),
+    last_name: z.string().optional(),
     email: z.string().email(),
     phone: z.string(),
     password: z.string(),
@@ -47,7 +45,7 @@ const profileFormSchema = z.object({
     email_confirm: z.boolean().default(false),
 });
 
-const CreateNewManager = () => {
+const CreateNewBuyer = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
@@ -84,7 +82,7 @@ const CreateNewManager = () => {
                 email: data.email,
                 phone: data.phone,
                 skype_id: data.skype_id,
-                role: "agent",
+                role: "buyer",
             },
         });
         if (error) {
@@ -92,12 +90,14 @@ const CreateNewManager = () => {
             setErrorMessage(error.message);
             return;
         }
-        toast.success("Created a new agent");
+        toast.success("Created a new buyer");
+
+        setIsOpen(false);
         router.refresh();
     }
     return (
         <>
-            <Button onClick={(e) => setIsOpen(true)}>Add agent</Button>
+            <Button onClick={(e) => setIsOpen(true)}>Add buyer</Button>
             <AnimatePresence>
                 {isOpen && (
                     <>
@@ -109,7 +109,7 @@ const CreateNewManager = () => {
                         >
                             <div className="flex items-center justify-between mb-5">
                                 <h2 className="font-bold tracking-tight text-xl">
-                                    Create a new agent
+                                    Create a new buyer
                                 </h2>
                                 <Button
                                     onClick={(e) => setIsOpen(false)}
@@ -130,7 +130,8 @@ const CreateNewManager = () => {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                    Agent First Name
+                                                    Buyer
+ First Name
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
@@ -148,7 +149,8 @@ const CreateNewManager = () => {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                    Agent Last Name
+                                                    Buyer
+ Last Name
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
@@ -166,7 +168,8 @@ const CreateNewManager = () => {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                    Agent Phone
+                                                    Buyer
+ Phone
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
@@ -184,7 +187,8 @@ const CreateNewManager = () => {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                    Agent Email
+                                                    Buyer
+ Email
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
@@ -203,7 +207,8 @@ const CreateNewManager = () => {
                                             <FormItem>
                                                 <div className="flex gap-2 mb-2">
                                                     <FormLabel>
-                                                        Agent Password
+                                                        Buyer
+ Password
                                                     </FormLabel>
                                                     <div
                                                         className="text-gray-400 cursor-pointer"
@@ -227,7 +232,8 @@ const CreateNewManager = () => {
                                                                 ? "text"
                                                                 : "password"
                                                         }
-                                                        placeholder="Agent password"
+                                                        placeholder="Buyer
+ password"
                                                         {...field}
                                                     />
                                                 </FormControl>
@@ -241,7 +247,8 @@ const CreateNewManager = () => {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                    Agent Skype ID
+                                                    Buyer
+ Skype ID
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
@@ -284,9 +291,7 @@ const CreateNewManager = () => {
                                             {errorMessage}
                                         </div>
                                     )}
-                                    <Button type="submit">
-                                        Create Agent
-                                    </Button>
+                                    <Button type="submit">Create seller</Button>
                                 </form>
                             </Form>
                         </motion.div>
@@ -304,4 +309,4 @@ const CreateNewManager = () => {
     );
 };
 
-export default CreateNewManager;
+export default CreateNewBuyer;

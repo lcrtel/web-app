@@ -12,12 +12,14 @@ export default async function DashboardLayout({
 }) {
     return (
         <section className=" relative">
-            <nav className="flex mx-auto max-w-8xl p-4 md:px-8 md:py-6 items-center justify-between ">
+            <nav className="flex sticky top-0 bg-white mx-auto max-w-8xl p-4 md:px-8 md:py-6 items-center justify-between ">
                 <Link passHref href="/" className="">
-                    <img
+                    <Image
                         src="/lcrtelcom_logo.svg"
-                        className="h-8 mr-3"
+                        className=" mr-3"
                         alt="LCRTel Logo"
+                        width={160}
+                        height={32}
                     />
                 </Link>
                 <div className="flex gap-2 whitespace-nowrap">

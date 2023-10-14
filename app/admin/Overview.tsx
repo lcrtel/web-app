@@ -104,29 +104,29 @@ const Overview = async () => {
             </Link>
         );
     };
-    const TotalManagers = async () => {
-        const {
-            data: { users },
-            error,
-        } = await supabase.auth.admin.listUsers();
-        const managers = users.filter(
-            (obj) => obj.user_metadata.role === "manager"
-        );
-        return (
-            <Link
-                href="/admin/managers"
-                className="bg-surface hover:scale-[102%] transition-all space-y-2 ease-in-out border-2 border-white rounded-2xl shadow  p-5"
-            >
-                <h3 className="text-sm font-medium text-gray-400 tracking-tight flex items-center justify-between">
-                    Total Managers
-                    <HiArrowRight className="" />
-                </h3>
-                <p className="font-bold tracking-tight text-3xl ">
-                    {managers?.length}
-                </p>
-            </Link>
-        );
-    };
+    // const TotalManagers = async () => {
+    //     const {
+    //         data: { users },
+    //         error,
+    //     } = await supabase.auth.admin.listUsers();
+    //     const managers = users.filter(
+    //         (obj) => obj.user_metadata.role === "agent"
+    //     );
+    //     return (
+    //         <Link
+    //             href="/admin/managers"
+    //             className="bg-surface hover:scale-[102%] transition-all space-y-2 ease-in-out border-2 border-white rounded-2xl shadow  p-5"
+    //         >
+    //             <h3 className="text-sm font-medium text-gray-400 tracking-tight flex items-center justify-between">
+    //                 Total Managers
+    //                 <HiArrowRight className="" />
+    //             </h3>
+    //             <p className="font-bold tracking-tight text-3xl ">
+    //                 {managers?.length}
+    //             </p>
+    //         </Link>
+    //     );
+    // };
     return (
         <section className="mb-5">
             <h2 className="font-semibold text-lg mb-3">Overview</h2>

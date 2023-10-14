@@ -66,24 +66,22 @@ export const columns: ColumnDef<RouteOffer>[] = [
             return <div className=" whitespace-nowrap">#</div>;
         },
         cell: ({ row }) => (
-            <Link
-                href={`/admin/invoices/${row.getValue("invoice_id")}`}
+            <div
                 className=""
             >
                 {row.getValue("invoice_id")}
-            </Link>
+            </div>
         ),
     },
     {
         accessorKey: "description",
         header: "Description",
         cell: ({ row }) => (
-            <Link
-                href={`/admin/routes/${row.getValue("id")}`}
+            <div
                 className="capitalize"
             >
                 {row.getValue("description")}
-            </Link>
+            </div>
         ),
     },
     {
@@ -102,12 +100,11 @@ export const columns: ColumnDef<RouteOffer>[] = [
             );
         },
         cell: ({ row }) => (
-            <Link
-                href={`/admin/routes/${row.getValue("id")}`}
+            <div
                 className="capitalize"
             >
                 {formatTimestamptz(row.getValue("date_issued"))}
-            </Link>
+            </div>
         ),
     },
     {
@@ -126,12 +123,11 @@ export const columns: ColumnDef<RouteOffer>[] = [
             );
         },
         cell: ({ row }) => (
-            <Link
-                href={`/admin/routes/${row.getValue("id")}`}
+            <div
                 className="capitalize"
             >
                 {row.getValue("date_due")}
-            </Link>
+            </div>
         ),
     },
 
@@ -177,8 +173,7 @@ export const columns: ColumnDef<RouteOffer>[] = [
             );
         },
         cell: ({ row }) => (
-            <Link
-                href={`/admin/routes/${row.getValue("id")}`}
+            <div
                 className="capitalize"
             >
                 {row.getValue("balance") === "0" ? (
@@ -191,20 +186,20 @@ export const columns: ColumnDef<RouteOffer>[] = [
                         currency: "USD",
                     }).format(parseFloat(row.getValue("balance")))
                 )}
-            </Link>
+            </div>
         ),
     },
     {
         accessorKey: "id",
         header: "",
         cell: ({ row }) => {
-            const id = row.getValue("id");
+            const id = row.getValue("invoice_id");
             return (
                 <div className="flex gap-2">
                     <div className="text-red-500">
                         {/* <DeleteRoute routeID={id as string} /> */}
                     </div>{" "}
-                    <Link href={`/admin/connections/${id}`} className="">
+                    <Link href={`/admin/invoices/${id}`} className="">
                         <HiOutlineExternalLink className="w-5 h-5" />
                     </Link>
                 </div>

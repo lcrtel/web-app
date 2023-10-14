@@ -2,7 +2,7 @@ import { TargetsTable } from "@/app/user/market/targets/targets-table";
 import { supabaseServer } from "@/lib/supabase-server";
 import Link from "next/link";
 import { HiOutlineArrowCircleLeft } from "react-icons/hi";
-import { PostRouteTable } from "./PostRouteTable";
+import { PostOffersTable } from "./PostRouteTable";
 export const revalidate = 0;
 const page = async () => {
     const supabase = supabaseServer();
@@ -17,7 +17,7 @@ const page = async () => {
             >
                 <HiOutlineArrowCircleLeft className="mr-1.5" /> Manage Offers
             </Link>{" "}
-            <PostRouteTable />{" "}
+            <PostOffersTable />{" "}
             {targets?.length ? (
                 <>
                     <h3 className="text-xl pt-4 mb-2 font-semibold text-primary-500 flex items-center tracking-tight">

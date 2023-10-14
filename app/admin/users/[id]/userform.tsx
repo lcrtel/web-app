@@ -129,9 +129,9 @@ export function ProfileForm({ user }: { user: any }) {
                                     <SelectItem value="seller">
                                         Seller
                                     </SelectItem>
-                                    <SelectItem value="manager">
+                                    {/* <SelectItem value="manager">
                                         Manager
-                                    </SelectItem>
+                                    </SelectItem> */}
                                 </SelectContent>
                             </Select>
                             <FormMessage />

@@ -109,9 +109,6 @@ export function AddRouteTable({ users }: { users: any }) {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        ``;
-        
-
         if (seller !== "") {
             setPosting(true);
             const { data: route, error } = await supabase

@@ -7,6 +7,9 @@ import {
     HiOutlineExternalLink
 } from "react-icons/hi";
 import { InvoiceTable } from "../../invoices/InvoiceTable";
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import formatDate from "@/utils/formatDate";
+import formatString from "@/utils/formatString";
 export const revalidate = 0;
 export default async function Page({ params }: { params: { id: string } }) {
     const user = await fetchUserData();
@@ -134,27 +137,35 @@ export default async function Page({ params }: { params: { id: string } }) {
                         Payments
                     </h2>
                     {payments?.length ? (
-                        payments.map((item) => (
-                            <Link
-                                href={`/user/transactions/${item.payment_id}`}
-                                passHref
-                                key={item.payment_id}
-                                className={`flex gap-5 shadow-sm hover:translate-x-1 cursor-pointer transition-all ease-in-out duration-500 items-center justify-between border rounded-md px-4 py-2  `}
-                            >
-                                <p>Amount: ${item.amount} </p>
-                                <div className="flex items-center gap-2">
-                                    <span className="text-xs font-medium bg-slate-100 border-[1.5px] border-slate-200 text-slate-500 rounded-full px-2 py-1 ml-2 capitalize">
-                                        {item.payment_status}
-                                    </span>
-                                    <div>
-                                        <HiOutlineExternalLink className="-mt-[2px] w-5 h-5" />
-                                    </div>
-                                </div>
-                            </Link>
-                        ))
+                        <Table className="">
+                            <TableCaption>A list of payments.</TableCaption>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Payment Amount</TableHead>
+                                    <TableHead>Payment Date</TableHead>
+                                    <TableHead>Payment Method</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {payments?.map((payment) => (
+                                    <TableRow key={payment.payment_id}>
+                                        <TableCell>${payment.amount}</TableCell>
+
+                                        <TableCell>
+                                            {formatDate(payment.paid_at)}
+                                        </TableCell>
+                                        <TableCell className=" capitalize">
+                                            {formatString(
+                                                payment.payment_method
+                                            )}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
                     ) : (
                         <div className="gap-2  h-12 text-center flex items-center text-sm  justify-center border py-10 rounded-lg">
-                            <p>No transaction yet</p>
+                            <p>No payments yet</p>
                         </div>
                     )}
                 </div>

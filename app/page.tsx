@@ -12,8 +12,8 @@ const HomePage = async () => {
     const userRole = await fetchUserRole();
     if (userRole === "admin") {
         redirect("/admin");
-    } else if (userRole === "manager") {
-        redirect("/manager");
+    } else if (userRole === "agent") {
+        redirect("/agent");
     } else if (userRole === "seller") {
         redirect("/user");
     } else if (userRole === "buyer") {
@@ -373,7 +373,7 @@ const HomePage = async () => {
                                 <ul className="text-gray-600 ">
                                     <li className="mb-4">
                                         <Link
-                                            href="#"
+                                            href="/privacy-policy"
                                             className="hover:underline"
                                         >
                                             Privacy Policy

@@ -1,14 +1,5 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
-import {
-    flexRender,
-    getCoreRowModel,
-    getFilteredRowModel,
-    getSortedRowModel,
-    useReactTable,
-} from "@tanstack/react-table";
-import { Loader2 } from "lucide-react";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
     Table,
@@ -19,21 +10,48 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import {
-    HiArrowLeft,
-    HiOutlineArrowCircleLeft,
-    HiPlusCircle,
-    HiTrash,
-} from "react-icons/hi";
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+
 import { supabaseClient } from "@/lib/supabase-client";
-import { v4 as uuidv4 } from "uuid";
-import { useRouter } from "next/navigation";
+import {
+    ColumnDef,
+    RowData,
+    flexRender,
+    getCoreRowModel,
+    getFilteredRowModel,
+    getSortedRowModel,
+    useReactTable,
+} from "@tanstack/react-table";
+import { Loader2 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
-import { HiOutlineCloudUpload } from "react-icons/hi";
-import ExcelJS from "exceljs";
-import { saveAs } from "file-saver";
+import {
+    HiOutlineArrowCircleLeft,
+    HiOutlineCloudUpload,
+    HiPlusCircle,
+    HiTrash
+} from "react-icons/hi";
+import { v4 as uuidv4 } from "uuid";
 import { AnimatePresence, motion } from "framer-motion";
 import * as XLSX from "xlsx";
+
+declare module "@tanstack/react-table" {
+    interface TableMeta<TData extends RowData> {
+        updateData: (
+            rowIndex: number,
+            columnId: string,
+            value: unknown
+        ) => void;
+    }
+}
 
 export function PostRouteTable() {
     const [sorting, setSorting] = useState([]);
@@ -42,7 +60,7 @@ export function PostRouteTable() {
     const [posting, setPosting] = useState(false);
     const router = useRouter();
     const supabase = supabaseClient();
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<any>([]);
 
     useEffect(() => {
         const storedRouteData = localStorage.getItem(
@@ -54,7 +72,7 @@ export function PostRouteTable() {
     }, [setData]);
 
     const handleAddRoute = () => {
-        setData((prevData) => [
+        setData((prevData: any) => [
             ...prevData,
             {
                 id: uuidv4(),
@@ -76,18 +94,24 @@ export function PostRouteTable() {
         setData([]);
     };
 
-    const handleRemoveRoute = (row) => {
-        setData((prevData) =>
-            prevData.filter((route) => route.id !== row.original.id)
+    const handleRemoveRoute = (row: any) => {
+        setData((prevData: any) =>
+            prevData.filter((route: any) => route.id !== row.original.id)
         );
     };
 
-    const handleSubmit = async (e) => {
+       function subtract20Percent(rate: number) {
+           const commission = rate * 0.2; // Calculate 20% of the rate
+           const result = rate - commission; // Add the increase to the original number
+           return result;
+       }
+
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
         setPosting(true);
         localStorage.setItem("pendingBuyingTargetsData", JSON.stringify(data));
-        const user = await supabase.auth.getUser();
-        if (!user) {
+        const { data: user } = await supabase.auth.getUser();
+        if (!user.user) {
             setPosting(false);
             router.push("/post/auth");
             return;
@@ -95,10 +119,11 @@ export function PostRouteTable() {
         const { data: route, error } = await supabase
             .from("buying_targets")
             .insert(
-                data.map((route) => ({
+                data.map((route: any) => ({
                     destination: route.destination,
                     destination_code: route.destination_code,
                     rate: route.rate,
+                    buying_rate: subtract20Percent(route.rate),
                     route_type: route.route_type,
                     prefix: route.prefix,
                     asr: route.asr,
@@ -108,7 +133,6 @@ export function PostRouteTable() {
                     pdd: route.pdd,
                 }))
             )
-            .select();
         if (error) {
             toast.error(error.message);
             setPosting(false);
@@ -125,12 +149,48 @@ export function PostRouteTable() {
         router.push("/user/routes/targets");
     };
 
-    const columns = useMemo(
+    const columns = useMemo<ColumnDef<any>[]>(
         () => [
+            {
+                accessorKey: "prefix",
+                header: "Prefix",
+                cell: function Cell({
+                    getValue,
+                    row: { index },
+                    column: { id },
+                    table,
+                }) {
+                    const initialValue = getValue();
+                    // We need to keep and update the state of the cell normally
+                    const [value, setValue] = useState<any>(initialValue);
+
+                    // When the input is blurred, we'll call our table meta's updateData function
+                    const onBlur = () => {
+                        table.options.meta?.updateData(index, id, value);
+                    };
+
+                    // If the initialValue is changed external, sync it up with our state
+                    useEffect(() => {
+                        setValue(initialValue);
+                    }, [initialValue]);
+
+                    return (
+                        <Input
+                            type="number"
+                            value={value}
+                            onChange={(e) => setValue(e.target.value)}
+                            onBlur={onBlur}
+                            required
+                            className=""
+                            placeholder="Prefix"
+                        />
+                    );
+                },
+            },
             {
                 accessorKey: "destination",
                 header: ({ column }) => {
-                    return <div className=" min-w-[200px]">Destination</div>;
+                    return <div className="w-[200px]">Destination</div>;
                 },
                 cell: function Cell({
                     getValue,
@@ -140,7 +200,7 @@ export function PostRouteTable() {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = useState(initialValue);
+                    const [value, setValue] = useState<any>(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -166,7 +226,7 @@ export function PostRouteTable() {
             {
                 accessorKey: "destination_code",
                 header: ({ column }) => {
-                    return <div className=" min-w-[80px]">Code</div>;
+                    return <div className="">Code</div>;
                 },
                 cell: function Cell({
                     getValue,
@@ -176,7 +236,7 @@ export function PostRouteTable() {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = useState(initialValue);
+                    const [value, setValue] = useState<any>(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -195,6 +255,7 @@ export function PostRouteTable() {
                             onChange={(e) => setValue(e.target.value)}
                             onBlur={onBlur}
                             required
+                            className=""
                             placeholder="eg: +971"
                         />
                     );
@@ -203,7 +264,7 @@ export function PostRouteTable() {
             {
                 accessorKey: "route_type",
                 header: ({ column }) => {
-                    return <div className=" min-w-[80px]">Type</div>;
+                    return <div className=" min-w-[120px]">Type</div>;
                 },
                 cell: function Cell({
                     getValue,
@@ -212,29 +273,35 @@ export function PostRouteTable() {
                     table,
                 }) {
                     const initialValue = getValue();
-                    // We need to keep and update the state of the cell normally
-                    const [value, setValue] = useState(initialValue);
-
-                    // When the input is blurred, we'll call our table meta's updateData function
-                    const onBlur = () => {
-                        table.options.meta?.updateData(index, id, value);
+                    const onBlur = (val: any) => {
+                        table.options.meta?.updateData(index, id, val);
                     };
 
-                    // If the initialValue is changed external, sync it up with our state
-                    useEffect(() => {
-                        setValue(initialValue);
-                    }, [initialValue]);
-
                     return (
-                        <Input
-                            value={value}
-                            onChange={(e) =>
-                                setValue(e.target.value.toLowerCase())
-                            }
-                            onBlur={onBlur}
-                            required
-                            placeholder="eg: CLI"
-                        />
+                        <>
+                            <Select
+                                defaultValue={initialValue as string}
+                                onValueChange={(val) => {
+                                    onBlur(val);
+                                }}
+                            >
+                                <SelectTrigger className="">
+                                    <SelectValue placeholder="Route Type" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectItem value="cli">CLI</SelectItem>
+                                        <SelectItem value="non-cli">
+                                            Non-CLI
+                                        </SelectItem>
+                                        <SelectItem value="sms">SMS</SelectItem>
+                                        <SelectItem value="tdm">TDM</SelectItem>
+                                        <SelectItem value="pri">PRI</SelectItem>
+                                        <SelectItem value="did">DID</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </>
                     );
                 },
             },
@@ -251,7 +318,7 @@ export function PostRouteTable() {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = useState(initialValue);
+                    const [value, setValue] = useState<any>(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -276,43 +343,6 @@ export function PostRouteTable() {
                 },
             },
             {
-                accessorKey: "prefix",
-                header: function Cell({ column }) {
-                    return <div className=" min-w-[80px]">Prefix</div>;
-                },
-                cell: function Cell({
-                    getValue,
-                    row: { index },
-                    column: { id },
-                    table,
-                }) {
-                    const initialValue = getValue();
-                    // We need to keep and update the state of the cell normally
-                    const [value, setValue] = useState(initialValue);
-
-                    // When the input is blurred, we'll call our table meta's updateData function
-                    const onBlur = () => {
-                        table.options.meta?.updateData(index, id, value);
-                    };
-
-                    // If the initialValue is changed external, sync it up with our state
-                    useEffect(() => {
-                        setValue(initialValue);
-                    }, [initialValue]);
-
-                    return (
-                        <Input
-                            type="number"
-                            value={value}
-                            onChange={(e) => setValue(e.target.value)}
-                            onBlur={onBlur}
-                            required
-                            placeholder="Prefix"
-                        />
-                    );
-                },
-            },
-            {
                 accessorKey: "asr",
                 header: ({ column }) => {
                     return <div className=" min-w-[80px]">ASR</div>;
@@ -325,7 +355,7 @@ export function PostRouteTable() {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = useState(initialValue);
+                    const [value, setValue] = useState<any>(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -362,7 +392,7 @@ export function PostRouteTable() {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = useState(initialValue);
+                    const [value, setValue] = useState<any>(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -399,7 +429,7 @@ export function PostRouteTable() {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = useState(initialValue);
+                    const [value, setValue] = useState<any>(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -436,7 +466,7 @@ export function PostRouteTable() {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = useState(initialValue);
+                    const [value, setValue] = useState<any>(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -473,7 +503,7 @@ export function PostRouteTable() {
                 }) {
                     const initialValue = getValue();
                     // We need to keep and update the state of the cell normally
-                    const [value, setValue] = useState(initialValue);
+                    const [value, setValue] = useState<any>(initialValue);
 
                     // When the input is blurred, we'll call our table meta's updateData function
                     const onBlur = () => {
@@ -489,7 +519,13 @@ export function PostRouteTable() {
                         <Input
                             type="number"
                             value={value}
-                            onChange={(e) => setValue(e.target.value)}
+                            onChange={(e) =>
+                                table.options.meta?.updateData(
+                                    index,
+                                    id,
+                                    e.target.value
+                                )
+                            }
                             onBlur={onBlur}
                             required
                             placeholder="Capacity"
@@ -499,15 +535,11 @@ export function PostRouteTable() {
             },
             {
                 id: "delete",
-                header: "Actions",
+                header: "",
                 cell: ({ row }) => (
-                    <Button
-                        onClick={() => handleRemoveRoute(row)}
-                        variant="destructive"
-                        size="icon"
-                    >
-                        <HiTrash className="h-5 w-5" />
-                    </Button>
+                    <div onClick={() => handleRemoveRoute(row)}>
+                        <HiTrash className="h-5 w-5 text-red-500 mx-2 cursor-pointer" />
+                    </div>
                 ),
             },
         ],
@@ -518,8 +550,6 @@ export function PostRouteTable() {
         data,
         columns,
         // defaultColumn,
-        onSortingChange: setSorting,
-        onColumnFiltersChange: setColumnFilters,
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
@@ -532,8 +562,8 @@ export function PostRouteTable() {
         meta: {
             updateData: (rowIndex, columnId, value) => {
                 // Skip page index reset until after next rerender
-                setData((old) =>
-                    old.map((row, index) => {
+                setData((old: any) =>
+                    old.map((row: any, index: any) => {
                         if (index === rowIndex) {
                             return {
                                 ...old[rowIndex],
@@ -605,9 +635,9 @@ export function PostRouteTable() {
             );
         };
 
-        const handleFileChange = async (e) => {
+        const handleFileChange = async (e: any) => {
             e.preventDefault();
-            const file = e.target.files?.[0]; // Use optional chaining
+            const file: File | null = e.target.files?.[0]; // Use optional chaining
 
             if (!file) {
                 // Handle the case where no file is selected
@@ -616,25 +646,25 @@ export function PostRouteTable() {
 
             const reader = new FileReader();
 
-            reader.onload = (e) => {
+            reader.onload = (e: any) => {
                 if (e.target?.result) {
-                    const data = new Uint8Array(e.target.result);
+                    const data = new Uint8Array(e.target.result as ArrayBuffer);
                     const workbook = XLSX.read(data, { type: "array" });
 
-                    let headers = [];
+                    let headers: string[] = [];
                     const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-                    const jsonData = [];
+                    const jsonData: Record<string, any>[] = [];
 
                     XLSX.utils
                         .sheet_to_json(worksheet)
-                        .forEach((row, rowIndex) => {
+                        .forEach((row: any, rowIndex: number) => {
                             if (rowIndex === 0) {
                                 headers = Object.keys(row);
                             }
 
-                            const rowData = {};
+                            const rowData: Record<string, any> = {};
 
-                            headers.forEach((header) => {
+                            headers.forEach((header: string) => {
                                 rowData[header] = row[header];
                             });
 
@@ -643,11 +673,11 @@ export function PostRouteTable() {
 
                     // Clear the input value
                     if (e.target) {
-                        e.target.value = "";
+                        (e.target as HTMLInputElement).value = "";
                     }
 
                     // Assuming you have a `setData` and `setIsOpen` function in your component
-                    setData((prevData) => [...prevData, ...jsonData]);
+                    setData((prevData: any) => [...prevData, ...jsonData]);
                     setIsOpen(false);
                 }
             };
@@ -710,7 +740,6 @@ export function PostRouteTable() {
             </div>
         );
     };
-
     return (
         <div className="mx-auto min-h-screen max-w-8xl p-4 md:px-8 md:py-5 w-full">
             <Link
@@ -725,14 +754,9 @@ export function PostRouteTable() {
                 </h3>
                 <ImportDropdown />
             </div>
-            <form
-                className="border rounded-md mt-4 overflow-y-auto p-4"
-                onSubmit={handleSubmit}
-            >
-                <div className="flex items-center gap-4 mb-4">
-                    <div className="flex-1 text-sm text-muted-foreground whitespace-nowrap">
-                        {table.getFilteredRowModel().rows.length} routes
-                    </div>
+            <form className=" mt-4 overflow-y-auto" onSubmit={handleSubmit}>
+                <div className="flex items-center justify-between gap-4 mb-4 ">
+                    <p>{table.getFilteredRowModel().rows.length} routes</p>{" "}
                     {data.length ? (
                         <Button type="submit">
                             {posting ? (
@@ -748,7 +772,7 @@ export function PostRouteTable() {
                         ""
                     )}
                 </div>
-                <div className="border rounded-md">
+                <div className="">
                     <Table>
                         {table.getRowModel().rows?.length !== 0 && (
                             <TableHeader>
@@ -783,7 +807,10 @@ export function PostRouteTable() {
                                         }
                                     >
                                         {row.getVisibleCells().map((cell) => (
-                                            <TableCell key={cell.id}>
+                                            <TableCell
+                                                key={cell.id}
+                                                className=" px-1"
+                                            >
                                                 {flexRender(
                                                     cell.column.columnDef.cell,
                                                     cell.getContext()
@@ -796,7 +823,7 @@ export function PostRouteTable() {
                                 <TableRow>
                                     <TableCell
                                         colSpan={columns.length}
-                                        className="h-[120px] flex bg-surface shadow items-center justify-center cursor-pointer"
+                                        className="h-[120px] rounded-lg flex bg-surface items-center justify-center cursor-pointer"
                                         onClick={handleAddRoute}
                                     >
                                         <HiPlusCircle className="w-5 h-5" />
@@ -811,14 +838,14 @@ export function PostRouteTable() {
                 <div className="flex flex-col gap-2 mt-2">
                     <Button
                         variant="secondary"
-                        className="w-full shadow"
+                        className="w-full"
                         onClick={handleAddRoute}
                     >
                         Add
                     </Button>
                     <Button
                         variant="secondary"
-                        className="w-full shadow"
+                        className="w-full mb-5"
                         onClick={handleClear}
                     >
                         Clear

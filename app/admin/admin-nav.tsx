@@ -53,9 +53,9 @@ const AdminNav = ({ userRole, user }: { user: any; userRole: any }) => {
         ["Routes", "/admin/routes"],
         ["Connections", "/admin/connections"],
         // ["Deals", "/admin/deals"],
-        ["Users", "/admin/users"],
+        ["Buyers", "/admin/buyers"],
         ["Sellers", "/admin/sellers"],
-        ["Managers", "/admin/managers"],
+        // ["Managers", "/admin/managers"],
         // ["Analytics", "/admin/analytics"],
         ["Invoices", "/admin/invoices"],
         ["Transactions", "/admin/transactions"],
@@ -94,10 +94,12 @@ const AdminNav = ({ userRole, user }: { user: any; userRole: any }) => {
             <div className="flex flex-col gap-10 w-full">
                 <div className="flex  md:flex-col items-center justify-center   w-full rounded-xl gap-4">
                     <Link passHref href="/admin" className="">
-                        <img
+                        <Image
                             src="/lcrtelcom_logo.svg"
-                            className="mr-3 h-8"
+                            className="mr-3"
                             alt="LCRTel Logo"
+                            width={160}
+                            height={32}
                         />
                     </Link>
                     <div className="flex justify-center px-4 py-1.5 md:w-full bg-white rounded-full">

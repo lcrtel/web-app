@@ -18,9 +18,7 @@ export default function Error({
         <div>
             <h2>Something went wrong!</h2>
             <button onClick={() => reset()}>Try again</button>
-            <Link href="/user" onClick={() => reset()}>
-                Dashboard
-            </Link>
+            
         </div>
     );
 }

@@ -29,24 +29,7 @@ const page = async () => {
                         our vibrant marketplace.
                     </p>
                 </Link> */}
-                <Link
-                    href="/user/market/targets"
-                    passHref
-                    className="bg-surface hover:scale-[102%] transition-all ease-in-out border-2 border-white rounded-lg shadow  p-5"
-                >
-                    <div className="flex justify-between items-center mb-3">
-                        <h3 className="font-semibold tracking-tight text-xl">
-                            🎯 Explore Buying Targets
-                        </h3>
-                        <HiArrowRight className="w-5 h-5" />
-                    </div>
-                    <p className="text-gray-500 mr-5">
-                        Our comprehensive buying targets are designed to
-                        streamline your purchasing decisions. Stay
-                        cost-effective and explore tailored buying targets
-                        today.
-                    </p>
-                </Link>
+                
                 <Link
                     href="/user/market/offers"
                     passHref
@@ -62,6 +45,23 @@ const page = async () => {
                         Our rates are meticulously calculated, ensuring you get
                         the best deals in the market. Stay ahead of the
                         competition and explore unbeatable rates today.
+                    </p>
+                </Link><Link
+                    href="/user/market/targets"
+                    passHref
+                    className="bg-surface hover:scale-[102%] transition-all ease-in-out border-2 border-white rounded-lg shadow  p-5"
+                >
+                    <div className="flex justify-between items-center mb-3">
+                        <h3 className="font-semibold tracking-tight text-xl">
+                            🎯 Explore Buying Targets
+                        </h3>
+                        <HiArrowRight className="w-5 h-5" />
+                    </div>
+                    <p className="text-gray-500 mr-5">
+                        Our comprehensive buying targets are designed to
+                        streamline your purchasing decisions. Stay
+                        cost-effective and explore tailored buying targets
+                        today.
                     </p>
                 </Link>
             </div>

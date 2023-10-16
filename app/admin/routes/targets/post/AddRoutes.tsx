@@ -107,7 +107,7 @@ export function AddRouteTable({ users }: { users: any }) {
     function dec20Percent(rate: number) {
        const increase = rate * 0.2; // Calculate 20% of the rate
         const result = rate - increase; // Add the increase to the original number
-        return result;
+        return result.toString();
     }
     const handleSubmit = async (e: any) => {
         e.preventDefault();
@@ -121,7 +121,7 @@ export function AddRouteTable({ users }: { users: any }) {
                         destination: route.destination,
                         destination_code: route.destination_code,
                         rate: route.rate,
-                        buying_rate: dec20Percent(route.rate),
+                        buying_rate: dec20Percent(Number(route.rate)),
                         route_type: route.route_type,
                         prefix: route.prefix,
                         asr: route.asr,

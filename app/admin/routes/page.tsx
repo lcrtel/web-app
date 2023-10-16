@@ -26,7 +26,7 @@ export default async function Page() {
                 </div>
                 <div className="w-full mt-3">
                     <h2 className="font-semibold text-lg mb-3">
-                        Verified Routes
+                        Rates
                     </h2>
                     <RoutesTable data={verified_routes} />
                 </div>

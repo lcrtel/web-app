@@ -73,12 +73,7 @@ export function PostTargetTable() {
             prevData.filter((route) => route.id !== row.original.id)
         );
     };
-    function dec20Percent(numberString) {
-        const number = parseFloat(numberString); // Convert the string to a number
-        if (isNaN(number)) {
-            return;
-        }
-
+    function dec20Percent(number) {
         const increase = number * 0.2; // Calculate 20% of the number
         const result = number + increase; // Add the increase to the original number
         return result.toString();
@@ -95,7 +90,7 @@ export function PostTargetTable() {
                     destination: route.destination,
                     destination_code: route.destination_code,
                     rate: route.rate,
-                    buying_rate: dec20Percent(route.rate),
+                    buying_rate: dec20Percent(Number(route.rate)),
                     route_type: route.route_type,
                     prefix: route.prefix,
                     asr: route.asr,

@@ -97,7 +97,7 @@ export function PostOffersTable() {
     function add20Percent(rate: number) {
         const commission = rate * 0.2; // Calculate 20% of the rate
         const result = rate + commission; // Add the increase to the original number
-        return result;
+        return result.toString();
     }
 
     const handleSubmit = async (e: any) => {
@@ -111,7 +111,7 @@ export function PostOffersTable() {
                     destination: route.destination,
                     destination_code: route.destination_code,
                     rate: route.rate,
-                    selling_rate: add20Percent(route.rate),
+                    selling_rate: add20Percent(Number(route.rate)),
                     route_type: route.route_type,
                     prefix: route.prefix,
                     asr: route.asr,

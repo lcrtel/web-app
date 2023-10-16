@@ -153,7 +153,11 @@ export const columns: ColumnDef<RouteOffer>[] = [
                 currency: "USD",
             }).format(totalAmount);
 
-            return <div className="font-medium">{formatted}</div>;
+            return (
+                <div className="font-medium">
+                  ${" "}{row.getValue("total_amount")}
+                </div>
+            );
         },
     },
 

@@ -23,7 +23,8 @@ export default async function Page({ params }: { params: { id: string } }) {
 
     let { data: route_connections } = await supabase
         .from("route_connections")
-        .select(`*, profiles (email)`);
+        .select(`*, profiles (email)`)
+        .eq("route_id", params.id);
 
     return (
         <div>
@@ -57,10 +58,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                         <div>
                             <p className=" text-sm text-gray-500">Rate</p>
                             <p className=" font-semibold">
-                                {new Intl.NumberFormat("en-US", {
-                                    style: "currency",
-                                    currency: "USD",
-                                }).format(parseFloat(route?.rate))}
+                               $ {route?.rate}
                             </p>
                         </div>
                         <div>
@@ -68,10 +66,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                                 Selling Rate
                             </p>
                             <p className=" font-semibold">
-                                {new Intl.NumberFormat("en-US", {
-                                    style: "currency",
-                                    currency: "USD",
-                                }).format(parseFloat(route?.selling_rate))}
+                                $ {route?.selling_rate}
                             </p>
                         </div>
                     </div>{" "}

@@ -27,8 +27,7 @@ const page = () => {
             .select(`*, route_offers (*), profiles (*)`)
             .eq("status", "pending")
             .range(0, 4);
-        return (
-            <div className="mt-5">
+        return requests?.length ? (<div className="mt-5">
                 <div className="flex mb-2 justify-between items-center">
                     <h2 className="font-semibold tracking-tight text-lg">
                         Connection Requests
@@ -40,7 +39,7 @@ const page = () => {
                         View All
                     </Link>
                 </div>
-                {requests?.length ? (
+               
                     <Table>
                         <TableCaption>
                             A list of pending connection requests.
@@ -95,13 +94,9 @@ const page = () => {
                             ))}
                         </TableBody>
                     </Table>
-                ) : (
-                    <div className="gap-2  h-12 text-center flex items-center text-sm  justify-center border py-10 rounded-lg">
-                        <p>No connection requests yet</p>
-                    </div>
-                )}
-            </div>
-        );
+                
+            </div>) : null
+        
     };
     const UnverifiedRoutes = async () => {
         let { data: unverified_routes_Count } = await supabase
@@ -113,7 +108,7 @@ const page = () => {
             .select("*")
             .eq("verification", "pending")
             .range(0, 4);
-        return (
+        return (unverified_routes?.length ? (
             <div className="w-full mt-5">
                 <div className="flex mb-2 justify-between items-center">
                     <h2 className="font-semibold tracking-tight text-lg">
@@ -127,16 +122,7 @@ const page = () => {
                     </Link>
                 </div>
                 <RoutesTable data={unverified_routes} />
-                {/* <Link
-                    href="/admin/routes"
-                    className=" block text-slate-500 font-medium hover:underline text-center w-full py-5"
-                >
-                    +{" "}
-                    {Number(unverified_routes_Count?.length) -
-                        Number(unverified_routes?.length)}{" "}
-                    more
-                </Link> */}
-            </div>
+            </div>) : null
         );
     };
     const Payments = async () => {

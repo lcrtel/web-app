@@ -133,7 +133,9 @@ export const columns: ColumnDef<RouteOffer>[] = [
                 currency: "USD",
             }).format(Rate);
 
-            return <div className="font-medium">{formatted}</div>;
+            return (
+                <div className="font-medium">${" "}{row.getValue("buying_rate")}</div>
+            );
         },
         // cell: ({ row }) => (
         //     <Link

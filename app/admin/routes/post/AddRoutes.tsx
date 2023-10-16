@@ -102,10 +102,11 @@ export function AddRouteTable({ users }: { users: any }) {
     };
 
     function add20Percent(rate: number) {
-        const increase = rate * 0.2; // Calculate 20% of the rate
+        const increase = rate * 0.20; // Calculate 20% of the rate
         const result = rate + increase; // Add the increase to the original number
-        return result;
+        return result.toString();
     }
+    
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
@@ -119,7 +120,7 @@ export function AddRouteTable({ users }: { users: any }) {
                         destination: route.destination,
                         destination_code: route.destination_code,
                         rate: route.rate,
-                        selling_rate: add20Percent(route.rate),
+                        selling_rate: add20Percent(Number(route.rate)),
                         route_type: route.route_type,
                         prefix: route.prefix,
                         asr: route.asr,
@@ -144,6 +145,7 @@ export function AddRouteTable({ users }: { users: any }) {
         } else {
             toast.error("Select a seller to post");
         }
+        
     };
 
     const columns = useMemo<ColumnDef<any>[]>(

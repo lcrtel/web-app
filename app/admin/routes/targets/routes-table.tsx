@@ -209,38 +209,38 @@ export const columns: ColumnDef<RouteOffer>[] = [
             </Link>
         ),
     },
-    {
-        accessorKey: "verification",
-        header: ({ column }) => {
-            return (
-                <div
-                    className="flex gap-2 items-center cursor-pointer"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Status
-                    <ArrowUpDown className=" h-4 w-4" />
-                </div>
-            );
-        },
-        cell: ({ row }) => (
-            <Link
-                href={`/admin/routes/${row.getValue("id")}`}
-                className="capitalize"
-            >
-                {row.getValue("verification") === "verified" ? (
-                    <span className="text-xs font-medium bg-green-100 border-[1.5px] border-green-200 text-green-500 rounded-full px-2 py-1 ml-2">
-                        Verified
-                    </span>
-                ) : (
-                    <span className="text-xs bg-slate-100 border-[1.5px] border-slate-200  text-slate-500 rounded-full px-2 py-1 ml-2">
-                        Pending
-                    </span>
-                )}
-            </Link>
-        ),
-    },
+    // {
+    //     accessorKey: "verification",
+    //     header: ({ column }) => {
+    //         return (
+    //             <div
+    //                 className="flex gap-2 items-center cursor-pointer"
+    //                 onClick={() =>
+    //                     column.toggleSorting(column.getIsSorted() === "asc")
+    //                 }
+    //             >
+    //                 Status
+    //                 <ArrowUpDown className=" h-4 w-4" />
+    //             </div>
+    //         );
+    //     },
+    //     cell: ({ row }) => (
+    //         <Link
+    //             href={`/admin/routes/${row.getValue("id")}`}
+    //             className="capitalize"
+    //         >
+    //             {row.getValue("verification") === "verified" ? (
+    //                 <span className="text-xs font-medium bg-green-100 border-[1.5px] border-green-200 text-green-500 rounded-full px-2 py-1 ml-2">
+    //                     Verified
+    //                 </span>
+    //             ) : (
+    //                 <span className="text-xs bg-slate-100 border-[1.5px] border-slate-200  text-slate-500 rounded-full px-2 py-1 ml-2">
+    //                     Pending
+    //                 </span>
+    //             )}
+    //         </Link>
+    //     ),
+    // },
     {
         accessorKey: "id",
         header: "",
@@ -377,7 +377,7 @@ export function RoutesTable({ data }: any) {
                                     colSpan={columns.length}
                                     className="gap-2  h-12 text-center"
                                 >
-                                    No routes found
+                                    No target rates found
                                 </TableCell>
                             </TableRow>
                         )}

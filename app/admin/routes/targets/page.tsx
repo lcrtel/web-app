@@ -15,8 +15,7 @@ export default async function Page() {
             <div className="mb-5">
                 <RoutesNav />
             </div>
-            <div className="w-full max-h-[500px] overflow-y-auto">
-                <h2 className="font-semibold text-lg mb-3">Buying Targets</h2>
+            <div className="w-full  overflow-y-auto">
                 <RoutesTable data={pending_requests} />
             </div>
         </div>

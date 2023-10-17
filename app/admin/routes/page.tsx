@@ -18,18 +18,16 @@ export default async function Page() {
                 <RoutesNav />
             </div>
             <div className="h-full">
-                <div className="w-full">
+                
+                
+                <div className="w-full mt-3">
+                    <RoutesTable data={verified_routes} />
+                </div>{unverified_routes?.length ? (<div className="w-full">
                     <h2 className="font-semibold text-lg mb-3">
-                        Non Verified Routes
+                        Unverified Rates 
                     </h2>
                     <RoutesTable data={unverified_routes} />
-                </div>
-                <div className="w-full mt-3">
-                    <h2 className="font-semibold text-lg mb-3">
-                        Rates
-                    </h2>
-                    <RoutesTable data={verified_routes} />
-                </div>
+                </div>) : null}
             </div>
         </div>
     );

@@ -7,6 +7,7 @@ import Link from "next/link";
 import { createRef, useState } from "react";
 import { HiOutlineArrowCircleLeft } from "react-icons/hi";
 import { AddPayment } from "./AddPayment";
+import jsPDF from "jspdf";
 
 const InvoiceDetails = ({
     invoice,
@@ -29,6 +30,7 @@ const InvoiceDetails = ({
             console.log(amountPaid);
         }
     }
+
     const handlePrint = () => {
         if (!isPrinting) {
             setIsPrinting(true);
@@ -47,6 +49,30 @@ const InvoiceDetails = ({
             }
         }
     };
+
+    const sendEmail = (pdfBlob: any) => {
+        
+        // fetch(`${location.origin}/api/emails/invoice`, {
+        //     method: "POST",
+        //     body:  connection,
+        // })
+        //     .then((response) => {
+        //         // Handle the server's response (e.g., email the PDF)
+        //     })
+        //     .catch((error) => {
+        //         console.error("Error sending PDF to server:", error);
+        //     });
+    };
+
+    // const generatePDF = () => {
+    //     const report: any = new jsPDF("portrait", "pt", "a4");
+    //     if (document.querySelector("#print-content")) {
+    //         report.html(document.querySelector("#print-content")).then(() => {
+    //             // Send the generated PDF to the server
+    //             sendPDFToServer(report.output("blob"));
+    //         });
+    //     }
+    // };
 
     return (
         <div className="  flex items-starts max-w-8xl mx-auto gap-5 mb-5">
@@ -110,7 +136,7 @@ const InvoiceDetails = ({
                 <div className="flex gap-4 p-8 border-b">
                     <div className="flex-1 space-y-2">
                         <h2 className="mb-2 font-semibold tracking-tight">
-                            Route Connection
+                            Route
                         </h2>
                         <div className="mt-2 flex flex-wrap text-slate-500">
                             <p>
@@ -136,7 +162,7 @@ const InvoiceDetails = ({
 
                     <div className="flex-1 space-y-2">
                         <p className=" font-semibold tracking-tight text-primary-500">
-                            Date Range
+                           Invoice Period
                         </p>
                         <p className=" text-slate-500">
                             {invoice?.description}
@@ -152,10 +178,10 @@ const InvoiceDetails = ({
                     </div>
                     <div className="space-y-2 w-[100px]">
                         <p className=" font-semibold tracking-tight text-primary-500">
-                            Total Calls
+                            Duration
                         </p>
                         <p className=" text-slate-500 text-left">
-                            {invoice?.quantity}
+                            {invoice?.quantity}s
                         </p>
                     </div>
                 </div>
@@ -180,7 +206,7 @@ const InvoiceDetails = ({
                         </div>
                         <div className="flex justify-between text-slate-500 font-medium">
                             <p className=" ">Amount Paid:</p>
-                            <p className="text-end">-${amountPaid}</p>
+                            <p className="text-end">-${amountPaid.toFixed(3)}</p>
                         </div>
                         <div className="flex justify-between text-lg border-t pt-2 font-semibold">
                             <p className="">Balance Due:</p>
@@ -200,7 +226,9 @@ const InvoiceDetails = ({
                 ) : null}
             </div>
             <div className=" w-[200px] space-y-2">
-                <Button className=" w-full">Send</Button>
+                <Button onClick={sendEmail} className=" w-full">
+                    Send
+                </Button>
                 <Button
                     onClick={handlePrint}
                     variant="outline"

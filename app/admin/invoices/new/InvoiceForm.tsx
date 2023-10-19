@@ -127,8 +127,8 @@ export default function InvoiceForm({
                 return;
             }
 
-            toast.success("Invoice Created");
             router.push(`/admin/invoices/${invoice.invoice_id}`);
+            toast.success("Invoice Created");
         }
     };
 
@@ -171,7 +171,7 @@ export default function InvoiceForm({
                                               (user: any) =>
                                                   user.id === invoiceTo.id
                                           )?.email
-                                        : "Select User..."}
+                                        : "Select Customer..."}
                                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                 </div>
                                 <AnimatePresence>
@@ -190,9 +190,9 @@ export default function InvoiceForm({
                                                 exit={{ opacity: 0, y: "-4%" }}
                                             >
                                                 <Command>
-                                                    <CommandInput placeholder="Search Users..." />
+                                                    <CommandInput placeholder="Search Customer..." />
                                                     <CommandEmpty>
-                                                        No users found.
+                                                        No customers found.
                                                     </CommandEmpty>
                                                     <CommandGroup>
                                                         {users?.map(
@@ -320,7 +320,7 @@ export default function InvoiceForm({
                 </div>
                 <div className="p-8 border-b">
                     <div className="flex gap-2 mb-2 items-center">
-                        <h2 className="font-medium">Route Connection:</h2>
+                        <h2 className="font-medium">Route:</h2>
                         <div className="relative">
                             <div
                                 className={`${buttonVariants({
@@ -335,7 +335,7 @@ export default function InvoiceForm({
                                           (item: any) =>
                                               item.id === connection.id
                                       )?.route_offers?.destination
-                                    : "Select Connection..."}
+                                    : "Select Route..."}
                                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                             </div>
 
@@ -355,9 +355,9 @@ export default function InvoiceForm({
                                             exit={{ opacity: 0, y: "-4%" }}
                                         >
                                             <Command>
-                                                <CommandInput placeholder="Search Connections..." />
+                                                <CommandInput placeholder="Search Route" />
                                                 <CommandEmpty>
-                                                    No connections found.
+                                                    No routes found.
                                                 </CommandEmpty>
                                                 <CommandGroup>
                                                     {connections
@@ -406,89 +406,198 @@ export default function InvoiceForm({
                         </div>
                     </div>
                     {connection ? (
-                        <div className="mt-2 flex gap-4 text-slate-500">
-                            <p>
-                                Destination:{" "}
-                                <span className=" uppercase">
-                                    {connection?.route_offers?.destination}
-                                </span>
-                            </p>
-                            <p>
-                                Route Type:{" "}
-                                <span className=" uppercase">
-                                    {connection?.route_offers?.route_type}
-                                </span>
-                            </p>
-                            <p>
-                                Rate: ${connection?.route_offers?.selling_rate}
-                            </p>
+                        <div className="">
+                            <div className="mt-2 flex gap-4 text-slate-500">
+                                <p>
+                                    Destination:{" "}
+                                    <span className=" uppercase">
+                                        {connection?.route_offers?.destination}
+                                    </span>
+                                </p>
+                                <p>
+                                    Route Type:{" "}
+                                    <span className=" uppercase">
+                                        {connection?.route_offers?.route_type}
+                                    </span>
+                                </p>
+                                <p>
+                                    Rate: $
+                                    {connection?.route_offers?.selling_rate}
+                                </p>
+                            </div>
+                            <div className="flex gap-4 mt-2">
+                                <div className="flex-1 flex flex-col">
+                                    <Label className="font-medium mb-2">
+                                        Invoice Period
+                                    </Label>
+                                    <div className="flex gap-4 items-center">
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <Button
+                                                    variant={"outline"}
+                                                    className={cn(
+                                                        "w-full rounded-lg pl-3 text-left font-normal !mt-0",
+                                                        !startDate &&
+                                                            "text-muted-foreground"
+                                                    )}
+                                                >
+                                                    {startDate ? (
+                                                        format(startDate, "PPP")
+                                                    ) : (
+                                                        <span>Pick a date</span>
+                                                    )}
+                                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                </Button>
+                                            </PopoverTrigger>
+                                            <PopoverContent
+                                                avoidCollisions={false}
+                                                className="w-auto p-0"
+                                                align="start"
+                                            >
+                                                <Calendar
+                                                    mode="single"
+                                                    selected={startDate}
+                                                    onSelect={setStartDate}
+                                                />
+                                            </PopoverContent>
+                                        </Popover>
+                                        <p>to</p>
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <Button
+                                                    variant={"outline"}
+                                                    className={cn(
+                                                        "w-full rounded-lg pl-3 text-left font-normal !mt-0",
+                                                        !endDate &&
+                                                            "text-muted-foreground"
+                                                    )}
+                                                >
+                                                    {endDate ? (
+                                                        format(endDate, "PPP")
+                                                    ) : (
+                                                        <span>Pick a date</span>
+                                                    )}
+                                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                </Button>
+                                            </PopoverTrigger>
+                                            <PopoverContent
+                                                avoidCollisions={false}
+                                                className="w-auto p-0"
+                                                align="start"
+                                            >
+                                                <Calendar
+                                                    mode="single"
+                                                    selected={endDate}
+                                                    onSelect={setEndDate}
+                                                />
+                                            </PopoverContent>
+                                        </Popover>
+                                    </div>
+                                </div>
+                                <div className=" flex flex-col">
+                                    <Label className="font-medium mb-2">
+                                        Rate
+                                    </Label>
+                                    <Input
+                                        disabled
+                                        type="number"
+                                        id="rate"
+                                        value={
+                                            connection?.route_offers
+                                                ?.selling_rate
+                                                ? +connection?.route_offers
+                                                      ?.selling_rate
+                                                : 0
+                                        }
+                                    />
+                                </div>
+
+                                <div className="flex flex-col">
+                                    <Label className=" font-medium mb-2">
+                                        Duration
+                                    </Label>
+                                    <Input
+                                        placeholder="0"
+                                        type="number"
+                                        className=""
+                                        required
+                                        value={calls}
+                                        onChange={(e) =>
+                                            setCalls(e.target.valueAsNumber)
+                                        }
+                                    />
+                                </div>
+                            </div>
                         </div>
                     ) : null}
                 </div>
-                <div className="flex gap-4 p-8 border-b">
+                {/* <div className="flex gap-4">
                     <div className="flex-1 flex flex-col">
-                        <Label className="font-medium mb-2">Start Date</Label>
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-full rounded-lg pl-3 text-left font-normal !mt-0",
-                                        !startDate && "text-muted-foreground"
-                                    )}
+                        <Label className="font-medium mb-2">
+                            Invoice Period
+                        </Label>
+                        <div className="flex gap-4 items-center">
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                        variant={"outline"}
+                                        className={cn(
+                                            "w-full rounded-lg pl-3 text-left font-normal !mt-0",
+                                            !startDate &&
+                                                "text-muted-foreground"
+                                        )}
+                                    >
+                                        {startDate ? (
+                                            format(startDate, "PPP")
+                                        ) : (
+                                            <span>Pick a date</span>
+                                        )}
+                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent
+                                    avoidCollisions={false}
+                                    className="w-auto p-0"
+                                    align="start"
                                 >
-                                    {startDate ? (
-                                        format(startDate, "PPP")
-                                    ) : (
-                                        <span>Pick a date</span>
-                                    )}
-                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent
-                                avoidCollisions={false}
-                                className="w-auto p-0"
-                                align="start"
-                            >
-                                <Calendar
-                                    mode="single"
-                                    selected={startDate}
-                                    onSelect={setStartDate}
-                                />
-                            </PopoverContent>
-                        </Popover>
-                    </div>
-                    <div className="flex-1 flex flex-col">
-                        <Label className="font-medium  mb-2">End Date</Label>
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-full rounded-lg pl-3 text-left font-normal !mt-0",
-                                        !endDate && "text-muted-foreground"
-                                    )}
+                                    <Calendar
+                                        mode="single"
+                                        selected={startDate}
+                                        onSelect={setStartDate}
+                                    />
+                                </PopoverContent>
+                            </Popover>
+                            <p>to</p>
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                        variant={"outline"}
+                                        className={cn(
+                                            "w-full rounded-lg pl-3 text-left font-normal !mt-0",
+                                            !endDate && "text-muted-foreground"
+                                        )}
+                                    >
+                                        {endDate ? (
+                                            format(endDate, "PPP")
+                                        ) : (
+                                            <span>Pick a date</span>
+                                        )}
+                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent
+                                    avoidCollisions={false}
+                                    className="w-auto p-0"
+                                    align="start"
                                 >
-                                    {endDate ? (
-                                        format(endDate, "PPP")
-                                    ) : (
-                                        <span>Pick a date</span>
-                                    )}
-                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent
-                                avoidCollisions={false}
-                                className="w-auto p-0"
-                                align="start"
-                            >
-                                <Calendar
-                                    mode="single"
-                                    selected={endDate}
-                                    onSelect={setEndDate}
-                                />
-                            </PopoverContent>
-                        </Popover>
+                                    <Calendar
+                                        mode="single"
+                                        selected={endDate}
+                                        onSelect={setEndDate}
+                                    />
+                                </PopoverContent>
+                            </Popover>
+                        </div>
                     </div>
                     <div className=" flex flex-col">
                         <Label className="font-medium mb-2">Rate</Label>
@@ -515,7 +624,7 @@ export default function InvoiceForm({
                             onChange={(e) => setCalls(e.target.valueAsNumber)}
                         />
                     </div>
-                </div>
+                </div> */}
                 <div className="flex justify-between items-start p-8 gap-5 border-b">
                     <div className=" space-y-2 mb-2">
                         <h2 className="">Payment Method</h2>
@@ -618,8 +727,8 @@ export default function InvoiceForm({
                         <p className=" font-semibold">
                             Total Amount: $
                             {connection?.route_offers?.selling_rate
-                                ? +connection?.route_offers?.selling_rate *
-                                  calls
+                                ? (+connection?.route_offers?.selling_rate *
+                                  calls).toFixed(3)
                                 : 0}
                         </p>
                     </div>
@@ -635,7 +744,7 @@ export default function InvoiceForm({
                 </div>
             </div>
             <Button type="submit" className=" max-w-[200px] w-full">
-                Save
+                Send
             </Button>
         </form>
     );

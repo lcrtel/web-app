@@ -33,7 +33,7 @@ const page = () => {
        return route_connections?.length ? (
            <div className=" ">
                <div className="mb-4 flex justify-between items-center ">
-                   <h1 className="text-2xl font-bold text-primary">
+                   <h1 className="text-lg font-semibold text-primary">
                        Connections
                    </h1>
                </div>
@@ -194,7 +194,7 @@ const page = () => {
                    </div>
                </div>
            </div>
-       ) : null
+       ) : null;
         
     };
     const UnverifiedRoutes = async () => {

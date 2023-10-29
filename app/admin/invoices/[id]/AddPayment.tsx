@@ -133,7 +133,7 @@ export function AddPayment({ invoice }: { invoice: Invoice }) {
                                     <FormLabel>Payment Amount $</FormLabel>
                                     <FormControl>
                                         <Input
-                                            placeholder="Payment mount"
+                                            placeholder="Payment amount"
                                             type="number"
                                             {...field}
                                         />

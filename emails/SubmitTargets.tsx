@@ -1,22 +1,16 @@
 import {
     Body,
-    Column,
+    Container,
     Font,
     Head,
-    Heading,
+    Hr,
     Html,
-    Link,
+    Img,
     Preview,
     Section,
     Tailwind,
-    Text,
-    Button,
-    Container,
-    Hr,
-    Img,
-    Row,
+    Text
 } from "@react-email/components";
-import * as React from "react";
 
 export default function SubmitTargets({
     data,

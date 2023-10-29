@@ -102,7 +102,6 @@ export default function InvoiceForm({
             toast.error("Select a payment method");
             return;
         }
-
         if (connection && invoiceTo) {
             const { data: invoice, error } = await supabase
                 .from("invoices")
@@ -120,15 +119,29 @@ export default function InvoiceForm({
                     balance:
                         calls * Number(connection?.route_offers?.selling_rate),
                 })
-                .select("invoice_id")
+             .select(`*, profiles (*)`)
                 .single();
             if (error) {
                 toast.error(error.message);
                 return;
             }
 
+
             router.push(`/admin/invoices/${invoice.invoice_id}`);
             toast.success("Invoice Created");
+
+            const { data: route } = await supabase
+                .from("route_connections")
+                .select(`*, route_offers (*)`)
+                .eq("id", connection?.id)
+                .single();
+
+                fetch("http://localhost:3000/api/emails/invoice", {
+                    method: "POST",
+                    body: JSON.stringify({ ...route, ...invoice }),
+                });
+            toast.success("Sent email successfully");
+
         }
     };
 
@@ -140,6 +153,7 @@ export default function InvoiceForm({
             <Link href="/admin/invoices">
                 <HiOutlineArrowCircleLeft className="w-6 h-6 mt-2 text-slate-400" />
             </Link>
+
             <div className="bg-white flex-1 rounded-2xl shadow-xl border w-full">
                 <div className=" flex justify-between rounded-t-2xl bg-surface  p-8">
                     <div className="">
@@ -178,7 +192,7 @@ export default function InvoiceForm({
                                     {open && (
                                         <>
                                             <motion.div
-                                                className=" z-20 w-60 absolute border-2 max-h-60 overflow-y-auto border-surface left-0 top-11 rounded-2xl  shadow-xl bg-white"
+                                                className=" z-20 absolute border-2 max-h-60 overflow-y-auto border-surface left-0 top-11 rounded-2xl  shadow-xl bg-white"
                                                 initial={{
                                                     opacity: 0,
                                                     y: "-4%",
@@ -743,6 +757,7 @@ export default function InvoiceForm({
                     />
                 </div>
             </div>
+            
             <Button type="submit" className=" max-w-[200px] w-full">
                 Send
             </Button>

@@ -90,7 +90,7 @@ const CreateNewUser = () => {
         } = await supabase.auth.admin.createUser({
             email: data.email,
             password: data.password,
-            email_confirm: data.email_confirm,
+            email_confirm: true,
             user_metadata: {
                 first_name: data.first_name,
                 last_name: data.last_name,
@@ -301,32 +301,7 @@ const CreateNewUser = () => {
                                             </FormItem>
                                         )}
                                     />
-                                    <FormField
-                                        control={form.control}
-                                        name="email_confirm"
-                                        render={({ field }) => (
-                                            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-lg border p-4">
-                                                <FormControl>
-                                                    <Checkbox
-                                                        checked={field.value}
-                                                        onCheckedChange={
-                                                            field.onChange
-                                                        }
-                                                    />
-                                                </FormControl>
-                                                <div className="space-y-1 leading-none">
-                                                    <FormLabel>
-                                                        Auto Confirm User?
-                                                    </FormLabel>
-                                                    <FormDescription>
-                                                        Creates the user without
-                                                        sending them a
-                                                        confirmation email
-                                                    </FormDescription>
-                                                </div>
-                                            </FormItem>
-                                        )}
-                                    />
+                                    
                                     {errorMessage && (
                                         <div className="text-base mt-1.5 text-red-500">
                                             {errorMessage}

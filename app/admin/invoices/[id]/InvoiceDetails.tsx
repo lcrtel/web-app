@@ -5,9 +5,9 @@ import formatDate from "@/utils/formatDate";
 import Image from "next/image";
 import Link from "next/link";
 import { createRef, useState } from "react";
+import toast from "react-hot-toast";
 import { HiOutlineArrowCircleLeft } from "react-icons/hi";
 import { AddPayment } from "./AddPayment";
-import jsPDF from "jspdf";
 
 const InvoiceDetails = ({
     invoice,
@@ -50,29 +50,14 @@ const InvoiceDetails = ({
         }
     };
 
-    const sendEmail = (pdfBlob: any) => {
+    const sendEmail = () => {
+        fetch("http://localhost:3000/api/emails/invoice", {
+            method: "POST",
+            body: JSON.stringify({ ...connection, ...invoice }),
+        });
+            toast.success("Sent email successfully");
         
-        // fetch(`${location.origin}/api/emails/invoice`, {
-        //     method: "POST",
-        //     body:  connection,
-        // })
-        //     .then((response) => {
-        //         // Handle the server's response (e.g., email the PDF)
-        //     })
-        //     .catch((error) => {
-        //         console.error("Error sending PDF to server:", error);
-        //     });
     };
-
-    // const generatePDF = () => {
-    //     const report: any = new jsPDF("portrait", "pt", "a4");
-    //     if (document.querySelector("#print-content")) {
-    //         report.html(document.querySelector("#print-content")).then(() => {
-    //             // Send the generated PDF to the server
-    //             sendPDFToServer(report.output("blob"));
-    //         });
-    //     }
-    // };
 
     return (
         <div className="  flex items-starts max-w-8xl mx-auto gap-5 mb-5">
@@ -113,7 +98,7 @@ const InvoiceDetails = ({
                             <p>Phone: {invoice?.profiles?.phone}</p>
                         </div>
                     </div>
-                    <div className="w-[200px] flex flex-col gap-2">
+                    <div className="min-w-[200px] flex flex-col gap-2">
                         <div className="flex gap-2 items-center justify-between">
                             <p className=" font-medium whitespace-nowrap">
                                 Date Issued:
@@ -162,7 +147,7 @@ const InvoiceDetails = ({
 
                     <div className="flex-1 space-y-2">
                         <p className=" font-semibold tracking-tight text-primary-500">
-                           Invoice Period
+                            Invoice Period
                         </p>
                         <p className=" text-slate-500">
                             {invoice?.description}
@@ -206,7 +191,9 @@ const InvoiceDetails = ({
                         </div>
                         <div className="flex justify-between text-slate-500 font-medium">
                             <p className=" ">Amount Paid:</p>
-                            <p className="text-end">-${amountPaid.toFixed(3)}</p>
+                            <p className="text-end">
+                                -${amountPaid.toFixed(3)}
+                            </p>
                         </div>
                         <div className="flex justify-between text-lg border-t pt-2 font-semibold">
                             <p className="">Balance Due:</p>

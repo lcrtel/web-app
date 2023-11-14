@@ -1,5 +1,4 @@
 "use client";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useFormik } from "formik";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -9,11 +8,11 @@ import * as yup from "yup";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import type { Session } from "@supabase/auth-helpers-nextjs";
 import toast from "react-hot-toast";
+import { supabaseClient } from "@/lib/supabase-client";
 
-const ResetForm = ({ session }: { session: Session | null }) => {
-    const supabase = createClientComponentClient<Database>();
+const ResetForm = () => {
+    const supabase = supabaseClient()
     const router = useRouter();
     const [message, setMessage] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);

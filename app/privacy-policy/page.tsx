@@ -76,7 +76,7 @@ const page = () => {
                             <dd className="text-base leading-7 text-gray-600">
                                 We use your personal information to provide the
                                 services you&aposve requested, including
-                                matching buyers and sellers, processing
+                                matching clients and vendors, processing
                                 transactions, and facilitating communication.
                             </dd>
                             <dt className="font-semibold leading-7 text-primary-500">
@@ -116,7 +116,7 @@ const page = () => {
                             parties. However, we may share your information
                             with:
                             <dt className="font-medium">
-                                Sellers or buyers on our platform to facilitate
+                                Vendors or clients on our platform to facilitate
                                 transactions.
                             </dt>
                             <dt className="font-medium">

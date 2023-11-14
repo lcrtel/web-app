@@ -1,20 +1,26 @@
 "use client";
-import { useState } from "react";
 import { useFormik } from "formik";
-import * as yup from "yup";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import * as yup from "yup";
+import * as z from "zod";
 
-import type { Session } from "@supabase/auth-helpers-nextjs";
-import Link from "next/link";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { HiEye, HiEyeOff } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { supabaseClient } from "@/lib/supabase-client";
+import Link from "next/link";
+import { HiEye, HiEyeOff } from "react-icons/hi";
 
-const LoginForm = ({ session }: { session: Session | null }) => {
-    const supabase = createClientComponentClient<Database>();
+const formSchema = z.object({
+    username: z.string().min(2, {
+        message: "Username must be at least 2 characters.",
+    }),
+});
+
+const LoginForm = () => {
+    const supabase = supabaseClient()
     const router = useRouter();
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
@@ -34,6 +40,7 @@ const LoginForm = ({ session }: { session: Session | null }) => {
             password: "",
         },
         validationSchema,
+        
         onSubmit: async (values) => {
             setErrorMessage(null);
             setLoading(true);
@@ -47,14 +54,18 @@ const LoginForm = ({ session }: { session: Session | null }) => {
                 setErrorMessage(error.message);
                 return;
             }
+
             const userRole = data.user.user_metadata.role;
+
             if (userRole === "admin") {
                 router.push("/admin");
             } else if (userRole === "manager") {
-                router.push("/manager");
-            } else if (userRole === "seller") {
+                router.push("/admin");
+            } else if (userRole === "agent") {
+                router.push("/agent");
+            } else if (userRole === "vendor") {
                 router.push("/user");
-            } else if (userRole === "buyer") {
+            } else if (userRole === "client") {
                 router.push("/user");
             }
         },

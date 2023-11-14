@@ -10,10 +10,9 @@ import {
     Preview,
     Row,
     Section,
-    Tailwind,
     Text,
 } from "@react-email/components";
-
+import { Tailwind } from "@react-email/tailwind";
 export default function ResetPassword({ user }: { user: any }) {
     return (
         <Tailwind
@@ -54,7 +53,7 @@ export default function ResetPassword({ user }: { user: any }) {
                                 Your Password Has Been Successfully Reset
                             </Text>
                             <Text className="text-gray-500  font-medium ">
-                                Hello {user?.first_name} {user?.last_name},
+                                Hello {user?.name} {user?.company_name},
                             </Text>
                             <Text className="text-gray-500  font-medium ">
                                 We&apos;re writing to inform you that your

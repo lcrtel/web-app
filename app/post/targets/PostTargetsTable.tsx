@@ -117,7 +117,7 @@ export function PostRouteTable() {
             return;
         }
         const { data: route, error } = await supabase
-            .from("buying_targets")
+            .from("targets")
             .insert(
                 data.map((route: any) => ({
                     destination: route.destination,
@@ -750,7 +750,7 @@ export function PostRouteTable() {
             </Link>
             <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg md:text-2xl font-bold text-primary tracking-tight">
-                    Post your buying targets!
+                    Post your targets!
                 </h3>
                 <ImportDropdown />
             </div>

@@ -1,7 +1,7 @@
 import SubmitRoutes from "@/emails/SubmitRoutes";
+import { supabaseRouteHandler } from "@/lib/supabaseRouteHandler";
 import { fetchUserMetadata } from "@/utils/user";
-import { render } from "@react-email/render";
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
+import { renderAsync } from "@react-email/render";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
@@ -10,14 +10,14 @@ export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
     const routeOffers = await request.json();
-    const supabase = createRouteHandlerClient<Database>({ cookies });
+    const supabase = await supabaseRouteHandler()
     const user = await fetchUserMetadata();
-    if (user?.role === "buyer") {
+    if (user?.role === "client") {
         await supabase.auth.updateUser({
-            data: { role: "seller" },
+            data: { role: "vendor" },
         });
     }
-    const routeDetailsForExcel = routeOffers.map((route: RouteOffer) => {
+    const routeDetailsForExcel = routeOffers.map((route: Route) => {
         const { id, ...rest } = route;
         return rest;
     });
@@ -37,14 +37,14 @@ export async function POST(request: Request) {
             pass: process.env.SMTP_PASSWORD,
         },
     });
-    const emailHtml = render(
+    const emailHtml = await renderAsync(
         <SubmitRoutes data={routeOffers.slice(0, 10)} user={user} />
     );
     try {
         await transporter.sendMail({
             from: process.env.SMTP_USER,
             to: user?.email,
-            subject: `Your Route Offers Have Been Submitted`,
+            subject: `Your Routes Have Been Submitted`,
             html: emailHtml,
             attachments: [
                 {
@@ -54,7 +54,6 @@ export async function POST(request: Request) {
             ],
         });
     } catch (error) {
-        console.log(error);
     }
 
     return NextResponse.json(routeOffers);

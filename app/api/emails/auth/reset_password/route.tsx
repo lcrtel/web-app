@@ -1,5 +1,5 @@
 import ResetPassword from "@/emails/ResetPassword";
-import { render } from "@react-email/render";
+import { renderAsync } from "@react-email/render";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
@@ -14,7 +14,9 @@ export async function POST(request: Request) {
             pass: process.env.SMTP_PASSWORD,
         },
     });
-    const emailHtml = render(<ResetPassword user={user} />);
+
+    const emailHtml = await renderAsync(<ResetPassword user={user} />);
+    
     try {
         await transporter.sendMail({
             from: process.env.SMTP_USER,
@@ -23,7 +25,6 @@ export async function POST(request: Request) {
             html: emailHtml,
         });
     } catch (error) {
-        console.log(error);
     }
 
     return NextResponse.json(user);

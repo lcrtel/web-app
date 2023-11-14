@@ -8,9 +8,9 @@ import {
     Img,
     Preview,
     Section,
-    Tailwind,
     Text,
 } from "@react-email/components";
+import { Tailwind } from "@react-email/tailwind";
 
 export default function Signup({ user }: { user: any }) {
     return (
@@ -54,7 +54,7 @@ export default function Signup({ user }: { user: any }) {
                                 Welcome to LCRTel.com
                             </Text>
                             <Text className="text-gray-500  font-medium ">
-                                Hello {user?.first_name} {user?.last_name},
+                                Hello {user?.name} {user?.company_name},
                             </Text>
                             <Text className="text-gray-500  font-medium ">
                                 Welcome to LCRTel.com! We&apos;re excited to
@@ -88,16 +88,16 @@ export default function Signup({ user }: { user: any }) {
                                 With your LCRTel.com account, you can:
                                 <ul className="text-gray-500 m-0 pl-5 text-sm">
                                     <li>
-                                        Post and manage your route offers and
-                                        buying targets
+                                        Post and manage your routes and
+                                        targets
                                     </li>
                                     <li>
                                         Explore potential matches based on your
                                         preferences
                                     </li>
                                     <li>
-                                        Stay updated on the latest route offers
-                                        and buying targets
+                                        Stay updated on the latest routes
+                                        and targets
                                     </li>
                                 </ul>
                             </Text>

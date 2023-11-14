@@ -49,7 +49,7 @@ const FormSchema = z.object({
 
 export default function InputForm() {
     const supabase = supabaseClient();
-    const [routeOffers, setRouteOffers] = useState<RouteOffer[]>([]);
+    const [routeOffers, setRouteOffers] = useState<Route[]>([]);
     const [destination, setDestination] = useState("");
     const [open, setOpen] = useState(false);
     const form = useForm<z.infer<typeof FormSchema>>({
@@ -58,7 +58,7 @@ export default function InputForm() {
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         let { data: routes, error } = await supabase
-            .from("route_offers")
+            .from("routes")
             .select("*")
             .match({
                 route_type: data.route_type,

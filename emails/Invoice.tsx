@@ -9,10 +9,9 @@ import {
     Img,
     Preview,
     Section,
-    Tailwind,
     Text
 } from "@react-email/components";
-
+import { Tailwind } from "@react-email/tailwind";
 export default function InvoiceTemplate({
     data,
 }: {
@@ -89,8 +88,8 @@ export default function InvoiceTemplate({
                                 Route Usage Invoice
                             </Heading>
                             <Text className="text-gray-500  font-medium ">
-                                Dear {data.profiles.first_name}{" "}
-                                {data.profiles.last_name},
+                                Dear{" "}
+                                {data.profiles.company_name}
                             </Text>
                             <Text className="text-gray-500  font-medium ">
                                 We are pleased to provide you with the following
@@ -98,9 +97,9 @@ export default function InvoiceTemplate({
                             </Text>
                         </Section>
                         <Section className="bg-white mx-auto w-full max-w-[90%]">
-                            <Text className="text-primary font-semibold my-0">
+                            {/* <Text className="text-primary font-semibold my-0">
                                 Billed to: {data.profiles.email}
-                            </Text>
+                            </Text> */}
                             <Text className="text-primary font-semibold my-0">
                                 Date Issued: {formatDate(data.date_issued)}
                             </Text>
@@ -110,25 +109,15 @@ export default function InvoiceTemplate({
                         </Section>
                         <Section className="bg-surface px-4 rounded-lg mx-auto w-full max-w-[90%]">
                             <Text className=" mb-0 text-primary font-medium">
-                                Route:
+                                Description:
                             </Text>
-                            <Text className="mt-0 text-gray-500">
-                                Prefix: {data.route_offers.prefix}, Destination:{" "}
-                                {data.route_offers.destination}, Rate: $
-                                {data.route_offers.selling_rate}/s
+                            <Text className="mt-0 mb-0 text-gray-500">
+                                Prefix: {data.routes.prefix}, Destination:{" "}
+                                {data.routes.destination}, Rate: ${data.rate}/m
                             </Text>
 
-                            <Text className=" mb-0 text-primary  font-medium">
-                                Invoice Period
-                            </Text>
                             <Text className="mt-0 text-gray-500">
                                 {data.description}
-                            </Text>
-                            <Text className=" mb-0 text-primary  font-medium">
-                                Duration
-                            </Text>
-                            <Text className="mt-0 text-gray-500">
-                                {data.quantity} seconds
                             </Text>
                             <Text className=" mb-0 text-primary  font-medium">
                                 Total Amount
@@ -139,25 +128,22 @@ export default function InvoiceTemplate({
                         </Section>
                         <Section className="bg-white mx-auto w-full max-w-[90%]">
                             <Text className="mb-0 text-primary font-semibold">
-                                Payment Method
+                                Pay to
                             </Text>
                             <Text className="my-0  text-gray-500">
-                                Bank Name: {data.bill_to.bank_name}
+                                Bank Name: {data.bill_to.bankName}
                             </Text>
                             <Text className="my-0  text-gray-500">
-                                Name: {data.bill_to.name}
+                                Name: {data.bill_to.accountHolderName}
                             </Text>
                             <Text className="my-0  text-gray-500">
-                                Number: {data.bill_to.account_no}
+                                Number: {data.bill_to.accountNumber}
                             </Text>
                             <Text className="my-0  text-gray-500">
-                                Account Type: {data.bill_to.account_type}
+                                IFSC Code: {data.bill_to.IFSCCode}
                             </Text>
                             <Text className="my-0  text-gray-500">
-                                IFSC Code: {data.bill_to.ifsc_code}
-                            </Text>
-                            <Text className="my-0  text-gray-500">
-                                Branch: {data.bill_to.branch}
+                                Branch: {data.bill_to.branchName}
                             </Text>
                         </Section>
                         <Section className="bg-white mx-auto w-full max-w-[90%]">

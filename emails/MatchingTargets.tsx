@@ -8,7 +8,6 @@ import {
     Link,
     Preview,
     Section,
-    Tailwind,
     Text,
     Button,
     Container,
@@ -17,7 +16,7 @@ import {
     Row,
 } from "@react-email/components";
 import * as React from "react";
-
+import { Tailwind } from "@react-email/tailwind";
 export default function MatchingTargets({
     data,
     user,
@@ -48,7 +47,7 @@ export default function MatchingTargets({
                     />
                 </Head>
                 <Preview>
-                    Exciting News: Potential Matches for Your Route Offers
+                    Exciting News: Potential Matches for Your Routes
                 </Preview>
                 <Body className="bg-surface ">
                     <Container className="bg-white rounded-md shadow mt-8">
@@ -67,15 +66,15 @@ export default function MatchingTargets({
                                 Offers
                             </Text>
                             <Text className="text-gray-500  font-medium ">
-                                Hello {user?.first_name} {user?.last_name},
+                                Hello {user?.name} {user?.company_name},
                             </Text>
                             <Text className="text-gray-500  font-medium ">
                                 We're excited to bring you some great news! Our
                                 platform's advanced matching algorithm has
-                                identified potential buying targets that align
-                                perfectly with the route offers you've posted on
+                                identified potential targets that align
+                                perfectly with the routes you've posted on
                                 our platform. This means there are potential
-                                buyers actively seeking routes that match your
+                                clients actively seeking routes that match your
                                 criteria.
                             </Text>
                         </Section>
@@ -131,7 +130,7 @@ export default function MatchingTargets({
                             </Text>
                             <Text className="text-gray-500  font-medium ">
                                 We recommend logging in to your account to view
-                                the full list of potential matches. These buyers
+                                the full list of potential matches. These clients
                                 are specifically interested in routes that
                                 you've offered. Remember, our dedicated team
                                 ensures the authenticity of all potential

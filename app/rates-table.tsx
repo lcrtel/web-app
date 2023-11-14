@@ -37,7 +37,7 @@ import {
 } from "@/components/ui/table";
 import formatTimestamptz from "@/utils/formatTimestamptz";
 
-export const columns: ColumnDef<RouteOffer>[] = [
+export const columns: ColumnDef<Route>[] = [
     {
         accessorKey: "destination",
         header: ({ column }) => {

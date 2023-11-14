@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Loader2 } from "lucide-react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { HiEye, HiEyeOff, HiOutlineMail } from "react-icons/hi";
@@ -11,17 +10,18 @@ import { HiEye, HiEyeOff, HiOutlineMail } from "react-icons/hi";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { supabaseClient } from "@/lib/supabase-client";
 
 const SignupForm = () => {
-    const supabase = createClientComponentClient<Database>();
+    const supabase = supabaseClient()
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [checkEmail, setCheckEmail] = useState(false);
 
     const validationSchema = yup.object().shape({
-        first_name: yup.string().required("First Name is required"),
-        last_name: yup.string(),
+        name: yup.string().required("First Name is required"),
+        company_name: yup.string(),
         email: yup
             .string()
             .email("Invalid email address")
@@ -48,8 +48,8 @@ const SignupForm = () => {
 
     const formik = useFormik({
         initialValues: {
-            first_name: "",
-            last_name: "",
+            name: "",
+            company_name: "",
             email: "",
             password: "",
             confirmPassword: "",
@@ -64,12 +64,12 @@ const SignupForm = () => {
                 password: values.password,
                 options: {
                     data: {
-                        first_name: values.first_name,
-                        last_name: values.last_name,
+                        name: values.name,
+                        company_name: values.company_name,
                         email: values.email,
                         phone: values.phone,
                         skype_id: values.skype_id,
-                        role: "buyer",
+                        role: "client",
                     },
                     emailRedirectTo: `${location.origin}/api/auth/callback`,
                 },
@@ -112,45 +112,45 @@ const SignupForm = () => {
                     <div className="grid gap-4 mb-6 sm:grid-cols-2 text-primary-500">
                         <div>
                             <Label
-                                htmlFor="first_name"
+                                htmlFor="name"
                                 className="inline-block mb-2"
                             >
                                 First Name
                             </Label>
                             <Input
                                 type="text"
-                                id="first_name"
-                                name="first_name"
-                                value={formik.values.first_name}
+                                id="name"
+                                name="name"
+                                value={formik.values.name}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                             />
-                            {formik.touched.first_name &&
-                            formik.errors.first_name ? (
+                            {formik.touched.name &&
+                            formik.errors.name ? (
                                 <div className="text-sm mt-1.5 text-red-500">
-                                    {formik.errors.first_name}
+                                    {formik.errors.name}
                                 </div>
                             ) : null}
                         </div>
                         <div>
                             <Label
-                                htmlFor="last_name"
+                                htmlFor="company_name"
                                 className="inline-block mb-2"
                             >
                                 Last Name
                             </Label>
                             <Input
                                 type="text"
-                                id="last_name"
-                                name="last_name"
-                                value={formik.values.last_name}
+                                id="company_name"
+                                name="company_name"
+                                value={formik.values.company_name}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                             />
-                            {formik.touched.last_name &&
-                            formik.errors.last_name ? (
+                            {formik.touched.company_name &&
+                            formik.errors.company_name ? (
                                 <div className="text-sm mt-1.5 text-red-500">
-                                    {formik.errors.last_name}
+                                    {formik.errors.company_name}
                                 </div>
                             ) : null}
                         </div>

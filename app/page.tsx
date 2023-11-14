@@ -1,24 +1,27 @@
 import Nav from "@/components/Nav";
 import { buttonVariants } from "@/components/ui/button";
-import { fetchUserRole } from "@/utils/user";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { HiCheck, HiOutlineArrowSmRight } from "react-icons/hi";
 import MarketSearch from "./MarketSearch";
+import { fetchUserRole } from "@/utils/user";
+import { redirect } from "next/navigation";
+
 export const dynamic = "force-dynamic";
 
 const HomePage = async () => {
-    const userRole = await fetchUserRole();
-    if (userRole === "admin") {
-        redirect("/admin");
-    } else if (userRole === "agent") {
-        redirect("/agent");
-    } else if (userRole === "seller") {
-        redirect("/user");
-    } else if (userRole === "buyer") {
-        redirect("/user");
-    }
+   const userRole = await fetchUserRole();
+   if (userRole === "admin") {
+       redirect("/admin");
+   } else if (userRole === "agent") {
+       redirect("/agent");
+   } else if (userRole === "manager") {
+       redirect("/admin");
+   } else if (userRole === "vendor") {
+       redirect("/user");
+   } else if (userRole === "client") {
+       redirect("/user");
+   }
 
     const HeroSection = async () => {
         return (
@@ -50,7 +53,7 @@ const HomePage = async () => {
                                         variant: "default",
                                     })}`}
                                 >
-                                    Post your route offers
+                                    Post your routes
                                     <HiOutlineArrowSmRight className="ml-2 w-5 h-5" />
                                 </Link>
                                 <Link
@@ -70,7 +73,7 @@ const HomePage = async () => {
                                 Market View
                             </h2>
                             <p className="mb-4 sm:text-center sm:text-md leading-8 text-gray-400">
-                                Real-time Market Rates at Your Fingertips
+                                Real-time Routes at Your Fingertips
                             </p>
                             <MarketSearch />
                         </div>
@@ -80,7 +83,7 @@ const HomePage = async () => {
         );
     };
 
-    const BuyersSection = () => {
+    const ClientsSection = () => {
         return (
             <section id="features" className="bg-white py-14 sm:py-32">
                 <div className="mx-auto max-w-7xl px-5 lg:px-8">
@@ -104,7 +107,7 @@ const HomePage = async () => {
                                 </dt>
                                 <dd className="mt-2 text-base leading-7 text-gray-600">
                                     List and manage your VoIP routes for
-                                    potential buyers to explore and purchase.
+                                    potential clients to explore and purchase.
                                 </dd>
                             </div>
                             <div className="relative pl-16">
@@ -140,7 +143,7 @@ const HomePage = async () => {
                                     Route Request
                                 </dt>
                                 <dd className="mt-2 text-base leading-7 text-gray-600">
-                                    Buyers can submit route requests, specifying
+                                    Clients can submit route requests, specifying
                                     their desired destinations and requirements.
                                 </dd>
                             </div>
@@ -218,7 +221,7 @@ const HomePage = async () => {
         const FaqContent = [
             {
                 question: "How can I sell my VoIP routes on the platform?",
-                answer: "Simply create an account, navigate to the &#39;Sell Routes&#39; section, and list your routes with relevant details. Interested buyers can then view and purchase them.",
+                answer: "Simply create an account, navigate to the &#39;Sell Routes&#39; section, and list your routes with relevant details. Interested clients can then view and purchase them.",
             },
             {
                 question: "How can I buy VoIP routes?",
@@ -232,7 +235,7 @@ const HomePage = async () => {
             {
                 question:
                     "How do I ensure the quality of the routes I purchase?",
-                answer: "Our platform provides important information such as ASR, ACD, and user ratings to help you make informed decisions. Additionally, buyer reviews and feedback contribute to Link trustworthy trading environment.",
+                answer: "Our platform provides important information such as ASR, ACD, and user ratings to help you make informed decisions. Additionally, client reviews and feedback contribute to Link trustworthy trading environment.",
             },
             {
                 question: "What happens after I make Link purchase?",
@@ -411,7 +414,7 @@ const HomePage = async () => {
             <Nav />
             <HeroSection />
             {/* <MarketView /> */}
-            <BuyersSection />
+            <ClientsSection />
             <FAQ />
             <Contact />
             <Footer />

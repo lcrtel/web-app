@@ -9,96 +9,85 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      bank_accounts: {
+      agents: {
         Row: {
-          account_no: string | null
-          account_type: string | null
-          bank_name: string | null
-          branch: string | null
-          id: number
-          ifsc_code: string | null
-          name: string | null
-        }
-        Insert: {
-          account_no?: string | null
-          account_type?: string | null
-          bank_name?: string | null
-          branch?: string | null
-          id?: number
-          ifsc_code?: string | null
-          name?: string | null
-        }
-        Update: {
-          account_no?: string | null
-          account_type?: string | null
-          bank_name?: string | null
-          branch?: string | null
-          id?: number
-          ifsc_code?: string | null
-          name?: string | null
-        }
-        Relationships: []
-      }
-      buying_targets: {
-        Row: {
-          acd: string
-          asr: string
-          buyer_id: string
-          buying_rate: number
-          capacity: string
-          created_at: string | null
-          destination: string
-          destination_code: string
+          clients: number | null
+          created_at: string
           id: string
-          pdd: string
-          ports: string
-          prefix: string
-          rate: number
-          route_type: string
-          status: string
-          updated_at: string | null
+          routes: number | null
+          targets: number | null
+          vendors: number | null
         }
         Insert: {
-          acd: string
-          asr: string
-          buyer_id?: string
-          buying_rate?: number
-          capacity: string
-          created_at?: string | null
-          destination: string
-          destination_code: string
-          id?: string
-          pdd: string
-          ports: string
-          prefix: string
-          rate: number
-          route_type: string
-          status?: string
-          updated_at?: string | null
+          clients?: number | null
+          created_at?: string
+          id: string
+          routes?: number | null
+          targets?: number | null
+          vendors?: number | null
         }
         Update: {
-          acd?: string
-          asr?: string
-          buyer_id?: string
-          buying_rate?: number
-          capacity?: string
-          created_at?: string | null
-          destination?: string
-          destination_code?: string
+          clients?: number | null
+          created_at?: string
           id?: string
-          pdd?: string
-          ports?: string
-          prefix?: string
-          rate?: number
-          route_type?: string
-          status?: string
-          updated_at?: string | null
+          routes?: number | null
+          targets?: number | null
+          vendors?: number | null
         }
         Relationships: [
           {
-            foreignKeyName: "buying_targets_buyer_id_fkey"
-            columns: ["buyer_id"]
+            foreignKeyName: "agents_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      gateways: {
+        Row: {
+          client_id: string
+          created_at: string | null
+          id: string
+          name: string | null
+          payment_type: string | null
+          rate: string | null
+          route_id: string
+          status: string
+        }
+        Insert: {
+          client_id: string
+          created_at?: string | null
+          id?: string
+          name?: string | null
+          payment_type?: string | null
+          rate?: string | null
+          route_id: string
+          status: string
+        }
+        Update: {
+          client_id?: string
+          created_at?: string | null
+          id?: string
+          name?: string | null
+          payment_type?: string | null
+          rate?: string | null
+          route_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gateways_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gateways_route_id_fkey"
+            columns: ["route_id"]
+            isOneToOne: false
+            referencedRelation: "routes"
             referencedColumns: ["id"]
           }
         ]
@@ -106,62 +95,68 @@ export interface Database {
       invoices: {
         Row: {
           agent: string | null
-          balance: number | null
+          balance: string | null
           bill_to: Json | null
-          connection_id: string | null
           date_due: string | null
           date_issued: string | null
           description: string | null
+          gateway: string | null
           invoice_id: number
           invoice_to: string | null
           note: string | null
           paid_at: string | null
-          quantity: number | null
           status: string | null
-          total_amount: number | null
+          total_amount: string | null
         }
         Insert: {
           agent?: string | null
-          balance?: number | null
+          balance?: string | null
           bill_to?: Json | null
-          connection_id?: string | null
           date_due?: string | null
           date_issued?: string | null
           description?: string | null
+          gateway?: string | null
           invoice_id?: number
           invoice_to?: string | null
           note?: string | null
           paid_at?: string | null
-          quantity?: number | null
           status?: string | null
-          total_amount?: number | null
+          total_amount?: string | null
         }
         Update: {
           agent?: string | null
-          balance?: number | null
+          balance?: string | null
           bill_to?: Json | null
-          connection_id?: string | null
           date_due?: string | null
           date_issued?: string | null
           description?: string | null
+          gateway?: string | null
           invoice_id?: number
           invoice_to?: string | null
           note?: string | null
           paid_at?: string | null
-          quantity?: number | null
           status?: string | null
-          total_amount?: number | null
+          total_amount?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "invoices_connection_id_fkey"
-            columns: ["connection_id"]
-            referencedRelation: "route_connections"
+            foreignKeyName: "invoices_agent_fkey"
+            columns: ["agent"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_gateway_fkey"
+            columns: ["gateway"]
+            isOneToOne: false
+            referencedRelation: "gateways"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "invoices_invoice_to_fkey"
             columns: ["invoice_to"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
@@ -193,16 +188,38 @@ export interface Database {
           {
             foreignKeyName: "notifications _user_id_fkey"
             columns: ["user_id"]
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
         ]
       }
+      payment_methods: {
+        Row: {
+          created_at: string | null
+          details: Json | null
+          id: number
+          type: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          details?: Json | null
+          id?: number
+          type?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          details?: Json | null
+          id?: number
+          type?: string | null
+        }
+        Relationships: []
+      }
       payments: {
         Row: {
           amount: string
-          connection_id: string | null
           created_at: string
+          gateway: string | null
           invoice_id: number
           paid_at: string
           payment_id: number
@@ -212,8 +229,8 @@ export interface Database {
         }
         Insert: {
           amount: string
-          connection_id?: string | null
           created_at?: string
+          gateway?: string | null
           invoice_id: number
           paid_at: string
           payment_id?: number
@@ -223,8 +240,8 @@ export interface Database {
         }
         Update: {
           amount?: string
-          connection_id?: string | null
           created_at?: string
+          gateway?: string | null
           invoice_id?: number
           paid_at?: string
           payment_id?: number
@@ -234,20 +251,23 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "payments_connection_id_fkey"
-            columns: ["connection_id"]
-            referencedRelation: "route_connections"
+            foreignKeyName: "payments_gateway_fkey"
+            columns: ["gateway"]
+            isOneToOne: false
+            referencedRelation: "gateways"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "payments_invoice_id_fkey"
             columns: ["invoice_id"]
+            isOneToOne: false
             referencedRelation: "invoices"
             referencedColumns: ["invoice_id"]
           },
           {
             foreignKeyName: "payments_user_id_fkey"
             columns: ["user_id"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
@@ -255,11 +275,12 @@ export interface Database {
       }
       profiles: {
         Row: {
+          agent_id: string | null
+          company_name: string | null
           email: string | null
           finance_department: Json | null
-          first_name: string | null
           id: string
-          last_name: string | null
+          name: string | null
           noc_dipartment: Json | null
           payment_method: Json | null
           phone: string | null
@@ -268,11 +289,12 @@ export interface Database {
           skype_id: string | null
         }
         Insert: {
+          agent_id?: string | null
+          company_name?: string | null
           email?: string | null
           finance_department?: Json | null
-          first_name?: string | null
           id: string
-          last_name?: string | null
+          name?: string | null
           noc_dipartment?: Json | null
           payment_method?: Json | null
           phone?: string | null
@@ -281,11 +303,12 @@ export interface Database {
           skype_id?: string | null
         }
         Update: {
+          agent_id?: string | null
+          company_name?: string | null
           email?: string | null
           finance_department?: Json | null
-          first_name?: string | null
           id?: string
-          last_name?: string | null
+          name?: string | null
           noc_dipartment?: Json | null
           payment_method?: Json | null
           phone?: string | null
@@ -297,6 +320,7 @@ export interface Database {
           {
             foreignKeyName: "profiles_id_fkey"
             columns: ["id"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -304,106 +328,69 @@ export interface Database {
       }
       purchase_requests: {
         Row: {
-          buyer_id: string
           buying_rate: string | null
+          client_id: string
           communication_status: string
-          connection_id: string | null
           created_at: string
+          gateway: string | null
           id: string
           message: string | null
           payment_type: string
           route_id: string
           status: string
+          whatsapp_no: string | null
         }
         Insert: {
-          buyer_id?: string
           buying_rate?: string | null
+          client_id?: string
           communication_status: string
-          connection_id?: string | null
           created_at?: string
+          gateway?: string | null
           id?: string
           message?: string | null
           payment_type: string
           route_id: string
           status?: string
+          whatsapp_no?: string | null
         }
         Update: {
-          buyer_id?: string
           buying_rate?: string | null
+          client_id?: string
           communication_status?: string
-          connection_id?: string | null
           created_at?: string
+          gateway?: string | null
           id?: string
           message?: string | null
           payment_type?: string
           route_id?: string
           status?: string
+          whatsapp_no?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "purchase_requests_buyer_id_fkey"
-            columns: ["buyer_id"]
+            foreignKeyName: "purchase_requests_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "purchase_requests_connection_id_fkey"
-            columns: ["connection_id"]
-            referencedRelation: "route_connections"
+            foreignKeyName: "purchase_requests_gateway_fkey"
+            columns: ["gateway"]
+            isOneToOne: false
+            referencedRelation: "gateways"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "purchase_requests_route_id_fkey"
             columns: ["route_id"]
-            referencedRelation: "route_offers"
+            isOneToOne: false
+            referencedRelation: "routes"
             referencedColumns: ["id"]
           }
         ]
       }
-      route_connections: {
-        Row: {
-          buyer_id: string
-          expiration_date: string | null
-          id: string
-          payment_type: string | null
-          rate: string | null
-          route_id: string
-          status: string
-        }
-        Insert: {
-          buyer_id: string
-          expiration_date?: string | null
-          id?: string
-          payment_type?: string | null
-          rate?: string | null
-          route_id: string
-          status: string
-        }
-        Update: {
-          buyer_id?: string
-          expiration_date?: string | null
-          id?: string
-          payment_type?: string | null
-          rate?: string | null
-          route_id?: string
-          status?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "route_connections_buyer_id_fkey"
-            columns: ["buyer_id"]
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "route_connections_route_id_fkey"
-            columns: ["route_id"]
-            referencedRelation: "route_offers"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      route_offers: {
+      routes: {
         Row: {
           acd: string
           asr: string
@@ -417,9 +404,9 @@ export interface Database {
           prefix: string
           rate: string
           route_type: string
-          seller_id: string | null
           selling_rate: string
           updated_at: string | null
+          vendor_id: string | null
           verification: string
           verification_by: string | null
           verified_at: string | null
@@ -437,9 +424,9 @@ export interface Database {
           prefix: string
           rate: string
           route_type: string
-          seller_id?: string | null
           selling_rate?: string
           updated_at?: string | null
+          vendor_id?: string | null
           verification?: string
           verification_by?: string | null
           verified_at?: string | null
@@ -457,17 +444,18 @@ export interface Database {
           prefix?: string
           rate?: string
           route_type?: string
-          seller_id?: string | null
           selling_rate?: string
           updated_at?: string | null
+          vendor_id?: string | null
           verification?: string
           verification_by?: string | null
           verified_at?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "route_offers_seller_id_fkey"
-            columns: ["seller_id"]
+            foreignKeyName: "routes_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
@@ -493,13 +481,109 @@ export interface Database {
           {
             foreignKeyName: "selected_routes_route_id_fkey"
             columns: ["route_id"]
-            referencedRelation: "route_offers"
+            isOneToOne: false
+            referencedRelation: "routes"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "selected_routes_user_id_fkey"
             columns: ["user_id"]
+            isOneToOne: false
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      targets: {
+        Row: {
+          acd: string
+          asr: string
+          buying_rate: number
+          capacity: string
+          client_id: string
+          created_at: string | null
+          destination: string
+          destination_code: string
+          id: string
+          pdd: string
+          ports: string
+          prefix: string
+          rate: number
+          route_type: string
+          updated_at: string | null
+        }
+        Insert: {
+          acd: string
+          asr: string
+          buying_rate?: number
+          capacity: string
+          client_id?: string
+          created_at?: string | null
+          destination: string
+          destination_code: string
+          id?: string
+          pdd: string
+          ports: string
+          prefix: string
+          rate: number
+          route_type: string
+          updated_at?: string | null
+        }
+        Update: {
+          acd?: string
+          asr?: string
+          buying_rate?: number
+          capacity?: string
+          client_id?: string
+          created_at?: string | null
+          destination?: string
+          destination_code?: string
+          id?: string
+          pdd?: string
+          ports?: string
+          prefix?: string
+          rate?: number
+          route_type?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "targets_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      wallet: {
+        Row: {
+          ballence: number | null
+          created_at: string
+          updated_at: string | null
+          user_id: string | null
+          wallet_id: number
+        }
+        Insert: {
+          ballence?: number | null
+          created_at?: string
+          updated_at?: string | null
+          user_id?: string | null
+          wallet_id?: number
+        }
+        Update: {
+          ballence?: number | null
+          created_at?: string
+          updated_at?: string | null
+          user_id?: string | null
+          wallet_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wallet_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
         ]
@@ -524,12 +608,14 @@ export interface Database {
           {
             foreignKeyName: "watchlist_route_id_fkey"
             columns: ["route_id"]
-            referencedRelation: "route_offers"
+            isOneToOne: false
+            referencedRelation: "routes"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "watchlist_user_id_fkey"
             columns: ["user_id"]
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           }

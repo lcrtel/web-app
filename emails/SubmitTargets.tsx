@@ -8,15 +8,14 @@ import {
     Img,
     Preview,
     Section,
-    Tailwind,
     Text
 } from "@react-email/components";
-
+import { Tailwind } from "@react-email/tailwind";
 export default function SubmitTargets({
     data,
     user,
 }: {
-    data: RouteOffer[];
+    data: Route[];
     user: any;
 }) {
     return (
@@ -61,14 +60,14 @@ export default function SubmitTargets({
                                 Posted
                             </Text>
                             <Text className="text-gray-500  font-medium ">
-                                Dear {user?.first_name} {user?.last_name},
+                                Dear {user?.name} {user?.company_name},
                             </Text>
                             <Text className="text-gray-500  font-medium ">
                                 We are pleased to inform you that your recently
-                                posted buying targets have been successfully
-                                submitted to our platform. Your buying targets
-                                will now be visible to sellers who have posted
-                                route offers that match your criteria. Our team
+                                posted targets have been successfully
+                                submitted to our platform. Your targets
+                                will now be visible to vendors who have posted
+                                routes that match your criteria. Our team
                                 will review your targets to ensure they
                                 accurately represent your requirements.
                             </Text>
@@ -128,20 +127,20 @@ export default function SubmitTargets({
                             <Text className="text-gray-500  font-medium ">
                                 Please keep an eye on your account for any
                                 notifications regarding potential matches with
-                                seller offers. If your buying targets align with
-                                the route offers of our sellers, you will be
+                                vendor offers. If your targets align with
+                                the routes of our vendors, you will be
                                 notified accordingly.
                             </Text>
                             <Text className="text-gray-500  font-medium ">
                                 Feel free to log in to your account to view the
-                                full list of your posted buying targets and
+                                full list of your posted targets and
                                 manage your preferences. If you have any
                                 questions or need assistance, our support team
                                 is here to help.
                             </Text>
                             <Text className="text-gray-500  font-medium ">
                                 Thank you for using our platform to connect with
-                                potential sellers and find the best route offers
+                                potential vendors and find the best routes
                                 for your business needs.
                             </Text>
                             <Text className="text-gray-500 mb-5  font-medium ">

@@ -1,8 +1,6 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs/dist";
-import { cookies } from "next/headers";
-import type { User } from "@supabase/gotrue-js/src/lib/types";
+import { supabaseServer } from "@/lib/supabase-server";
 export async function fetchUserRole() {
-    const supabase = createServerComponentClient<Database>({ cookies });
+    const supabase = await supabaseServer()
     const {
         data: { user },
     } = await supabase.auth.getUser();
@@ -12,7 +10,7 @@ export async function fetchUserRole() {
 }
 
 export async function fetchUserMetadata() {
-    const supabase = createServerComponentClient<Database>({ cookies });
+    const supabase = await supabaseServer()
     const {
         data: { user },
     } = await supabase.auth.getUser();
@@ -21,7 +19,7 @@ export async function fetchUserMetadata() {
     }
 }
 export async function fetchUserData() {
-    const supabase = createServerComponentClient<Database>({ cookies });
+    const supabase = await supabaseServer()
     const {
         data: { user },
     } = await supabase.auth.getUser();

@@ -107,7 +107,7 @@ export function PostRouteTable() {
             return;
         } else if (user.user) {
             const { data: route, error } = await supabase
-                .from("route_offers")
+                .from("routes")
                 .insert(
                     data.map((route: any) => ({
                         destination: route.destination,
@@ -128,9 +128,9 @@ export function PostRouteTable() {
                 setPosting(false);
                 return;
             }
-            if (user?.user.user_metadata.role === "buyer") {
+            if (user?.user.user_metadata.role === "client") {
                 await supabase.auth.updateUser({
-                    data: { role: "seller" },
+                    data: { role: "vendor" },
                 });
             }
             fetch("http://localhost:3000/api/routes/post-offer", {
@@ -139,7 +139,7 @@ export function PostRouteTable() {
             });
         }
         setPosting(false);
-        toast.success("Route Offers posted");
+        toast.success("Routes posted");
         setData([]);
 
         localStorage.removeItem("pendingRouteOffersData");
@@ -760,7 +760,7 @@ export function PostRouteTable() {
             </Link>
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg md:text-2xl font-bold text-primary tracking-tight">
-                    Post your route offers!
+                    Post your routes!
                 </h2>
                 <ImportDropdown />
             </div>

@@ -1,12 +1,13 @@
 import Signup from "@/emails/Signup";
-import { render } from "@react-email/render";
-import { NextResponse } from "next/server";
+import { renderAsync } from "@react-email/render";
 import nodemailer from "nodemailer";
 
 export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
     const user = await request.json();
+  const requestUrl = new URL(request.url);
+
     const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 465,
@@ -16,7 +17,9 @@ export async function POST(request: Request) {
             pass: process.env.SMTP_PASSWORD,
         },
     });
-    const emailHtml = render(<Signup user={user} />);
+
+    const emailHtml = await renderAsync(Signup({ user: user }));
+    
     try {
         await transporter.sendMail({
             from: process.env.SMTP_USER,
@@ -25,8 +28,7 @@ export async function POST(request: Request) {
             html: emailHtml,
         });
     } catch (error) {
-        console.log(error);
     }
 
-    return NextResponse.json(user);
+    return new Response;
 }

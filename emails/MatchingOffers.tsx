@@ -8,7 +8,6 @@ import {
     Link,
     Preview,
     Section,
-    Tailwind,
     Text,
     Button,
     Container,
@@ -17,7 +16,7 @@ import {
     Row,
 } from "@react-email/components";
 import * as React from "react";
-
+import { Tailwind } from "@react-email/tailwind";
 export default function MatchingOffers({
     data,
     user,
@@ -67,15 +66,15 @@ export default function MatchingOffers({
                                 Targets
                             </Text>
                             <Text className="text-gray-500  font-medium ">
-                                Hello {user?.first_name} {user?.last_name},
+                                Hello {user?.name} {user?.company_name},
                             </Text>
                             <Text className="text-gray-500  font-medium ">
                                 We are thrilled to share some exciting news with
                                 you! Our platform&apos;s matching algorithm has
-                                identified potential route offers that align
-                                with the buying targets you&apos;ve posted on
-                                our platform. This means there are sellers who
-                                have posted route offers that match your
+                                identified potential routes that align
+                                with the targets you&apos;ve posted on
+                                our platform. This means there are vendors who
+                                have posted routes that match your
                                 criteria.
                             </Text>
                         </Section>
@@ -134,7 +133,7 @@ export default function MatchingOffers({
                                 To explore the full list of potential matches
                                 and dive into these exciting opportunities,
                                 simply log in to your account. If any of these
-                                matches resonate with your buying targets, you
+                                matches resonate with your targets, you
                                 can initiate a purchase request to purchase.
                             </Text>
                             <Text className="text-gray-500  font-medium ">

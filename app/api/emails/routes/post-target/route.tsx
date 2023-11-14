@@ -1,13 +1,13 @@
 import SubmitTargets from "@/emails/SubmitTargets";
 import { fetchUserMetadata } from "@/utils/user";
-import { render } from "@react-email/render";
+import { renderAsync } from "@react-email/render";
 import XLSX from "xlsx";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 export async function POST(request: Request) {
     const buyingTargets = await request.json();
     const user = await fetchUserMetadata();
-    const targetDetailsForExcel = buyingTargets.map((route: RouteOffer) => {
+    const targetDetailsForExcel = buyingTargets.map((route: Route) => {
         const { id, ...rest } = route;
         return rest;
     });
@@ -27,7 +27,7 @@ export async function POST(request: Request) {
             pass: process.env.SMTP_PASSWORD,
         },
     });
-    const emailHtml = render(
+    const emailHtml = await renderAsync(
         <SubmitTargets data={buyingTargets.slice(0, 10)} user={user} />
     );
     try {
@@ -44,7 +44,6 @@ export async function POST(request: Request) {
             ],
         });
     } catch (error) {
-        console.log(error);
     }
 
     return NextResponse.json(buyingTargets);

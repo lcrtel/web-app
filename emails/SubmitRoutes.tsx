@@ -10,15 +10,15 @@ import {
     Preview,
     Row,
     Section,
-    Tailwind,
+
     Text,
 } from "@react-email/components";
-
+import { Tailwind } from "@react-email/tailwind";
 export default function SubmitRoutes({
     data,
     user,
 }: {
-    data: RouteOffer[];
+    data: Route[];
     user: any;
 }) {
     return (
@@ -44,7 +44,7 @@ export default function SubmitRoutes({
                     />
                 </Head>
                 <Preview>
-                    Confirmation: Your Route Offers Have Been Submitted
+                    Confirmation: Your Routes Have Been Submitted
                 </Preview>
                 <Body className="bg-surface ">
                     <Container className="bg-white rounded-md shadow mt-8">
@@ -59,19 +59,19 @@ export default function SubmitRoutes({
                         </Section>
                         <Section className="mx-auto w-full max-w-[90%]">
                             <Text className="text-primary mt-6 font-bold tracking-tight text-xl">
-                                Confirmation: Your Route Offers Have Been
+                                Confirmation: Your Routes Have Been
                                 Submitted
                             </Text>
                             <Text className="text-gray-500  font-medium ">
-                                Dear {user?.first_name} {user?.last_name},
+                                Dear {user?.name} {user?.company_name},
                             </Text>
                             <Text className="text-gray-500  font-medium ">
                                 We are thrilled to confirm that your recent
-                                route offers have been successfully submitted to
+                                routes have been successfully submitted to
                                 our platform. Our team is diligently reviewing
                                 your submitted offers to ensure their accuracy
                                 and quality. Once verified, your offers will
-                                become visible to potential buyers seeking
+                                become visible to potential clients seeking
                                 routes that match your criteria.
                             </Text>
                         </Section>
@@ -131,15 +131,15 @@ export default function SubmitRoutes({
                             <Text className="text-gray-500  font-medium ">
                                 Please stay tuned for further notifications from
                                 us regarding the verification and visibility
-                                status of your route offers. If they match the
-                                buying targets of our buyers, you will be
+                                status of your routes. If they match the
+                                targets of our clients, you will be
                                 notified accordingly.
                             </Text>
                             <Text className="text-gray-500  font-medium ">
                                 If you have any questions or need assistance,
                                 feel free to reach out to our support team.
                                 Thank you for choosing our platform to connect
-                                with potential buyers and expand your business.
+                                with potential clients and expand your business.
                             </Text>
                             <Text className="text-gray-500 mb-5  font-medium ">
                                 Best regards, The LCRTel Team

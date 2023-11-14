@@ -2,20 +2,19 @@
 import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
-import type { Session } from "@supabase/auth-helpers-nextjs";
 import Link from "next/link";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
 import { revalidatePath } from "next/cache";
+import { supabaseClient } from "@/lib/supabase-client";
 
 const LoginForm = () => {
-    const supabase = createClientComponentClient<Database>();
+    const supabase = supabaseClient()
     const router = useRouter();
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);

@@ -304,6 +304,7 @@ export function CreateInvoice({
                                                                     gateway: any
                                                                 ) => (
                                                                     <DropdownMenuCheckboxItem
+                                                                    
                                                                         className="cursor-pointer"
                                                                         checked={
                                                                             gateway.id ===
@@ -638,6 +639,7 @@ export function CreateInvoice({
                                                                 method.type ===
                                                                     "bank" && (
                                                                     <DropdownMenuCheckboxItem
+                                                                    key={method.id}
                                                                         className="cursor-pointer"
                                                                         checked={
                                                                             paymentMethod.id ===

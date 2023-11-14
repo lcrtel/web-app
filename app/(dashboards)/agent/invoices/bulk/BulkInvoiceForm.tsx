@@ -407,6 +407,7 @@ export default function BulkInvoiceForm({
                                     (method: any) =>
                                         method.type === "bank" && (
                                             <DropdownMenuCheckboxItem
+                                            key={method.id}
                                                 className="cursor-pointer"
                                                 checked={
                                                     paymentMethod.id ===

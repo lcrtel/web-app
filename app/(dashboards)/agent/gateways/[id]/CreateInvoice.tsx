@@ -480,7 +480,8 @@ export function CreateInvoice({
                                                                 method.type ===
                                                                     "bank" && (
                                                                     <DropdownMenuCheckboxItem className="cursor-pointer"
-                                                                        checked={
+                                                                    key={method.id}   
+                                                                    checked={
                                                                             paymentMethod.id ===
                                                                             method.id
                                                                         }

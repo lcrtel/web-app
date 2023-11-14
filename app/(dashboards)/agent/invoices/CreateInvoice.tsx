@@ -258,7 +258,7 @@ export function CreateInvoice({
                                         </div>
                                         <div className="flex flex-col items-start gap-2">
                                             <Label>Gateway</Label>
-                                          
+
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>
                                                     <Button
@@ -315,7 +315,9 @@ export function CreateInvoice({
                                                                         onCheckedChange={(
                                                                             e
                                                                         ) => {
-                                                                            setGatewayID(gateway.id)
+                                                                            setGatewayID(
+                                                                                gateway.id
+                                                                            );
                                                                             setRate(
                                                                                 gateway.rate
                                                                             );
@@ -638,6 +640,9 @@ export function CreateInvoice({
                                                                 method.type ===
                                                                     "bank" && (
                                                                     <DropdownMenuCheckboxItem
+                                                                        key={
+                                                                            method.id
+                                                                        }
                                                                         className="cursor-pointer"
                                                                         checked={
                                                                             paymentMethod.id ===
@@ -720,7 +725,7 @@ export function CreateInvoice({
                                             !endDate ||
                                             !startDate ||
                                             duration === 0 ||
-                                            calls === 0 
+                                            calls === 0
                                                 ? true
                                                 : false
                                         }

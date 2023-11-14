@@ -484,6 +484,7 @@ export function CreateInvoice({
                                                                             paymentMethod.id ===
                                                                             method.id
                                                                         }
+                                                                        key={method.id}
                                                                         onCheckedChange={(
                                                                             e
                                                                         ) =>

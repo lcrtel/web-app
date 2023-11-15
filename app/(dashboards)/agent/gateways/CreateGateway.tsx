@@ -92,7 +92,7 @@ const CreateGateway = ({ routes, clients }: { routes: any; clients: any }) => {
 
     return (
         <>
-            <Button onClick={(e) => setIsOpen(true)}>Create Gateway</Button>
+            <Button size='sm' onClick={(e) => setIsOpen(true)}>Create Gateway</Button>
             <AnimatePresence>
                 {isOpen && (
                     <>
@@ -302,16 +302,12 @@ const CreateGateway = ({ routes, clients }: { routes: any; clients: any }) => {
                                                                                 }{" "}
                                                                                 -{" "}
                                                                                 {
-                                                                                    route
-                                                                                        .profiles
-                                                                                        .name
+                                                                                    route?.profiles?.name
                                                                                 }{" "}
                                                                                 <span className="text-slate-400">
                                                                                     (
                                                                                     {
-                                                                                        route
-                                                                                            .profiles
-                                                                                            .company_name
+                                                                                        route?.profiles?.company_name
                                                                                     }
 
                                                                                     )

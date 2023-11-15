@@ -43,6 +43,20 @@ import formatTimestamptz from "@/utils/formatTimestamptz";
 
 export const columns: ColumnDef<Route>[] = [
     {
+        accessorKey: "client",
+        header: "Client",
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("client")}</div>
+        ),
+    },
+    {
+        accessorKey: "client_company",
+        header: "Client Company",
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("client_company")}</div>
+        ),
+    },
+    {
         accessorKey: "prefix",
         header: ({ column }) => {
             return (
@@ -61,31 +75,17 @@ export const columns: ColumnDef<Route>[] = [
     {
         accessorKey: "destination",
         header: ({ column }) => {
-            return (
-                <div className=" whitespace-nowrap">
-                    Destination Name
-                </div>
-            );
+            return <div className=" whitespace-nowrap">Destination Name</div>;
         },
         cell: ({ row }) => (
-            <Link
-                href={`/admin/routes/${row.getValue("id")}`}
-                className="capitalize"
-            >
-                {row.getValue("destination")}
-            </Link>
+            <div className="capitalize">{row.getValue("destination")}</div>
         ),
     },
     {
         accessorKey: "destination_code",
         header: "Code",
         cell: ({ row }) => (
-            <Link
-                href={`/admin/routes/${row.getValue("id")}`}
-                className="capitalize"
-            >
-                {row.getValue("destination_code")}
-            </Link>
+            <div className="capitalize">{row.getValue("destination_code")}</div>
         ),
     },
     {
@@ -103,8 +103,8 @@ export const columns: ColumnDef<Route>[] = [
                 </div>
             );
         },
-        cell: ({ row }) => {         
-            return <div className="font-medium">${" "}{row.getValue("rate")}</div>;
+        cell: ({ row }) => {
+            return <div className="font-medium">$ {row.getValue("rate")}</div>;
         },
     },
     {
@@ -123,8 +123,10 @@ export const columns: ColumnDef<Route>[] = [
             );
         },
         cell: ({ row }) => {
-                      return (
-                <div className="font-medium">${" "}{row.getValue("buying_rate")}</div>
+            return (
+                <div className="font-medium">
+                    $ {row.getValue("buying_rate")}
+                </div>
             );
         },
     },
@@ -144,12 +146,7 @@ export const columns: ColumnDef<Route>[] = [
             );
         },
         cell: ({ row }) => (
-            <Link
-                href={`/admin/routes/${row.getValue("id")}`}
-                className="uppercase"
-            >
-                {row.getValue("route_type")}
-            </Link>
+            <div className="uppercase">{row.getValue("route_type")}</div>
         ),
     },
     {
@@ -168,53 +165,16 @@ export const columns: ColumnDef<Route>[] = [
             );
         },
         cell: ({ row }) => (
-            <Link
-                href={`/admin/routes/${row.getValue("id")}`}
-                className="capitalize"
-            >
-                {formatTimestamptz(row.getValue("created_at"))}
-            </Link>
+            <div className="capitalize">{formatDate(row.getValue("created_at"))}</div>
         ),
     },
-    // {
-    //     accessorKey: "verification",
-    //     header: ({ column }) => {
-    //         return (
-    //             <div
-    //                 className="flex gap-2 items-center cursor-pointer"
-    //                 onClick={() =>
-    //                     column.toggleSorting(column.getIsSorted() === "asc")
-    //                 }
-    //             >
-    //                 Status
-    //                 <ArrowUpDown className=" h-4 w-4" />
-    //             </div>
-    //         );
-    //     },
-    //     cell: ({ row }) => (
-    //         <Link
-    //             href={`/admin/routes/${row.getValue("id")}`}
-    //             className="capitalize"
-    //         >
-    //             {row.getValue("verification") === "verified" ? (
-    //                 <span className="text-xs font-medium bg-green-100 border-[1.5px] border-green-200 text-green-500 rounded-full px-2 py-1 ml-2">
-    //                     Verified
-    //                 </span>
-    //             ) : (
-    //                 <span className="text-xs bg-slate-100 border-[1.5px] border-slate-200  text-slate-500 rounded-full px-2 py-1 ml-2">
-    //                     Pending
-    //                 </span>
-    //             )}
-    //         </Link>
-    //     ),
-    // },
     {
         accessorKey: "id",
         header: "",
         cell: ({ row }) => {
             const id = row.getValue("id");
             return (
-                <div className="flex gap-2">
+                <div className="flex gap-2  items-center justify-end">
                     <div className="text-red-500">
                         <DeleteRoute routeID={id as string} />
                     </div>{" "}

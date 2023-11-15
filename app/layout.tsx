@@ -2,11 +2,12 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Toast from "./Toast";
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from "@vercel/analytics/react";
 import { fetchUserRole } from "@/utils/user";
 import { redirect } from "next/navigation";
+import { RefreshOnFocus } from "@/components/refresh-on-focus";
 
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,13 +25,15 @@ export default async function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
-     
-     
+    let date = new Date();
     return (
         <html lang="en">
             <body className={`${inter.className} text-primary-500 `}>
                 <Toast />
-                <main> {children} </main>
+                <main className="relative">
+                    <RefreshOnFocus />
+                    {children}{" "}
+                </main>
                 <Analytics />
             </body>
         </html>

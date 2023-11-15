@@ -114,7 +114,7 @@ export function CreateInvoice({
                     endDate
                 )}. Calls: ${calls}. Duration: ${duration}mins.`,
                 total_amount: (duration * rate).toFixed(2),
-                bill_to: paymentMethod.details,
+                bill_to: paymentMethod?.details,
             }),
         }).then(async (response) => {
             if (!response.ok) {
@@ -466,11 +466,17 @@ export function CreateInvoice({
                                                     <DropdownMenuTrigger
                                                         asChild
                                                     >
-                                                        <Button variant="ghost" size='sm'>
-                                                           Choose
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="sm"
+                                                        >
+                                                            Choose
                                                         </Button>
                                                     </DropdownMenuTrigger>
-                                                    <DropdownMenuContent className="w-full" align="end">
+                                                    <DropdownMenuContent
+                                                        className="w-full"
+                                                        align="end"
+                                                    >
                                                         <DropdownMenuLabel>
                                                             Bank Accounts
                                                         </DropdownMenuLabel>
@@ -479,12 +485,15 @@ export function CreateInvoice({
                                                             (method: any) =>
                                                                 method.type ===
                                                                     "bank" && (
-                                                                    <DropdownMenuCheckboxItem className="cursor-pointer"
+                                                                    <DropdownMenuCheckboxItem
+                                                                        className="cursor-pointer"
                                                                         checked={
                                                                             paymentMethod.id ===
                                                                             method.id
                                                                         }
-                                                                        key={method.id}
+                                                                        key={
+                                                                            method.id
+                                                                        }
                                                                         onCheckedChange={(
                                                                             e
                                                                         ) =>
@@ -562,7 +571,8 @@ export function CreateInvoice({
                                             !endDate ||
                                             !startDate ||
                                             duration === 0 ||
-                                            calls === 0
+                                            calls === 0 ||
+                                            !paymentMethod?.details
                                                 ? true
                                                 : false
                                         }

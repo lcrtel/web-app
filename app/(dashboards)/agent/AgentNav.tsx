@@ -40,13 +40,13 @@ const AgentNav = ({ userRole, user }: { user: any; userRole: any }) => {
 
     const adminNav = [
         ["Routes", "/agent/routes"],
-        ["Gateways", "/agent/gateways"],
         ["Targets", "/agent/targets"],
+        ["Gateways", "/agent/gateways"],
         ["Clients", "/agent/clients"],
         ["Vendors", "/agent/vendors"],
         ["Invoices", "/agent/invoices"],
-        ["Transactions", "/agent/transactions"],
-        ["Config", "/agent/config"],
+        // ["Transactions", "/agent/transactions"],
+        // ["Config", "/agent/config"],
     ].map(([title, url]) => (
         <li
             key={title}

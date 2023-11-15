@@ -774,12 +774,12 @@ export function AddRouteTable({ users }: { users: any }) {
                                                 users.find(
                                                     (user: any) =>
                                                         user.id === client
-                                                )?.user_metadata.name
+                                                )?.name
                                             }{" "}
                                             {users.find(
                                                 (user: any) =>
                                                     user.id === client
-                                            )?.user_metadata.company_name && (
+                                            )?.company_name && (
                                                 <span className="text-slate-400">
                                                     (
                                                     {
@@ -787,8 +787,7 @@ export function AddRouteTable({ users }: { users: any }) {
                                                             (user: any) =>
                                                                 user.id ===
                                                                 client
-                                                        )?.user_metadata
-                                                            .company_name
+                                                        )?.company_name
                                                     }
                                                     )
                                                 </span>
@@ -803,60 +802,42 @@ export function AddRouteTable({ users }: { users: any }) {
                             <PopoverContent className=" p-0" align="start">
                                 <Command>
                                     <CommandInput placeholder="Search clients..." />
-                                    <CommandEmpty>
-                                        No clients found.
-                                    </CommandEmpty>
                                     <CommandGroup>
-                                        {users
-                                            .filter(
-                                                (item: any) =>
-                                                    item.user_metadata.role ===
-                                                        "vendor" ||
-                                                    item.user_metadata.role ===
-                                                        "client"
-                                            )
-                                            .map((user: any) => (
-                                                <CommandItem
-                                                    key={user.id}
-                                                    onSelect={() => {
-                                                        setClient(
-                                                            user.id === client
-                                                                ? ""
-                                                                : user.id
-                                                        );
-                                                        setOpen(false);
-                                                    }}
-                                                >
-                                                    <Check
-                                                        className={cn(
-                                                            "mr-2 h-4 w-4",
-                                                            client === user.id
-                                                                ? "opacity-100"
-                                                                : "opacity-0"
-                                                        )}
-                                                    />
-                                                    {user.user_metadata.name}
-                                                    {user.user_metadata
-                                                        .company_name && (
-                                                        <span className="text-slate-400">
-                                                            (
-                                                            {
-                                                                user
-                                                                    .user_metadata
-                                                                    .company_name
-                                                            }
-                                                            )
-                                                        </span>
+                                        {users.map((user: any) => (
+                                            <CommandItem
+                                                key={user.id}
+                                                onSelect={() => {
+                                                    setClient(
+                                                        user.id === client
+                                                            ? ""
+                                                            : user.id
+                                                    );
+                                                    setOpen(false);
+                                                }}
+                                            >
+                                                <Check
+                                                    className={cn(
+                                                        "mr-2 h-4 w-4",
+                                                        client === user.id
+                                                            ? "opacity-100"
+                                                            : "opacity-0"
                                                     )}
-                                                </CommandItem>
-                                            ))}
+                                                />
+                                                {user.name}
+                                                {user.company_name && (
+                                                    <span className="text-slate-400">
+                                                        ({user.company_name})
+                                                    </span>
+                                                )}
+                                            </CommandItem>
+                                        ))}
                                     </CommandGroup>
                                 </Command>
                             </PopoverContent>
                         </Popover>
                     </div>
                     <div className="text-sm flex gap-2 items-center whitespace-nowrap">
-                        <p>{table.getFilteredRowModel().rows.length} routes</p>
+                        <p>{table.getFilteredRowModel().rows.length} target(s)</p>
                         {data.length ? (
                             <Button type="submit">
                                 {posting ? (

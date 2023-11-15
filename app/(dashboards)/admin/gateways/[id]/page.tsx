@@ -110,7 +110,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                                     </div>
                                 </HoverCardContent>
                             </HoverCard>
-                            <p className=" font-semibold ">
+                            <p className=" font-semibold capitalize ">
                                 {gateway?.routes?.destination}-
                                 <span className="uppercase">
                                     {gateway?.routes?.route_type}
@@ -125,13 +125,13 @@ export default async function Page({ params }: { params: { id: string } }) {
                             <p className=" text-sm text-gray-500">Client</p>
                             <Link
                                 href={`/admin/users/${gateway?.client_id}`}
-                                className="flex gap-2 group"
+                                className="flex items-center font-semibold capitalize gap-2 group"
                             >
                                 {gateway?.profiles?.name}{" "}
                                 <span className="text-slate-400">
                                     ({gateway?.profiles?.company_name})
                                 </span>
-                                <HiOutlineExternalLink className="w-5 h-5 hidden group-hover:block" />
+                                <HiOutlineExternalLink className="w-4 h-4 text-slate-400" />
                             </Link>
                         </div>
                         <div>
@@ -154,7 +154,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                             <p className=" text-sm text-gray-500">
                                 Payment Type
                             </p>
-                            <p className="flex gap-2 group capitalize">
+                            <p className="flex gap-2 group capitalize  font-semibold ">
                                 {gateway?.payment_type}
                             </p>
                         </div>
@@ -175,7 +175,8 @@ export default async function Page({ params }: { params: { id: string } }) {
                     <div className="grid sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
                         {invoices?.length ? (
                             invoices.map((invoice: any) => (
-                                <div
+                                <Link
+                                    href={`/admin/invoices/${invoice.invoice_id}`}
                                     key={invoice.invoice_id}
                                     className="border rounded-lg  bg-slate-50"
                                 >
@@ -224,7 +225,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                                             <p>${invoice.total_amount}</p>
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
                             ))
                         ) : (
                             <div className="border rounded-lg p-4 text-center text-gray-400">

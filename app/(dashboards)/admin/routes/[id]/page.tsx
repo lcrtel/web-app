@@ -20,7 +20,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     let { data: purchase_requests, error } = await supabase
         .from("purchase_requests")
         .select(`*, profiles (*)`)
-        .eq("route_id", params.id);
+        .match({ route_id: params.id, status: "pending" });
 
     let { data: gateways } = await supabase
         .from("gateways")
@@ -31,7 +31,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         <div>
             <div className="space-y-6">
                 <div>
-                    <h3 className="text-lg font-semibold tracking-tight">
+                    <h3 className="text-xl font-bold tracking-tight">
                         Route Details
                     </h3>
                     <p className="text-sm text-muted-foreground">
@@ -143,120 +143,114 @@ export default async function Page({ params }: { params: { id: string } }) {
                         </p>
                     </div>
                 </div>
-                {route.verification === "verified" ? (
-                    purchase_requests?.length ? (
-                        <div>
-                            <h3 className="text-lg font-semibold tracking-tight">
-                                Purchase Requests
-                            </h3>
-                            {purchase_requests?.map((purchase_request) => (
-                                <div
-                                    key={purchase_request.id}
-                                    className={`flex flex-col mt-2 gap-2 shadow hover:translate-x-1 cursor-pointer transition-all ease-in-out border-[1.5px] rounded-md p-4  ${
-                                        purchase_request.status === "approved"
-                                            ? "bg-gradient-to-l from-green-100 to-green-50 border-green-100 shadow-green-100"
-                                            : "bg-gradient-to-l from-slate-100 to-slate-50 border-slate-100 shadow-slate-100"
-                                    }`}
-                                >
-                                    <div className="flex justify-between">
-                                        <p>
-                                            Client:{" "}
-                                            {purchase_request.profiles?.name} (
-                                            {
-                                                purchase_request.profiles
-                                                    ?.company_name
-                                            }
-                                            )
-                                        </p>
-                                        <p>
-                                            {purchase_request.status ===
-                                            "verified" ? (
-                                                <span className="text-xs font-medium bg-green-100 border-[1.5px] border-green-200 text-green-500 rounded-full px-2 py-1 ml-2">
-                                                    Verified
-                                                </span>
-                                            ) : purchase_request.status ===
-                                              "pending" ? (
-                                                <span className="text-xs bg-slate-100 border-[1.5px] border-slate-200  text-slate-500 rounded-full px-2 py-1 ml-2">
-                                                    Pending
-                                                </span>
-                                            ) : (
-                                                <span className="text-xs bg-slate-100 border-[1.5px] border-slate-200  text-slate-500 rounded-full px-2 py-1 ml-2">
-                                                    Negotiation
-                                                </span>
-                                            )}
-                                        </p>
-                                    </div>
+                {purchase_requests?.length ? (
+                    <div>
+                        <h3 className="text-lg font-semibold tracking-tight">
+                            Purchase Requests
+                        </h3>
+                        {purchase_requests?.map((purchase_request) => (
+                            <div
+                                key={purchase_request.id}
+                                className={`flex flex-col mt-2 gap-2 shadow hover:translate-x-1 cursor-pointer transition-all ease-in-out border-[1.5px] rounded-md p-4 `}
+                            >
+                                <div className="flex justify-between">
                                     <p>
-                                        Requested on:{" "}
-                                        {formatTimestamptz(
-                                            purchase_request.created_at
+                                        Client:{" "}
+                                        {purchase_request.profiles?.name} (
+                                        {
+                                            purchase_request.profiles
+                                                ?.company_name
+                                        }
+                                        )
+                                    </p>
+                                    <p>
+                                        {purchase_request.status ===
+                                        "verified" ? (
+                                            <span className="text-xs font-medium bg-green-100 border-[1.5px] border-green-200 text-green-500 rounded-full px-2 py-1 ml-2">
+                                                Verified
+                                            </span>
+                                        ) : purchase_request.status ===
+                                          "pending" ? (
+                                            <span className="text-xs bg-slate-100 border-[1.5px] border-slate-200  text-slate-500 rounded-full px-2 py-1 ml-2">
+                                                Pending
+                                            </span>
+                                        ) : (
+                                            <span className="text-xs bg-slate-100 border-[1.5px] border-slate-200  text-slate-500 rounded-full px-2 py-1 ml-2">
+                                                Negotiation
+                                            </span>
                                         )}
                                     </p>
-                                    <p>Message: {purchase_request.message}</p>
-                                    <p>
-                                        Buying Rate:{" "}
-                                        {purchase_request?.buying_rate
-                                            ? new Intl.NumberFormat("en-US", {
-                                                  style: "currency",
-                                                  currency: "USD",
-                                              }).format(
-                                                  parseFloat(
-                                                      purchase_request?.buying_rate
-                                                  )
-                                              )
-                                            : "N/A"}
-                                    </p>
-                                    <p>
-                                        Preferred Payment Type:{" "}
-                                        <span className="capitalize">
-                                            {purchase_request.payment_type}
-                                        </span>
-                                    </p>
                                 </div>
-                            ))}
-                        </div>
-                    ) : null
+                                <p>
+                                    Requested on:{" "}
+                                    {formatTimestamptz(
+                                        purchase_request.created_at
+                                    )}
+                                </p>
+                                <p>Message: {purchase_request.message}</p>
+                                <p>
+                                    Buying Rate:{" "}
+                                    {purchase_request?.buying_rate
+                                        ? new Intl.NumberFormat("en-US", {
+                                              style: "currency",
+                                              currency: "USD",
+                                          }).format(
+                                              parseFloat(
+                                                  purchase_request?.buying_rate
+                                              )
+                                          )
+                                        : "N/A"}
+                                </p>
+                                <p>
+                                    Preferred Payment Type:{" "}
+                                    <span className="capitalize">
+                                        {purchase_request.payment_type}
+                                    </span>
+                                </p>
+                            </div>
+                        ))}
+                    </div>
                 ) : null}
                 {gateways?.length ? (
                     <div>
                         <h3 className="text-lg font-semibold tracking-tight">
                             Gateways
                         </h3>
-                        {gateways?.map((gateway) => (
-                            <Link href={`/admin/gateways/${gateway.id}`}
-                                key={gateway.id}
-                                className={`flex flex-col mt-2 gap-2 shadow hover:translate-x-1 cursor-pointer transition-all ease-in-out border-[1.5px] rounded-md p-4  ${
-                                    gateway.status === "active"
-                                        ? "bg-gradient-to-l from-green-100 to-green-50 border-green-100 shadow-green-100"
-                                        : "bg-gradient-to-l from-slate-100 to-slate-50 border-slate-100 shadow-slate-100"
-                                }`}
-                            >
-                                <div className="flex justify-between">
-                                    <div>
+                        <div className="grid  sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+                            {gateways?.map((gateway) => (
+                                <Link
+                                    href={`/admin/gateways/${gateway.id}`}
+                                    key={gateway.id}
+                                    className={`flex flex-col mt-2 bg-slate-50 gap-2 hover:shadow-lg hover:shadow-slate-300/50 cursor-pointer transition-all ease-in border rounded-xl p-4`}
+                                >
+                                    <div className="flex justify-between">
+                                        <div>
+                                            <p>Gateway Name: {gateway.name}</p>
+                                            <p className="text-sm text-slate-400">
+                                                Client: {gateway.profiles?.name}{" "}
+                                                (
+                                                {gateway.profiles?.company_name}
+                                                )
+                                            </p>
+                                        </div>
                                         <p>
-                                            Gateway Name:{" "}
-                                            {gateway.name}
-                                        </p>
-                                        <p className="text-sm text-slate-400">
-                                        Client: {gateway.profiles?.name} (
-                                        {gateway.profiles?.company_name})</p>
-                                    </div>
-                                    <p>
-                                        {gateway.status === "active" ? (
-                                            <span className="text-xs font-medium bg-green-100 border-[1.5px] border-green-200 text-green-500 rounded-full px-2 py-1 ml-2">
-                                                Active
-                                            </span>
-                                        ) : (
-                                            gateway.status === "pending" && (
-                                                <span className="text-xs bg-slate-100 border-[1.5px] border-slate-200  text-slate-500 rounded-full px-2 py-1 ml-2">
-                                                    Pending
+                                            {gateway.status === "active" ? (
+                                                <span className="text-xs font-medium bg-green-100 border-[1.5px] border-green-200 text-green-500 rounded-full px-2 py-1 ml-2">
+                                                    Active
                                                 </span>
-                                            )
-                                        )}
-                                    </p>
-                                </div>
-                            </Link>
-                        ))}
+                                            ) : (
+                                                gateway.status ===
+                                                    "pending" && (
+                                                    <span className="text-xs bg-slate-100 border-[1.5px] border-slate-200  text-slate-500 rounded-full px-2 py-1 ml-2">
+                                                        Pending
+                                                    </span>
+                                                )
+                                            )}
+                                        </p>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
                     </div>
                 ) : null}
 

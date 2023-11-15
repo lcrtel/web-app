@@ -24,11 +24,11 @@ export default async function Page({ params }: { params: { id: string } }) {
         <div>
             <div className="space-y-6">
                 <div>
-                    <h3 className="text-lg font-semibold tracking-tight">
-                        Buying Target Details
+                    <h3 className="text-xl font-bold tracking-tight">
+                        Target Details
                     </h3>
                     <p className="text-sm text-muted-foreground">
-                        View and edit route details
+                        View and edit target details
                     </p>
                 </div>
 

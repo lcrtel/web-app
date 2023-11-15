@@ -15,8 +15,6 @@ export async function fetchVerfiedRoutes() {
         .from("routes")
         .select("*")
         .eq("verification", "verified");
-
-        console.log(verified_routes);
         
 
     function addVendorNameToRoutes(routes: any, users: any) {

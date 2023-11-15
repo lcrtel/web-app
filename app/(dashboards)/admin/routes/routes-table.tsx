@@ -32,27 +32,6 @@ import { HiOutlineExternalLink } from "react-icons/hi";
 import DeleteRoute from "./[id]/DeleteRoute";
 
 export const columns: ColumnDef<Route>[] = [
-    // {
-    //     id: "select",
-    //     header: ({ table }) => (
-    //         <Checkbox
-    //             checked={table.getIsAllPageRowsSelected()}
-    //             onCheckedChange={(value: boolean) =>
-    //                 table.toggleAllPageRowsSelected(!!value)
-    //             }
-    //             aria-label="Select all"
-    //         />
-    //     ),
-    //     cell: ({ row }) => (
-    //         <Checkbox
-    //             checked={row.getIsSelected()}
-    //             onCheckedChange={(value: boolean) =>
-    //                 row.toggleSelected(!!value)
-    //             }
-    //             aria-label="Select row"
-    //         />
-    //     ),
-    // },
     {
         accessorKey: "vendor",
         header: ({ column }) => {
@@ -263,7 +242,7 @@ export const columns: ColumnDef<Route>[] = [
         cell: ({ row }) => {
             const id = row.getValue("id");
             return (
-                <div className="flex gap-2">
+                <div className="flex gap-2 items-center justify-end">
                     <div className="text-red-500">
                         <DeleteRoute routeID={id as string} />
                     </div>{" "}

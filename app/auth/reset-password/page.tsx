@@ -6,7 +6,7 @@ import ResetForm from "./reset-form";
 export const metadata: Metadata = {
     title: "Reset Password",
 };
-
+export const dynamic = "force-dynamic";
 const page =  () => {
 
     return (

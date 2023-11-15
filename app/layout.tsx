@@ -6,6 +6,8 @@ import { Analytics } from '@vercel/analytics/react';
 import { fetchUserRole } from "@/utils/user";
 import { redirect } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {

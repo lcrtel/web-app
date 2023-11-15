@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import AdminNav from "./admin-nav";
 import { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0; // revalidate at most every hour
 
 
 export default async function DashboardLayout({

@@ -13,7 +13,7 @@ const CheckSession = async () => {
         redirect("/user");
     }
 };
-
+export const dynamic = "force-dynamic";
 export default function DashboardLayout({
     children, // will be a page or nested layout
 }: {

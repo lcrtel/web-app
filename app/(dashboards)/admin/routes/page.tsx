@@ -15,7 +15,7 @@ const Routes = async () => {
     return (
         <>
             {" "}
-            <pre>{JSON.stringify(verified_routes,null,2)}</pre>
+            {/* <pre>{JSON.stringify(verified_routes,null,2)}</pre> */}
             <div className="w-full my-3">
                 <RoutesTable data={verified_routes} />
                 {/* <pre>{JSON.stringify(unverified_routes, null, 2)}</pre> */}

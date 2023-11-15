@@ -21,7 +21,7 @@ const page = async () => {
             {targets?.length ? (
                 <>
                     <h3 className="text-xl pt-4 mb-2 font-semibold text-primary-500 flex items-center tracking-tight">
-                        Routes
+                        Our Targets
                     </h3>
                     <TargetsTable data={targets} />
                 </>

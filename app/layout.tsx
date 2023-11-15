@@ -10,8 +10,11 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
     metadataBase: new URL("https://lcrtel.com"),
-    title: "LCRTelcom",
-    description: "",
+    title: {
+        template: "%s | LCRTel",
+        default: "LCRTel",
+    },
+    description: "Streamline Your VoIP Trading Experience",
 };
 
 export default async function RootLayout({

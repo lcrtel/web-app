@@ -108,7 +108,7 @@ export function PostTargetTable() {
             body: JSON.stringify(data),
         });
         router.refresh();
-        router.push("/user/routes/targets");
+        router.push("/user/my-targets");
         toast.success("Targets posted!");
         setPosting(false);
         setData([]);

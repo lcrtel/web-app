@@ -24,7 +24,7 @@ export default function DeleteRoute({ routeID }: { routeID: string }) {
             .from("routes")
             .delete()
             .eq("id", routeID);
-        toast.success("Route offer deleted");
+        toast.success("Route deleted");
 
         router.refresh();
     };

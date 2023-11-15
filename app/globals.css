@@ -70,3 +70,19 @@
   0%, 80%, 100% { box-shadow: 0 2.5em 0 -1.3em }
   40% { box-shadow: 0 2.5em 0 0 }
 }
+
+
+
+.animate-counter {
+  --num: 0;
+}
+
+@keyframes counter {
+  from {
+    --num: 0;
+  }
+
+  to {
+    --num: attr(data-num);
+  }
+}

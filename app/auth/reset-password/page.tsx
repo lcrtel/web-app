@@ -1,17 +1,13 @@
-import { cookies } from "next/headers";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import ResetForm from "./reset-form";
-import { supabaseRouteHandler } from "@/lib/supabaseRouteHandler";
 
-export const dynamic = "force-dynamic";
+export const metadata: Metadata = {
+    title: "Reset Password",
+};
 
-const page = async () => {
-    const supabase = await supabaseRouteHandler()
-
-    const {
-        data: { session },
-    } = await supabase.auth.getSession();
+const page =  () => {
 
     return (
         <div className="w-full md:w-2/3 p-8  flex items-center justify-center">
@@ -25,7 +21,7 @@ const page = async () => {
                             height={30}
                         />
                     </Link>
-                    <h1 className="text-2xl font-semibold tracking-tight">
+                    <h1 className="text-2xl font-bold tracking-tight">
                         Reset Password
                     </h1>
                     <p className="text-sm text-gray-400 ">

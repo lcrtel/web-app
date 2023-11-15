@@ -48,7 +48,7 @@ const page = async () => {
                     </p>
                 </Link>
                 {/* <Link
-                    href="/user/market/targets"
+                    href="/user/targets"
                     passHref
                     className="bg-surface hover:scale-[102%] transition-all ease-in-out border-2 border-white rounded-lg shadow  p-5"
                 >
@@ -125,7 +125,7 @@ const page = async () => {
                     <div className="gap-2  h-12 text-center flex items-center text-sm  justify-center border py-10 rounded-lg">
                         <p>No gateways yet</p>
                         {/* <Link
-                            href="/user/market/offers"
+                            href="/user/routes"
                             className="bg-primary-500 px-2 ml-2 py-1 text-white rounded-md"
                         >
                             Add now
@@ -153,7 +153,7 @@ const page = async () => {
                                 className={`flex gap-5 shadow-sm hover:translate-x-1 cursor-pointer transition-all ease-in-out duration-500 items-center justify-between border rounded-md px-4 py-2  `}
                             >
                                 <Link
-                                    href={`/user/market/offers/${item.route_id}`}
+                                    href={`/user/routes/${item.route_id}`}
                                     passHref
                                     className="flex gap-4"
                                 >
@@ -175,7 +175,7 @@ const page = async () => {
                     <div className="gap-2  h-12 text-center flex items-center text-sm  justify-center border py-10 rounded-lg">
                         <p>No routes in your watchlist</p>
                         <Link
-                            href="/user/market/offers"
+                            href="/user/routes"
                             className="bg-primary-500 px-2 ml-2 py-1 text-white rounded-md"
                         >
                             Add now

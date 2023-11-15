@@ -14,8 +14,9 @@ export async function fetchUnVerfiedRoutes() {
 
     let { data: unverified_routes } = await supabase
         .from("routes")
-        .select("*")
-        .eq("verification", "pending");
+        .select(`*, profiles (agent_id)`)
+        .eq("profiles.agent_id", user?.id)
+        .match({ verification: "pending" });
 
     function addVendorNameToRoutes(routes: any, users: any) {
         return routes

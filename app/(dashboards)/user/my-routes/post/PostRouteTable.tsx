@@ -127,13 +127,9 @@ export function PostOffersTable() {
             toast.error(error.message);
             return;
         }
-        fetch(`${location.origin}/api/emails/routes/post-offer`, {
-            method: "POST",
-            body: JSON.stringify(data),
-        });
-
+        
         router.refresh();
-        router.push("/user/routes/offers");
+        router.push("/user/my-routes");
         toast.success("Routes posted");
         setPosting(false);
         setData([]);
@@ -141,6 +137,10 @@ export function PostOffersTable() {
         if (storedRouteData) {
             localStorage.removeItem("pendingRouteOffersData");
         }
+        fetch(`${location.origin}/api/emails/routes/post-offer`, {
+            method: "POST",
+            body: JSON.stringify(data),
+        });
     };
 
     const columns = useMemo<ColumnDef<any>[]>(

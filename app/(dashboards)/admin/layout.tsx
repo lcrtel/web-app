@@ -2,9 +2,9 @@ import { supabaseServer } from "@/lib/supabase-server";
 import { fetchUserMetadata, fetchUserRole } from "@/utils/user";
 import { redirect } from "next/navigation";
 import AdminNav from "./admin-nav";
+import { Metadata } from "next";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0; // revalidate at most every hour
+
 
 export default async function DashboardLayout({
     children, // will be a page or nested layout

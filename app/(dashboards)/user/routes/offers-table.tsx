@@ -104,7 +104,7 @@ export const columns: ColumnDef<Route>[] = [
         },
         cell: ({ row }) => (
             <Link
-                href={`/user/market/offers/${row.getValue("id")}`}
+                href={`/user/routes/${row.getValue("id")}`}
                 className="capitalize"
             >
                 {row.getValue("destination")}
@@ -116,7 +116,7 @@ export const columns: ColumnDef<Route>[] = [
         header: "Code",
         cell: ({ row }) => (
             <Link
-                href={`/user/market/offers/${row.getValue("id")}`}
+                href={`/user/routes/${row.getValue("id")}`}
                 className="capitalize"
             >
                 {row.getValue("destination_code")}
@@ -153,7 +153,7 @@ export const columns: ColumnDef<Route>[] = [
         },
         // cell: ({ row }) => (
         //     <Link
-        //         href={`/user/market/offers/${row.getValue("id")}`}
+        //         href={`/user/routes/${row.getValue("id")}`}
         //         className="uppercase"
         //     >
         //         {row.getValue("rate")}
@@ -177,7 +177,7 @@ export const columns: ColumnDef<Route>[] = [
         },
         cell: ({ row }) => (
             <Link
-                href={`/user/market/offers/${row.getValue("id")}`}
+                href={`/user/routes/${row.getValue("id")}`}
                 className="uppercase"
             >
                 {row.getValue("route_type")}
@@ -292,7 +292,7 @@ export const columns: ColumnDef<Route>[] = [
                         toast.error(error.message);
                         return;
                     }
-                    toast.success("Added to the selected routes");
+                    toast.success("Added to cart");
                 } else  {
                     const { data, error } = await supabase
                         .from("selected_routes")
@@ -302,15 +302,14 @@ export const columns: ColumnDef<Route>[] = [
                         toast.error(error.message);
                         return;
                     }
-                    toast.success("Added to the selected routes");
+                    toast.success("Added to vart");
                 }
             };
             return (
                 <div className="flex gap-2">
-                    <Link href={`/user/market/offers/${id}`} className="">
+                    <Link href={`/user/routes/${id}`} className="">
                         <HiOutlineExternalLink className="w-5 h-5 hover:scale-[105%] transition-all ease-in-out" />
                     </Link>
-                    <AddToWatchlist ID={id} />
                     <TooltipProvider delayDuration={200}>
                         <Tooltip>
                             <TooltipTrigger asChild>
@@ -322,7 +321,7 @@ export const columns: ColumnDef<Route>[] = [
                                 </button>
                             </TooltipTrigger>
                             <TooltipContent>
-                                <p>Add to selected routes</p>
+                                <p>Add to cart</p>
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>

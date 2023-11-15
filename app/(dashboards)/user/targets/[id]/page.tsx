@@ -11,11 +11,17 @@ export default async function Page({ params }: { params: { id: string } }) {
         .select("*")
         .match({ id: params.id });
     if (target === null) {
-        redirect("/user/market/targets");
+        redirect("/user/targets");
     }
 
     return (
         <div>
+            <Link
+                href="/user/targets"
+                className="inline-flex items-center text-gray-400 hover:text-primary-500 transition-all ease-in-out mb-2"
+            >
+                <HiOutlineArrowCircleLeft className="mr-1.5" /> Targets
+            </Link>
             <div className="space-y-5">
                 <div>
                     <div className="flex justify-between">
@@ -47,9 +53,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 <div className="grid sm:grid-cols-2 gap-4 bg-surface rounded-lg p-4">
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">Prefix</p>
-                        <p className=" font-semibold">
-                            {target?.[0]?.prefix}
-                        </p>
+                        <p className=" font-semibold">{target?.[0]?.prefix}</p>
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">
@@ -61,27 +65,19 @@ export default async function Page({ params }: { params: { id: string } }) {
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">ASR</p>
-                        <p className=" font-semibold">
-                            {target?.[0]?.asr}
-                        </p>
+                        <p className=" font-semibold">{target?.[0]?.asr}</p>
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">ACD</p>
-                        <p className=" font-semibold">
-                            {target?.[0]?.acd}
-                        </p>
+                        <p className=" font-semibold">{target?.[0]?.acd}</p>
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">PDD</p>
-                        <p className=" font-semibold">
-                            {target?.[0]?.pdd}
-                        </p>
+                        <p className=" font-semibold">{target?.[0]?.pdd}</p>
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">Ports</p>
-                        <p className=" font-semibold">
-                            {target?.[0]?.ports}
-                        </p>
+                        <p className=" font-semibold">{target?.[0]?.ports}</p>
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">Capacity</p>
@@ -90,18 +86,10 @@ export default async function Page({ params }: { params: { id: string } }) {
                         </p>
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
-                        <p className=" text-sm text-gray-500">Client ID</p>
-                        <p className=" font-semibold">
-                            {target?.[0]?.client_id}
-                        </p>
-                    </div>
-                    <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">Posted on</p>
                         <p className=" font-semibold">
                             {target?.[0]?.created_at
-                                ? formatTimestamptz(
-                                      target?.[0]?.created_at
-                                  )
+                                ? formatTimestamptz(target?.[0]?.created_at)
                                 : "_"}
                         </p>
                     </div>
@@ -109,19 +97,11 @@ export default async function Page({ params }: { params: { id: string } }) {
                         <p className=" text-sm text-gray-500">Updated on</p>
                         <p className=" font-semibold">
                             {target?.[0]?.updated_at
-                                ? formatTimestamptz(
-                                      target?.[0]?.updated_at
-                                  )
+                                ? formatTimestamptz(target?.[0]?.updated_at)
                                 : "_"}
                         </p>
                     </div>
                 </div>
-                <Link
-                    href="/user/market/targets"
-                    className="inline-flex items-center text-gray-400 hover:text-primary-500 transition-all ease-in-out mb-2"
-                >
-                    <HiOutlineArrowCircleLeft className="mr-1.5" /> Targets
-                </Link>
             </div>
         </div>
     );

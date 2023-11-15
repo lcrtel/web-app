@@ -74,7 +74,7 @@ export const columns: ColumnDef<Route>[] = [
         },
         cell: ({ row }) => (
             <Link
-                href={`/user/routes/${row.getValue("id")}`}
+                href={`/user/my-routes/${row.getValue("id")}`}
                 className="capitalize"
             >
                 {row.getValue("destination")}
@@ -86,7 +86,7 @@ export const columns: ColumnDef<Route>[] = [
         header: "Code",
         cell: ({ row }) => (
             <Link
-                href={`/user/routes/${row.getValue("id")}`}
+                href={`/user/my-routes/${row.getValue("id")}`}
                 className="capitalize"
             >
                 {row.getValue("destination_code")}
@@ -119,7 +119,7 @@ export const columns: ColumnDef<Route>[] = [
         // },
         cell: ({ row }) => (
             <Link
-                href={`/user/routes/${row.getValue("id")}`}
+                href={`/user/my-routes/${row.getValue("id")}`}
                 className="uppercase"
             >
                 {row.getValue("rate")}
@@ -143,7 +143,7 @@ export const columns: ColumnDef<Route>[] = [
         },
         cell: ({ row }) => (
             <Link
-                href={`/user/routes/${row.getValue("id")}`}
+                href={`/user/my-routes/${row.getValue("id")}`}
                 className="uppercase"
             >
                 {row.getValue("route_type")}
@@ -167,7 +167,7 @@ export const columns: ColumnDef<Route>[] = [
         },
         cell: ({ row }) => (
             <Link
-                href={`/user/routes/${row.getValue("id")}`}
+                href={`/user/my-routes/${row.getValue("id")}`}
                 className="capitalize"
             >
                 {row.getValue("verification") === "verified" ? (
@@ -263,7 +263,7 @@ export const columns: ColumnDef<Route>[] = [
         },
         cell: ({ row }) => (
             <Link
-                href={`/user/routes/${row.getValue("id")}`}
+                href={`/user/my-routes/${row.getValue("id")}`}
                 className="capitalize"
             >
                 {formatTimestamptz(row.getValue("created_at"))}
@@ -280,10 +280,10 @@ export const columns: ColumnDef<Route>[] = [
                     <div className="text-red-500">
                         <DeleteRoute routeID={id as string} />
                     </div>{" "}
-                    <Link href={`/user/routes/offers/post/${id}`} className="">
+                    <Link href={`/user/my-routes/post/${id}`} className="">
                         <HiOutlinePencilAlt className="w-5 h-5" />
                     </Link>
-                    <Link href={`/user/routes/offers/${id}`} className="">
+                    <Link href={`/user/my-routes/${id}`} className="">
                         <HiOutlineExternalLink className="w-5 h-5" />
                     </Link>
                 </div>

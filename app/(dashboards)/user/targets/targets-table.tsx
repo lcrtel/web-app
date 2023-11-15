@@ -92,7 +92,7 @@ export const columns: ColumnDef<Target>[] = [
         },
         cell: ({ row }) => (
             <Link
-                href={`/user/market/targets/${row.getValue("id")}`}
+                href={`/user/targets/${row.getValue("id")}`}
                 className="capitalize"
             >
                 {row.getValue("destination")}
@@ -104,7 +104,7 @@ export const columns: ColumnDef<Target>[] = [
         header: "Code",
         cell: ({ row }) => (
             <Link
-                href={`/user/market/targets/${row.getValue("id")}`}
+                href={`/user/targets/${row.getValue("id")}`}
                 className="capitalize"
             >
                 {row.getValue("destination_code")}
@@ -139,7 +139,7 @@ export const columns: ColumnDef<Target>[] = [
         },
         // cell: ({ row }) => (
         //     <Link
-        //         href={`/user/market/targets/${row.getValue("id")}`}
+        //         href={`/user/targets/${row.getValue("id")}`}
         //         className="uppercase"
         //     >
         //         {row.getValue("rate")}
@@ -163,7 +163,7 @@ export const columns: ColumnDef<Target>[] = [
         },
         cell: ({ row }) => (
             <Link
-                href={`/user/market/targets/${row.getValue("id")}`}
+                href={`/user/targets/${row.getValue("id")}`}
                 className="uppercase"
             >
                 {row.getValue("route_type")}
@@ -262,7 +262,7 @@ export const columns: ColumnDef<Target>[] = [
             const id = row.getValue("id");
             return (
                 <Link
-                    href={`/user/market/targets/${id}`}
+                    href={`/user/targets/${id}`}
                     className="font-medium text-sm  bg-primary-50 px-3 py-1.5 rounded-full text-primary-500 whitespace-nowrap"
                 >
                     Details

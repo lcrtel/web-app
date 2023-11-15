@@ -343,7 +343,7 @@ export function EditRoute({ route }: { route: Route }) {
                             />
                         </div>
                         <SheetClose asChild>
-                            <Button type="submit" className="w-full">Update offer</Button>
+                            <Button type="submit" className="w-full">Update route</Button>
                         </SheetClose>
                     </form>
                 </Form>

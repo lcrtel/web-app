@@ -1,97 +1,78 @@
-import fetchUser from "@/app/post/fetchUser";
-import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
+import MetricsCard from "@/components/MetricsCard";
+import { supabaseServer } from "@/lib/supabase-server";
+import { fetchUserData } from "@/utils/user";
+import { unstable_noStore } from "next/cache";
 import Link from "next/link";
 import { HiArrowRight } from "react-icons/hi";
 
 const Overview = async () => {
-    const supabase = await supabaseAdminServer();
+    const supabase = await supabaseServer();
+    const user = await fetchUserData();
 
-   
     const Routes = async () => {
-        let { data: offers, error } = await supabase
+        unstable_noStore();
+        let { data: verified_routes } = await supabase
             .from("routes")
-            .select("verification")
-            .eq("verification", "verified");
+            .select(`*, profiles (agent_id)`)
+            .match({ verification: "verified" });
+
+        let routes = verified_routes?.filter(
+            (offer) => offer.profiles?.agent_id === user?.id
+        );
+
         return (
-            <Link
-                href="/agent/routes"
-                className="bg-surface hover:scale-[102%] transition-all space-y-2 ease-in-out border-2 border-white rounded-2xl shadow  p-5"
-            >
-                <h3 className="text-sm font-medium text-gray-400 tracking-tight flex items-center justify-between">
-                    Routes <HiArrowRight className="" />
-                </h3>
-                <p className="font-bold tracking-tight text-3xl ">
-                    {offers?.length}
-                </p>
-            </Link>
+            <MetricsCard
+                count={routes?.length}
+                label="Routes"
+                link="/agent/routes"
+            />
         );
     };
 
     const Targets = async () => {
         let { data: targets, error } = await supabase
             .from("targets")
-            .select("id");
+            .select(`*, profiles (agent_id)`);
+
+        let targetCount = targets?.filter(
+            (offer) => offer.profiles?.agent_id === user?.id
+        )?.length;
+
         return (
-            <Link
-                href="/agent/routes/targets"
-                className="bg-surface hover:scale-[102%] transition-all space-y-2 ease-in-out border-2 border-white rounded-2xl shadow  p-5"
-            >
-                <h3 className="text-sm font-medium text-gray-400 tracking-tight flex items-center justify-between">
-                    Targets
-                    <HiArrowRight className="" />
-                </h3>
-                <p className="font-bold tracking-tight text-3xl ">
-                    {targets?.length}
-                </p>
-            </Link>
+            <MetricsCard
+                count={targetCount}
+                label="Targets"
+                link="agent/targets"
+            />
         );
     };
 
     const Clients = async () => {
-        const {
-            data: { users },
-            error,
-        } = await supabase.auth.admin.listUsers();
-        const clients = users.filter(
-            (obj) => obj.user_metadata.role === "client"
-        );
+        let { data: clients, error } = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("agent_id", user?.id)
+            .or(`role.eq.client,role.eq.vendor`);
         return (
-            <Link
-                href="/agent/clients"
-                className="bg-surface hover:scale-[102%] hidden md:block transition-all space-y-2 ease-in-out border-2 border-white rounded-2xl shadow  p-5"
-            >
-                <h3 className="text-sm font-medium text-gray-400 tracking-tight flex items-center justify-between">
-                    Clients
-                    <HiArrowRight className="" />
-                </h3>
-                <p className="font-bold tracking-tight text-3xl ">
-                    {clients?.length}
-                </p>
-            </Link>
+            <MetricsCard
+                count={clients?.length}
+                label="Clients"
+                link="/agent/clients"
+            />
         );
     };
 
     const Vendors = async () => {
-        const {
-            data: { users },
-            error,
-        } = await supabase.auth.admin.listUsers();
-        const vendors = users.filter(
-            (obj) => obj.user_metadata.role === "vendor"
-        );
+       let { data: vendors, error } = await supabase
+           .from("profiles")
+           .select("*")
+           .match({ agent_id: user?.id, role: "vendor" });
         return (
-            <Link
-                href="/agent/vendors"
-                className="bg-surface hover:scale-[102%] hidden md:block transition-all space-y-2 ease-in-out border-2 border-white rounded-2xl shadow  p-5"
-            >
-                <h3 className="text-sm font-medium text-gray-400 tracking-tight flex items-center justify-between">
-                    Vendors
-                    <HiArrowRight className="" />
-                </h3>
-                <p className="font-bold tracking-tight text-3xl ">
-                    {vendors?.length}
-                </p>
-            </Link>
+            <MetricsCard
+                count={vendors?.length}
+                label="Vendors"
+                link="/agent/vendors"
+            />
         );
     };
 

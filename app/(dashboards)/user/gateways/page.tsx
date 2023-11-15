@@ -11,9 +11,7 @@ const page = async () => {
         <div>
             {" "}
             <div className="flex my-5 justify-between">
-                <h3 className="text-2xl tracking-tight font-bold">
-                    Gateways
-                </h3>
+                <h3 className="text-2xl tracking-tight font-bold">Gateways</h3>
             </div>
             {conncetions?.length ? (
                 conncetions?.map((connection) => (
@@ -35,14 +33,14 @@ const page = async () => {
                         </p>
                         <div className="flex items-center gap-2">
                             {connection.status === "active" ? (
-                                <span className="text-xs font-medium bg-green-100 border-[1.5px] border-green-200 text-green-500 rounded-full px-2 py-1 ml-2">
+                                <span className="text-xs font-medium bg-green-100 border-[1.5px] border-green-200 text-green-500 rounded-full px-2 py-1">
                                     Active
                                 </span>
-                            ) : (
-                                <span className="text-xs bg-slate-100 border-[1.5px] border-slate-200  text-slate-500 rounded-full px-2 py-1 ml-2">
-                                    Expired
+                            ) : connection.status === "pending" ? (
+                                <span className="text-xs bg-slate-50 border-[1.5px] border-slate-100  text-slate-500 rounded-full px-2 py-1">
+                                    Pending
                                 </span>
-                            )}
+                            ) : null}
                             <div>
                                 <HiOutlineExternalLink className="-mt-[2px] w-5 h-5" />
                             </div>
@@ -53,7 +51,7 @@ const page = async () => {
                 <div className="gap-2  h-12 text-center flex items-center text-sm  justify-center border py-10 rounded-lg">
                     <p>No gateways found</p>
                     {/* <Link
-                            href="/user/market/offers"
+                            href="/user/routes"
                             className="bg-primary-500 px-2 ml-2 py-1 text-white rounded-md"
                         >
                             Add now

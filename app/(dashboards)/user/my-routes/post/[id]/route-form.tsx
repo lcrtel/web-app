@@ -67,7 +67,7 @@ export function RouteForm({ route }: { route: Route }) {
 
             return;
         }
-        toast.success("Route offer updated");
+        toast.success("Route updated");
         router.refresh();
         router.back();
     }
@@ -236,7 +236,7 @@ export function RouteForm({ route }: { route: Route }) {
                         )}
                     />
                 </div>
-                <Button type="submit">Update offer</Button>
+                <Button type="submit">Update route</Button>
             </form>
         </Form>
     );

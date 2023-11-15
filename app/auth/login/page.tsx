@@ -2,8 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 import LoginForm from "./login-form";
+import { Metadata } from "next";
 
-export const dynamic = "force-dynamic";
+export const metadata: Metadata = {
+    title: "Login",
+};
+
 
 const page = async () => {
 
@@ -19,7 +23,7 @@ const page = async () => {
                             height={30}
                         />
                     </Link>
-                    <h1 className="text-2xl font-semibold tracking-tight">
+                    <h1 className="text-2xl font-bold tracking-tight">
                         Welcome back
                     </h1>
                     <p className="text-sm text-gray-400 ">

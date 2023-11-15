@@ -54,7 +54,7 @@ const page = async () => {
                 <div className="gap-2  h-12 text-center flex items-center text-sm  justify-center border py-10 rounded-lg">
                     <p>No purchase requests found</p>
                     {/* <Link
-                            href="/user/market/offers"
+                            href="/user/routes"
                             className="bg-primary-500 px-2 ml-2 py-1 text-white rounded-md"
                         >
                             Add now

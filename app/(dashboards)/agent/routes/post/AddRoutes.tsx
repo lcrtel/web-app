@@ -779,12 +779,12 @@ export function AddRouteTable({ users }: { users: any }) {
                                                 users.find(
                                                     (user: any) =>
                                                         user.id === vendor
-                                                )?.user_metadata.name
+                                                )?.name
                                             }{" "}
                                             {users.find(
                                                 (user: any) =>
                                                     user.id === vendor
-                                            )?.user_metadata.company_name && (
+                                            )?.company_name && (
                                                 <span className="text-slate-400">
                                                     (
                                                     {
@@ -792,8 +792,7 @@ export function AddRouteTable({ users }: { users: any }) {
                                                             (user: any) =>
                                                                 user.id ===
                                                                 vendor
-                                                        )?.user_metadata
-                                                            .company_name
+                                                        )?.company_name
                                                     }
                                                     )
                                                 </span>
@@ -815,7 +814,7 @@ export function AddRouteTable({ users }: { users: any }) {
                                         {users
                                             .filter(
                                                 (item: any) =>
-                                                    item.user_metadata.role ===
+                                                    item.role ===
                                                         "vendor" 
                                             )
                                             .map((user: any) => (
@@ -838,15 +837,13 @@ export function AddRouteTable({ users }: { users: any }) {
                                                                 : "opacity-0"
                                                         )}
                                                     />
-                                                    {user.user_metadata.name}
-                                                    {user.user_metadata
+                                                    {user.name}
+                                                    {user
                                                         .company_name && (
                                                         <span className="text-slate-400">
                                                             (
                                                             {
-                                                                user
-                                                                    .user_metadata
-                                                                    .company_name
+                                                                user.company_name
                                                             }
                                                             )
                                                         </span>

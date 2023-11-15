@@ -5,7 +5,7 @@ export default function Loading() {
     return (
         <div className="w-[1200px] h-[630px] relative">
             <Image
-                src="/blue_wave_bg.jpg"
+                src="/blue_wave_bg.webp"
                 width={2000}
                 height={2000}
                 alt="Background Image"

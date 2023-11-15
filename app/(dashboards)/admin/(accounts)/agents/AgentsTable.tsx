@@ -182,7 +182,7 @@ export function AgentsTable({ data }: any) {
                                     colSpan={columns.length}
                                     className="h-8 text-center"
                                 >
-                                    No vendors found.
+                                    No agents found.
                                 </TableCell>
                             </TableRow>
                         )}

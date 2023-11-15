@@ -41,7 +41,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             <div className="flex my-5 justify-between items-center border border-red-500 rounded-lg p-4 text-red-500">
                 <div>
                     <h3 className="font-semibold tracking-tight">
-                        Delete offer
+                        Delete route
                     </h3>
                     <p className="text-sm">
                         Once deleted, it will be gone forever. Please be

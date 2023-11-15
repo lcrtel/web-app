@@ -26,7 +26,7 @@ const page = async () => {
         return requests?.length ? (
             <Table>
                 <TableCaption>
-                    A list of pending connection requests.
+                    A list of pending purchase requests.
                 </TableCaption>
                 <TableHeader>
                     <TableRow>
@@ -91,7 +91,7 @@ const page = async () => {
         return requests?.length ? (
             <Table>
                 <TableCaption>
-                    A list of pending connection requests.
+                    A list of approved purchase requests.
                 </TableCaption>
                 <TableHeader>
                     <TableRow>
@@ -158,8 +158,7 @@ const page = async () => {
                 </h1>
                 <ReloadButton />
             </div>
-            <div className="grid gap-5 grid-cols-2">
-                <div className=" space-y-2">
+                <div className=" space-y-2 mb-4">
                     <h2 className=" text-lg tracking-tight font-semibold">
                         Pending Requests
                     </h2>
@@ -171,7 +170,6 @@ const page = async () => {
                     </h2>
                     <ApprovedRequests />
                 </div>
-            </div>
         </div>
     );
 };

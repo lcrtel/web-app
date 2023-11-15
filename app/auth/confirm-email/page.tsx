@@ -2,8 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { HiOutlineMail } from "react-icons/hi";
 import Confirm from "./confirmation";
+import { Metadata } from "next";
 
-const page = async () => {
+export const metadata: Metadata = {
+    title: "Email Confirmation",
+};
+
+const page =  () => {
     return (
         <div className="w-full md:w-2/3 p-8  flex items-center justify-center">
             <section>

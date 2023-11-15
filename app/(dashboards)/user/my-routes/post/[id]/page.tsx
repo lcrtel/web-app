@@ -15,24 +15,24 @@ export default async function Page({ params }: { params: { id: string } }) {
         .select("*")
         .match({ id: params.id });
     if (route?.length === 0) {
-        redirect("/user/routes/offers");
+        redirect("/user/routes");
     }
 
     return (
         <div>
             {" "}
             <Link
-                href="/user/routes/offers"
+                href="/user/my-routes"
                 className="inline-flex items-center text-gray-400 hover:text-primary-500 transition-all ease-in-out mb-2"
             >
-                <HiOutlineArrowCircleLeft className="mr-1.5" /> Manage Offers
+                <HiOutlineArrowCircleLeft className="mr-1.5" /> My Routes
             </Link>
             <div className="mb-3 ">
                 <h2 className="text-2xl font-bold text-primary tracking-tight">
-                    Route Offer Settings
+                    Route Settings
                 </h2>
                 <p className="text-sm text-muted-foreground">
-                    View and edit your route offer details
+                    View and edit your route details
                 </p>
             </div>
             <Separator className="mb-3" />
@@ -40,7 +40,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             <div className="flex my-5 justify-between items-center border border-red-500 rounded-lg p-4 text-red-500">
                 <div>
                     <h3 className="font-semibold tracking-tight">
-                        Delete offer
+                        Delete route
                     </h3>
                     <p className="text-sm">
                         Once deleted, it will be gone forever. Please be

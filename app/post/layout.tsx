@@ -1,11 +1,8 @@
-import Link from "next/link";
 import Image from "next/image";
-import { HiOutlineArrowCircleLeft } from "react-icons/hi";
+import Link from "next/link";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 10; // revalidate at most every hour
 
-export default async function DashboardLayout({
+export default function DashboardLayout({
     children, // will be a page or nested layout
 }: {
     children: React.ReactNode;

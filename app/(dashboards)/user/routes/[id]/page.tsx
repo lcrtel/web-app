@@ -11,21 +11,21 @@ export default async function Page({ params }: { params: { id: string } }) {
         .select("*")
         .match({ id: params.id });
     if (route === null) {
-        redirect("/user/market/offers");
+        redirect("/user/routes");
     }
 
     return (
         <div>
             <div className="space-y-4">
                 <Link
-                    href="/user/market/offers"
+                    href="/user/routes"
                     className="inline-flex items-center text-gray-400 hover:text-primary-500 transition-all ease-in-out"
                 >
-                    <HiOutlineArrowCircleLeft className="mr-1.5" /> Offers
+                    <HiOutlineArrowCircleLeft className="mr-1.5" /> Routes
                 </Link>
                 <div>
                     <div className="flex justify-between">
-                        <h3 className="text-lg font-semibold">Offer Details</h3>
+                        <h3 className="text-lg font-semibold">Route Details</h3>
                     </div>
                     <div className="flex flex-wrap">
                         <p className=" text-sm text-gray-500 mr-2">
@@ -41,7 +41,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                             </span>
                         </p>
                         <p className=" text-sm text-gray-500 mr-2">
-                            Offer Rate:{" "}
+                            Rate:{" "}
                             <span className="font-semibold uppercase text-primary-500">
                                 ${route?.[0]?.selling_rate}
                             </span>

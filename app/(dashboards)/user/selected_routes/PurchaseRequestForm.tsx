@@ -24,6 +24,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { FaWhatsapp } from "react-icons/fa6";
 import { HiTrash } from "react-icons/hi";
 import * as z from "zod";
 
@@ -34,6 +35,7 @@ const FormSchema = z.object({
         .optional(),
     message: z.string().optional(),
     payment_type: z.string(),
+    whatsapp_no: z.string(),
 });
 
 export function PurchaseRequestForm({
@@ -45,6 +47,7 @@ export function PurchaseRequestForm({
 }) {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
+        defaultValues: { buying_rate: selectedRoute.routes?.selling_rate },
     });
     const supabase = supabaseClient();
     const router = useRouter();
@@ -156,10 +159,7 @@ export function PurchaseRequestForm({
                                     Destination Code
                                 </p>
                                 <p className=" font-semibold">
-                                    {
-                                        selectedRoute.routes
-                                            ?.destination_code
-                                    }
+                                    {selectedRoute.routes?.destination_code}
                                 </p>
                             </div>
                             <div className="w-full flex justify-between items-center bg-white border border-slate-100 rounded-md px-2 py-1">
@@ -217,11 +217,31 @@ export function PurchaseRequestForm({
                         name="buying_rate"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Target Buying Rate</FormLabel>
+                                <FormLabel>Target Buying Rate $</FormLabel>
                                 <FormControl>
                                     <Input
                                         type="number"
                                         placeholder="$0.00"
+                                        className="bg-slate-50"
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="whatsapp_no"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="flex gap-1 items-center">
+                                    <FaWhatsapp /> WhatsApp No
+                                </FormLabel>
+                                <FormControl>
+                                    <Input
+                                        type="tel"
+                                        placeholder="Enter your WhatsApp number"
                                         className="bg-slate-50"
                                         {...field}
                                     />

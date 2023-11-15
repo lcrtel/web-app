@@ -746,13 +746,13 @@ export function PostOffersTable() {
             </div>
             <form className=" mt-4 overflow-y-auto" onSubmit={handleSubmit}>
                 <div className="flex items-center justify-between gap-4 mb-4 ">
-                        <p>{table.getFilteredRowModel().rows.length} routes</p>{" "}
+                        <p>{table.getFilteredRowModel().rows.length} route(s)</p>{" "}
                         {data.length ? (
                             <Button type="submit">
                                 {posting ? (
                                     <>
                                         Posting{" "}
-                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        <Loader2 className="ml-2 h-4 w-4 animate-spin" />
                                     </>
                                 ) : (
                                     "Post Offers"

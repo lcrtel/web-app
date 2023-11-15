@@ -33,7 +33,9 @@ import { toast } from "react-hot-toast";
 
 const routeFormSchema = z.object({
     destination: z.string(),
-    rate: z.number(),
+    rate: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
+        message: "Cannot leave this field blank",
+    }),
     route_type: z.string(),
     prefix: z.string(),
     asr: z.string(),
@@ -56,7 +58,7 @@ export function RouteForm({ route }: { route: Target }) {
     async function onSubmit(data: Route) {
         const supabase = supabaseClient();
         const { data: target, error } = await supabase
-            .from("routes")
+            .from("targets")
             .update(data)
             .eq("id", route.id)
             .select();
@@ -65,7 +67,7 @@ export function RouteForm({ route }: { route: Target }) {
         
             return;
         }
-        toast.success("Route details updated");
+        toast.success("Target details updated");
 
         router.refresh();
         router.back();
@@ -98,7 +100,11 @@ export function RouteForm({ route }: { route: Target }) {
                             <FormItem>
                                 <FormLabel>Rate</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Rate" {...field} />
+                                    <Input
+                                        placeholder="Rate"
+                                        type="number"
+                                        {...field}
+                                    />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>

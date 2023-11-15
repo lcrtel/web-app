@@ -6,31 +6,36 @@ import Link from "next/link";
 import { RoutesTable } from "./routes-table";
 import { redirect } from "next/navigation";
 import formatString from "@/utils/formatString";
+import { fetchUserData } from "@/utils/user";
 export const revalidate = 0;
 export default async function Page({ params }: { params: { id: string } }) {
     const supabase = await supabaseServer();
+    const user = await fetchUserData();
     let { data: target } = await supabase
         .from("targets")
         .select("*")
-        .match({ id: params.id });
+        .match({ id: params.id })
+        .single();
     if (target === null) {
         redirect("/user/routes/targets");
     }
+
     let { data: routes, error } = await supabase
         .from("routes")
         .select("*")
-        .match({ destination_code: target?.[0]?.destination_code })
-        .eq("route_type", target?.[0]?.route_type);
+        .match({ destination_code: target?.destination_code })
+        .eq("route_type", target?.route_type)
+        .neq("vendor_id", user?.id);
 
     return (
         <div>
             <div className="">
                 <div>
                     <Link
-                        href="/user/routes/targets"
+                        href="/user/my-targets"
                         className="inline-flex items-center text-gray-400 hover:text-primary-500 transition-all ease-in-out mb-2"
                     >
-                        <HiOutlineArrowCircleLeft className="mr-1.5" /> Manage
+                        <HiOutlineArrowCircleLeft className="mr-1.5" /> My
                         Targets
                     </Link>
                     <div className="mb-3 ">
@@ -43,24 +48,24 @@ export default async function Page({ params }: { params: { id: string } }) {
                             <p className="text-gray-500 mr-2">
                                 Destination:{" "}
                                 <span className="font-semibold capitalize text-primary-500">
-                                    {target?.[0]?.destination}
+                                    {target?.destination}
                                 </span>
                             </p>
                             <p className="text-gray-500 mr-2">
                                 Type:{" "}
                                 <span className="font-semibold uppercase text-primary-500">
-                                    {target?.[0]?.route_type}
+                                    {target?.route_type}
                                 </span>
                             </p>
                             <p className="text-gray-500 mr-2">
                                 Target Rate:{" "}
                                 <span className="font-semibold uppercase text-primary-500">
-                                    ${target?.[0]?.rate}
+                                    ${target?.rate}
                                 </span>
                             </p>
                         </div>
                         <Link
-                            href={`/user/routes/targets/post/${target?.[0]?.id}`}
+                            href={`/user/routes/targets/post/${target?.id}`}
                             className=""
                         >
                             <HiOutlinePencilAlt className="w-5 h-5" />
@@ -70,71 +75,49 @@ export default async function Page({ params }: { params: { id: string } }) {
                 <div className="grid sm:grid-cols-2 gap-4 bg-surface rounded-lg p-4 mb-5">
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">Prefix</p>
-                        <p className=" font-semibold">
-                            {target?.[0]?.prefix}
-                        </p>
+                        <p className=" font-semibold">{target?.prefix}</p>
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">
                             Destination Code
                         </p>
                         <p className=" font-semibold">
-                            {target?.[0]?.destination_code}
+                            {target?.destination_code}
                         </p>
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">ASR</p>
-                        <p className=" font-semibold">
-                            {target?.[0]?.asr}
-                        </p>
+                        <p className=" font-semibold">{target?.asr}</p>
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">ACD</p>
-                        <p className=" font-semibold">
-                            {target?.[0]?.acd}
-                        </p>
+                        <p className=" font-semibold">{target?.acd}</p>
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">PDD</p>
-                        <p className=" font-semibold">
-                            {target?.[0]?.pdd}
-                        </p>
+                        <p className=" font-semibold">{target?.pdd}</p>
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">Ports</p>
-                        <p className=" font-semibold">
-                            {target?.[0]?.ports}
-                        </p>
+                        <p className=" font-semibold">{target?.ports}</p>
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">Capacity</p>
-                        <p className=" font-semibold">
-                            {target?.[0]?.capacity}
-                        </p>
-                    </div>
-                    <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
-                        <p className=" text-sm text-gray-500">Status</p>
-                        <p className=" font-semibold">
-                            {formatString(target?.[0]?.status)}
-                        </p>
+                        <p className=" font-semibold">{target?.capacity}</p>
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">Posted on</p>
                         <p className=" font-semibold">
-                            {target?.[0]?.created_at
-                                ? formatTimestamptz(
-                                      target?.[0]?.created_at
-                                  )
+                            {target?.created_at
+                                ? formatTimestamptz(target?.created_at)
                                 : "_"}
                         </p>
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">Updated on</p>
                         <p className=" font-semibold">
-                            {target?.[0]?.updated_at
-                                ? formatTimestamptz(
-                                      target?.[0]?.updated_at
-                                  )
+                            {target?.updated_at
+                                ? formatTimestamptz(target?.updated_at)
                                 : "_"}
                         </p>
                     </div>

@@ -7,13 +7,19 @@ import { RoutesTable } from "./routes-table";
 import { redirect } from "next/navigation";
 
 import formatString from "@/utils/formatString";
+import { fetchUserData } from "@/utils/user";
+
 export const revalidate = 0;
+
 export default async function Page({ params }: { params: { id: string } }) {
     const supabase = await supabaseServer();
+    const user = await fetchUserData();
+
     let { data: route } = await supabase
         .from("routes")
         .select("*")
-        .match({ id: params.id }).single();
+        .match({ id: params.id })
+        .single();
     if (!route) {
         redirect("/user/my-routes");
     }
@@ -21,7 +27,8 @@ export default async function Page({ params }: { params: { id: string } }) {
         .from("targets")
         .select("*")
         .match({ destination_code: route?.destination_code })
-        .eq("route_type", route?.route_type);
+        .eq("route_type", route?.route_type)
+        .neq("client_id", user?.id);
 
     return (
         <div>
@@ -32,7 +39,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                         className="inline-flex items-center text-gray-400 hover:text-primary-500 transition-all ease-in-out mb-2"
                     >
                         <HiOutlineArrowCircleLeft className="mr-1.5" />
-                      My routes
+                        My routes
                     </Link>
                     <div className="mb-3 ">
                         <h2 className="text-2xl font-bold text-primary tracking-tight">
@@ -72,9 +79,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 <div className="grid sm:grid-cols-2 gap-4 bg-surface rounded-lg p-4 mb-5">
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">Prefix</p>
-                        <p className=" font-semibold">
-                            {route?.prefix}
-                        </p>
+                        <p className=" font-semibold">{route?.prefix}</p>
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">
@@ -98,15 +103,11 @@ export default async function Page({ params }: { params: { id: string } }) {
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">Ports</p>
-                        <p className=" font-semibold">
-                            {route?.ports}
-                        </p>
+                        <p className=" font-semibold">{route?.ports}</p>
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">Capacity</p>
-                        <p className=" font-semibold">
-                            {route?.capacity}
-                        </p>
+                        <p className=" font-semibold">{route?.capacity}</p>
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">Status</p>

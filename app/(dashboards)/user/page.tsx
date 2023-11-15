@@ -5,7 +5,9 @@ import FetchLocalStorage from "./FetchLocalStorage";
 import { supabaseServer } from "@/lib/supabase-server";
 import { toast } from "react-hot-toast";
 import RemoveFromWatchlist from "./(dashboardComponents)/RemoveFromWatchlist";
+
 export const revalidate = 0;
+
 const page = async () => {
     const user = await fetchUserData();
     const userData = await fetchUserMetadata();
@@ -13,62 +15,35 @@ const page = async () => {
     const Links = () => {
         return (
             <div className="grid md:grid-cols-2  gap-5 ">
-                {/* <Link
-                    href="/user/market"
-                    passHref
-                    className="bg-surface hover:scale-[102%] transition-all ease-in-out border-2 border-white rounded-lg shadow  p-5"
-                >
-                    <div className="flex justify-between items-center mb-3">
-                        <h3 className="font-semibold tracking-tight text-xl">
-                            🔍 Explore the Marketplace
-                        </h3>
-                        <HiArrowRight className="w-5 h-5" />
-                    </div>
-                    <p className="text-gray-500 mr-5">
-                        Discover a diverse range of VoIP routes and services in
-                        our vibrant marketplace.
-                    </p>
-                </Link> */}
-                
                 <Link
                     href="/user/routes"
                     passHref
-                    className="bg-surface hover:scale-[102%] transition-all ease-in-out border-2 border-white rounded-lg shadow  p-5"
+                    className="bg-slate-50 hover:shadow-lg transition-all ease-in border rounded-xl  p-5 active:scale-[99%]"
                 >
-                    <div className="flex justify-between items-center mb-3">
+                    <div className="flex justify-between items-center">
                         <h3 className="font-semibold tracking-tight text-xl">
-                            🏷️ Explore Our Rates
+                            🏷️ Explore our rates
                         </h3>
                         <HiArrowRight className="w-5 h-5" />
                     </div>
-                    <p className="text-gray-500 mr-5">
-                        Our rates are meticulously calculated, ensuring you get
-                        the best deals in the market. Stay ahead of the
-                        competition and explore unbeatable rates today.
-                    </p>
                 </Link>
-                {/* <Link
-                    href="/user/targets"
+                <Link
+                    href="/user/my-targets/post"
                     passHref
-                    className="bg-surface hover:scale-[102%] transition-all ease-in-out border-2 border-white rounded-lg shadow  p-5"
+                    className="bg-slate-50 hover:shadow-lg transition-all ease-in border rounded-xl  p-5 active:scale-[99%]"
                 >
-                    <div className="flex justify-between items-center mb-3">
+                    <div className="flex justify-between items-center">
                         <h3 className="font-semibold tracking-tight text-xl">
-                            🎯 Explore Buying Targets
+                            🎯 Post your target
                         </h3>
                         <HiArrowRight className="w-5 h-5" />
                     </div>
-                    <p className="text-gray-500 mr-5">
-                        Our comprehensive targets are designed to
-                        streamline your purchasing decisions. Stay
-                        cost-effective and explore tailored targets
-                        today.
-                    </p>
-                </Link> */}
+                </Link>
             </div>
         );
     };
-    const ActiveConnections = async () => {
+
+    const Gateways = async () => {
         let { data: conncetions, error } = await supabase
             .from("gateways")
             .select(`*, routes (*)`)
@@ -135,56 +110,6 @@ const page = async () => {
             </div>
         );
     };
-    const Watchlist = async () => {
-        let { data: watchlist, error } = await supabase
-            .from("watchlist")
-            .select(`*, routes (*)`)
-            .match({ user_id: user?.id });
-
-        return (
-            <div className=" md:col-span-2">
-                <h3 className="text-lg font-semibold mb-2">Watchlist</h3>
-                {/* <pre>{JSON.stringify(watchlist, null, 2)}</pre> */}
-                {watchlist?.length ? (
-                    <div className=" space-y-2">
-                        {watchlist.map((item) => (
-                            <div
-                                key={item.id}
-                                className={`flex gap-5 shadow-sm hover:translate-x-1 cursor-pointer transition-all ease-in-out duration-500 items-center justify-between border rounded-md px-4 py-2  `}
-                            >
-                                <Link
-                                    href={`/user/routes/${item.route_id}`}
-                                    passHref
-                                    className="flex gap-4"
-                                >
-                                    <p>Prefix: {item.routes?.prefix} </p>
-                                    <p className="capitalize">
-                                        Destination:{" "}
-                                        {item.routes?.destination} -{" "}
-                                        <span className="uppercase font-medium">
-                                            {item.routes?.route_type}
-                                        </span>{" "}
-                                    </p>
-                                </Link>
-                                <p>Rate: ${item.routes?.selling_rate} </p>
-                                <RemoveFromWatchlist ID={item.id} />
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <div className="gap-2  h-12 text-center flex items-center text-sm  justify-center border py-10 rounded-lg">
-                        <p>No routes in your watchlist</p>
-                        <Link
-                            href="/user/routes"
-                            className="bg-primary-500 px-2 ml-2 py-1 text-white rounded-md"
-                        >
-                            Add now
-                        </Link>
-                    </div>
-                )}
-            </div>
-        );
-    };
 
     const PurchaseRequests = async () => {
         let { data: purchaseRequests, error } = await supabase
@@ -211,8 +136,7 @@ const page = async () => {
                                 <p>Target Rate: ${item.buying_rate} </p>
                                 <p>Prefix: {item.routes?.prefix} </p>
                                 <p className="capitalize">
-                                    Destination:{" "}
-                                    {item.routes?.destination} -{" "}
+                                    Destination: {item.routes?.destination} -{" "}
                                     <span className="uppercase font-medium">
                                         {item.routes?.route_type}
                                     </span>{" "}
@@ -232,62 +156,17 @@ const page = async () => {
             </div>
         ) : null;
     };
-    const Transactions = async () => {
-        let { data: payments, error } = await supabase
-            .from("payments")
-            .select(`*`)
-            .match({ user_id: user?.id });
 
-        return (
-            <div className=" md:col-span-2">
-                <h3 className="text-lg font-semibold mb-2">Transactions</h3>
-                {/* <pre>{JSON.stringify(watchlist, null, 2)}</pre> */}
-                {payments?.length ? (
-                    payments.map((item) => (
-                        <Link
-                            href={`/user/transactions${item.payment_id}`}
-                            passHref
-                            key={item.payment_id}
-                            className={`flex gap-5 shadow-sm hover:translate-x-1 cursor-pointer transition-all ease-in-out duration-500 items-center justify-between border rounded-md px-4 py-2  `}
-                        >
-                            <p>Amount: ${item.amount} </p>
-                            <div className="flex items-center gap-2">
-                                <span className="text-xs font-medium bg-slate-100 border-[1.5px] border-slate-200 text-slate-500 rounded-full px-2 py-1 ml-2 capitalize">
-                                    {item.payment_status}
-                                </span>
-                                <div>
-                                    <HiOutlineExternalLink className="-mt-[2px] w-5 h-5" />
-                                </div>
-                            </div>
-                        </Link>
-                    ))
-                ) : (
-                    <div className="gap-2  h-12 text-center flex items-center text-sm  justify-center border py-10 rounded-lg">
-                        <p>No transaction yet</p>
-                    </div>
-                )}
-            </div>
-        );
-    };
-    const Notifications = () => {
-        return (
-            <div className="flex justify-between">
-                <h3 className="text-lg font-semibold">Active Gateways</h3>
-            </div>
-        );
-    };
+    
+
     return (
         <main className="flex flex-col gap-5">
-            <h3 className="text-2xl mt-5 font-bold text-primary tracking-tight">
+            <h3 className="text-2xl mt-4 font-bold text-primary tracking-tight">
                 Welcome, {userData?.name}👋
             </h3>
             <Links />
             <PurchaseRequests />
-                <ActiveConnections />
-            <div className="grid gap-5 md:grid-cols-3">
-                {/* <Watchlist /> */}
-            </div>
-            <Transactions />
+            <Gateways />
             <FetchLocalStorage />
         </main>
     );

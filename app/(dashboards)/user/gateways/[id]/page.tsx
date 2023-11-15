@@ -4,10 +4,18 @@ import { fetchUserData } from "@/utils/user";
 import Link from "next/link";
 import {
     HiOutlineArrowCircleLeft,
-    HiOutlineExternalLink
+    HiOutlineExternalLink,
 } from "react-icons/hi";
 import { InvoiceTable } from "../../invoices/InvoiceTable";
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
 import formatDate from "@/utils/formatDate";
 import formatString from "@/utils/formatString";
 export const revalidate = 0;
@@ -43,12 +51,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 </div>
                 <div className="flex justify-between items-center mb-5">
                     <div className="flex flex-wrap gap-4">
-                        <p className="  text-gray-500 ">
-                            Status:{" "}
-                            <span className="font-semibold capitalize text-primary-500">
-                                {connection?.status}
-                            </span>
-                        </p>{" "}
+                        {" "}
                         <p className="  text-gray-500 ">
                             Destination:{" "}
                             <span className="font-semibold capitalize text-primary-500">
@@ -59,6 +62,12 @@ export default async function Page({ params }: { params: { id: string } }) {
                             Type:{" "}
                             <span className="font-semibold uppercase text-primary-500">
                                 {connection?.routes?.route_type}
+                            </span>
+                        </p>
+                        <p className="  text-gray-500 ">
+                            Status:{" "}
+                            <span className="font-semibold capitalize text-primary-500">
+                                {connection?.status}
                             </span>
                         </p>
                     </div>

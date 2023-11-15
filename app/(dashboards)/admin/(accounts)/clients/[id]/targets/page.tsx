@@ -13,7 +13,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     return (
         <div>
             <h1 className="text-lg font-bold tracking-tight">Targets</h1>
-            <div className="grid pt-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid pt-4 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                 {targets?.length ? (
                     targets?.map((target) => (
                         <div

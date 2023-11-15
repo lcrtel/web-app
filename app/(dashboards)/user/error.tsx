@@ -1,5 +1,6 @@
 "use client"; // Error components must be Client Components
 
+import { Button, buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import { useEffect } from "react";
 
@@ -10,13 +11,17 @@ export default function Error({
     error: Error;
     reset: () => void;
 }) {
-    
-
     return (
-        <div>
-            <h2>Something went wrong!</h2>
-            <button onClick={() => reset()}>Try again</button>
-            
+        <div className="h-[80vh] flex flex-col items-center gap-5 justify-center">
+            <h1 className="text-9xl font-extrabold">404</h1>
+            <div className="flex gap-4">
+                <Link href="/" className={buttonVariants({ size: "sm" })}>
+                    Go to homepage
+                </Link>
+                <Button variant="secondary" size="sm" onClick={() => reset()}>
+                    Try again
+                </Button>
+            </div>
         </div>
     );
 }

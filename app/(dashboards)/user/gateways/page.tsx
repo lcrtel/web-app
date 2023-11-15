@@ -1,16 +1,19 @@
 import { supabaseServer } from "@/lib/supabase-server";
+import { fetchUserData } from "@/utils/user";
 import Link from "next/link";
 import { HiOutlineExternalLink } from "react-icons/hi";
 export const revalidate = 0;
 const page = async () => {
     const supabase = await supabaseServer();
+    const user = await fetchUserData();
     let { data: conncetions, error } = await supabase
         .from("gateways")
-        .select(`*, routes (*)`);
+        .select(`*, routes (*)`)
+        .eq("client_id", user?.id);
     return (
         <div>
             {" "}
-            <div className="flex my-5 justify-between">
+            <div className="flex my-4 justify-between">
                 <h3 className="text-2xl tracking-tight font-bold">Gateways</h3>
             </div>
             {conncetions?.length ? (

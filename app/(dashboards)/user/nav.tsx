@@ -29,9 +29,9 @@ const Navigation = ({ userRole, user }: { user: any; userRole: any }) => {
             key={title}
             className={` ${
                 pathname.startsWith(url)
-                    ? "bg-surface shadow shadow-gray-200  font-semibold"
-                    : "lg:hover:bg-surface"
-            } rounded-full m-1`}
+                    ? "bg-slate-50 border font-semibold"
+                    : "lg:hover:bg-slate-50"
+            } rounded-full m-1 duration-150 ease-in active:scale-[95%]`}
         >
             <Link
                 href={url}
@@ -68,9 +68,9 @@ const Navigation = ({ userRole, user }: { user: any; userRole: any }) => {
                             <li
                                 className={` ${
                                     pathname === "/user"
-                                        ? "bg-surface shadow shadow-gray-200  font-semibold"
-                                        : "lg:hover:bg-surface"
-                                } rounded-full m-1`}
+                                        ? "bg-slate-50 border font-semibold"
+                                        : "lg:hover:bg-slate-50"
+                                } rounded-full m-1 duration-150 ease-in active:scale-[95%]`}
                             >
                                 <Link
                                     href="/user"
@@ -100,9 +100,9 @@ const Navigation = ({ userRole, user }: { user: any; userRole: any }) => {
                                 <li
                                     className={` ${
                                         pathname === "/user"
-                                            ? "bg-surface shadow shadow-gray-200  font-semibold"
-                                            : "lg:hover:bg-surface"
-                                    } rounded-md`}
+                                            ? "bg-slate-50 border font-semibold"
+                                            : "lg:hover:bg-slate-50"
+                                    } rounded-full m-1 duration-150 ease-in active:scale-[95%]`}
                                 >
                                     <Link
                                         href="/user"

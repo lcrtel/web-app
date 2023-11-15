@@ -26,7 +26,7 @@ export default async function Page() {
                 <Link
                     href="/user/my-targets/post"
                     className={`${buttonVariants({
-                        variant: "default",
+                        variant: "default", size:'sm'
                     })}`}
                 >
                     Post yout target

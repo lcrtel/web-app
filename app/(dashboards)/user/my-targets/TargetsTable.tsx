@@ -78,7 +78,7 @@ export const columns: ColumnDef<Route>[] = [
         },
         cell: ({ row }) => (
             <Link
-                href={`/user/routes/${row.getValue("id")}`}
+                href={`/user/my-targets/${row.getValue("id")}`}
                 className="capitalize"
             >
                 {row.getValue("destination")}
@@ -90,7 +90,7 @@ export const columns: ColumnDef<Route>[] = [
         header: "Code",
         cell: ({ row }) => (
             <Link
-                href={`/user/routes/${row.getValue("id")}`}
+                href={`/user/my-targets/${row.getValue("id")}`}
                 className="capitalize"
             >
                 {row.getValue("destination_code")}
@@ -123,7 +123,7 @@ export const columns: ColumnDef<Route>[] = [
         // },
         cell: ({ row }) => (
             <Link
-                href={`/user/routes/${row.getValue("id")}`}
+                href={`/user/my-targets/${row.getValue("id")}`}
                 className="uppercase"
             >
                 {row.getValue("rate")}
@@ -147,36 +147,10 @@ export const columns: ColumnDef<Route>[] = [
         },
         cell: ({ row }) => (
             <Link
-                href={`/user/routes/${row.getValue("id")}`}
+                href={`/user/my-targets/${row.getValue("id")}`}
                 className="uppercase"
             >
                 {row.getValue("route_type")}
-            </Link>
-        ),
-    },
-    {
-        accessorKey: "status",
-        header: ({ column }) => {
-            return (
-                <div
-                    className="flex gap-2 items-center cursor-pointer"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Status
-                    <ArrowUpDown className=" h-4 w-4" />
-                </div>
-            );
-        },
-        cell: ({ row }) => (
-            <Link
-                href={`/user/routes/${row.getValue("id")}`}
-                className="capitalize"
-            >
-                <span className="text-xs bg-slate-100 border-[1.5px] border-slate-200  text-slate-500 rounded-full px-2 py-1 ">
-                    {formatString(row.getValue("status"))}
-                </span>
             </Link>
         ),
     },
@@ -261,7 +235,7 @@ export const columns: ColumnDef<Route>[] = [
         },
         cell: ({ row }) => (
             <Link
-                href={`/user/routes/${row.getValue("id")}`}
+                href={`/user/my-targets/${row.getValue("id")}`}
                 className="capitalize"
             >
                 {formatTimestamptz(row.getValue("created_at"))}
@@ -278,10 +252,10 @@ export const columns: ColumnDef<Route>[] = [
                     <div className="text-red-500">
                         <DeleteRoute routeID={id as string} />
                     </div>{" "}
-                    <Link href={`/user/routes/targets/post/${id}`} className="">
+                    <Link href={`/user/my-targets/post/${id}`} className="">
                         <HiOutlinePencilAlt className="w-5 h-5" />
                     </Link>
-                    <Link href={`/user/routes/targets/${id}`} className="">
+                    <Link href={`/user/my-targets/${id}`} className="">
                         <HiOutlineEye className="w-5 h-5" />
                     </Link>
                 </div>
@@ -290,7 +264,7 @@ export const columns: ColumnDef<Route>[] = [
     },
 ];
 
-export function RoutesTable({ data }: any) {
+export function TargetsTable({ data }: any) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
@@ -349,32 +323,7 @@ export function RoutesTable({ data }: any) {
                     }
                     className="max-w-[200px] mr-2"
                 />
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto">
-                            Columns <ChevronDown className="ml-2 h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        {table
-                            .getAllColumns()
-                            .filter((column) => column.getCanHide())
-                            .map((column) => {
-                                return (
-                                    <DropdownMenuCheckboxItem
-                                        key={column.id}
-                                        className="capitalize"
-                                        checked={column.getIsVisible()}
-                                        onCheckedChange={(value: boolean) =>
-                                            column.toggleVisibility(!!value)
-                                        }
-                                    >
-                                        {column.id}
-                                    </DropdownMenuCheckboxItem>
-                                );
-                            })}
-                    </DropdownMenuContent>
-                </DropdownMenu>
+               
             </div>
             <div className="rounded-lg border ">
                 <Table>

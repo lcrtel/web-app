@@ -19,8 +19,11 @@ export default async function Page() {
         <section className="flex gap-5 ">
             <div className="w-full">
                 <div className="flex my-5 justify-between">
-                    <h3 className="text-2xl tracking-tight font-bold">
-                        Selected Routes
+                    <h3 className="text-2xl tracking-tight font-bold flex items-center gap-2">
+                        Cart{" "}
+                        <span className="inline-flex items-center justify-center w-6 h-6  text-sm rounded-full bg-surface">
+                            {selectedRoutes?.length}
+                        </span>
                     </h3>
                 </div>
                 {selectedRoutes?.length ? (
@@ -36,7 +39,7 @@ export default async function Page() {
                     </div>
                 ) : (
                     <div className="border rounded-lg py-5">
-                        <p className="font-medium tracking-tight text-center">
+                        <p className=" text-slate-400  text-center">
                             No Route Selected
                         </p>
                     </div>
@@ -56,7 +59,7 @@ export default async function Page() {
                     </div>
                 ) : (
                     <div className="border rounded-lg py-5">
-                        <p className="font-medium tracking-tight text-center">
+                        <p className=" text-slate-400 text-center">
                             No Purchase Requsts
                         </p>
                     </div>

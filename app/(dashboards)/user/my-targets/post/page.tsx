@@ -22,7 +22,7 @@ const page = async () => {
             {routes?.length ? (
                 <>
                     <h3 className="text-xl pt-4 mb-2 font-bold text-primary-500 flex items-center tracking-tight">
-                        Routes
+                        Our Rates
                     </h3>
                     <OffersTable data={routes} />
                 </>

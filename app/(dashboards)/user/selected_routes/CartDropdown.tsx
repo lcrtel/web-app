@@ -15,9 +15,6 @@ export function CartDropdown() {
     const [cartItems, setCartItems] = useState<any>([]);
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
-        setTimeout(() => {
-            setIsMenuOpen(false);
-        }, 2000);
     };
     useEffect(() => {
         const fetchCartItems = async () => {
@@ -62,25 +59,27 @@ export function CartDropdown() {
         <div className="">
             <button
                 type="button"
-                className={`inline-flex items-center rounded-lg p-2 text-sm ${
+                className={`inline-flex relative items-center rounded-lg p-2 text-sm ${
                     isMenuOpen ? "bg-surface" : ""
                 }`}
                 onClick={toggleMenu}
             >
+                <div className="bg-surface w-5 h-5 flex items-center justify-center text-xs rounded-full absolute -top-[2px] -right-[2px]">{cartItems.length}</div>
                 <FaCartShopping className="w-5 h-5" />
             </button>{" "}
             <AnimatePresence>
                 {isMenuOpen && (
                     <>
                         <motion.div
-                            className=" z-20 max-w-md w-60 absolute border-2  border-surface  right-5 top-16 rounded-lg p-4 shadow-xl bg-white"
+                            className=" z-20 max-w-md min-w-[250px] absolute border  right-5 top-16 rounded-lg p-4 shadow-xl bg-white"
                             initial={{ opacity: 0, y: "-8%" }}
                             animate={{ opacity: 1, y: "0%" }}
                             exit={{ opacity: 0, y: "-8%" }}
                             onClick={(event) => setIsMenuOpen(false)}
+                            onMouseLeave={(event) => setIsMenuOpen(false)}
                         >
                             <h3 className="text-lg tracking-tight mb-2 font-bold">
-                                Selected Routes
+                                Cart
                             </h3>
                             {cartItems.length ? (
                                 <div className="grid gap-2 mb-2">
@@ -90,22 +89,11 @@ export function CartDropdown() {
                                             className=" px-2 py-1 bg-surface shadow-sm flex gap-2 justify-between rounded-md font-medium"
                                         >
                                             <p>
-                                                {
-                                                    route?.routes
-                                                        ?.destination
-                                                }{" "}
-                                                -{" "}
-                                                {
-                                                    route?.routes
-                                                        ?.route_type
-                                                }
+                                                {route?.routes?.destination} -{" "}
+                                                {route?.routes?.route_type}
                                             </p>
                                             <p>
-                                                $
-                                                {
-                                                    route?.routes
-                                                        ?.selling_rate
-                                                }
+                                                ${route?.routes?.selling_rate}
                                             </p>
                                         </div>
                                     ))}
@@ -122,8 +110,9 @@ export function CartDropdown() {
                                 <Link
                                     href="/user/selected_routes"
                                     className={`${buttonVariants({
-                                        variant: "default",
-                                    })} w-full`}
+                                        variant: "secondary",
+                                        size: "sm",
+                                    })} w-full mt-2`}
                                 >
                                     View All
                                 </Link>

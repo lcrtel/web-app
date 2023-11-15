@@ -21,7 +21,7 @@ export default async function Page() {
                 <Link
                     href="/user/my-routes/post"
                     className={`${buttonVariants({
-                        variant: "default",
+                        variant: "default", size:'sm'
                     })}`}
                 >
                     Post your routes

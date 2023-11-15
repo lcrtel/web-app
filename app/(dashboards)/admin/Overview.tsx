@@ -25,9 +25,7 @@ const Targets = async () => {
     const supabase = await supabaseServer();
 
     unstable_noStore();
-    let { data: targets, error } = await supabase
-        .from("targets")
-        .select("id");
+    let { data: targets, error } = await supabase.from("targets").select("id");
     return (
         <MetricsCard
             count={targets?.length}
@@ -56,14 +54,10 @@ const Gateways = async () => {
 const Clients = async () => {
     const supabase = await supabaseServer();
 
-    unstable_noStore();
-    const {
-        data: { users },
-        error,
-    } = await supabase.auth.admin.listUsers();
-    const clients = users.filter(
-        (obj) => obj.user_metadata.role === "client"
-    );
+    let { data: clients, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .or(`role.eq.client,role.eq.vendor`);
     return (
         <MetricsCard
             count={clients?.length}
@@ -76,15 +70,10 @@ const Clients = async () => {
 const Vendors = async () => {
     const supabase = await supabaseServer();
 
-    unstable_noStore();
-
-    const {
-        data: { users },
-        error,
-    } = await supabase.auth.admin.listUsers();
-    const vendors = users.filter(
-        (obj) => obj.user_metadata.role === "vendor"
-    );
+    let { data: vendors, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("role", "vendor");
     return (
         <MetricsCard
             count={vendors?.length}
@@ -98,14 +87,11 @@ const Agents = async () => {
     const supabase = await supabaseServer();
 
     unstable_noStore();
-
-    const {
-        data: { users },
-        error,
-    } = await supabase.auth.admin.listUsers();
-    const agents = users.filter(
-        (obj) => obj.user_metadata.role === "agent"
-    );
+    let { data: agents, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("role", "agent");
+        
     return (
         <MetricsCard
             count={agents?.length}

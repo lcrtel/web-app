@@ -1,9 +1,9 @@
 import { supabaseServer } from "@/lib/supabase-server";
 import { fetchUserData } from "@/utils/user";
-import { RoutesTable } from "./RoutesTable";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import { HiOutlinePlusCircle } from "react-icons/hi";
+import { TargetsTable } from "./TargetsTable";
 export const revalidate = 0;
 const page = async () => {
     const supabase = await supabaseServer();
@@ -33,7 +33,7 @@ const page = async () => {
                     <HiOutlinePlusCircle className="w-5 h-5" />
                 </Link>
             </div>
-            <RoutesTable data={routes} />
+            <TargetsTable data={routes} />
         </section>
     );
 };

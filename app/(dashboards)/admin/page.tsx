@@ -23,6 +23,7 @@ import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { unstable_noStore } from "next/cache";
 import { Metadata } from "next";
+import { fetchUnVerfiedRoutes } from "./routes/fetchUnVerfiedRoutes";
 
 export const metadata: Metadata = {
     title: "Home - Admin",
@@ -45,72 +46,81 @@ const PurchaseRequests = async () => {
             <div className="mb-4 flex justify-between items-center ">
                 <h1 className="text-lg font-semibold text-primary">Gateways</h1>
             </div>
-            <div className="w-full ">
+            <div className="w-full grid lg:grid-cols-2 gap-4">
                 {gateways?.length ? (
-                    <Table>
-                        <TableCaption>A list of route gateways.</TableCaption>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="max-w-[200px]">
-                                    Destination
-                                </TableHead>
-                                <TableHead>Status</TableHead>
-                                <TableHead>Client</TableHead>
-                                <TableHead>Payment Type</TableHead>
-                                <TableHead className="text-right"></TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {gateways?.map((connection) => (
-                                <TableRow key={connection.id}>
-                                    <TableCell className="font-medium">
-                                        <Link
-                                            href={`/admin/routes/${connection.route_id}`}
-                                            className="capitalize flex gap-2 group"
-                                        >
-                                            {connection?.routes?.destination} -{" "}
-                                            <span className="uppercase font-medium">
-                                                {connection?.routes?.route_type}
-                                            </span>
-                                            <HiOutlineExternalLink className=" w-5 h-5 hidden group-hover:block" />
-                                        </Link>
-                                    </TableCell>
-                                    <TableCell>
-                                        {" "}
-                                        {connection.status === "active" ? (
-                                            <span className="text-xs font-medium bg-green-100 border-[1.5px] border-green-200 text-green-500 rounded-full px-2 py-1">
-                                                Active
-                                            </span>
-                                        ) : connection.status === "pending" ? (
-                                            <span className="text-xs bg-slate-50 border-[1.5px] border-slate-100  text-slate-500 rounded-full px-2 py-1">
-                                                Pending
-                                            </span>
-                                        ) : null}
-                                    </TableCell>
-
-                                    <TableCell>
-                                        <Link
-                                            href={`/admin/users/${connection.client_id}`}
-                                            className="flex gap-2 group"
-                                        >
-                                            {connection?.profiles?.email}
-                                            <HiOutlineExternalLink className="w-5 h-5 hidden group-hover:block" />
-                                        </Link>
-                                    </TableCell>
-                                    <TableCell className=" capitalize">
-                                        {connection?.payment_type}
-                                    </TableCell>
-                                    <TableCell className="text-right">
-                                        <Link
-                                            href={`/admin/gateways/${connection.id}`}
-                                        >
-                                            <HiOutlineExternalLink className="-mt-[2px] w-5 h-5" />
-                                        </Link>
-                                    </TableCell>
+                    <div className="border !rounded-lg">
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead className="max-w-[200px]">
+                                        Destination
+                                    </TableHead>
+                                    <TableHead>Status</TableHead>
+                                    <TableHead>Client</TableHead>
+                                    <TableHead>Payment Type</TableHead>
+                                    <TableHead className="text-right"></TableHead>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHeader>
+                            <TableBody>
+                                {gateways?.map((connection) => (
+                                    <TableRow key={connection.id}>
+                                        <TableCell className="font-medium">
+                                            <Link
+                                                href={`/admin/routes/${connection.route_id}`}
+                                                className="capitalize flex gap-2 group"
+                                            >
+                                                {
+                                                    connection?.routes
+                                                        ?.destination
+                                                }{" "}
+                                                -{" "}
+                                                <span className="uppercase font-medium">
+                                                    {
+                                                        connection?.routes
+                                                            ?.route_type
+                                                    }
+                                                </span>
+                                                <HiOutlineExternalLink className=" w-5 h-5 hidden group-hover:block" />
+                                            </Link>
+                                        </TableCell>
+                                        <TableCell>
+                                            {" "}
+                                            {connection.status === "active" ? (
+                                                <span className="text-xs font-medium bg-green-100 border-[1.5px] border-green-200 text-green-500 rounded-full px-2 py-1">
+                                                    Active
+                                                </span>
+                                            ) : connection.status ===
+                                              "pending" ? (
+                                                <span className="text-xs bg-slate-50 border-[1.5px] border-slate-100  text-slate-500 rounded-full px-2 py-1">
+                                                    Pending
+                                                </span>
+                                            ) : null}
+                                        </TableCell>
+
+                                        <TableCell>
+                                            <Link
+                                                href={`/admin/users/${connection.client_id}`}
+                                                className="flex gap-2 group"
+                                            >
+                                                {connection?.profiles?.email}
+                                                <HiOutlineExternalLink className="w-5 h-5 hidden group-hover:block" />
+                                            </Link>
+                                        </TableCell>
+                                        <TableCell className=" capitalize">
+                                            {connection?.payment_type}
+                                        </TableCell>
+                                        <TableCell className="text-right">
+                                            <Link
+                                                href={`/admin/gateways/${connection.id}`}
+                                            >
+                                                <HiOutlineExternalLink className="-mt-[2px] w-5 h-5" />
+                                            </Link>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
                 ) : (
                     <p className="text-slate-400">No gateways yet</p>
                 )}
@@ -195,17 +205,7 @@ const PurchaseRequests = async () => {
 const UnverifiedRoutes = async () => {
     unstable_noStore();
 
-    const supabase = await supabaseServer();
-
-    let { data: unverified_routes_Count } = await supabase
-        .from("routes")
-        .select("id")
-        .eq("verification", "pending");
-    let { data: unverified_routes } = await supabase
-        .from("routes")
-        .select("*")
-        .eq("verification", "pending")
-        .range(0, 4);
+    const unverified_routes = await fetchUnVerfiedRoutes();
 
     return unverified_routes?.length ? (
         <div className="w-full mt-5">

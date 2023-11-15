@@ -37,25 +37,32 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { HiOutlineExternalLink, HiX } from "react-icons/hi";
 import { supabaseClient } from "@/lib/supabase-client";
+import { Input } from "@/components/ui/input";
+
 const routeFormSchema = z.object({
     status: z.string(),
     communication_status: z.string().optional(),
+    gateway_name: z.string()
 });
+
 export function EditRequest({ request }: { request: any }) {
     const supabase = supabaseClient();
     const [isOpen, setIsOpen] = useState(false);
     const defaultValues = request;
-    const form = useForm<PurchaseRequest>({
+    const form = useForm({
         resolver: zodResolver(routeFormSchema),
         defaultValues,
         mode: "onChange",
     });
 
     const router = useRouter();
-    async function onSubmit(data: PurchaseRequest) {
+    async function onSubmit(formData: any) {
         const { data: requestData, error } = await supabase
             .from("purchase_requests")
-            .update(data)
+            .update({
+                status: formData.status,
+                communication_status: formData.communication_status,
+            })
             .eq("id", request.id)
             .select()
             .single();
@@ -68,6 +75,7 @@ export function EditRequest({ request }: { request: any }) {
                 .from("gateways")
                 .insert([
                     {
+                        name: formData?.gateway_name,
                         client_id: requestData.client_id,
                         route_id: requestData.route_id,
                         status:
@@ -113,7 +121,7 @@ export function EditRequest({ request }: { request: any }) {
                     <div className="">
                         <p className=" font-medium">Client</p>
                         <Link
-                            href={`/admin/users/${request.client_id}`}
+                            href={`/admin/clients/${request.client_id}`}
                             className="flex gap-2  text-slate-500"
                         >
                             {request?.profiles?.email}
@@ -229,6 +237,23 @@ export function EditRequest({ request }: { request: any }) {
                                             </SelectItem>
                                         </SelectContent>
                                     </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="gateway_name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Gateway name</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Set Gateway Name"
+                                            required
+                                            {...field}
+                                        />
+                                    </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}

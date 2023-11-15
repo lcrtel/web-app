@@ -3,6 +3,8 @@ import formatTimestamptz from "@/utils/formatTimestamptz";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { HiOutlineArrowCircleLeft } from "react-icons/hi";
+import AddToCart from "../AddToCart";
+
 export const revalidate = 0;
 export default async function Page({ params }: { params: { id: string } }) {
     const supabase = await supabaseServer();
@@ -16,16 +18,17 @@ export default async function Page({ params }: { params: { id: string } }) {
 
     return (
         <div>
+            <Link
+                href="/user/routes"
+                className="inline-flex items-center text-gray-400 hover:text-primary-500 transition-all ease-in-out"
+            >
+                <HiOutlineArrowCircleLeft className="mr-1.5" /> Routes
+            </Link>
             <div className="space-y-4">
-                <Link
-                    href="/user/routes"
-                    className="inline-flex items-center text-gray-400 hover:text-primary-500 transition-all ease-in-out"
-                >
-                    <HiOutlineArrowCircleLeft className="mr-1.5" /> Routes
-                </Link>
                 <div>
                     <div className="flex justify-between">
-                        <h3 className="text-lg font-semibold">Route Details</h3>
+                        <h3 className="text-xl font-bold">Route Details</h3>
+                        <AddToCart routeID={params.id} />
                     </div>
                     <div className="flex flex-wrap">
                         <p className=" text-sm text-gray-500 mr-2">
@@ -51,9 +54,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 <div className="grid sm:grid-cols-2 gap-4 bg-surface rounded-lg p-4">
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">Prefix</p>
-                        <p className=" font-semibold">
-                            {route?.[0]?.prefix}
-                        </p>
+                        <p className=" font-semibold">{route?.[0]?.prefix}</p>
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">
@@ -77,21 +78,11 @@ export default async function Page({ params }: { params: { id: string } }) {
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">Ports</p>
-                        <p className=" font-semibold">
-                            {route?.[0]?.ports}
-                        </p>
+                        <p className=" font-semibold">{route?.[0]?.ports}</p>
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">Capacity</p>
-                        <p className=" font-semibold">
-                            {route?.[0]?.capacity}
-                        </p>
-                    </div>
-                    <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
-                        <p className=" text-sm text-gray-500">Vendor ID</p>
-                        <p className=" font-semibold">
-                            {route?.[0]?.vendor_id}
-                        </p>
+                        <p className=" font-semibold">{route?.[0]?.capacity}</p>
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">Posted on</p>

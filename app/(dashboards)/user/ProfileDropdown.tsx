@@ -40,11 +40,12 @@ export default function ProfileDropdown({ user }: { user: any }) {
                 {isMenuOpen && (
                     <>
                         <motion.div
-                            className=" z-20 max-w-md w-60 absolute border-2  border-surface  right-5 top-16 rounded-lg  shadow-xl bg-white"
+                            className=" z-20 max-w-md w-60 absolute border  right-5 top-16 rounded-lg  shadow-xl bg-white"
                             initial={{ opacity: 0, y: "-8%" }}
                             animate={{ opacity: 1, y: "0%" }}
                             exit={{ opacity: 0, y: "-8%" }}
                             onClick={(event) => setIsMenuOpen(false)}
+                            onMouseLeave={(event) => setIsMenuOpen(false)}
                         >
                             <div className="flex flex-col space-y-1 p-4 border-b">
                                 <p className=" font-medium leading-none">

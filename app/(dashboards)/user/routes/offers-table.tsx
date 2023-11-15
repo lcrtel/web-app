@@ -302,7 +302,7 @@ export const columns: ColumnDef<Route>[] = [
                         toast.error(error.message);
                         return;
                     }
-                    toast.success("Added to vart");
+                    toast.success("Added to cart");
                 }
             };
             return (
@@ -375,32 +375,7 @@ export function OffersTable({ data }: any) {
                     }
                     className="max-w-[200px] mr-2"
                 />
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto">
-                            Columns <ChevronDown className="ml-2 h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        {table
-                            .getAllColumns()
-                            .filter((column) => column.getCanHide())
-                            .map((column) => {
-                                return (
-                                    <DropdownMenuCheckboxItem
-                                        key={column.id}
-                                        className="capitalize"
-                                        checked={column.getIsVisible()}
-                                        onCheckedChange={(value: boolean) =>
-                                            column.toggleVisibility(!!value)
-                                        }
-                                    >
-                                        {column.id}
-                                    </DropdownMenuCheckboxItem>
-                                );
-                            })}
-                    </DropdownMenuContent>
-                </DropdownMenu>
+               
             </div>
             <div className="rounded-lg border">
                 <Table>

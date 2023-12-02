@@ -56,7 +56,7 @@ const HeroSection = async () => {
                                     variant: "secondary",
                                 })}`}
                             >
-                                Post your buying target
+                                Request for route
                                 <HiOutlineArrowSmRight className="ml-2 w-5 h-5" />
                             </Link>
                         </div>

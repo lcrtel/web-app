@@ -193,7 +193,7 @@ const page = async () => {
                 </div>
                 <div className=" w-full">
                     <Links />
-                    <Suspense fallback={<Skeleton className="w-full h-32" />}>
+                    <Suspense fallback={<Skeleton className="w-full h-32 mt-4" />}>
                         <PurchaseRequests supabase={supabase} user={user} />
                     </Suspense>
                     <div className="pt-4">

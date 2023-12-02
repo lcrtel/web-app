@@ -16,7 +16,7 @@ export default function Error({
             <h1 className="text-9xl font-extrabold">404</h1>
             <div className="flex gap-4">
                 <Link href="/" className={buttonVariants({ size: "sm" })}>
-                    Go to homepage
+                    Go to home
                 </Link>
                 <Button variant="secondary" size="sm" onClick={() => reset()}>
                     Try again

@@ -23,12 +23,6 @@ const page = async ({ params }: { params: { id: string } }) => {
         .eq("invoice_id", params.id)
         .single();
 
-    const { data: gateway } = await supabase
-        .from("gateways")
-        .select(`*, routes (*)`)
-        .eq("id", invoice?.gateway)
-        .single();
-
     const { data: payments } = await supabase
         .from("payments")
         .select(`*, profiles (*)`)
@@ -42,7 +36,6 @@ const page = async ({ params }: { params: { id: string } }) => {
             </h1>
             <InvoiceDetails
                 invoice={invoice}
-                gateway={gateway}
                 payments={payments}
             />
             <div className="max-w-8xl mx-auto ">
@@ -66,7 +59,7 @@ const page = async ({ params }: { params: { id: string } }) => {
                             {payments?.map((payment) => (
                                 <TableRow key={payment.payment_id}>
                                     <TableCell className="font-medium">
-                                        {payment.profiles?.email}
+                                        {payment.profiles?.name}
                                     </TableCell>
                                     <TableCell>${payment.amount}</TableCell>
 

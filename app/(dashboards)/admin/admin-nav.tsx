@@ -39,17 +39,14 @@ const AdminNav = ({ userRole, user }: { user: any; userRole: any }) => {
     };
 
     const adminNav = [
-        ["Routes", "/admin/routes"],
-        ["Targets", "/admin/targets"],
-        ["Gateways", "/admin/gateways"],
-        // ["Deals", "/admin/deals"],
+        ["Route Offers", "/admin/routes"],
+        ["Route Requests", "/admin/requests"],
+        ["Mapping(VOS)", "/admin/mapping"],
+        ["Routing(VOS)", "/admin/routing"],
         ["Clients", "/admin/clients"],
         ["Vendors", "/admin/vendors"],
         ["Agents", "/admin/agents"],
-        // ["Managers", "/admin/managers"],
-        // ["Analytics", "/admin/analytics"],
         ["Invoices", "/admin/invoices"],
-        ["Transactions", "/admin/transactions"],
         ["Config", "/admin/config"],
     ].map(([title, url]) => (
         <li
@@ -70,7 +67,7 @@ const AdminNav = ({ userRole, user }: { user: any; userRole: any }) => {
         </li>
     ));
     return (
-        <nav className="py-4 pl-3 pr-5 md:py-8 md:px-5 md:h-screen md:w-64 w-full fixed z-10 flex md:flex-col gap-2 items-center md:items-start justify-between  bg-surface">
+        <nav className="py-4 pl-3 pr-5 md:py-8 md:px-5 md:h-screen md:w-64 w-full fixed z-40 flex md:flex-col gap-2 items-center md:items-start justify-between  bg-surface">
             <button
                 type="button"
                 className="inline-flex items-center rounded-lg p-2 text-sm  focus:outline-none focus:ring-2 focus:ring-blue-300 md:hidden"
@@ -116,7 +113,7 @@ const AdminNav = ({ userRole, user }: { user: any; userRole: any }) => {
                             passHref
                             className="py-2 px-4 block whitespace-nowrap"
                         >
-                            Home
+                            Dashboard
                         </Link>
                     </li>
                     {adminNav}
@@ -126,7 +123,7 @@ const AdminNav = ({ userRole, user }: { user: any; userRole: any }) => {
                 {isMenuOpen && (
                     <>
                         <motion.div
-                            className="w-64 z-20 md:hidden absolute left-0 top-[68px] h-[calc(100vh-80px)] p-5 shadow-xl bg-white"
+                            className="w-64 z-30 md:hidden absolute left-0 top-[68px] h-[calc(100vh-80px)] p-5 shadow-xl bg-white"
                             initial={{ opacity: 0, x: "-10%" }}
                             animate={{ opacity: 1, x: "0%" }}
                             exit={{ opacity: 0, x: "-10%" }}
@@ -148,7 +145,7 @@ const AdminNav = ({ userRole, user }: { user: any; userRole: any }) => {
                                         passHref
                                         className="py-2 px-3 block whitespace-nowrap"
                                     >
-                                        Home
+                                        Dashboard
                                     </Link>
                                 </li>
                                 {adminNav}
@@ -163,7 +160,7 @@ const AdminNav = ({ userRole, user }: { user: any; userRole: any }) => {
                     </>
                 )}
             </AnimatePresence>
-            <div className="md:hidden w-8 h-8">
+            <div className="md:hidden w-8 h-8 ">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button
@@ -176,7 +173,7 @@ const AdminNav = ({ userRole, user }: { user: any; userRole: any }) => {
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
-                        className="w-48 my-2 mr-2"
+                        className="w-48 my-2 mr-2 "
                         align="start"
                         forceMount
                     >
@@ -191,12 +188,6 @@ const AdminNav = ({ userRole, user }: { user: any; userRole: any }) => {
                             </div>
                         </DropdownMenuLabel>
 
-                        <DropdownMenuSeparator />
-                        <DropdownMenuGroup>
-                            <DropdownMenuItem className="cursor-pointer">
-                                Account
-                            </DropdownMenuItem>
-                        </DropdownMenuGroup>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
                             className="cursor-pointer"

@@ -135,38 +135,7 @@ export function EditRoute({ route }: { route: Route }) {
                                     </FormItem>
                                 )}
                             />
-                            <FormField
-                                control={form.control}
-                                name="rate"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Rate</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="Rate"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="selling_rate"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Selling Rate</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="selling_rate"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+
                             <FormField
                                 control={form.control}
                                 name="route_type"
@@ -203,40 +172,6 @@ export function EditRoute({ route }: { route: Route }) {
                                                 </SelectItem>
                                                 <SelectItem value="did">
                                                     DID
-                                                </SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="verification"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Verification</FormLabel>
-                                        <Select
-                                            onValueChange={field.onChange}
-                                            defaultValue={field.value}
-                                        >
-                                            <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue
-                                                        placeholder="Status"
-                                                        {...field}
-                                                    />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                <SelectItem value="verified">
-                                                    Verified
-                                                </SelectItem>
-                                                <SelectItem value="pending">
-                                                    Pending
-                                                </SelectItem>
-                                                <SelectItem value="declined">
-                                                    Declined
                                                 </SelectItem>
                                             </SelectContent>
                                         </Select>
@@ -341,9 +276,77 @@ export function EditRoute({ route }: { route: Route }) {
                                     </FormItem>
                                 )}
                             />
+                            <FormField
+                                control={form.control}
+                                name="rate"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Rate</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="Rate"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="selling_rate"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Selling Rate</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="selling_rate"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="verification"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Verification</FormLabel>
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue
+                                                        placeholder="Status"
+                                                        {...field}
+                                                    />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectItem value="verified">
+                                                    Verified
+                                                </SelectItem>
+                                                <SelectItem value="pending">
+                                                    Pending
+                                                </SelectItem>
+                                                <SelectItem value="declined">
+                                                    Declined
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
                         </div>
                         <SheetClose asChild>
-                            <Button type="submit" className="w-full">Update route</Button>
+                            <Button type="submit" className="w-full">
+                                Update route
+                            </Button>
                         </SheetClose>
                     </form>
                 </Form>

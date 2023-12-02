@@ -23,63 +23,9 @@ import {
 } from "@tanstack/react-table";
 import Link from "next/link";
 import * as React from "react";
-import { HiOutlinePencilAlt } from "react-icons/hi";
-import DeleteUser from "../clients/[id]/DeleteUser";
+import { HiOutlineExternalLink } from "react-icons/hi";
 
 export const columns: ColumnDef<any>[] = [
-    {
-        accessorKey: "name",
-        header: ({ column }) => {
-            return <div className=" ">Name</div>;
-        },
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("name")}</div>
-        ),
-    },
-    {
-        accessorKey: "company_name",
-        header: ({ column }) => {
-            return <div className=" ">Company</div>;
-        },
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("company_name")}</div>
-        ),
-    },
-    {
-        accessorKey: "email",
-        header: "Email",
-        cell: ({ row }) => (
-            <div className="lowercase">{row.getValue("email")}</div>
-        ),
-    },
-    {
-        accessorKey: "phone",
-        header: ({ column }) => {
-            return <div className="">Phone</div>;
-        },
-        cell: ({ row }) => {
-            return <div className="font-medium">{row.getValue("phone")}</div>;
-        },
-    },
-    {
-        accessorKey: "skype_id",
-        header: ({ column }) => {
-            return <div className=" ">Skype ID</div>;
-        },
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("skype_id")}</div>
-        ),
-    },
-    {
-        accessorKey: "routes",
-        header: ({ column }) => {
-            return <div className=" ">Routes Posted</div>;
-        },
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("routes")}</div>
-        ),
-    },
-
     {
         accessorKey: "id",
         header: "",
@@ -87,15 +33,40 @@ export const columns: ColumnDef<any>[] = [
             const id = row.getValue("id");
             return (
                 <div className="flex gap-2">
-                    <div className="text-red-500">
-                        <DeleteUser userID={id} />
-                    </div>{" "}
                     <Link href={`/agent/vendors/${id}`} className="">
-                        <HiOutlinePencilAlt className="w-5 h-5" />
+                        <HiOutlineExternalLink className="w-5 h-5" />
                     </Link>
                 </div>
             );
         },
+    },
+    {
+        accessorKey: "name",
+        header: "Name",
+    },
+    {
+        accessorKey: "company_name",
+        header: "Comapny",
+    },
+    {
+        accessorKey: "email",
+        header: "Email",
+    },
+    {
+        accessorKey: "phone",
+        header: "Phone",
+    },
+    {
+        accessorKey: "skype_id",
+        header: "Skype ID",
+    },
+    {
+        accessorKey: "routes",
+        header: "Routes",
+    },
+    {
+        accessorKey: "requests",
+        header: "Route Requests",
     },
 ];
 
@@ -113,7 +84,7 @@ export function VendorsTable({ data }: any) {
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
         getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
+        
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,

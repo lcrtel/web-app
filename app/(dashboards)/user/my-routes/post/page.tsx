@@ -2,7 +2,7 @@ import { supabaseServer } from "@/lib/supabase-server";
 import Link from "next/link";
 import { HiOutlineArrowCircleLeft } from "react-icons/hi";
 import { PostOffersTable } from "./PostRouteTable";
-import { TargetsTable } from "../../targets/targets-table";
+import { TargetsTable } from "../../requests/targets-table";
 export const revalidate = 0;
 const page = async () => {
     const supabase = await supabaseServer();
@@ -21,7 +21,7 @@ const page = async () => {
             {targets?.length ? (
                 <>
                     <h3 className="text-xl pt-4 mb-2 font-semibold text-primary-500 flex items-center tracking-tight">
-                        Our Targets
+                        Our route requests
                     </h3>
                     <TargetsTable data={targets} />
                 </>

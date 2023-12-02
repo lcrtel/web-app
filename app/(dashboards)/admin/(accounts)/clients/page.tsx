@@ -27,7 +27,7 @@ const Clients = async () => {
 
     const clientsWithTargetCounts = clients?.map((user) => {
         const { id } = user;
-        const targetCount = userRouteCounts.get(id) || 0;
+        const targetCount = userRouteCounts?.get(id) || 0;
         return { ...user, targets: targetCount };
     });
 

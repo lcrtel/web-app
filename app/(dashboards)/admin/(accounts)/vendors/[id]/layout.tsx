@@ -28,12 +28,25 @@ export default async function SettingsLayout({
 
     const NavItems = [
         {
-            title: "Account Settings",
+            title: "Overview",
             href: `/admin/vendors/${params.id}`,
         },
+
         {
-            title: "Routes",
+            title: "Route Offers",
             href: `/admin/vendors/${params.id}/routes`,
+        },
+        {
+            title: "Purchased Routes",
+            href: `/admin/vendors/${params.id}/purchased_routes`,
+        },
+        {
+            title: "Requests",
+            href: `/admin/vendors/${params.id}/requests`,
+        },
+        {
+            title: "Account Settings",
+            href: `/admin/vendors/${params.id}/account_settings`,
         },
     ];
 
@@ -42,47 +55,38 @@ export default async function SettingsLayout({
             <p className="text-sm mb-2 font-medium text-slate-400">
                 Vendors / {vendor?.name}
             </p>
-            <div className="flex flex-wrap gap-2 mb-4 justify-between">
+            <div className="flex flex-col gap-2 mb-4">
                 <div className="">
                     <h1 className="text-xl font-bold tracking-tight">
                         {vendor?.name}
                     </h1>
                     {vendor?.company_name && (
-                        <p className="font-medium text-base text-slate-500">
+                        <p className="font-medium text-base text-slate-400">
                             Company: {vendor?.company_name}
                         </p>
                     )}
                 </div>
-                <div className="flex gap-2">
+                {/* <div className="flex flex-wrap gap-2">
                     <a
                         href={`tel:${vendor?.phone}`}
-                        className={buttonVariants({
-                            variant: "secondary",
-                            size: "sm",
-                        })}
+                        className=''
                     >
                         {vendor?.phone}
                     </a>
                     <a
                         href={`mailto:${vendor?.email}`}
-                        className={buttonVariants({
-                            variant: "secondary",
-                            size: "sm",
-                        })}
+                        className=''
                     >
                         {vendor?.email}
                     </a>
                     {vendor?.skype_id && (
                         <p
-                            className={buttonVariants({
-                                variant: "secondary",
-                                size: "sm",
-                            })}
+                            className=''
                         >
                             {vendor?.skype_id}
                         </p>
                     )}
-                </div>
+                </div> */}
             </div>
             <DropDownMenu items={NavItems} />
             <VendorNav items={NavItems} />

@@ -16,9 +16,19 @@ export async function POST(request: Request) {
                 phone: formData.phone,
                 skype_id: formData.skype_id,
                 role: formData.role,
+                agent_id: formData.agent_id,
             },
         }
     );
+
+    const { data } = await supabase
+        .from("profiles")
+        .update({
+            vos_vendor_id: formData.vos_vendor_id,
+            vos_client_id: formData.vos_client_id,
+        })
+        .eq("id", formData.user_id)
+        .select();
 
     if (error) {
         return new Response(JSON.stringify(error), {

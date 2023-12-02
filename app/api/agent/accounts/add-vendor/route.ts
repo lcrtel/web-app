@@ -1,12 +1,34 @@
 import fetchUser from "@/app/post/fetchUser";
-import { supabaseRouteHandler } from "@/lib/supabaseRouteHandler";
-
+import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
+    const cookieStore = cookies();
+
     const formData = await request.json();
     const userData = await fetchUser();
 
-    const supabase = await supabaseRouteHandler()
+    const supabase = createServerClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!,
+        {
+            cookies: {
+                get(name: string) {
+                    return cookieStore.get(name)?.value;
+                },
+                set(name: string, value: string, options: CookieOptions) {
+                    cookieStore.set({ name, value, ...options });
+                },
+                remove(name: string, options: CookieOptions) {
+                    cookieStore.set({ name, value: "", ...options });
+                },
+            },
+            auth: {
+                autoRefreshToken: false,
+                persistSession: false,
+            },
+        }
+    );
 
     const {
         data: { user },

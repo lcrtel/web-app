@@ -9,19 +9,18 @@ import toast from "react-hot-toast";
 import { HiOutlineArrowCircleLeft } from "react-icons/hi";
 import { AddPayment } from "./AddPayment";
 
+
 const InvoiceDetails = ({
     invoice,
-    gateway,
     payments,
 }: {
     invoice: any;
-    gateway: any;
     payments: any;
 }) => {
     const [isPrinting, setIsPrinting] = useState(false);
     const printContentsRef = createRef<HTMLDivElement>();
-    let amountPaid: number = 0;
 
+    let amountPaid: number = 0;
     if (payments) {
         for (const item of payments) {
             amountPaid += parseFloat(item.amount);
@@ -48,9 +47,9 @@ const InvoiceDetails = ({
     };
 
     const sendEmail = () => {
-        fetch("http://localhost:3000/api/emails/invoice", {
+        fetch("/api/emails/invoice", {
             method: "POST",
-            body: JSON.stringify({ ...gateway, ...invoice }),
+            body: JSON.stringify({ ...invoice }),
         });
         toast.success("Email sent successfully");
     };
@@ -74,7 +73,9 @@ const InvoiceDetails = ({
                             width={140}
                             height={20}
                         />
-                        <p className="text-slate-400 text-sm pt-2">lcrtelweb@gmail.com</p>
+                        <p className="text-slate-400 text-sm pt-2">
+                            lcrtelweb@gmail.com
+                        </p>
                     </div>
                     <h2 className="text-4xl uppercase font-bold tracking-tight">
                         Invoice
@@ -115,30 +116,14 @@ const InvoiceDetails = ({
                 </div>
                 <div className="grid grid-cols-5  p-8 border-b">
                     <div className=" col-span-4">
-                        <h2 className="font-semibold pb-2 tracking-tight">
+                        <h2 className="font-semibold tracking-tight">
                             Description
                         </h2>
-                        <div className="text-slate-500 text-sm font-medium">
-                            <p className=" ">
-                                Prefix: {gateway?.routes?.prefix}
-                            </p>{" "}
-                            <p className=" capitalize">
-                                Destination: {gateway?.routes?.destination}
-                            </p>{" "}
-                            <p className="">
-                                Route Type:{" "}
-                                <span className="uppercase">
-                                    {gateway?.routes?.route_type}
-                                </span>
-                            </p>
-                            <p className=" ">Rate: ${gateway?.rate}/m</p>{" "}
+                        <div className="text-slate-500 text-base">
                             <p
                                 className="mt-3"
                                 dangerouslySetInnerHTML={{
-                                    __html: invoice.description?.replace(
-                                        /\./g,
-                                        ".<br>"
-                                    ),
+                                    __html: invoice.description,
                                 }}
                             />
                         </div>
@@ -161,7 +146,7 @@ const InvoiceDetails = ({
                             <p>Branch: {invoice?.bill_to?.branchName}</p>
                         </div>
                     </div>
-                    <div className="flex flex-col gap-2 w-[200px]">
+                    <div className="flex flex-col gap-2 max-w-[250px] w-full">
                         <div className="flex justify-between text-slate-500 font-medium">
                             <p className=" ">Total:</p>
                             <p className="text-end">${invoice?.total_amount}</p>
@@ -169,7 +154,7 @@ const InvoiceDetails = ({
                         <div className="flex justify-between text-slate-500 font-medium">
                             <p className=" ">Amount Paid:</p>
                             <p className="text-end">
-                                -${amountPaid.toFixed(2)}
+                                -${amountPaid.toFixed(5)}
                             </p>
                         </div>
                         <div className="flex justify-between text-lg border-t pt-2 font-semibold">

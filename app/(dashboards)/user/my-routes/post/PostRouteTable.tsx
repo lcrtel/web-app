@@ -56,7 +56,20 @@ export function PostOffersTable() {
     const [posting, setPosting] = useState(false);
     const router = useRouter();
     const supabase = supabaseClient();
-    const [data, setData] = useState<any>([]);
+    const [data, setData] = useState<any>([
+        {
+            id: uuidv4(),
+            destination: "",
+            rate: "",
+            route_type: "cli",
+            prefix: "",
+            asr: "",
+            acd: "",
+            ports: "",
+            pdd: "",
+            capacity: "",
+        },
+    ]);
 
     useEffect(() => {
         const storedRouteData = localStorage.getItem("pendingRouteOffersData");
@@ -66,13 +79,13 @@ export function PostOffersTable() {
     }, [setData]);
 
     const handleAddRoute = () => {
-        setData((prevData:any) => [
+        setData((prevData: any) => [
             ...prevData,
             {
                 id: uuidv4(),
                 destination: "",
                 rate: "",
-                route_type: "",
+                route_type: "cli",
                 prefix: "",
                 asr: "",
                 acd: "",
@@ -95,9 +108,9 @@ export function PostOffersTable() {
     };
 
     function add20Percent(rate: number) {
-        const commission = rate * 0.2; // Calculate 20% of the rate
-        const result = rate + commission; // Add the increase to the original number
-        return result.toString();
+        const increase = rate * 0.2; // Calculate 20% of the rate
+        const result = rate + increase; // Add the increase to the original number
+        return result.toFixed(5).toString();
     }
 
     const handleSubmit = async (e: any) => {
@@ -126,28 +139,32 @@ export function PostOffersTable() {
             setPosting(false);
             toast.error(error.message);
             return;
+        } else {
+            router.refresh();
+            router.push("/user/my-routes");
+            toast.success("Route offers posted");
+            setPosting(false);
+            setData([]);
+            const storedRouteData = localStorage.getItem(
+                "pendingRouteOffersData"
+            );
+            if (storedRouteData) {
+                localStorage.removeItem("pendingRouteOffersData");
+            }
+            fetch(`${location.origin}/api/emails/routes/post-offer`, {
+                method: "POST",
+                body: JSON.stringify(data),
+            });
         }
-        
-        router.refresh();
-        router.push("/user/my-routes");
-        toast.success("Routes posted");
-        setPosting(false);
-        setData([]);
-        const storedRouteData = localStorage.getItem("pendingRouteOffersData");
-        if (storedRouteData) {
-            localStorage.removeItem("pendingRouteOffersData");
-        }
-        fetch(`${location.origin}/api/emails/routes/post-offer`, {
-            method: "POST",
-            body: JSON.stringify(data),
-        });
     };
 
     const columns = useMemo<ColumnDef<any>[]>(
         () => [
             {
                 accessorKey: "prefix",
-                header: "Prefix",
+                header: ({ column }) => {
+                    return <div className=" min-w-[80px]">Prefix</div>;
+                },
                 cell: function Cell({
                     getValue,
                     row: { index },
@@ -220,7 +237,7 @@ export function PostOffersTable() {
             {
                 accessorKey: "destination_code",
                 header: ({ column }) => {
-                    return <div className="">Code</div>;
+                    return <div className="min-w-[80px]">Area Prefix</div>;
                 },
                 cell: function Cell({
                     getValue,
@@ -539,7 +556,7 @@ export function PostOffersTable() {
         ],
         []
     );
-    
+
     const table = useReactTable({
         data,
         columns,
@@ -671,6 +688,7 @@ export function PostOffersTable() {
                     }
 
                     // Assuming you have a `setData` and `setIsOpen` function in your component
+                    setData([]);
                     setData((prevData: any) => [...prevData, ...jsonData]);
                     setIsOpen(false);
                 }
@@ -740,29 +758,29 @@ export function PostOffersTable() {
             {/* <pre> {JSON.stringify(data, null, 2)}</pre> */}
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold text-primary tracking-tight">
-                    Post your routes!
+                    Post your route offers
                 </h2>
                 <ImportDropdown />
             </div>
             <form className=" mt-4 overflow-y-auto" onSubmit={handleSubmit}>
                 <div className="flex items-center justify-between gap-4 mb-4 ">
-                        <p>{table.getFilteredRowModel().rows.length} route(s)</p>{" "}
-                        {data.length ? (
-                            <Button type="submit">
-                                {posting ? (
-                                    <>
-                                        Posting{" "}
-                                        <Loader2 className="ml-2 h-4 w-4 animate-spin" />
-                                    </>
-                                ) : (
-                                    "Post Offers"
-                                )}
-                            </Button>
-                        ) : (
-                            ""
-                        )}
+                    <p>{table.getFilteredRowModel().rows.length} route(s)</p>{" "}
+                    {data.length ? (
+                        <Button type="submit">
+                            {posting ? (
+                                <>
+                                    Posting{" "}
+                                    <Loader2 className="ml-2 h-4 w-4 animate-spin" />
+                                </>
+                            ) : (
+                                "Submit"
+                            )}
+                        </Button>
+                    ) : (
+                        ""
+                    )}
                 </div>
-                <div className="">
+                <div className="border rounded-lg">
                     <Table>
                         {table.getRowModel().rows?.length !== 0 && (
                             <TableHeader>
@@ -825,20 +843,20 @@ export function PostOffersTable() {
                 </div>
             </form>
             {table.getRowModel().rows?.length > 0 && (
-                <div className="flex flex-col gap-2 mt-2">
+                <div className="flex items-center justify-between gap-2 mt-2">
+                    <Button
+                        variant="outline"
+                        className="w-full"
+                        onClick={handleClear}
+                    >
+                        Clear
+                    </Button>
                     <Button
                         variant="secondary"
                         className="w-full"
                         onClick={handleAddRoute}
                     >
                         Add
-                    </Button>
-                    <Button
-                        variant="secondary"
-                        className="w-full mb-5"
-                        onClick={handleClear}
-                    >
-                        Clear
                     </Button>
                 </div>
             )}

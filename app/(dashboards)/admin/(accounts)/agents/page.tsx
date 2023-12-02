@@ -3,35 +3,20 @@ import AddAgent from "./AddAgent";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AgentsTable } from "./AgentsTable";
+import { supabaseServer } from "@/lib/supabase-server";
 
 export const revalidate = 0;
 
 const Agents = async () => {
-    const supabase = await supabaseAdminServer();
-    const {
-        data: { users },
-        error,
-    } = await supabase.auth.admin.listUsers();
-    const agents = users.filter(
-        (obj) =>
-            obj.user_metadata.role === "agent" 
-    );
-    const agentsList = agents.map((agent) => {
-        const { id, created_at, updated_at, last_sign_in_at, ...usersList } =
-            agent;
-        return {
-            ...usersList.user_metadata,
-            id,
-            created_at,
-            updated_at,
-            last_sign_in_at,
-        };
-    });
+    const supabase = await supabaseServer();
+    const { data: agents } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("role", "agent");
 
     return (
         <>
-            {" "}
-            <AgentsTable data={agentsList} />
+            <AgentsTable data={agents} />
         </>
     );
 };

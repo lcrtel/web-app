@@ -1,14 +1,6 @@
 "use client";
 
-import { Button, buttonVariants } from "@/components/ui/button";
-import {
-    Sheet,
-    SheetClose,
-    SheetContent,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-} from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 import { AnimatePresence, motion } from "framer-motion";
 import * as z from "zod";
 
@@ -26,29 +18,12 @@ import {
 
 import { Calendar } from "@/components/ui/calendar";
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { format } from "date-fns";
-import { CalendarIcon, Check, ChevronsUpDown, Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { toast } from "react-hot-toast";
-import { HiOutlinePlusCircle, HiX } from "react-icons/hi";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import formatDate from "@/utils/formatDate";
-import { Textarea } from "@/components/ui/textarea";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import AddBank from "@/app/(dashboards)/admin/config/add-bank/AddBank";
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+} from "@/components/ui/command";
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
@@ -57,13 +32,21 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-} from "@/components/ui/command";
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import formatDate from "@/utils/formatDate";
+import { format } from "date-fns";
+import { CalendarIcon, Check, ChevronsUpDown, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "react-hot-toast";
+import { HiOutlinePlusCircle, HiX } from "react-icons/hi";
 
 const invoiceFormSchema = z.object({
     date_issued: z.date({
@@ -72,15 +55,15 @@ const invoiceFormSchema = z.object({
     date_due: z.date({
         required_error: "Date of Due is required.",
     }),
-    note: z.string().optional(),
+    number_of_cdr: z.string(),
+    total_duration: z.string(),
+    total_amount: z.string(),
 });
 
 export function CreateInvoice({
-    gateways,
     clients,
     paymentMethods,
 }: {
-    gateways: any;
     clients: any;
     paymentMethods: any;
 }) {
@@ -93,56 +76,59 @@ export function CreateInvoice({
     const [calls, setCalls] = useState(0);
     const [rate, setRate] = useState(0);
     const [invoiceTo, setInvoiceTo] = useState();
-    const [gatewayID, setGatewayID] = useState();
     const [paymentMethod, setPaymentMethod] = useState(paymentMethods[0]);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    
+
     const router = useRouter();
-    
-    const form = useForm<any>({
+
+    const form = useForm<z.infer<typeof invoiceFormSchema>>({
         resolver: zodResolver(invoiceFormSchema),
         defaultValues: { date_issued: new Date() },
         mode: "onChange",
     });
 
-    async function onSubmit(data: any) {
+    async function onSubmit(data: z.infer<typeof invoiceFormSchema>) {
         setErrorMessage(null);
         setLoading(true);
 
-        await fetch("/admin/invoices/create", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                ...data,
-                invoice_to: invoiceTo,
-                gateway: gatewayID, 
-                description: `Invoice period: ${formatDate(
-                    startDate
-                )} to ${formatDate(
-                    endDate
-                )}. Calls: ${calls}. Duration: ${duration}mins.`,
-                total_amount: (duration * rate).toFixed(2),
-                balance: (duration * rate).toFixed(2),
-                bill_to: paymentMethod.details,
-            }),
-        }).then(async (response) => {
+        try {
+            const response = await fetch("/admin/invoices/create", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    date_issued: data.date_issued,
+                    date_due: data.date_due,
+                    invoice_to: invoiceTo,
+                    description: `Invoice period: ${formatDate(
+                        startDate
+                    )} to ${formatDate(endDate)}. Calls: ${
+                        data.number_of_cdr
+                    }. Duration: ${data.total_duration}mins.`,
+                    total_amount: data.total_amount,
+                    balance: data.total_amount,
+                    bill_to: paymentMethod.details,
+                }),
+            });
+
             if (!response.ok) {
                 const error = await response.json();
                 toast.error(error.message);
-                setLoading(false);
-                return;
             } else {
-                setIsOpen(false);
-                setLoading(false);
+                form.reset();
                 router.refresh();
-                toast.success("Invoice Created");
+                toast.success("Invoices Sent Successfully");
             }
-        });
+        } catch (error) {
+            console.error("An error occurred:", error);
+            toast.error("An error occurred while submitting the form.");
+        } finally {
+            setLoading(false);
+            setIsOpen(false);
+        }
     }
 
-    
     return (
         <>
             <Button
@@ -254,88 +240,6 @@ export function CreateInvoice({
                                                     </Command>
                                                 </PopoverContent>
                                             </Popover>
-                                            <FormMessage />
-                                        </div>
-                                        <div className="flex flex-col items-start gap-2">
-                                            <Label>Gateway</Label>
-                                          
-                                            <DropdownMenu>
-                                                <DropdownMenuTrigger asChild>
-                                                    <Button
-                                                        variant="outline"
-                                                        role="combobox"
-                                                        className={cn(
-                                                            "w-full rounded-lg justify-between",
-                                                            !gatewayID &&
-                                                                "text-muted-foreground"
-                                                        )}
-                                                    >
-                                                        {gatewayID
-                                                            ? gateways.find(
-                                                                  (
-                                                                      gateway: any
-                                                                  ) =>
-                                                                      gateway.id ===
-                                                                      gatewayID
-                                                              )?.name
-                                                            : "Select Gateway"}
-                                                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                                    </Button>
-                                                </DropdownMenuTrigger>
-                                                <DropdownMenuContent
-                                                    className="w-64"
-                                                    align="start"
-                                                >
-                                                    <DropdownMenuLabel>
-                                                        Gateways
-                                                    </DropdownMenuLabel>
-                                                    <DropdownMenuSeparator />{" "}
-                                                    {invoiceTo ? (
-                                                        gateways
-                                                            .filter(
-                                                                (
-                                                                    gateway: any
-                                                                ) =>
-                                                                    gateway.client_id ===
-                                                                    invoiceTo
-                                                            )
-                                                            .map(
-                                                                (
-                                                                    gateway: any
-                                                                ) => (
-                                                                    <DropdownMenuCheckboxItem
-                                                                    
-                                                                        className="cursor-pointer"
-                                                                        checked={
-                                                                            gateway.id ===
-                                                                            gatewayID
-                                                                        }
-                                                                        key={
-                                                                            gateway.id
-                                                                        }
-                                                                        onCheckedChange={(
-                                                                            e
-                                                                        ) => {
-                                                                            setGatewayID(gateway.id)
-                                                                            setRate(
-                                                                                gateway.rate
-                                                                            );
-                                                                        }}
-                                                                    >
-                                                                        {
-                                                                            gateway.name
-                                                                        }
-                                                                    </DropdownMenuCheckboxItem>
-                                                                )
-                                                            )
-                                                    ) : (
-                                                        <p className="text-slate-400 text-sm p-3">
-                                                            Choose a Client
-                                                        </p>
-                                                    )}
-                                                </DropdownMenuContent>
-                                            </DropdownMenu>
-                                            <FormMessage />
                                         </div>
                                         <div className="flex flex-col  gap-2 border-b pb-5">
                                             <h3 className="text-base text-left font-semibold">
@@ -446,51 +350,62 @@ export function CreateInvoice({
                                                 Usage
                                             </h3>
 
-                                            <div className="grid grid-cols-3 gap-2">
-                                                <div className="flex flex-col items-start gap-2">
-                                                    <Label>Calls</Label>
-                                                    <Input
-                                                        type="number"
-                                                        value={calls}
-                                                        onChange={(e) =>
-                                                            setCalls(
-                                                                e.target
-                                                                    .valueAsNumber
-                                                            )
-                                                        }
-                                                    />
-                                                </div>
-                                                <div className="flex flex-col items-start gap-2">
-                                                    <Label>Mins</Label>
-                                                    <Input
-                                                        type="number"
-                                                        value={duration}
-                                                        onChange={(e) =>
-                                                            setDuration(
-                                                                e.target
-                                                                    .valueAsNumber
-                                                            )
-                                                        }
-                                                    />
-                                                </div>
-                                                <div className="flex flex-col items-start gap-2">
-                                                    <Label>Rate</Label>
-                                                    <Input
-                                                        type="number"
-                                                        value={rate}
-                                                        onChange={(e) =>
-                                                            setRate(
-                                                                e.target
-                                                                    .valueAsNumber
-                                                            )
-                                                        }
-                                                    />
-                                                </div>
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <FormField
+                                                    control={form.control}
+                                                    name="number_of_cdr"
+                                                    render={({ field }) => (
+                                                        <FormItem className="flex flex-col gap-2 items-start space-y-0">
+                                                            <FormLabel>
+                                                                Number of CDR
+                                                            </FormLabel>
+                                                            <FormControl>
+                                                                <Input
+                                                                    placeholder="CDR"
+                                                                    {...field}
+                                                                />
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
+                                                <FormField
+                                                    control={form.control}
+                                                    name="total_duration"
+                                                    render={({ field }) => (
+                                                        <FormItem className="flex flex-col gap-2 items-start space-y-0">
+                                                            <FormLabel>
+                                                                Total Duration
+                                                            </FormLabel>
+                                                            <FormControl>
+                                                                <Input
+                                                                    placeholder="Duration"
+                                                                    {...field}
+                                                                />
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
+                                                <FormField
+                                                    control={form.control}
+                                                    name="total_amount"
+                                                    render={({ field }) => (
+                                                        <FormItem className="flex flex-col gap-2 items-start space-y-0 col-span-2">
+                                                            <FormLabel>
+                                                                Total Amount
+                                                            </FormLabel>
+                                                            <FormControl>
+                                                                <Input
+                                                                    placeholder="Total Amount"
+                                                                    {...field}
+                                                                />
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
                                             </div>
-                                            <h3 className="text-base text-left font-semibold">
-                                                Total Amount: ${" "}
-                                                {(duration * rate).toFixed(2)}
-                                            </h3>
                                         </div>
 
                                         <div className="grid grid-cols-2 gap-2">
@@ -639,7 +554,9 @@ export function CreateInvoice({
                                                                 method.type ===
                                                                     "bank" && (
                                                                     <DropdownMenuCheckboxItem
-                                                                    key={method.id}
+                                                                        key={
+                                                                            method.id
+                                                                        }
                                                                         className="cursor-pointer"
                                                                         checked={
                                                                             paymentMethod.id ===
@@ -720,9 +637,7 @@ export function CreateInvoice({
                                         type="submit"
                                         disabled={
                                             !endDate ||
-                                            !startDate ||
-                                            duration === 0 ||
-                                            calls === 0 
+                                            !startDate 
                                                 ? true
                                                 : false
                                         }

@@ -10,23 +10,6 @@ const RealTimePurchaseRequests = ({
 }: {
     purchaseRequests: PurchaseRequest[];
 }) => {
-    const supabase = supabaseClient();
-    const router = useRouter();
-    useEffect(() => {
-        const realtimeRequests = supabase
-            .channel("realtime-requests")
-            .on(
-                "postgres_changes",
-                { event: "*", schema: "public", table: "purchase_requests" },
-                () => {
-                    router.refresh();
-                }
-            )
-            .subscribe();
-        return () => {
-            supabase.removeChannel(realtimeRequests);
-        };
-    }, [supabase, router]);
     return (
         <>
             {purchaseRequests?.map((purchaseRequest: any) => (

@@ -6,17 +6,16 @@ import { fetchUserData } from "@/utils/user";
 export async function fetchUnVerfiedRoutes() {
     const supabase = await supabaseServer();
 
-    const user = await fetchUserData();
+    const user:any = await fetchUserData();
     let { data: vendors, error } = await supabase
         .from("profiles")
         .select("*")
-        .match({ agent_id: user?.id, role: "vendor" });
+        .match({ role: "vendor", agent_id: user.id });
 
     let { data: unverified_routes } = await supabase
         .from("routes")
-        .select(`*, profiles (agent_id)`)
-        .eq("profiles.agent_id", user?.id)
-        .match({ verification: "pending" });
+        .select("*")
+        .eq("verification", "pending");
 
     function addVendorNameToRoutes(routes: any, users: any) {
         return routes

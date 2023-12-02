@@ -23,10 +23,23 @@ import {
 } from "@tanstack/react-table";
 import Link from "next/link";
 import * as React from "react";
-import { HiOutlinePencilAlt } from "react-icons/hi";
-import DeleteUser from "./[id]/DeleteUser";
+import { HiOutlineExternalLink } from "react-icons/hi";
 
 export const columns: ColumnDef<any>[] = [
+    {
+        accessorKey: "id",
+        header: "",
+        cell: ({ row }) => {
+            const id = row.getValue("id");
+            return (
+                <div className="flex gap-2">
+                    <Link href={`/agent/clients/${id}`} className="">
+                        <HiOutlineExternalLink className="w-5 h-5" />
+                    </Link>
+                </div>
+            );
+        },
+    },
     {
         accessorKey: "name",
         header: ({ column }) => {
@@ -73,29 +86,11 @@ export const columns: ColumnDef<any>[] = [
     {
         accessorKey: "targets",
         header: ({ column }) => {
-            return <div className=" ">Targets Posted</div>;
+            return <div className=" ">Route Requests</div>;
         },
         cell: ({ row }) => (
             <div className="capitalize">{row.getValue("targets")}</div>
         ),
-    },
-
-    {
-        accessorKey: "id",
-        header: "",
-        cell: ({ row }) => {
-            const id = row.getValue("id");
-            return (
-                <div className="flex gap-2">
-                    <div className="text-red-500">
-                        <DeleteUser userID={id} />
-                    </div>{" "}
-                    <Link href={`/agent/clients/${id}`} className="">
-                        <HiOutlinePencilAlt className="w-5 h-5" />
-                    </Link>
-                </div>
-            );
-        },
     },
 ];
 
@@ -113,7 +108,7 @@ export function ClientsTable({ data }: any) {
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
         getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
+        
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,
@@ -191,7 +186,7 @@ export function ClientsTable({ data }: any) {
                                     colSpan={columns.length}
                                     className="h-8 text-center"
                                 >
-                                    No clients found.
+                                    No vendors found.
                                 </TableCell>
                             </TableRow>
                         )}

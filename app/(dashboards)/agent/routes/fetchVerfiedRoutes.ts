@@ -5,17 +5,18 @@ import { fetchUserData } from "@/utils/user";
 
 export async function fetchVerfiedRoutes() {
     const supabase = await supabaseServer();
+    const user: any = await fetchUserData();
 
-    const user = await fetchUserData();
     let { data: vendors, error } = await supabase
         .from("profiles")
         .select("*")
-        .match({ agent_id: user?.id, role: "vendor" });
+        .match({ role: "vendor", agent_id: user.id });
 
-    let { data: unverified_routes } = await supabase
+    let { data: verified_routes } = await supabase
         .from("routes")
         .select("*")
         .eq("verification", "verified");
+        
 
     function addVendorNameToRoutes(routes: any, users: any) {
         return routes
@@ -36,7 +37,7 @@ export async function fetchVerfiedRoutes() {
             });
     }
 
-    const data = addVendorNameToRoutes(unverified_routes, vendors);
+    const data = addVendorNameToRoutes(verified_routes, vendors);
 
 
     return data;

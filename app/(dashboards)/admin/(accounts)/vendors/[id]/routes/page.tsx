@@ -12,8 +12,8 @@ export default async function Page({ params }: { params: { id: string } }) {
         .eq("vendor_id", params?.id);
     return (
         <div>
-            <h1 className="text-lg font-bold tracking-tight">Routes</h1>
-            <div className="grid pt-4 md:grid-cols-2 lg:grid-cols-3">
+            <h1 className="text-lg font-semibold tracking-tight">Route Offers</h1>
+            <div className="grid pt-4 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  max-w-7xl">
                 {routes?.length ? (
                     routes?.map((route) => (
                         <div

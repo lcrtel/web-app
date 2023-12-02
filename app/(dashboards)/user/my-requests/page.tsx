@@ -1,0 +1,41 @@
+import { supabaseServer } from "@/lib/supabase-server";
+import { fetchUserData } from "@/utils/user";
+import { buttonVariants } from "@/components/ui/button";
+import Link from "next/link";
+import { HiOutlinePlusCircle } from "react-icons/hi";
+import { TargetsTable } from "./TargetsTable";
+export const revalidate = 0;
+const page = async () => {
+    const supabase = await supabaseServer();
+    const user = await fetchUserData();
+    let { data: routes, error } = await supabase
+        .from("targets")
+        .select("*")
+        .match({ client_id: user?.id });
+    return (
+        <section className="">
+            <div className="flex mb-5 justify-between items-center flex-wrap gap-2">
+                <div>
+                    <h3 className="text-2xl tracking-tight font-bold text-primary-500 flex items-center">
+                        My Route Requests
+                    </h3>
+                    <p className="text-gray-400 text-sm">
+                        View and manage your route requests
+                    </p>
+                </div>
+                <Link
+                    href="/user/my-requests/post"
+                    className={`${buttonVariants({
+                        variant: "default",
+                        size: "icon",
+                    })}`}
+                >
+                    <HiOutlinePlusCircle className="w-5 h-5" />
+                </Link>
+            </div>
+            <TargetsTable data={routes} />
+        </section>
+    );
+};
+
+export default page;

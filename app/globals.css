@@ -86,3 +86,19 @@
     --num: attr(data-num);
   }
 }
+
+#dataTable table {
+@apply w-full 
+}
+#dataTable thead {
+@apply bg-slate-100
+}
+#dataTable tr {
+@apply border-b transition-colors whitespace-nowrap hover:bg-slate-100/50
+}
+#dataTable th {
+@apply h-10 px-3 bg-surface first:rounded-tl-lg last:rounded-tr-lg text-left align-middle font-medium text-slate-500 
+}
+#dataTable td {
+@apply p-3 align-middle
+}

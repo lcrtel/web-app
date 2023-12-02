@@ -23,10 +23,23 @@ import {
 } from "@tanstack/react-table";
 import Link from "next/link";
 import * as React from "react";
-import { HiOutlinePencilAlt } from "react-icons/hi";
-import DeleteUser from "../clients/[id]/DeleteUser";
+import { HiOutlineExternalLink } from "react-icons/hi";
 
 export const columns: ColumnDef<any>[] = [
+    {
+        accessorKey: "id",
+        header: "",
+        cell: ({ row }) => {
+            const id = row.getValue("id");
+            return (
+                <div className="flex gap-2">
+                    <Link href={`/admin/agents/${id}`} className="">
+                        <HiOutlineExternalLink className="w-5 h-5" />
+                    </Link>
+                </div>
+            );
+        },
+    },
     {
         accessorKey: "name",
         header: ({ column }) => {
@@ -34,15 +47,6 @@ export const columns: ColumnDef<any>[] = [
         },
         cell: ({ row }) => (
             <div className="capitalize">{row.getValue("name")}</div>
-        ),
-    },
-    {
-        accessorKey: "company_name",
-        header: ({ column }) => {
-            return <div className=" ">Company</div>;
-        },
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("company_name")}</div>
         ),
     },
     {
@@ -69,25 +73,7 @@ export const columns: ColumnDef<any>[] = [
         cell: ({ row }) => (
             <div className="capitalize">{row.getValue("skype_id")}</div>
         ),
-    },
-
-    {
-        accessorKey: "id",
-        header: "",
-        cell: ({ row }) => {
-            const id = row.getValue("id");
-            return (
-                <div className="flex gap-2">
-                    <div className="text-red-500">
-                        <DeleteUser userID={id} />
-                    </div>{" "}
-                    <Link href={`/admin/agents/${id}`} className="">
-                        <HiOutlinePencilAlt className="w-5 h-5" />
-                    </Link>
-                </div>
-            );
-        },
-    },
+    }
 ];
 
 export function AgentsTable({ data }: any) {
@@ -104,7 +90,7 @@ export function AgentsTable({ data }: any) {
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
         getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
+        
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,

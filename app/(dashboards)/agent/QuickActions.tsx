@@ -22,7 +22,7 @@ const QuickActions = () => {
                     Add Routes
                 </Link>
                 <Link
-                    href="/agent/targets/post"
+                    href="/agent/requests/post"
                     className={`${buttonVariants({
                         variant: "outline",
                     })}`}

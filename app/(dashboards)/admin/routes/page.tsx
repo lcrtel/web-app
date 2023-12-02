@@ -23,7 +23,7 @@ const Routes = async () => {
             {unverified_routes?.length ? (
                 <div className="w-full">
                     <h2 className="font-semibold text-lg mb-2">
-                        Unverified Routes
+                        Unverified Route Offers
                     </h2>
                     <RoutesTable data={unverified_routes} />
                 </div>
@@ -36,7 +36,7 @@ export default async function Page() {
     return (
         <div className="h-full">
             <div className="flex  gap-2  flex-wrap md:items-center mb-4 justify-between ">
-                <h1 className="text-2xl font-bold text-primary">Routes</h1>
+                <h1 className="text-2xl font-bold text-primary">Route Offers</h1>
                 <Link
                     passHref
                     href="/admin/routes/post"
@@ -46,7 +46,7 @@ export default async function Page() {
                     })}
                 >
                     <HiOutlinePlusCircle className="mr-2 h-5 w-5" />
-                    Add Routes
+                    Add
                 </Link>
             </div>
             <Suspense fallback={<Loader />}>

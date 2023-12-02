@@ -41,34 +41,28 @@ import { supabaseClient } from "@/lib/supabase-client";
 import { useRouter } from "next/navigation";
 
 export const columns: ColumnDef<Route>[] = [
-    // {
-    //     id: "select",
-    //     header: ({ table }) => (
-    //         <Checkbox
-    //             checked={table.getIsAllPageRowsSelected()}
-    //             onCheckedChange={(value: boolean) =>
-    //                 table.toggleAllPageRowsSelected(!!value)
-    //             }
-    //             aria-label="Select all"
-    //         />
-    //     ),
-    //     cell: ({ row }) => (
-    //         <Checkbox
-    //             checked={row.getIsSelected()}
-    //             onCheckedChange={(value: boolean) =>
-    //                 row.toggleSelected(!!value)
-    //             }
-    //             aria-label="Select row"
-    //         />
-    //     ),
-    // },
-
+    {
+        accessorKey: "prefix",
+        header: ({ column }) => {
+            return (
+                <div
+                    className="flex gap-2 items-center cursor-pointer"
+                    onClick={() =>
+                        column.toggleSorting(column.getIsSorted() === "asc")
+                    }
+                >
+                    Prefix
+                    <ArrowUpDown className=" h-4 w-4" />
+                </div>
+            );
+        },
+    },
     {
         accessorKey: "destination",
         header: ({ column }) => {
             return (
                 <div className=" min-w-[100px] whitespace-nowrap">
-                    Destination Name
+                    Destination
                 </div>
             );
         },
@@ -83,7 +77,7 @@ export const columns: ColumnDef<Route>[] = [
     },
     {
         accessorKey: "destination_code",
-        header: "Code",
+        header: "Area Prefix",
         cell: ({ row }) => (
             <Link
                 href={`/user/my-routes/${row.getValue("id")}`}
@@ -108,21 +102,12 @@ export const columns: ColumnDef<Route>[] = [
                 </div>
             );
         },
-        // cell: ({ row }) => {
-        //     const Rate = parseFloat(row.getValue("rate"));
-        //     const formatted = new Intl.NumberFormat("en-US", {
-        //         style: "currency",
-        //         currency: "USD",
-        //     }).format(Rate);
-
-        //     return <div className="font-medium">{formatted}</div>;
-        // },
         cell: ({ row }) => (
             <Link
                 href={`/user/my-routes/${row.getValue("id")}`}
                 className="uppercase"
             >
-                {row.getValue("rate")}
+               $ {row.getValue("rate")}
             </Link>
         ),
     },
@@ -181,22 +166,6 @@ export const columns: ColumnDef<Route>[] = [
                 )}
             </Link>
         ),
-    },
-    {
-        accessorKey: "prefix",
-        header: ({ column }) => {
-            return (
-                <div
-                    className="flex gap-2 items-center cursor-pointer"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Prefix
-                    <ArrowUpDown className=" h-4 w-4" />
-                </div>
-            );
-        },
     },
     {
         accessorKey: "asr",
@@ -305,7 +274,7 @@ export function RoutesTable({ data }: any) {
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
         getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
+        
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,
@@ -350,35 +319,6 @@ export function RoutesTable({ data }: any) {
                     }
                     className="max-w-[200px] mr-2"
                 />
-                <div className="flex gap-2 ml-auto">
-                    <ReloadButton />
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="outline" className="">
-                                Columns <ChevronDown className="ml-2 h-4 w-4" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            {table
-                                .getAllColumns()
-                                .filter((column) => column.getCanHide())
-                                .map((column) => {
-                                    return (
-                                        <DropdownMenuCheckboxItem
-                                            key={column.id}
-                                            className="capitalize"
-                                            checked={column.getIsVisible()}
-                                            onCheckedChange={(value: boolean) =>
-                                                column.toggleVisibility(!!value)
-                                            }
-                                        >
-                                            {column.id}
-                                        </DropdownMenuCheckboxItem>
-                                    );
-                                })}
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                </div>
             </div>
             <div className="rounded-lg border ">
                 <Table>

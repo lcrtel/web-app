@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { DialogFooter } from "@/components/ui/dialog";
 import {
     Form,
     FormControl,
@@ -20,8 +21,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabaseClient } from "@/lib/supabase-client";
 import formatString from "@/utils/formatString";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { User } from "@supabase/supabase-js";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { FaWhatsapp } from "react-icons/fa6";
@@ -33,73 +36,77 @@ const FormSchema = z.object({
         .string()
         .refine((val) => !Number.isNaN(parseInt(val, 10)))
         .optional(),
-    message: z.string().optional(),
     payment_type: z.string(),
-    whatsapp_no: z.string(),
+    whatsapp_no: z.string().min(9, {
+        message: "WhatsApp number is required to contact you",
+    }),
+    ip: z.string().min(6, {
+        message: "IP Address is required to configure the route",
+    }),
 });
 
 export function PurchaseRequestForm({
-    selectedRoute,
-    user,
+    selectedRoutes,
+    purchaseRequest,
+    userID,
 }: {
-    selectedRoute: any;
-    user: any;
+    selectedRoutes: any[];
+    purchaseRequest: any;
+    userID: string | undefined;
 }) {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
-        defaultValues: { buying_rate: selectedRoute.routes?.selling_rate },
+        defaultValues: {
+            payment_type: "postpaid",
+            whatsapp_no: purchaseRequest?.whatsapp_no,
+            ip: purchaseRequest?.ip,
+        },
     });
     const supabase = supabaseClient();
     const router = useRouter();
+    
+    const DeleteButton = ({ id }: { id: string }) => {
+        const [loading, setLoading] = useState(false);
+        const handleDelete = async (id: string) => {
+            setLoading(true);
 
-    useEffect(() => {
-        const selectedRoutes = supabase
-            .channel("realtime-page")
-            .on(
-                "postgres_changes",
-                { event: "*", schema: "public", table: "selected_routes" },
-                () => {
-                    router.refresh();
-                }
-            )
-            .subscribe();
-
-        return () => {
-            supabase.removeChannel(selectedRoutes);
+            const { error } = await supabase
+                .from("selected_routes")
+                .delete()
+                .match({ id: id, user_id: userID });
+            if (error) {
+                toast.error(error.message);
+                return;
+            }
+            router.refresh();
+            toast.success("Removed from the cart");
         };
-    }, [supabase, router]);
-
-    const handleDelete = async () => {
-        const { error } = await supabase
-            .from("selected_routes")
-            .delete()
-            .match({ id: selectedRoute.id, user_id: selectedRoute.user_id });
-        if (error) {
-            toast.error(error.message);
-            return;
-        }
-        router.refresh();
+        return (
+            <Button
+                onClick={(e) => handleDelete(id)}
+                variant="outline"
+                size="sm"
+                className="w-full"
+            >
+                {loading ? (
+                    <Loader2 className="w-5 h-5 text-red-400 animate-spin" />
+                ) : (
+                    <HiTrash className="text-red-400 w-5 h-5" />
+                )}
+            </Button>
+        );
     };
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         const supabase = supabaseClient();
 
-        let { data: purchase_requests } = await supabase
-            .from("purchase_requests")
-            .select(`*`)
-            .match({ client_id: user.id, route_id: selectedRoute.route_id })
-            .single();
-        if (purchase_requests?.route_id === selectedRoute.route_id) {
-            toast.error(
-                "You have already sent a purchase requests for this route"
-            );
-        } else {
+        selectedRoutes.map(async (route: SelectedRoute) => {
             const { error } = await supabase.from("purchase_requests").insert([
                 {
-                    route_id: selectedRoute.route_id,
-                    buying_rate: data.buying_rate,
-                    message: data.message,
+                    route_id: route.route_id,
                     payment_type: data.payment_type,
+                    ip: data.ip,
+                    whatsapp_no: data.whatsapp_no,
                     communication_status: "not_contacted",
                 },
             ]);
@@ -107,51 +114,52 @@ export function PurchaseRequestForm({
                 toast.error(error.message);
                 return;
             }
-            toast.success("Purchase request posted");
-            await supabase
-                .from("selected_routes")
-                .delete()
-                .eq("id", selectedRoute.id);
-            router.refresh();
-        }
+            await supabase.from("selected_routes").delete().eq("id", route.id);
+        });
+
+        toast.success("Purchase request posted");
+        router.refresh();
     }
 
     return (
         <Form {...form}>
-            <div className="w-full border bg-slate-50 flex flex-col md:flex-row p-4 gap-4 rounded-lg ">
-                <div className=" w-full rounded-lg flex flex-col justify-between">
-                    <div>
-                        <div className="flex  gap-4 flex-wrap mb-4">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                {selectedRoutes.map((route: any) => (
+                    <div
+                        key={route.id}
+                        className="w-full border bg-slate-50 flex flex-col  p-4 gap-4 rounded-lg"
+                    >
+                        <div className="flex justify-between flex-wrap  gap-4 ">
                             <div>
                                 <p className="text-slate-400 font-medium text-sm">
                                     Destination
                                 </p>
-                                <p className=" capitalize font-semibold text-lg leading-none">
-                                    {selectedRoute.routes?.destination}
+                                <p className=" capitalize font-semibold text-base leading-none">
+                                    {route.routes?.destination}
                                 </p>
                             </div>
                             <div>
                                 <p className="text-slate-400 font-medium text-sm">
                                     Route Type
                                 </p>
-                                <p className="uppercase font-semibold text-lg leading-none">
-                                    {selectedRoute.routes?.route_type}
+                                <p className="uppercase font-semibold text-base leading-none">
+                                    {route.routes?.route_type}
                                 </p>
                             </div>
                             <div>
                                 <p className="text-slate-400 font-medium text-sm">
                                     Rate
                                 </p>
-                                <p className="uppercase font-semibold text-lg leading-none">
-                                    ${selectedRoute.routes?.selling_rate}
+                                <p className="uppercase font-semibold text-base leading-none">
+                                    ${route.routes?.selling_rate}
                                 </p>
                             </div>
                         </div>{" "}
-                        <div className="grid sm:grid-cols-2 gap-2  mb-4">
+                        <div className="grid gap-1 ">
                             <div className="w-full flex justify-between items-center bg-white border border-slate-100 rounded-md px-2 py-1">
                                 <p className=" text-sm text-gray-500">Prefix</p>
                                 <p className=" font-semibold">
-                                    {selectedRoute.routes?.prefix}
+                                    {route.routes?.prefix}
                                 </p>
                             </div>
                             <div className="w-full flex justify-between items-center bg-white border border-slate-100 rounded-md px-2 py-1">
@@ -159,31 +167,31 @@ export function PurchaseRequestForm({
                                     Destination Code
                                 </p>
                                 <p className=" font-semibold">
-                                    {selectedRoute.routes?.destination_code}
+                                    {route.routes?.destination_code}
                                 </p>
                             </div>
                             <div className="w-full flex justify-between items-center bg-white border border-slate-100 rounded-md px-2 py-1">
                                 <p className=" text-sm text-gray-500">ASR</p>
                                 <p className=" font-semibold">
-                                    {selectedRoute.routes?.asr}
+                                    {route.routes?.asr}
                                 </p>
                             </div>
                             <div className="w-full flex justify-between items-center bg-white border border-slate-100 rounded-md px-2 py-1">
                                 <p className=" text-sm text-gray-500">ACD</p>
                                 <p className=" font-semibold">
-                                    {selectedRoute.routes?.acd}
+                                    {route.routes?.acd}
                                 </p>
                             </div>
                             <div className="w-full flex justify-between items-center bg-white border border-slate-100 rounded-md px-2 py-1">
                                 <p className=" text-sm text-gray-500">PDD</p>
                                 <p className=" font-semibold">
-                                    {selectedRoute.routes?.pdd}
+                                    {route.routes?.pdd}
                                 </p>
                             </div>
                             <div className="w-full flex justify-between items-center bg-white border border-slate-100 rounded-md px-2 py-1">
                                 <p className=" text-sm text-gray-500">Ports</p>
                                 <p className=" font-semibold">
-                                    {selectedRoute.routes?.ports}
+                                    {route.routes?.ports}
                                 </p>
                             </div>
                             <div className="w-full flex justify-between items-center bg-white border border-slate-100 rounded-md px-2 py-1">
@@ -191,65 +199,20 @@ export function PurchaseRequestForm({
                                     Capacity
                                 </p>
                                 <p className=" font-semibold">
-                                    {selectedRoute.routes?.capacity}
+                                    {route.routes?.capacity}
                                 </p>
                             </div>
-                            <div className="w-full flex justify-between items-center bg-white border border-slate-100 rounded-md px-2 py-1">
-                                <p className=" text-sm text-gray-500">Status</p>
-                                <p className=" font-semibold">
-                                    {formatString(
-                                        selectedRoute.routes?.verification
-                                    )}
-                                </p>
-                            </div>
+                            <DeleteButton id={route.id} />
                         </div>
                     </div>
-                    <Button variant={"outline"} onClick={() => handleDelete()}>
-                        <HiTrash className="ml-2 w-5 h-5 text-red-500" />
-                    </Button>
-                </div>
-                <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="flex w-full md:w-2/3 flex-col gap-4 p-4 bg-white  rounded-lg"
-                >
-                    <FormField
-                        control={form.control}
-                        name="buying_rate"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Target Buying Rate $</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        type="number"
-                                        placeholder="$0.00"
-                                        className="bg-slate-50"
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="whatsapp_no"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel className="flex gap-1 items-center">
-                                    <FaWhatsapp /> WhatsApp No
-                                </FormLabel>
-                                <FormControl>
-                                    <Input
-                                        type="tel"
-                                        placeholder="Enter your WhatsApp number"
-                                        className="bg-slate-50"
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                ))}
+            </div>
+
+            <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className=" bg-white py-4 md:p-0 sticky border-t md:border-0 left-0 right-0 bottom-0 md:relative "
+            >
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-4">
                     <FormField
                         control={form.control}
                         name="payment_type"
@@ -278,26 +241,55 @@ export function PurchaseRequestForm({
                                 <FormMessage />
                             </FormItem>
                         )}
-                    />
+                    />{" "}
                     <FormField
                         control={form.control}
-                        name="message"
+                        name="whatsapp_no"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Remarks</FormLabel>
+                                <FormLabel className="gap-1 items-center">
+                                    WhatsApp No
+                                </FormLabel>
                                 <FormControl>
-                                    <Textarea
-                                        placeholder="Remarks"
+                                    <Input
+                                        type="tel"
+                                        placeholder="Enter your WhatsApp number"
+                                        className="bg-slate-50"
                                         {...field}
                                     />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
-                    />{" "}
-                    <Button type="submit">Request Purchase</Button>
-                </form>
-            </div>
+                    />
+                    <FormField
+                        control={form.control}
+                        name="ip"
+                        render={({ field }) => (
+                            <FormItem className="col-span-2 md:col-span-1">
+                                <FormLabel className="gap-1 items-center">
+                                    IP Address
+                                </FormLabel>
+                                <FormControl>
+                                    <Input
+                                        type="tel"
+                                        placeholder="Enter your IP Address"
+                                        className="bg-slate-50"
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+
+                <DialogFooter>
+                    <Button type="submit" className="">
+                        Request Purchase
+                    </Button>
+                </DialogFooter>
+            </form>
         </Form>
     );
 }

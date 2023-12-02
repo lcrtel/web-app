@@ -1,41 +1,174 @@
+import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
-import DeleteUser from "./DeleteUser";
+import Link from "next/link";
 import { Suspense } from "react";
-import { AgentForm } from "./AgentForm";
+import { HiArrowRight } from "react-icons/hi";
 
 export const revalidate = 0;
 
-const VendorDetails = async ({ id }: { id: string }) => {
-    const supabase = await supabaseServer();
-
-    let { data: agent, error } = await supabase
+const Vendors = async ({
+    agentID,
+    supabase,
+}: {
+    agentID: string;
+    supabase: any;
+}) => {
+    let { data: vendors, error } = await supabase
         .from("profiles")
         .select("*")
-        .eq("id", id)
-        .single();
-    return <AgentForm user={agent} />;
+        .match({ agent_id: agentID, role: "vendor" });
+
+    return (
+        <p className="font-bold tracking-tight text-3xl ">{vendors.length}</p>
+    );
+};
+const Clients = async ({
+    agentID,
+    supabase,
+}: {
+    agentID: string;
+    supabase: any;
+}) => {
+    let { data: clients, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .match({ agent_id: agentID, role: "client" });
+
+    return (
+        <p className="font-bold tracking-tight text-3xl ">{clients.length}</p>
+    );
+};
+const RouteOffers = async ({
+    agentID,
+    supabase,
+}: {
+    agentID: string;
+    supabase: any;
+}) => {
+    let { data: route_offers, error } = await supabase
+        .from("routes")
+        .select(`*, profiles (agent_id)`)
+        .eq("profiles.agent_id", agentID);
+
+    return (
+        <p className="font-bold tracking-tight text-3xl ">{route_offers.length}</p>
+    );
+};
+const RouteRequests = async ({
+    agentID,
+    supabase,
+}: {
+    agentID: string;
+    supabase: any;
+}) => {
+    let { data: route_requests, error } = await supabase
+        .from("targets")
+        .select(`*, profiles (agent_id)`)
+        .eq("profiles.agent_id", agentID);
+
+    return (
+        <p className="font-bold tracking-tight text-3xl ">{route_requests.length}</p>
+    );
+};
+const Purchases = async ({
+    agentID,
+    supabase,
+}: {
+    agentID: string;
+    supabase: any;
+}) => {
+    let { data: route_requests, error } = await supabase
+        .from("purchase_requests")
+        .select(`*, profiles (agent_id)`)
+        .eq("profiles.agent_id", agentID).match({status: "approved"});
+
+    return (
+        <p className="font-bold tracking-tight text-3xl ">{route_requests.length}</p>
+    );
 };
 
 export default async function Page({ params }: { params: { id: string } }) {
+    const supabase = await supabaseServer();
     return (
-        <div className="">
-            <Suspense>
-                <VendorDetails id={params.id} />
-            </Suspense>
-            <div className="flex justify-between max-w-3xl items-center border border-red-500 rounded-lg p-4 text-red-500">
-                <div>
-                    <h3 className="font-semibold tracking-tight">
-                        Delete this Vendor
+        <section className="">
+            <div className="grid  sm:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4 max-w-7xl gap-4 md:gap-5 items-start">
+                <Link
+                    href={`/admin/agents/${params.id}/vendors`}
+                    className="hover:bg-slate-50 hover:shadow-lg transition-all space-y-2 ease-in duration-300 border rounded-xl p-4 md:p-5 active:scale-[95%]"
+                >
+                    <h3 className="text-sm font-medium text-gray-400 tracking-tight flex items-center justify-between">
+                        Vendors <HiArrowRight className="" />
                     </h3>
-                    <p className="text-sm">
-                        Once deleted, it will be gone forever. Please be
-                        certain.
-                    </p>
+                    <Suspense
+                        fallback={
+                            <Skeleton className="h-9 border rounded-xl " />
+                        }
+                    >
+                        <Vendors agentID={params.id} supabase={supabase} />
+                    </Suspense>
+                </Link>
+                <Link
+                    href={`/admin/agents/${params.id}/clients`}
+                    className="hover:bg-slate-50 hover:shadow-lg transition-all space-y-2 ease-in duration-300 border rounded-xl p-4 md:p-5 active:scale-[95%]"
+                >
+                    <h3 className="text-sm font-medium text-gray-400 tracking-tight flex items-center justify-between">
+                        Clients <HiArrowRight className="" />
+                    </h3>
+                    <Suspense
+                        fallback={
+                            <Skeleton className="h-9 border rounded-xl " />
+                        }
+                    >
+                        <Clients agentID={params.id} supabase={supabase} />
+                    </Suspense>
+                </Link>
+                <div
+                    className="hover:bg-slate-50 hover:shadow-lg transition-all space-y-2 ease-in duration-300 border rounded-xl p-4 md:p-5 active:scale-[95%]"
+                >
+                    <h3 className="text-sm font-medium text-gray-400 tracking-tight flex items-center justify-between">
+                        Route Offers <HiArrowRight className="" />
+                    </h3>
+                    <Suspense
+                        fallback={
+                            <Skeleton className="h-9 border rounded-xl " />
+                        }
+                    >
+                        <RouteOffers agentID={params.id} supabase={supabase} />
+                    </Suspense>
                 </div>
-                <div className="p-2 bg-red-500 text-white rounded-lg ">
-                    <DeleteUser userID={params.id} />
+                <div
+                    className="hover:bg-slate-50 hover:shadow-lg transition-all space-y-2 ease-in duration-300 border rounded-xl p-4 md:p-5 active:scale-[95%]"
+                >
+                    <h3 className="text-sm font-medium text-gray-400 tracking-tight flex items-center justify-between">
+                        Route Requests <HiArrowRight className="" />
+                    </h3>
+                    <Suspense
+                        fallback={
+                            <Skeleton className="h-9 border rounded-xl " />
+                        }
+                    >
+                        <RouteRequests
+                            agentID={params.id}
+                            supabase={supabase}
+                        />
+                    </Suspense>
+                </div>
+                <div
+                    className="hover:bg-slate-50 hover:shadow-lg transition-all space-y-2 ease-in duration-300 border rounded-xl p-4 md:p-5 active:scale-[95%]"
+                >
+                    <h3 className="text-sm font-medium text-gray-400 tracking-tight flex items-center justify-between">
+                        Purchases
+                        <HiArrowRight className="" />
+                    </h3>
+                    <Suspense
+                        fallback={
+                            <Skeleton className="h-9 border rounded-xl " />
+                        }
+                    >
+                        <Purchases agentID={params.id} supabase={supabase} />
+                    </Suspense>
                 </div>
             </div>
-        </div>
+        </section>
     );
 }

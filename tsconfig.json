@@ -47,6 +47,6 @@
         "app/user/routes/offers/post/mailMatchingTargets.jsx",
         "app/user/routes/offers/post/mailPostedOffers.jsx",
         "app/Toast.jsx"
-    ],
+, "app/test/HtmlToJson.jsx", "app/api/proxy/route.js"    ],
     "exclude": ["node_modules"]
 }

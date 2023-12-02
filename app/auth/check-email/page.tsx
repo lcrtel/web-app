@@ -29,6 +29,12 @@ const page = () => {
                     <p className="text-sm text-gray-400 ">
                         We sent a verification link to your email
                     </p>
+                    <Link
+                        href="/auth/login"
+                        className="font-medium text-sm pt-2 text-primary-500 hover:underline"
+                    >
+                        Log In
+                    </Link>
                 </div>
             </section>
         </div>

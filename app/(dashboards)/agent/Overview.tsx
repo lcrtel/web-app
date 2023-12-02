@@ -7,7 +7,7 @@ import { HiArrowRight } from "react-icons/hi";
 
 const Overview = async () => {
     const supabase = await supabaseServer();
-    const user = await fetchUserData();
+    const user:any = await fetchUserData();
 
     const Routes = async () => {
         unstable_noStore();
@@ -42,7 +42,7 @@ const Overview = async () => {
             <MetricsCard
                 count={targetCount}
                 label="Targets"
-                link="agent/targets"
+                link="agent/requests"
             />
         );
     };
@@ -51,7 +51,7 @@ const Overview = async () => {
         let { data: clients, error } = await supabase
             .from("profiles")
             .select("*")
-            .eq("agent_id", user?.id)
+            .eq("agent_id", user.id)
             .or(`role.eq.client,role.eq.vendor`);
         return (
             <MetricsCard

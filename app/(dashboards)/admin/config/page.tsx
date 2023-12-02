@@ -7,7 +7,7 @@ export default async function Page() {
     const supabase = await supabaseServer();
 
     let { data: payment_methods, error } = await supabase
-        .from("payment_methods")
+        .from("config")
         .select("*");
 
     return (
@@ -23,7 +23,7 @@ export default async function Page() {
             </div>
             <div className="grid  gap-4">
                 {payment_methods?.length ? payment_methods?.map(
-                    (paymentMethod) =>
+                    (paymentMethod: any) =>
                         paymentMethod.type === "bank" && (
                             <div
                                 className="border rounded-xl p-4 max-w-sm"
@@ -42,33 +42,32 @@ export default async function Page() {
                                     </h5>
                                     <p className="font-medium">
                                         {
-                                            paymentMethod.details
-                                                .accountHolderName
+                                            paymentMethod?.details?.accountHolderName
                                         }
                                     </p>
                                     <h5 className="text-slate-400 font-medium text-base ">
                                         Account Number:
                                     </h5>
                                     <p className="font-medium">
-                                        {paymentMethod.details.accountNumber}
+                                        {paymentMethod?.details?.accountNumber}
                                     </p>
                                     <h5 className="text-slate-400 font-medium text-base ">
                                         Bank Name:
                                     </h5>
                                     <p className="font-medium">
-                                        {paymentMethod.details.accountNumber}
+                                        {paymentMethod?.details?.accountNumber}
                                     </p>
                                     <h5 className="text-slate-400 font-medium text-base ">
                                         IFSC Code:
                                     </h5>
                                     <p className="font-medium">
-                                        {paymentMethod.details.IFSCCode}
+                                        {paymentMethod?.details?.IFSCCode}
                                     </p>
                                     <h5 className="text-slate-400 font-medium text-base ">
                                         Branch Name:
                                     </h5>
                                     <p className="font-medium">
-                                        {paymentMethod.details.branchName}
+                                        {paymentMethod?.details?.branchName}
                                     </p>
                                 </div>
                             </div>

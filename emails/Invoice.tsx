@@ -89,7 +89,7 @@ export default function InvoiceTemplate({
                             </Heading>
                             <Text className="text-gray-500  font-medium ">
                                 Dear{" "}
-                                {data.profiles.company_name}
+                                {data.profiles.name}
                             </Text>
                             <Text className="text-gray-500  font-medium ">
                                 We are pleased to provide you with the following
@@ -111,11 +111,6 @@ export default function InvoiceTemplate({
                             <Text className=" mb-0 text-primary font-medium">
                                 Description:
                             </Text>
-                            <Text className="mt-0 mb-0 text-gray-500">
-                                Prefix: {data.routes.prefix}, Destination:{" "}
-                                {data.routes.destination}, Rate: ${data.rate}/m
-                            </Text>
-
                             <Text className="mt-0 text-gray-500">
                                 {data.description}
                             </Text>

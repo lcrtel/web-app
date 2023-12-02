@@ -28,13 +28,21 @@ export default async function SettingsLayout({
 
     const NavItems = [
         {
-            title: "Account Settings",
+            title: "Overview",
             href: `/admin/agents/${params.id}`,
         },
-        // {
-        //     title: "Routes",
-        //     href: `/admin/vendors/${params.id}/routes`,
-        // },
+        {
+            title: "Clients",
+            href: `/admin/agents/${params.id}/clients`,
+        },
+        {
+            title: "Vendors",
+            href: `/admin/agents/${params.id}/vendors`,
+        },
+        {
+            title: "Account settings",
+            href: `/admin/agents/${params.id}/account_settings`,
+        },
     ];
 
     return (
@@ -48,7 +56,7 @@ export default async function SettingsLayout({
                         {agent?.name}
                     </h1>
                 </div>
-                <div className="flex gap-2">
+                {/* <div className="flex gap-2">
                     <a
                         href={`tel:${agent?.phone}`}
                         className={buttonVariants({
@@ -77,7 +85,7 @@ export default async function SettingsLayout({
                             {agent?.skype_id}
                         </p>
                     )}
-                </div>
+                </div> */}
             </div>
             <DropDownMenu items={NavItems} />
             <AgentNav items={NavItems} />

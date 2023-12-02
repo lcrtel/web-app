@@ -44,6 +44,27 @@ export interface Database {
           }
         ]
       }
+      config: {
+        Row: {
+          created_at: string | null
+          details: Json | null
+          id: number
+          type: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          details?: Json | null
+          id?: number
+          type?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          details?: Json | null
+          id?: number
+          type?: string | null
+        }
+        Relationships: []
+      }
       gateways: {
         Row: {
           client_id: string
@@ -54,6 +75,9 @@ export interface Database {
           rate: string | null
           route_id: string
           status: string
+          total_calls: number | null
+          total_duration: number | null
+          updated_on: string | null
         }
         Insert: {
           client_id: string
@@ -64,6 +88,9 @@ export interface Database {
           rate?: string | null
           route_id: string
           status: string
+          total_calls?: number | null
+          total_duration?: number | null
+          updated_on?: string | null
         }
         Update: {
           client_id?: string
@@ -74,6 +101,9 @@ export interface Database {
           rate?: string | null
           route_id?: string
           status?: string
+          total_calls?: number | null
+          total_duration?: number | null
+          updated_on?: string | null
         }
         Relationships: [
           {
@@ -94,13 +124,11 @@ export interface Database {
       }
       invoices: {
         Row: {
-          agent: string | null
           balance: string | null
           bill_to: Json | null
           date_due: string | null
           date_issued: string | null
           description: string | null
-          gateway: string | null
           invoice_id: number
           invoice_to: string | null
           note: string | null
@@ -109,13 +137,11 @@ export interface Database {
           total_amount: string | null
         }
         Insert: {
-          agent?: string | null
           balance?: string | null
           bill_to?: Json | null
           date_due?: string | null
           date_issued?: string | null
           description?: string | null
-          gateway?: string | null
           invoice_id?: number
           invoice_to?: string | null
           note?: string | null
@@ -124,13 +150,11 @@ export interface Database {
           total_amount?: string | null
         }
         Update: {
-          agent?: string | null
           balance?: string | null
           bill_to?: Json | null
           date_due?: string | null
           date_issued?: string | null
           description?: string | null
-          gateway?: string | null
           invoice_id?: number
           invoice_to?: string | null
           note?: string | null
@@ -139,20 +163,6 @@ export interface Database {
           total_amount?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "invoices_agent_fkey"
-            columns: ["agent"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "invoices_gateway_fkey"
-            columns: ["gateway"]
-            isOneToOne: false
-            referencedRelation: "gateways"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "invoices_invoice_to_fkey"
             columns: ["invoice_to"]
@@ -193,27 +203,6 @@ export interface Database {
             referencedColumns: ["id"]
           }
         ]
-      }
-      payment_methods: {
-        Row: {
-          created_at: string | null
-          details: Json | null
-          id: number
-          type: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          details?: Json | null
-          id?: number
-          type?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          details?: Json | null
-          id?: number
-          type?: string | null
-        }
-        Relationships: []
       }
       payments: {
         Row: {
@@ -287,6 +276,8 @@ export interface Database {
           role: string | null
           sales_dipartment: Json | null
           skype_id: string | null
+          vos_client_id: string | null
+          vos_vendor_id: string | null
         }
         Insert: {
           agent_id?: string | null
@@ -301,6 +292,8 @@ export interface Database {
           role?: string | null
           sales_dipartment?: Json | null
           skype_id?: string | null
+          vos_client_id?: string | null
+          vos_vendor_id?: string | null
         }
         Update: {
           agent_id?: string | null
@@ -315,6 +308,8 @@ export interface Database {
           role?: string | null
           sales_dipartment?: Json | null
           skype_id?: string | null
+          vos_client_id?: string | null
+          vos_vendor_id?: string | null
         }
         Relationships: [
           {
@@ -328,42 +323,39 @@ export interface Database {
       }
       purchase_requests: {
         Row: {
-          buying_rate: string | null
           client_id: string
           communication_status: string
           created_at: string
-          gateway: string | null
           id: string
-          message: string | null
+          ip: string | null
           payment_type: string
           route_id: string
           status: string
+          vos_status: string | null
           whatsapp_no: string | null
         }
         Insert: {
-          buying_rate?: string | null
-          client_id?: string
-          communication_status: string
-          created_at?: string
-          gateway?: string | null
-          id?: string
-          message?: string | null
-          payment_type: string
-          route_id: string
-          status?: string
-          whatsapp_no?: string | null
-        }
-        Update: {
-          buying_rate?: string | null
           client_id?: string
           communication_status?: string
           created_at?: string
-          gateway?: string | null
           id?: string
-          message?: string | null
+          ip?: string | null
+          payment_type: string
+          route_id: string
+          status?: string
+          vos_status?: string | null
+          whatsapp_no?: string | null
+        }
+        Update: {
+          client_id?: string
+          communication_status?: string
+          created_at?: string
+          id?: string
+          ip?: string | null
           payment_type?: string
           route_id?: string
           status?: string
+          vos_status?: string | null
           whatsapp_no?: string | null
         }
         Relationships: [
@@ -372,13 +364,6 @@ export interface Database {
             columns: ["client_id"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "purchase_requests_gateway_fkey"
-            columns: ["gateway"]
-            isOneToOne: false
-            referencedRelation: "gateways"
             referencedColumns: ["id"]
           },
           {
@@ -508,7 +493,7 @@ export interface Database {
           pdd: string
           ports: string
           prefix: string
-          rate: number
+          rate: string
           route_type: string
           updated_at: string | null
         }
@@ -525,7 +510,7 @@ export interface Database {
           pdd: string
           ports: string
           prefix: string
-          rate: number
+          rate: string
           route_type: string
           updated_at?: string | null
         }
@@ -542,7 +527,7 @@ export interface Database {
           pdd?: string
           ports?: string
           prefix?: string
-          rate?: number
+          rate?: string
           route_type?: string
           updated_at?: string | null
         }
@@ -551,7 +536,7 @@ export interface Database {
             foreignKeyName: "targets_client_id_fkey"
             columns: ["client_id"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
         ]
@@ -636,3 +621,83 @@ export interface Database {
     }
   }
 }
+
+export type Tables<
+  PublicTableNameOrOptions extends
+    | keyof (Database["public"]["Tables"] & Database["public"]["Views"])
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+        Database[PublicTableNameOrOptions["schema"]]["Views"])
+    : never = never
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : PublicTableNameOrOptions extends keyof (Database["public"]["Tables"] &
+      Database["public"]["Views"])
+  ? (Database["public"]["Tables"] &
+      Database["public"]["Views"])[PublicTableNameOrOptions] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : never
+
+export type TablesInsert<
+  PublicTableNameOrOptions extends
+    | keyof Database["public"]["Tables"]
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
+  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : never
+
+export type TablesUpdate<
+  PublicTableNameOrOptions extends
+    | keyof Database["public"]["Tables"]
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
+  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : never
+
+export type Enums<
+  PublicEnumNameOrOptions extends
+    | keyof Database["public"]["Enums"]
+    | { schema: keyof Database },
+  EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
+    : never = never
+> = PublicEnumNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]
+  ? Database["public"]["Enums"][PublicEnumNameOrOptions]
+  : never

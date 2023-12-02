@@ -6,8 +6,6 @@ import {
     Sheet,
     SheetClose,
     SheetContent,
-    SheetDescription,
-    SheetFooter,
     SheetHeader,
     SheetTitle,
     SheetTrigger,
@@ -23,7 +21,6 @@ import { useForm } from "react-hook-form";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -37,22 +34,15 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 
-import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
-import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
-import { useState } from "react";
-import { HiOutlineExternalLink, HiX } from "react-icons/hi";
-import Link from "next/link";
-import { Popover, PopoverTrigger } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { format } from "date-fns";
-import { PopoverContent } from "@radix-ui/react-popover";
-import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "react-hot-toast";
+import { HiX } from "react-icons/hi";
 const paymentFormSchema = z.object({
-    amount: z.number().refine((amount) => amount > 0, {
-        message: "Payment amount must be greater than zero",
-    }),
+    amount: z.string(),
     payment_method: z.string(),
     paid_at: z.date(),
 });
@@ -68,7 +58,6 @@ export function AddPayment({ invoice }: { invoice: Invoice }) {
 
     const router = useRouter();
     async function onSubmit(data: z.infer<typeof paymentFormSchema>) {
-      
         const { data: payment, error } = await supabase
             .from("payments")
             .insert([
@@ -78,7 +67,6 @@ export function AddPayment({ invoice }: { invoice: Invoice }) {
                     paid_at: data.paid_at.toISOString(),
                     invoice_id: invoice.invoice_id,
                     user_id: invoice.invoice_to,
-                    gateway: invoice.gateway,
                 },
             ])
             .select("*")
@@ -90,8 +78,12 @@ export function AddPayment({ invoice }: { invoice: Invoice }) {
 
         const { data: inv } = await supabase
             .from("invoices")
-            .update({ balance: Number(invoice?.balance) - Number(data.amount) })
-            .eq("invoice_id", invoice.invoice_id)
+            .update({
+                balance: (
+                    Number(invoice?.balance) - Number(data.amount)
+                ).toString(),
+            })
+            .eq("invoice_id", invoice.invoice_id);
 
         toast.success("Saved");
         setIsOpen(false);
@@ -101,7 +93,7 @@ export function AddPayment({ invoice }: { invoice: Invoice }) {
         <Sheet open={isOpen}>
             <SheetTrigger asChild>
                 <Button
-                disabled={invoice?.balance === "0" ? true : false}
+                    disabled={invoice?.balance === "0" ? true : false}
                     onClick={(e) => setIsOpen(true)}
                     className=" bg-green-500 hover:bg-green-600 w-full"
                 >
@@ -166,38 +158,41 @@ export function AddPayment({ invoice }: { invoice: Invoice }) {
                                             <span>Pick a date</span>
                                         )}
                                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                        <AnimatePresence>
-                                            {calenderOpen && (
-                                                <>
-                                                    <motion.div
-                                                        className=" z-20 absolute border-2 overflow-y-auto border-surface left-0 top-11 rounded-2xl  shadow-xl bg-white"
-                                                        initial={{
-                                                            opacity: 0,
-                                                            y: "-4%",
-                                                        }}
-                                                        animate={{
-                                                            opacity: 1,
-                                                            y: "0%",
-                                                        }}
-                                                        exit={{
-                                                            opacity: 0,
-                                                            y: "-4%",
-                                                        }}
-                                                    >
-                                                        <Calendar
-                                                            mode="single"
-                                                            selected={
-                                                                field.value
-                                                            }
-                                                            onSelect={
-                                                                field.onChange
-                                                            }
-                                                        />
-                                                    </motion.div>
-                                                </>
-                                            )}
-                                        </AnimatePresence>
                                     </div>
+                                    <AnimatePresence>
+                                        {calenderOpen && (
+                                            <>
+                                                <motion.div
+                                                    className=" z-20 absolute border-2 overflow-y-auto border-surface left-0 top-14 rounded-2xl  shadow-xl bg-white"
+                                                    initial={{
+                                                        opacity: 0,
+                                                        y: "-4%",
+                                                    }}
+                                                    animate={{
+                                                        opacity: 1,
+                                                        y: "0%",
+                                                    }}
+                                                    exit={{
+                                                        opacity: 0,
+                                                        y: "-4%",
+                                                    }}
+                                                    onMouseLeave={(event) =>
+                                                        setCalenderOpen(
+                                                            !calenderOpen
+                                                        )
+                                                    }
+                                                >
+                                                    <Calendar
+                                                        mode="single"
+                                                        selected={field.value}
+                                                        onSelect={
+                                                            field.onChange
+                                                        }
+                                                    />
+                                                </motion.div>
+                                            </>
+                                        )}
+                                    </AnimatePresence>
                                 </FormItem>
                             )}
                         />

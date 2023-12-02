@@ -29,30 +29,16 @@ const Targets = async () => {
     return (
         <MetricsCard
             count={targets?.length}
-            label="Targets"
-            link="/admin/targets"
+            label="Route Requests"
+            link="/admin/requests"
         />
     );
 };
 
-const Gateways = async () => {
-    const supabase = await supabaseServer();
-
-    unstable_noStore();
-    let { data: gateways, error } = await supabase
-        .from("gateways")
-        .select("id");
-    return (
-        <MetricsCard
-            count={gateways?.length}
-            label="Gateways"
-            link="/admin/gateways"
-        />
-    );
-};
 
 const Clients = async () => {
     const supabase = await supabaseServer();
+    unstable_noStore();
 
     let { data: clients, error } = await supabase
         .from("profiles")
@@ -69,6 +55,7 @@ const Clients = async () => {
 
 const Vendors = async () => {
     const supabase = await supabaseServer();
+    unstable_noStore();
 
     let { data: vendors, error } = await supabase
         .from("profiles")
@@ -119,13 +106,6 @@ const Overview = () => {
                     }
                 >
                     <Targets />
-                </Suspense>
-                <Suspense
-                    fallback={
-                        <Skeleton className="h-[110px] border rounded-xl " />
-                    }
-                >
-                    <Gateways />
                 </Suspense>
                 <Suspense
                     fallback={

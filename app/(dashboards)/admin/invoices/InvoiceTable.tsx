@@ -25,25 +25,9 @@ import {
 } from "@/components/ui/table";
 import formatTimestamptz from "@/utils/formatTimestamptz";
 import Link from "next/link";
+import { Input } from "@/components/ui/input";
 
-interface InvoiceDetails {
-    balance: string;
-    date_due: string;
-    date_issued: string;
-    deal_id: number;
-    invoice_id: number;
-    invoice_to: string;
-    profiles: {
-        user_id: string;
-        email: string;
-        name: string;
-        company_name: string;
-    };
-    paid_at: string;
-    status: string;
-    total_amount: number;
-}
-export const columns: ColumnDef<InvoiceDetails>[] = [
+export const columns: ColumnDef<any>[] = [
     {
         accessorKey: "invoice_id",
         header: ({ column }) => {
@@ -61,10 +45,10 @@ export const columns: ColumnDef<InvoiceDetails>[] = [
         ),
     },
     {
-        accessorKey: "invoice_to",
+        accessorKey: "client",
         header: "Client",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("invoice_to")}</div>
+            <div className="capitalize">{row.getValue("client")} </div>
         ),
     },
     {
@@ -114,10 +98,7 @@ export const columns: ColumnDef<InvoiceDetails>[] = [
         header: "Total Amount",
         cell: ({ row }) => (
             <div className="capitalize">
-                {new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                }).format(row.getValue("total_amount"))}
+                ${Number(row.getValue("total_amount")).toFixed(2)}
             </div>
         ),
     },
@@ -127,10 +108,7 @@ export const columns: ColumnDef<InvoiceDetails>[] = [
         header: "Balance",
         cell: ({ row }) => (
             <div className="capitalize">
-                {new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                }).format(row.getValue("balance"))}
+                ${Number(row.getValue("balance")).toFixed(2)}
             </div>
         ),
     },
@@ -151,53 +129,46 @@ export const columns: ColumnDef<InvoiceDetails>[] = [
     },
 ];
 
-export function InvoiceTable({ data }: {data: any}) {
+export function InvoiceTable({ data }: { data: any }) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
-    const [columnVisibility, setColumnVisibility] =
-        React.useState<VisibilityState>({});
     const [rowSelection, setRowSelection] = React.useState({});
-
-    const table = useReactTable({
-        data,
-        columns,
-        onSortingChange: setSorting,
-        onColumnFiltersChange: setColumnFilters,
-        getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),
-        onColumnVisibilityChange: setColumnVisibility,
-        onRowSelectionChange: setRowSelection,
-        state: {
-            sorting,
-            columnFilters,
-            columnVisibility,
-            rowSelection,
-        },
-    });
+const table = useReactTable({
+    data,
+    columns,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onRowSelectionChange: setRowSelection,
+    state: {
+        sorting,
+        columnFilters,
+    },
+});
 
     return (
         <div className="">
-            {/* <div className="flex items-center pb-4">
+            <div className="flex items-center pb-4">
                 <Input
                     type="text"
-                    placeholder="Search by clietn email"
+                    placeholder="Search by client name"
                     value={
                         (table
-                            .getColumn("email")
+                            .getColumn("client")
                             ?.getFilterValue() as string) ?? ""
                     }
-                    onChange={(event) =>
+                    onChange={(event: any) =>
                         table
-                            .getColumn("email")
+                            .getColumn("client")
                             ?.setFilterValue(event.target.value)
                     }
                     className="w-full"
                 />
-            </div> */}
-            <div className="rounded-xl border max-h-[500px] overflow-y-auto">
+            </div>
+            <div className="rounded-xl border overflow-y-auto">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
@@ -243,7 +214,7 @@ export function InvoiceTable({ data }: {data: any}) {
                                     colSpan={columns.length}
                                     className="h-8 text-center"
                                 >
-                                    No managers found.
+                                    No invoices found.
                                 </TableCell>
                             </TableRow>
                         )}

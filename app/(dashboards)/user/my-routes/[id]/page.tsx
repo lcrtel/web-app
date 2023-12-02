@@ -133,10 +133,10 @@ export default async function Page({ params }: { params: { id: string } }) {
                     </div>
                 </div>
 
-                <Separator />
+                {/* <Separator />
                 <div className="my-5">
                     <RoutesTable data={targets} />
-                </div>
+                </div> */}
             </div>
         </div>
     );

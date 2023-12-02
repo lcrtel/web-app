@@ -53,12 +53,10 @@ const invoiceFormSchema = z.object({
 });
 
 export default function BulkInvoiceForm({
-    gateways,
     clients,
     paymentMethods,
     agents,
 }: {
-    gateways: any;
     clients: any;
     paymentMethods: any;
     agents: any;
@@ -79,7 +77,6 @@ export default function BulkInvoiceForm({
             ...invoices,
             {
                 invoice_to: "",
-                gateway: "",
                 total_amount: "",
                 total_duration: "",
                 calls: "",
@@ -117,7 +114,6 @@ export default function BulkInvoiceForm({
             body: JSON.stringify(
                 invoices.map((item: any) => ({
                     invoice_to: item.invoice_to,
-                    gateway: item.gateway,
                     total_amount: item.total_amount,
                     description: `Invoice period: ${formatDate(
                         startDate
@@ -127,7 +123,6 @@ export default function BulkInvoiceForm({
                     bill_to: paymentMethod.details,
                     date_issued: dateIssued,
                     date_due: dateDue,
-                    agent: agentID,
                 }))
             ),
         }).then(async (response) => {
@@ -191,10 +186,7 @@ export default function BulkInvoiceForm({
 
                     const newArray = jsonData.map((json) => ({
                         invoice_to: clients.find(
-                            (client: any) => client.name === json["Account id"]
-                        )?.id,
-                        gateway: gateways.find(
-                            (item: any) => item.name === json["Gateway name"]
+                            (client: any) => client.name.toLowerCase() === json["Account id"].toLowerCase()
                         )?.id,
                         total_amount: json["Total charges"],
                         total_duration: json["Total duration"],
@@ -410,7 +402,7 @@ export default function BulkInvoiceForm({
                                         (method: any) =>
                                             method.type === "bank" && (
                                                 <DropdownMenuCheckboxItem
-                                                key={method.id}
+                                                    key={method.id}
                                                     className="cursor-pointer"
                                                     checked={
                                                         paymentMethod.id ===
@@ -431,62 +423,6 @@ export default function BulkInvoiceForm({
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         </div>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <Label>Agent</Label>
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <Button
-                                    variant="outline"
-                                    role="combobox"
-                                    className={cn(
-                                        "w-full rounded-lg justify-between",
-                                        !agentID && "text-muted-foreground"
-                                    )}
-                                >
-                                    {agentID
-                                        ? agents.find(
-                                              (agent: any) =>
-                                                  agent.id === agentID
-                                          )?.name
-                                        : "Select Agent"}
-                                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent
-                                align="start"
-                                className="w-full p-0 overflow-clip"
-                            >
-                                <Command>
-                                    <CommandInput placeholder="Search Agent..." />
-                                    <CommandEmpty>
-                                        No Agents found.
-                                    </CommandEmpty>
-                                    <CommandGroup>
-                                        {agents.map((agents: any) => (
-                                            <CommandItem
-                                                value={agents.name}
-                                                key={agents.id}
-                                                onSelect={() => {
-                                                    setAgentID(agents.id);
-                                                    agents;
-                                                }}
-                                            >
-                                                <Check
-                                                    className={cn(
-                                                        "mr-2 h-4 w-4",
-                                                        agents.id === agentID
-                                                            ? "opacity-100"
-                                                            : "opacity-0"
-                                                    )}
-                                                />
-                                                {agents.name}
-                                            </CommandItem>
-                                        ))}
-                                    </CommandGroup>
-                                </Command>
-                            </PopoverContent>
-                        </Popover>
                     </div>
                 </div>
             </div>
@@ -605,72 +541,6 @@ export default function BulkInvoiceForm({
                                     </Command>
                                 </PopoverContent>
                             </Popover>
-                        </div>
-                        <div className="flex flex-col gap-2">
-                            <Label>Gateway</Label>
-
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button
-                                        variant="outline"
-                                        role="combobox"
-                                        className={cn(
-                                            "w-full rounded-lg justify-between",
-                                            !invoice.gateway &&
-                                                "text-muted-foreground"
-                                        )}
-                                    >
-                                        {invoice.gateway
-                                            ? gateways.find(
-                                                  (gateway: any) =>
-                                                      gateway.id ===
-                                                      invoice.gateway
-                                              )?.name
-                                            : "Select Gateway"}
-                                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent
-                                    className="w-64"
-                                    align="start"
-                                >
-                                    <DropdownMenuLabel>
-                                        Gateways
-                                    </DropdownMenuLabel>
-                                    <DropdownMenuSeparator />{" "}
-                                    {invoice.invoice_to ? (
-                                        gateways
-                                            .filter(
-                                                (gateway: any) =>
-                                                    gateway.client_id ===
-                                                    invoice.invoice_to
-                                            )
-                                            .map((gateway: any) => (
-                                                <DropdownMenuCheckboxItem
-                                                    className="cursor-pointer"
-                                                    checked={
-                                                        gateway.id ===
-                                                        invoice.gateway
-                                                    }
-                                                    key={gateway.id}
-                                                    onCheckedChange={(e) => {
-                                                        handleInvoiceChange(
-                                                            index,
-                                                            "gateway",
-                                                            gateway.id
-                                                        );
-                                                    }}
-                                                >
-                                                    {gateway.name}
-                                                </DropdownMenuCheckboxItem>
-                                            ))
-                                    ) : (
-                                        <p className="text-slate-400 text-sm p-3">
-                                            Choose a Client
-                                        </p>
-                                    )}
-                                </DropdownMenuContent>
-                            </DropdownMenu>
                         </div>
                         <div className="flex flex-col gap-2">
                             <Label>Number of CDR</Label>

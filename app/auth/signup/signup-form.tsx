@@ -255,15 +255,7 @@ const SignupForm = () => {
                     "Signup"
                 )}
             </Button>
-            <p className="text-sm font-light text-center text-gray-500">
-                Already have an account?{" "}
-                <Link
-                    href="/auth/login"
-                    className="font-medium text-primary-600 hover:underline"
-                >
-                    Log In
-                </Link>
-            </p>
+            
         </form>
     );
 };

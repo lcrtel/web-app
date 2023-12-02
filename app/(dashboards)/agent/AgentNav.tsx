@@ -39,9 +39,10 @@ const AgentNav = ({ userRole, user }: { user: any; userRole: any }) => {
     };
 
     const adminNav = [
-        ["Routes", "/agent/routes"],
-        ["Targets", "/agent/targets"],
-        ["Gateways", "/agent/gateways"],
+        ["Route Offers", "/agent/routes"],
+        ["Route Requests", "/agent/requests"],
+        ["Mapping(VOS)", "/agent/mapping"],
+        ["Routing(VOS)", "/agent/routing"],
         ["Clients", "/agent/clients"],
         ["Vendors", "/agent/vendors"],
         ["Invoices", "/agent/invoices"],
@@ -112,7 +113,7 @@ const AgentNav = ({ userRole, user }: { user: any; userRole: any }) => {
                             passHref
                             className="py-2 px-4 block whitespace-nowrap"
                         >
-                            Home
+                            Dashboard
                         </Link>
                     </li>
                     {adminNav}

@@ -1,9 +1,8 @@
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
-import AddVendor from "./(accounts)/vendors/AddVendor";
-import AddClient from "./(accounts)/clients/AddClient";
 import AddAgent from "./(accounts)/agents/AddAgent";
-import AddManager from "./(accounts)/managers/AddManager";
+import AddClient from "./(accounts)/clients/AddClient";
+import AddVendor from "./(accounts)/vendors/AddVendor";
 
 const QuickActions = () => {
     return (
@@ -25,12 +24,12 @@ const QuickActions = () => {
                     Add Routes
                 </Link>
                 <Link
-                    href="/admin/targets/post"
+                    href="/admin/requests/post"
                     className={`${buttonVariants({
                         variant: "outline",
                     })}`}
                 >
-                    Add Targets
+                    Add Route Requests
                 </Link>
             </div>
         </section>

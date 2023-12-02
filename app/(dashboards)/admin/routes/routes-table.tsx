@@ -129,7 +129,7 @@ export const columns: ColumnDef<Route>[] = [
             const rate = parseFloat(row.getValue("rate"));
 
             return (
-                <div className="font-medium">$ {Number(rate).toFixed(3)}</div>
+                <div className="font-medium">$ {Number(rate).toFixed(5)}</div>
             );
         },
     },
@@ -152,7 +152,7 @@ export const columns: ColumnDef<Route>[] = [
             const rate: number = row.getValue("selling_rate");
 
             return (
-                <div className="font-medium">$ {Number(rate).toFixed(3)}</div>
+                <div className="font-medium">$ {Number(rate).toFixed(5)}</div>
             );
         },
     },
@@ -268,7 +268,7 @@ export function RoutesTable({ data }: any) {
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
         getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
+        
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,

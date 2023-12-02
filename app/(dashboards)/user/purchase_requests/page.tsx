@@ -12,6 +12,7 @@ const page = async () => {
         .from("purchase_requests")
         .select(`*, routes (*)`)
         .match({ client_id: user?.id, status: "pending" });
+        
     return (
         <div>
             {" "}

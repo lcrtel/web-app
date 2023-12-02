@@ -6,7 +6,7 @@ export async function POST(request: Request) {
     const supabase = await supabaseRouteHandler();
 
     const { data, error } = await supabase
-        .from("payment_methods")
+        .from("config")
         .insert([{ details: formData, type: "bank" }])
         .select();
 
@@ -25,7 +25,7 @@ export async function DELETE(request: Request) {
     const supabase = await supabaseRouteHandler();
 
     const { error } = await supabase
-        .from("payment_methods")
+        .from("config")
         .delete()
         .eq("id", id);
 

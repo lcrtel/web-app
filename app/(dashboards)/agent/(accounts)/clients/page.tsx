@@ -13,7 +13,7 @@ const Clients = async () => {
     let { data: clients, error } = await supabase
         .from("profiles")
         .select("*")
-        .eq("agent_id", user?.id)
+        .eq("agent_id", user?.id ? user.id : "")
         .or(`role.eq.client,role.eq.vendor`);
 
     let { data: targets } = await supabase.from("targets").select("*");
@@ -30,7 +30,7 @@ const Clients = async () => {
 
     const clientsWithTargetCounts = clients?.map((user) => {
         const { id } = user;
-        const targetCount = userRouteCounts.get(id) || 0;
+        const targetCount = userRouteCounts?.get(id) || 0;
         return { ...user, targets: targetCount };
     });
 

@@ -40,7 +40,7 @@ export default function ProfileDropdown({ user }: { user: any }) {
                 {isMenuOpen && (
                     <>
                         <motion.div
-                            className=" z-20 max-w-md w-60 absolute border  right-5 top-16 rounded-lg  shadow-xl bg-white"
+                            className=" z-20 max-w-md w-60 absolute border  right-5 top-16 rounded-lg  shadow-xl bg-white overflow-clip"
                             initial={{ opacity: 0, y: "-8%" }}
                             animate={{ opacity: 1, y: "0%" }}
                             exit={{ opacity: 0, y: "-8%" }}
@@ -49,10 +49,10 @@ export default function ProfileDropdown({ user }: { user: any }) {
                         >
                             <div className="flex flex-col space-y-1 p-4 border-b">
                                 <p className=" font-medium leading-none">
-                                    {user?.name}
+                                    {user.user_metadata?.name}
                                 </p>
                                 <p className="text-sm leading-none text-muted-foreground">
-                                    {user?.email}
+                                    {user.user_metadata?.email}
                                 </p>
                             </div>
                             <div className="flex flex-col">
@@ -63,7 +63,7 @@ export default function ProfileDropdown({ user }: { user: any }) {
                                     Account Settings
                                 </Link>
                                 <div
-                                    className="hover:bg-surface flex justify-between items-center w-full px-4 py-3 cursor-pointer"
+                                    className="hover:bg-surface  flex justify-between items-center w-full px-4 py-3 cursor-pointer"
                                     onClick={handleSignOut}
                                 >
                                     <p>Signout</p> <HiOutlineLogout />

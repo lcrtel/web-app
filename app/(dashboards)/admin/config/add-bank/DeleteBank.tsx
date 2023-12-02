@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
 
-export default function DeleteBank({ id }: { id: string }) {
+export default function DeleteBank({ id }: { id: any }) {
     const router = useRouter();
     const handleDelete = async () => {
         await fetch("/admin/config/add-bank", {

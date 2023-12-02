@@ -31,7 +31,7 @@ export default async function RootLayout({
             <body className={`${inter.className} text-primary-500 `}>
                 <Toast />
                 <main className="relative">
-                    <RefreshOnFocus />
+                    {/* <RefreshOnFocus /> */}
                     {children}{" "}
                 </main>
                 <Analytics />

@@ -28,21 +28,22 @@ export default async function SettingsLayout({
 
     const NavItems = [
         {
-            title: "Account Settings",
+            title: "Overview",
             href: `/agent/clients/${params.id}`,
         },
         {
-            title: "Gateways",
-            href: `/agent/clients/${params.id}/gateways`,
+            title: "Requests",
+            href: `/agent/clients/${params.id}/requests`,
         },
         {
-            title: "Targets",
-            href: `/agent/clients/${params.id}/targets`,
+            title: "Purchased Routes",
+            href: `/agent/clients/${params.id}/purchased_routes`,
         },
-        // {
-        //     title: "Company Details",
-        //     href: `/agent/clients/${params.id}/company`,
-        // },
+
+        {
+            title: "Account Settings",
+            href: `/agent/clients/${params.id}/account_settings`,
+        },
     ];
 
     return (
@@ -56,12 +57,12 @@ export default async function SettingsLayout({
                         {client?.name}
                     </h1>
                     {client?.company_name && (
-                        <p className="font-medium text-base text-slate-500">
+                        <p className="font-medium text-base text-slate-400">
                             Company: {client?.company_name}
                         </p>
                     )}
                 </div>
-                <div className="flex gap-2">
+                {/* <div className="flex gap-2">
                     <a
                         href={`tel:${client?.phone}`}
                         className={buttonVariants({
@@ -90,7 +91,7 @@ export default async function SettingsLayout({
                             {client?.skype_id}
                         </p>
                     )}
-                </div>
+                </div> */}
             </div>
             <DropDownMenu items={NavItems} />
             <ClientNav items={NavItems} />

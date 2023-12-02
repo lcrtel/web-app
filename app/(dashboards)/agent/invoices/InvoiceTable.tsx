@@ -61,11 +61,12 @@ export const columns: ColumnDef<InvoiceDetails>[] = [
         ),
     },
     {
-        accessorKey: "invoice_to",
+        accessorKey: "profiles",
         header: "Client",
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("invoice_to")}</div>
-        ),
+        cell: ({ row }) => {
+            const client: any = row.getValue("profiles");
+            return <div className="capitalize">{client?.name}</div>;
+        },
     },
     {
         accessorKey: "date_issued",
@@ -114,10 +115,7 @@ export const columns: ColumnDef<InvoiceDetails>[] = [
         header: "Total Amount",
         cell: ({ row }) => (
             <div className="capitalize">
-                {new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                }).format(row.getValue("total_amount"))}
+                ${Number(row.getValue("total_amount")).toFixed(2)}
             </div>
         ),
     },
@@ -127,10 +125,7 @@ export const columns: ColumnDef<InvoiceDetails>[] = [
         header: "Balance",
         cell: ({ row }) => (
             <div className="capitalize">
-                {new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                }).format(row.getValue("balance"))}
+                ${Number(row.getValue("balance")).toFixed(2)}
             </div>
         ),
     },
@@ -141,7 +136,7 @@ export const columns: ColumnDef<InvoiceDetails>[] = [
             const id = row.getValue("invoice_id");
             return (
                 <Link
-                    href={`/admin/invoices/${id}`}
+                    href={`/agent/invoices/${id}`}
                     className="font-medium  bg-blue-100 px-3 py-1.5 rounded-full text-blue-500"
                 >
                     Details
@@ -165,7 +160,7 @@ export function InvoiceTable({ data }: {data: any}) {
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
         getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
+        
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,

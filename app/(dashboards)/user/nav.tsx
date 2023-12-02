@@ -9,20 +9,19 @@ import { HiOutlineMenuAlt4, HiOutlineX } from "react-icons/hi";
 import ProfileDropdown from "./ProfileDropdown";
 import { CartDropdown } from "./selected_routes/CartDropdown";
 
-const Navigation = ({ userRole, user }: { user: any; userRole: any }) => {
+const Navigation = ({ user, cartItems }: { user: any; cartItems: any[] | null }) => {
     const pathname = usePathname();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
-  
 
     const Nav = [
         ["Routes", "/user/routes"],
-        ["Targets", "/user/targets"],
+        ["Requests", "/user/requests"],
         ["My Routes", "/user/my-routes"],
-        ["My Targets", "/user/my-targets"],
-        ["Gateways", "/user/gateways"],
+        ["My Requests", "/user/my-requests"],
+        ["Purchases", "/user/purchases"],
         // ["Transactions", "/user/transactions"],
     ].map(([title, url]) => (
         <li
@@ -44,7 +43,7 @@ const Navigation = ({ userRole, user }: { user: any; userRole: any }) => {
     ));
 
     return (
-        <nav className="py-3 px-8 max-w-8xl mx-auto relative flex items-center justify-between">
+        <nav className="py-3 px-5 md:px-8 max-w-8xl mx-auto relative flex items-center justify-between">
             <div className="flex items-center h-8">
                 <Link href="/user" passHref>
                     <Image
@@ -55,11 +54,11 @@ const Navigation = ({ userRole, user }: { user: any; userRole: any }) => {
                         height={20}
                     />
                 </Link>
-                <Separator
+                {/* <Separator
                     orientation="vertical"
                     className="hidden md:block mx-5"
-                />
-                <div className="bg-white hidden md:block w-full overflow-x-auto">
+                /> */}
+                <div className="bg-white ml-5 hidden md:block w-full overflow-x-auto">
                     <nav className="mx-auto flex flex-col gap-2.5 max-w-8xl">
                         <ul
                             id="scrollContainer"
@@ -119,7 +118,7 @@ const Navigation = ({ userRole, user }: { user: any; userRole: any }) => {
                 </AnimatePresence>
             </div>
             <div className="flex items-center gap-2">
-                <CartDropdown />
+                <CartDropdown items={cartItems} />
                 <ProfileDropdown user={user} />
                 <button
                     type="button"

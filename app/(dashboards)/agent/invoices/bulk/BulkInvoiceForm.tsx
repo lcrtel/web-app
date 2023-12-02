@@ -3,7 +3,7 @@
 import {
     HiOutlineCloudUpload,
     HiOutlinePlusCircle,
-    HiPaperAirplane
+    HiPaperAirplane,
 } from "react-icons/hi";
 import * as XLSX from "xlsx";
 
@@ -49,19 +49,14 @@ const invoiceFormSchema = z.object({
     date_due: z.date({
         required_error: "Date of Due is required.",
     }),
-    note: z.string().optional(),
 });
 
 export default function BulkInvoiceForm({
-    gateways,
     clients,
     paymentMethods,
-    agentID
 }: {
-    gateways: any;
     clients: any;
     paymentMethods: any;
-    agentID: any;
 }) {
     const [loading, setLoading] = useState(false);
     const [upLoading, setUpLoading] = useState(false);
@@ -71,7 +66,6 @@ export default function BulkInvoiceForm({
     const [endDate, setEndDate] = useState<Date | undefined>(new Date());
     const [paymentMethod, setPaymentMethod] = useState(paymentMethods[0]);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
     const [invoices, setInvoices] = useState<any>([]);
 
     const handleAddInvoice = () => {
@@ -79,7 +73,6 @@ export default function BulkInvoiceForm({
             ...invoices,
             {
                 invoice_to: "",
-                gateway: "",
                 total_amount: "",
                 total_duration: "",
                 calls: "",
@@ -117,7 +110,6 @@ export default function BulkInvoiceForm({
             body: JSON.stringify(
                 invoices.map((item: any) => ({
                     invoice_to: item.invoice_to,
-                    gateway: item.gateway,
                     total_amount: item.total_amount,
                     description: `Invoice period: ${formatDate(
                         startDate
@@ -127,7 +119,6 @@ export default function BulkInvoiceForm({
                     bill_to: paymentMethod.details,
                     date_issued: dateIssued,
                     date_due: dateDue,
-                    agent: agentID
                 }))
             ),
         }).then(async (response) => {
@@ -140,7 +131,7 @@ export default function BulkInvoiceForm({
                 setLoading(false);
                 setInvoices([]);
                 router.refresh();
-                router.push("/agent/invoices")
+                router.push("/agent/invoices");
                 toast.success("Invoices Sent Successfully");
             }
         });
@@ -191,10 +182,7 @@ export default function BulkInvoiceForm({
 
                     const newArray = jsonData.map((json) => ({
                         invoice_to: clients.find(
-                            (client: any) => client.name === json["Account id"]
-                        )?.id,
-                        gateway: gateways.find(
-                            (item: any) => item.name === json["Gateway name"]
+                            (client: any) => client.name.toLowerCase() === json["Account id"].toLowerCase()
                         )?.id,
                         total_amount: json["Total charges"],
                         total_duration: json["Total duration"],
@@ -246,7 +234,6 @@ export default function BulkInvoiceForm({
         return true; // All values are present
     }
 
-    
     return (
         <section className=" h-full">
             <div className="grid gap-4 border p-4 rounded-lg">
@@ -302,7 +289,10 @@ export default function BulkInvoiceForm({
                                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                 </Button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0" align="start">
+                            <PopoverContent
+                                className="w-auto p-0"
+                                align="start"
+                            >
                                 <Calendar
                                     mode="single"
                                     selected={dateDue}
@@ -383,47 +373,52 @@ export default function BulkInvoiceForm({
                     </div>
                 </div>
 
-                <div className="flex flex-col gap-2">
-                    <div className="flex items-center gap-2">
+                <div className="grid grid-cols-2 gap-2">
+                    <div className="flex flex-col  gap-2">
                         <Label>Payment Method:</Label>{" "}
-                        {paymentMethod && (
-                            <div className="text-slate-400 text-sm">
-                                {paymentMethod.details.bankName}:{" "}
-                                {paymentMethod.details.accountNumber}
-                            </div>
-                        )}
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="outline" size="sm">
-                                    Choose
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent className="w-full">
-                                <DropdownMenuLabel>
-                                    Bank Accounts
-                                </DropdownMenuLabel>
-                                <DropdownMenuSeparator />{" "}
-                                {paymentMethods.map(
-                                    (method: any) =>
-                                        method.type === "bank" && (
-                                            <DropdownMenuCheckboxItem
-                                            key={method.id}
-                                                className="cursor-pointer"
-                                                checked={
-                                                    paymentMethod.id ===
-                                                    method.id
-                                                }
-                                                onCheckedChange={(e) =>
-                                                    setPaymentMethod(method)
-                                                }
-                                            >
-                                                {method.details.bankName}{" "}
-                                                {method.details.accountNumber}
-                                            </DropdownMenuCheckboxItem>
-                                        )
-                                )}
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                        <div className="flex items-center gap-2">
+                            {paymentMethod && (
+                                <div className="text-slate-400 text-sm">
+                                    {paymentMethod.details.bankName}:{" "}
+                                    {paymentMethod.details.accountNumber}
+                                </div>
+                            )}
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="outline" size="sm">
+                                        Choose
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className="w-full">
+                                    <DropdownMenuLabel>
+                                        Bank Accounts
+                                    </DropdownMenuLabel>
+                                    <DropdownMenuSeparator />{" "}
+                                    {paymentMethods.map(
+                                        (method: any) =>
+                                            method.type === "bank" && (
+                                                <DropdownMenuCheckboxItem
+                                                    key={method.id}
+                                                    className="cursor-pointer"
+                                                    checked={
+                                                        paymentMethod.id ===
+                                                        method.id
+                                                    }
+                                                    onCheckedChange={(e) =>
+                                                        setPaymentMethod(method)
+                                                    }
+                                                >
+                                                    {method.details.bankName}{" "}
+                                                    {
+                                                        method.details
+                                                            .accountNumber
+                                                    }
+                                                </DropdownMenuCheckboxItem>
+                                            )
+                                    )}
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -449,8 +444,7 @@ export default function BulkInvoiceForm({
                 >
                     {loading ? (
                         <>
-                            Sending{" "}
-                            <Loader2 className="h-4 w-4 animate-spin" />
+                            Sending <Loader2 className="h-4 w-4 animate-spin" />
                         </>
                     ) : (
                         <>
@@ -543,72 +537,6 @@ export default function BulkInvoiceForm({
                                     </Command>
                                 </PopoverContent>
                             </Popover>
-                        </div>
-                        <div className="flex flex-col gap-2">
-                            <Label>Gateway</Label>
-
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button
-                                        variant="outline"
-                                        role="combobox"
-                                        className={cn(
-                                            "w-full rounded-lg justify-between",
-                                            !invoice.gateway &&
-                                                "text-muted-foreground"
-                                        )}
-                                    >
-                                        {invoice.gateway
-                                            ? gateways.find(
-                                                  (gateway: any) =>
-                                                      gateway.id ===
-                                                      invoice.gateway
-                                              )?.name
-                                            : "Select Gateway"}
-                                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent
-                                    className="w-64"
-                                    align="start"
-                                >
-                                    <DropdownMenuLabel>
-                                        Gateways
-                                    </DropdownMenuLabel>
-                                    <DropdownMenuSeparator />{" "}
-                                    {invoice.invoice_to ? (
-                                        gateways
-                                            .filter(
-                                                (gateway: any) =>
-                                                    gateway.client_id ===
-                                                    invoice.invoice_to
-                                            )
-                                            .map((gateway: any) => (
-                                                <DropdownMenuCheckboxItem
-                                                    className="cursor-pointer"
-                                                    checked={
-                                                        gateway.id ===
-                                                        invoice.gateway
-                                                    }
-                                                    key={gateway.id}
-                                                    onCheckedChange={(e) => {
-                                                        handleInvoiceChange(
-                                                            index,
-                                                            "gateway",
-                                                            gateway.id
-                                                        );
-                                                    }}
-                                                >
-                                                    {gateway.name}
-                                                </DropdownMenuCheckboxItem>
-                                            ))
-                                    ) : (
-                                        <p className="text-slate-400 text-sm p-3">
-                                            Choose a Client
-                                        </p>
-                                    )}
-                                </DropdownMenuContent>
-                            </DropdownMenu>
                         </div>
                         <div className="flex flex-col gap-2">
                             <Label>Number of CDR</Label>

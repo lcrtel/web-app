@@ -14,13 +14,13 @@ const page = async () => {
         .match({ vendor_id: user?.id });
     return (
         <section className="">
-            <div className="flex my-5 justify-between items-center flex-wrap gap-2">
+            <div className="flex mb-5 justify-between items-center flex-wrap gap-2">
                 <div>
                     <h3 className="text-2xl tracking-tight font-bold text-primary-500 flex items-center">
-                        My Routes
+                        My Route Offers
                     </h3>
                     <p className="text-gray-400 text-sm">
-                        View and manage your routes
+                        View and manage your route offers
                     </p>
                 </div>
                 <Link

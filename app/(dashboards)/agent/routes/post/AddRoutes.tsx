@@ -1,5 +1,5 @@
 "use client";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
     Table,
@@ -9,7 +9,6 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import {
     ColumnDef,
     RowData,
@@ -22,7 +21,7 @@ import {
 import { Check, ChevronsUpDown, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { HiArrowLeft, HiPlusCircle, HiTrash } from "react-icons/hi";
+import { HiPlusCircle, HiTrash } from "react-icons/hi";
 import { v4 as uuidv4 } from "uuid";
 import * as XLSX from "xlsx";
 
@@ -46,12 +45,11 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { supabaseClient } from "@/lib/supabase-client";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
-import Link from "next/link";
 import { toast } from "react-hot-toast";
 import { HiOutlineCloudUpload } from "react-icons/hi";
-import { supabaseClient } from "@/lib/supabase-client";
 
 declare module "@tanstack/react-table" {
     interface TableMeta<TData extends RowData> {
@@ -71,7 +69,20 @@ export function AddRouteTable({ users }: { users: any }) {
     const [vendor, setVendor] = useState("");
     const router = useRouter();
     const supabase = supabaseClient();
-    const [data, setData] = useState<any>([]);
+    const [data, setData] = useState<any>([
+        {
+            id: uuidv4(),
+            destination: "",
+            rate: 0,
+            route_type: "cli",
+            prefix: "",
+            asr: "",
+            acd: "",
+            ports: "",
+            pdd: "",
+            capacity: "",
+        },
+    ]);
     const [open, setOpen] = useState(false);
 
     const handleAddRoute = () => {
@@ -81,7 +92,7 @@ export function AddRouteTable({ users }: { users: any }) {
                 id: uuidv4(),
                 destination: "",
                 rate: 0,
-                route_type: "",
+                route_type: "cli",
                 prefix: "",
                 asr: "",
                 acd: "",
@@ -105,7 +116,7 @@ export function AddRouteTable({ users }: { users: any }) {
     function add20Percent(rate: number) {
         const increase = rate * 0.2; // Calculate 20% of the rate
         const result = rate + increase; // Add the increase to the original number
-        return result.toFixed(2).toString();
+        return result.toFixed(5).toString();
     }
 
     const handleSubmit = async (e: any) => {
@@ -151,7 +162,9 @@ export function AddRouteTable({ users }: { users: any }) {
         () => [
             {
                 accessorKey: "prefix",
-                header: "Prefix",
+                header: ({ column }) => {
+                    return <div className="min-w-[80px]">Prefix</div>;
+                },
                 cell: function Cell({
                     getValue,
                     row: { index },
@@ -224,7 +237,7 @@ export function AddRouteTable({ users }: { users: any }) {
             {
                 accessorKey: "destination_code",
                 header: ({ column }) => {
-                    return <div className="">Code</div>;
+                    return <div className="min-w-[80px]">Code</div>;
                 },
                 cell: function Cell({
                     getValue,
@@ -675,6 +688,7 @@ export function AddRouteTable({ users }: { users: any }) {
                     }
 
                     // Assuming you have a `setData` and `setIsOpen` function in your component
+                    setData([])
                     setData((prevData: any) => [...prevData, ...jsonData]);
                     setIsOpen(false);
                 }
@@ -691,7 +705,7 @@ export function AddRouteTable({ users }: { users: any }) {
             <div className="relative  text-left">
                 <div
                     onClick={handleCLick}
-                    className="flex relative cursor-pointer shadow-sm items-center transition-all ease-in-out justify-center rounded-lg hover:bg-primary hover:bg-opacity-5 border px-3 py-2 text-sm font-medium text-primary"
+                    className="flex relative cursor-pointer shadow-sm items-center transition-all ease-in-out justify-center rounded-full hover:bg-primary hover:bg-opacity-5 border px-3 py-2 text-sm font-medium text-primary"
                 >
                     <HiOutlineCloudUpload className="mr-1.5 h-4 w-4" />
                     Import
@@ -742,24 +756,8 @@ export function AddRouteTable({ users }: { users: any }) {
     return (
         <div className="w-full">
             {/* <pre> {JSON.stringify(data, null, 2)}</pre> */}
-            <div className="flex items-center gap-4 justify-between mb-4">
-                <div className="flex items-center gap-4">
-                    <Link
-                        href="/agent/routes"
-                        className={buttonVariants({
-                            variant: "secondary",
-                            size: "icon",
-                        })}
-                    >
-                        <HiArrowLeft />
-                    </Link>
-                    <h3 className="text-xl  font-bold text-primary">
-                        Add routes
-                    </h3>
-                </div>
-                <ImportDropdown />
-            </div>
-            <form className=" mt-4 overflow-y-auto" onSubmit={handleSubmit}>
+
+            <form className=" mt-4" onSubmit={handleSubmit}>
                 <div className="flex items-center justify-between gap-4 mb-4 ">
                     <div className="text-sm flex gap-2 items-center whitespace-nowrap">
                         <p className=" font-semibold text-lg tracking-tight">
@@ -811,13 +809,7 @@ export function AddRouteTable({ users }: { users: any }) {
                                         No vendors found.
                                     </CommandEmpty>
                                     <CommandGroup>
-                                        {users
-                                            .filter(
-                                                (item: any) =>
-                                                    item.role ===
-                                                        "vendor" 
-                                            )
-                                            .map((user: any) => (
+                                        {users.map((user: any) => (
                                                 <CommandItem
                                                     key={user.id}
                                                     onSelect={() => {
@@ -843,7 +835,9 @@ export function AddRouteTable({ users }: { users: any }) {
                                                         <span className="text-slate-400">
                                                             (
                                                             {
-                                                                user.company_name
+                                                                user
+                                                                    
+                                                                    .company_name
                                                             }
                                                             )
                                                         </span>
@@ -855,17 +849,20 @@ export function AddRouteTable({ users }: { users: any }) {
                             </PopoverContent>
                         </Popover>
                     </div>
-                    <div className="text-sm flex gap-2 items-center whitespace-nowrap">
-                        <p>{table.getFilteredRowModel().rows.length} routes</p>{" "}
+                    <div className="text-sm flex gap-2 items-center ">
+                        <p>
+                            {table.getFilteredRowModel().rows.length} route(s)
+                        </p>{" "}
+                        <ImportDropdown />
                         {data.length ? (
                             <Button type="submit">
                                 {posting ? (
                                     <>
                                         Posting
-                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        <Loader2 className="ml-2 h-4 w-4 animate-spin" />
                                     </>
                                 ) : (
-                                    "Post Offers"
+                                    "Submit"
                                 )}
                             </Button>
                         ) : (
@@ -873,7 +870,7 @@ export function AddRouteTable({ users }: { users: any }) {
                         )}
                     </div>
                 </div>
-                <div className="">
+                <div className="border rounded-lg overflow-clip">
                     <Table>
                         {table.getRowModel().rows?.length !== 0 && (
                             <TableHeader>
@@ -936,20 +933,20 @@ export function AddRouteTable({ users }: { users: any }) {
                 </div>
             </form>
             {table.getRowModel().rows?.length > 0 && (
-                <div className="flex flex-col gap-2 mt-2">
+                <div className="flex items-center justify-between gap-2 mt-2">
                     <Button
-                        variant="secondary"
-                        className="w-full"
-                        onClick={handleAddRoute}
-                    >
-                        Add
-                    </Button>
-                    <Button
-                        variant="secondary"
-                        className="w-full mb-5"
+                        variant="outline"
+                        className="w-full "
                         onClick={handleClear}
                     >
                         Clear
+                    </Button>
+                    <Button
+                        variant="secondary"
+                        className="w-full "
+                        onClick={handleAddRoute}
+                    >
+                        Add
                     </Button>
                 </div>
             )}

@@ -1,8 +1,9 @@
 import { supabaseServer } from "@/lib/supabase-server";
-import { fetchUserMetadata, fetchUserRole } from "@/utils/user";
+import { fetchUserData, fetchUserMetadata, fetchUserRole } from "@/utils/user";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import Navigation from "./nav";
+import { UserMetadata } from "@supabase/supabase-js";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0; // revalidate at most every hour
@@ -12,20 +13,22 @@ export default async function DashboardLayout({
 }: {
     children: React.ReactNode;
 }) {
+    const user = await fetchUserData();
     const supabase = await supabaseServer();
-    const {
-        data: { session },
-    } = await supabase.auth.getSession();
-    if (!session) {
+    
+    if (!user) {
         redirect("/auth/login");
     }
-    const userData = await fetchUserMetadata();
-    const userRole = await fetchUserRole();
+
+    const { data: selectedRoutes } = await supabase
+        .from("selected_routes")
+        .select(`*, routes (*)`)
+        .eq("user_id", user?.id);
     
     return (
         <section className="bg-white min-h-screen flex flex-col justify-between relative">
             <div>
-                <Navigation userRole={userRole} user={userData} />
+                <Navigation cartItems={selectedRoutes} user={user} />
                 <div className="h-2 background-animate bg-gradient-to-r from-secondary to-primary-500 w-full"></div>
                 <section className="mx-auto max-w-8xl p-4 md:px-8 md:py-4">
                     {children}

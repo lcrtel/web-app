@@ -25,21 +25,18 @@ export async function POST(request: Request) {
             const { data: inv, error } = await supabase
             .from("invoices")
             .insert([invoice])
-            .select(`*, profiles (*)`).single();
-          
-            const { data: gateway } = await supabase
-                .from("gateways")
-                .select(`*, routes (*)`)
-                .eq("id", inv?.gateway)
-                .single();                
+            .select(`*, profiles (*)`).single();     
+
             const emailHtml = await renderAsync(
-                <InvoiceTemplate data={{ ...gateway, ...inv }} />
+                <InvoiceTemplate data={{...inv }} />
             );
 
             try {
-                await transporter.sendMail({
+                transporter.sendMail({
                     from: process.env.SMTP_USER,
-                    to: inv.profiles.email,
+                    to: inv?.profiles?.email
+                        ? inv.profiles.email
+                        : process.env.SMTP_USER,
                     subject: `Route Usage Invoice`,
                     html: emailHtml,
                 });

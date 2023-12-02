@@ -146,7 +146,7 @@ export function PostRouteTable() {
         toast.success("Buying targets posted");
         setData([]);
         localStorage.removeItem("pendingBuyingTargetsData");
-        router.push("/user/routes/targets");
+        router.push("/user/routes/requests");
     };
 
     const columns = useMemo<ColumnDef<any>[]>(

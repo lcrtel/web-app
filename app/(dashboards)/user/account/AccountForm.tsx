@@ -20,14 +20,6 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 
 const profileFormSchema = z.object({
-    name: z
-        .string()
-        .min(2, {
-            message: "Username must be at least 2 characters.",
-        })
-        .max(30, {
-            message: "Username must not be longer than 30 characters.",
-        }),
     company_name: z.string(),
     phone: z.string(),
     skype_id: z.string(),
@@ -65,28 +57,13 @@ export function AccountForm({ user }: { user: any }) {
                     className="space-y-4 "
                 >
                     <div className="grid sm:grid-cols-2 gap-5">
-                        <FormField
-                            control={form.control}
-                            name="name"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>First Name</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="first name"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                       
                         <FormField
                             control={form.control}
                             name="company_name"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Last Name</FormLabel>
+                                    <FormLabel>Company Name</FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="last name"

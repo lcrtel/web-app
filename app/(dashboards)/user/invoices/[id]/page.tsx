@@ -16,7 +16,7 @@ export const revalidate = 0;
 
 const page = async ({ params }: { params: { id: string } }) => {
     const supabase = await supabaseServer();
-    const { data: invoice } = await supabase
+    const { data: invoice }:any = await supabase
         .from("invoices")
         .select(`*, profiles (*)`)
         .eq("invoice_id", params.id)

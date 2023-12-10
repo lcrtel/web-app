@@ -6,23 +6,15 @@ import Link from "next/link";
 import { HiDocumentText } from "react-icons/hi";
 import { CreateInvoice } from "./CreateInvoice";
 import { InvoiceTable } from "./InvoiceTable";
+import { Suspense } from "react";
+import TableSkeleton from "@/components/ui/table-skeleton";
 
 export const revalidate = 0;
 
-const page = async () => {
-    const supabase = await supabaseServer();
-
+const Invoices = async ({ supabase }: { supabase: any }) => {
     const { data: invoices } = await supabase
         .from("invoices")
         .select(`*, profiles (name)`);
-
-    let { data: clients } = await supabase
-        .from("profiles")
-        .select("*")
-        .or(`role.eq.client,role.eq.vendor`);
-
-    let { data: payment_methods } = await supabase.from("config").select("*");
-
     const invoicesWithNames = invoices?.map((invoice: any) => {
         const {
             profiles: { name },
@@ -34,6 +26,24 @@ const page = async () => {
             client: name ? name : "",
         };
     });
+
+    return invoices?.length ? (
+        <InvoiceTable data={invoicesWithNames} />
+    ) : (
+        <div className="gap-2  h-12 text-center flex items-center text-sm  justify-center border py-10 rounded-lg">
+            <p>No invoices created yet</p>
+        </div>
+    );
+};
+const page = async () => {
+    const supabase = await supabaseServer();
+
+    let { data: clients } = await supabase
+        .from("profiles")
+        .select("*")
+        .or(`role.eq.client,role.eq.vendor`);
+
+    let { data: payment_methods } = await supabase.from("config").select("*");
 
     return (
         <div className=" ">
@@ -55,18 +65,10 @@ const page = async () => {
                         />
                     </div>
                 </div>
+                <Suspense fallback={<TableSkeleton />}>
+                    <Invoices supabase={supabase} />
+                </Suspense>
             </div>
-            {invoices?.length ? (
-                <InvoiceTable data={invoicesWithNames} />
-            ) : (
-                <div className="gap-2  h-12 text-center flex items-center text-sm  justify-center border py-10 rounded-lg">
-                    <p>No invoices created yet</p>
-                    <CreateInvoice
-                        clients={clients}
-                        paymentMethods={payment_methods}
-                    />
-                </div>
-            )}
         </div>
     );
 };

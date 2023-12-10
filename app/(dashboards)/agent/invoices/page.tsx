@@ -4,31 +4,42 @@ import { supabaseServer } from "@/lib/supabase-server";
 import Link from "next/link";
 import { CreateInvoice } from "./CreateInvoice";
 import { InvoiceTable } from "./InvoiceTable";
+import { Suspense } from "react";
+import TableSkeleton from "@/components/ui/table-skeleton";
 
 export const revalidate = 0;
 
-const page = async () => {
-    const supabase = await supabaseServer();
-    const agent: any = await fetchUser();
-
+const Invoices = async ({ supabase, agent }: { supabase: any; agent: any }) => {
     const { data: invoices } = await supabase
         .from("invoices")
         .select(`*, profiles (*)`);
 
     const filteredInvoices = invoices?.filter(
-        (invoice) => invoice.profiles?.agent_id === agent.id
+        (invoice: any) => invoice.profiles?.agent_id === agent.id
     );
-     const invoicesWithNames = filteredInvoices?.map((invoice: any) => {
-         const {
-             profiles: { name },
-             ...restInvoice
-         } = invoice;
+    const invoicesWithNames = filteredInvoices?.map((invoice: any) => {
+        const {
+            profiles: { name },
+            ...restInvoice
+        } = invoice;
 
-         return {
-             ...restInvoice,
-             client: name ? name : "",
-         };
-     });
+        return {
+            ...restInvoice,
+            client: name ? name : "",
+        };
+    });
+    return invoicesWithNames?.length ? (
+        <InvoiceTable data={invoicesWithNames} />
+    ) : (
+        <div className="gap-2  h-12 text-center flex items-center text-sm  justify-center border py-10 rounded-lg">
+            <p>No invoices created yet</p>
+        </div>
+    );
+};
+
+const page = async () => {
+    const supabase = await supabaseServer();
+    const agent: any = await fetchUser();
 
     let { data: clients } = await supabase
         .from("profiles")
@@ -59,17 +70,9 @@ const page = async () => {
                     </div>
                 </div>
             </div>
-            {invoicesWithNames?.length ? (
-                <InvoiceTable data={invoicesWithNames} />
-            ) : (
-                <div className="gap-2  h-12 text-center flex items-center text-sm  justify-center border py-10 rounded-lg">
-                    <p>No invoices created yet</p>
-                    <CreateInvoice
-                        clients={clients}
-                        paymentMethods={payment_methods}
-                    />
-                </div>
-            )}
+            <Suspense fallback={<TableSkeleton />}>
+                <Invoices agent={agent} supabase={supabase} />
+            </Suspense>
         </div>
     );
 };

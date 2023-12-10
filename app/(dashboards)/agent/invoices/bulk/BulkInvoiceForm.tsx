@@ -38,7 +38,7 @@ import formatDate from "@/utils/formatDate";
 import { format } from "date-fns";
 import { CalendarIcon, Check, ChevronsUpDown, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { HiX } from "react-icons/hi";
 
@@ -61,12 +61,31 @@ export default function BulkInvoiceForm({
     const [loading, setLoading] = useState(false);
     const [upLoading, setUpLoading] = useState(false);
     const [dateIssued, setDateIssued] = useState<Date | undefined>(new Date());
-    const [dateDue, setDateDue] = useState<Date>();
+    const [dateDue, setDateDue] = useState<Date | undefined>();
     const [startDate, setStartDate] = useState<Date>();
     const [endDate, setEndDate] = useState<Date | undefined>(new Date());
     const [paymentMethod, setPaymentMethod] = useState(paymentMethods[0]);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [invoices, setInvoices] = useState<any>([]);
+
+    useEffect(() => {
+        if (dateIssued) {
+            // Clone the dateIssued to avoid mutating it
+            const newDateDue = new Date(dateIssued);
+            // Add 3 days to the dateDue
+            newDateDue.setDate(newDateDue.getDate() + 3);
+            setDateDue(newDateDue);
+        }
+    }, [dateIssued]);
+    useEffect(() => {
+        if (endDate) {
+            // Clone the dateIssued to avoid mutating it
+            const newStartDate = new Date(endDate);
+            // Add 3 days to the dateDue
+            newStartDate.setDate(newStartDate.getDate() - 7);
+            setStartDate(newStartDate);
+        }
+    }, [dateIssued]);
 
     const handleAddInvoice = () => {
         setInvoices([
@@ -102,7 +121,7 @@ export default function BulkInvoiceForm({
         setErrorMessage(null);
         setLoading(true);
 
-        await fetch("/agent/invoices/bulk/send", {
+        fetch("/agent/invoices/bulk/send", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -122,20 +141,11 @@ export default function BulkInvoiceForm({
                     date_due: dateDue,
                 }))
             ),
-        }).then(async (response) => {
-            if (!response.ok) {
-                const error = await response.json();
-                toast.error(error.message);
-                setLoading(false);
-                return;
-            } else {
-                setLoading(false);
-                setInvoices([]);
-                router.refresh();
-                router.push("/agent/invoices");
-                toast.success("Invoices Sent Successfully");
-            }
         });
+        setLoading(false);
+        setInvoices([]);
+        router.push("/agent/invoices");
+        toast.success("Invoices Sent Successfully");
     }
 
     const ImportDropdown = () => {
@@ -183,7 +193,9 @@ export default function BulkInvoiceForm({
 
                     const newArray = jsonData.map((json) => ({
                         invoice_to: clients.find(
-                            (client: any) => client.name.toLowerCase() === json["Account id"].toLowerCase()
+                            (client: any) =>
+                                client.name.toLowerCase() ===
+                                json["Account id"].toLowerCase()
                         )?.id,
                         total_amount: json["Total charges"],
                         total_duration: json["Total duration"],
@@ -228,7 +240,7 @@ export default function BulkInvoiceForm({
 
     function areAllValuesPresent(obj: any) {
         for (const value of Object.values(obj)) {
-            if (value === undefined || value === null) {
+            if (value === undefined || value === null || value === "") {
                 return false; // If any value is undefined or null, return false
             }
         }

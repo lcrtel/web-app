@@ -20,27 +20,24 @@ export async function POST(request: Request) {
     });
 
     try {
-        formData.map(async (invoice: any) => {
-            
+        await formData.map(async (invoice: any) => {
             const { data: inv, error } = await supabase
-            .from("invoices")
-            .insert([invoice])
-            .select(`*, profiles (*)`).single();     
+                .from("invoices")
+                .insert([invoice])
+                .select(`*, profiles (*)`)
+                .single();
 
             const emailHtml = await renderAsync(
-                <InvoiceTemplate data={{...inv }} />
+                <InvoiceTemplate data={{ ...inv }} />
             );
-
-            try {
-                transporter.sendMail({
-                    from: process.env.SMTP_USER,
-                    to: inv?.profiles?.email
-                        ? inv.profiles.email
-                        : process.env.SMTP_USER,
-                    subject: `Route Usage Invoice`,
-                    html: emailHtml,
-                });
-            } catch (error) {}
+            transporter.sendMail({
+                from: process.env.SMTP_USER,
+                to: inv?.profiles?.email
+                    ? inv.profiles.email
+                    : process.env.SMTP_USER,
+                subject: `Route Usage Invoice`,
+                html: emailHtml,
+            });
         });
     } catch (error) {
         return new Response(JSON.stringify(error), {

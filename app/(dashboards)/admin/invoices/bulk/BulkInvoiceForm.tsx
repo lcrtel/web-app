@@ -115,6 +115,7 @@ export default function BulkInvoiceForm({
                 invoices.map((item: any) => ({
                     invoice_to: item.invoice_to,
                     total_amount: item.total_amount,
+                    balance: item.total_amount,
                     description: `Invoice period: ${formatDate(
                         startDate
                     )} to ${formatDate(endDate)}. Calls: ${
@@ -231,7 +232,7 @@ export default function BulkInvoiceForm({
 
     function areAllValuesPresent(obj: any) {
         for (const value of Object.values(obj)) {
-            if (value === undefined || value === null || value === "") {
+            if (value === undefined || value === null) {
                 return false; // If any value is undefined or null, return false
             }
         }

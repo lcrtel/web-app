@@ -121,7 +121,7 @@ export default function BulkInvoiceForm({
         setErrorMessage(null);
         setLoading(true);
 
-        await fetch("/agent/invoices/bulk/send", {
+        const response = await fetch("/admin/invoices/bulk/send", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -141,20 +141,19 @@ export default function BulkInvoiceForm({
                     date_due: dateDue,
                 }))
             ),
-        }).then(async (response) => {
-            if (!response.ok) {
-                const error = await response.json();
-                toast.error(error.message);
-                setLoading(false);
-                return;
-            } else {
-                setLoading(false);
-                setInvoices([]);
-                router.refresh();
-                router.push("/agent/invoices");
-                toast.success("Invoices Sent Successfully");
-            }
         });
+
+        if (response.ok) {
+            setLoading(false);
+            setInvoices([]);
+            router.refresh();
+            router.push("/agent/invoices");
+            toast.success("Invoices Sent Successfully");
+        } else {
+            const error = await response.json();
+            toast.error(error.error);
+            setLoading(false);
+        }
     }
 
     const ImportDropdown = () => {

@@ -195,11 +195,11 @@ export function InvoiceTable({ data }: {data: any}) {
             <div className="rounded-xl border max-h-[500px] overflow-y-auto">
                 <Table>
                     <TableHeader>
-                        {table.getHeaderGroups().map((headerGroup) => (
-                            <TableRow key={headerGroup.id}>
-                                {headerGroup.headers.map((header) => {
+                        {table.getHeaderGroups().map((headerGroup, index) => (
+                            <TableRow key={index}>
+                                {headerGroup.headers.map((header, index) => {
                                     return (
-                                        <TableHead key={header.id}>
+                                        <TableHead key={index}>
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
@@ -215,21 +215,23 @@ export function InvoiceTable({ data }: {data: any}) {
                     </TableHeader>
                     <TableBody>
                         {table?.getRowModel().rows?.length ? (
-                            table.getRowModel().rows.map((row) => (
+                            table.getRowModel().rows.map((row, index) => (
                                 <TableRow
-                                    key={row.id}
+                                    key={index}
                                     data-state={
                                         row.getIsSelected() && "selected"
                                     }
                                 >
-                                    {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
-                                            {flexRender(
-                                                cell.column.columnDef.cell,
-                                                cell.getContext()
-                                            )}
-                                        </TableCell>
-                                    ))}
+                                    {row
+                                        .getVisibleCells()
+                                        .map((cell, index) => (
+                                            <TableCell key={index}>
+                                                {flexRender(
+                                                    cell.column.columnDef.cell,
+                                                    cell.getContext()
+                                                )}
+                                            </TableCell>
+                                        ))}
                                 </TableRow>
                             ))
                         ) : (
@@ -238,7 +240,7 @@ export function InvoiceTable({ data }: {data: any}) {
                                     colSpan={columns.length}
                                     className="h-8 text-center"
                                 >
-                                    No managers found.
+                                    No invoices found.
                                 </TableCell>
                             </TableRow>
                         )}

@@ -22,6 +22,7 @@ const page = async () => {
         .or(`role.eq.client,role.eq.vendor`);
 
     let { data: payment_methods } = await supabase.from("config").select("*");
+
     const invoicesWithNames = invoices?.map((invoice: any) => {
         const {
             profiles: { name },
@@ -30,9 +31,10 @@ const page = async () => {
 
         return {
             ...restInvoice,
-            client: name,
+            client: name ? name : "",
         };
     });
+
     return (
         <div className=" ">
             <div className="mb-5 ">

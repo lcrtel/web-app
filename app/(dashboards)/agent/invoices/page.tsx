@@ -13,15 +13,28 @@ const page = async () => {
 
     const { data: invoices } = await supabase
         .from("invoices")
-        .select(`*, profiles (*)`)
+        .select(`*, profiles (*)`);
 
-        const filteredInvoices = invoices?.filter((invoice) => invoice.profiles?.agent_id === agent.id)
+    const filteredInvoices = invoices?.filter(
+        (invoice) => invoice.profiles?.agent_id === agent.id
+    );
+     const invoicesWithNames = filteredInvoices?.map((invoice: any) => {
+         const {
+             profiles: { name },
+             ...restInvoice
+         } = invoice;
+
+         return {
+             ...restInvoice,
+             client: name ? name : "",
+         };
+     });
 
     let { data: clients } = await supabase
         .from("profiles")
         .select("*")
         .eq("agent_id", agent.id)
-        .or(`role.eq.client,role.eq.vendor`)
+        .or(`role.eq.client,role.eq.vendor`);
 
     let { data: payment_methods } = await supabase.from("config").select("*");
 
@@ -46,8 +59,8 @@ const page = async () => {
                     </div>
                 </div>
             </div>
-            {filteredInvoices?.length ? (
-                <InvoiceTable data={filteredInvoices} />
+            {invoicesWithNames?.length ? (
+                <InvoiceTable data={invoicesWithNames} />
             ) : (
                 <div className="gap-2  h-12 text-center flex items-center text-sm  justify-center border py-10 rounded-lg">
                     <p>No invoices created yet</p>

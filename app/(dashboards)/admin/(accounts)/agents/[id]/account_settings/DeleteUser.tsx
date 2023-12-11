@@ -30,8 +30,8 @@ export default function DeleteUser({ userID }: { userID: any }) {
                 toast.error(error.message);
                 return;
             } else {
-                toast.success("Deleted Client");
-                router.push("/admin/clients");
+                toast.success("Deleted Agent");
+                router.push("/admin/agents");
             }
         });
     };

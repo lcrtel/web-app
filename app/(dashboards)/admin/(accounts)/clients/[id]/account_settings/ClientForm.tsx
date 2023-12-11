@@ -96,7 +96,7 @@ export function ClientForm({ user, agents }: { user: any; agents: any }) {
                 toast.error(error.message);
                 return;
             } else {
-                toast.success("Vendor's details updated");
+                toast.success("Client's details updated");
                 setLoading(false);
                 router.refresh();
             }
@@ -195,7 +195,6 @@ export function ClientForm({ user, agents }: { user: any; agents: any }) {
                                     <FormControl>
                                         <Input
                                             placeholder="Vendor ID on VOS"
-                                            defaultValue=""
                                             {...field}
                                         />
                                     </FormControl>
@@ -212,7 +211,6 @@ export function ClientForm({ user, agents }: { user: any; agents: any }) {
                                     <FormControl>
                                         <Input
                                             placeholder="Customer ID on VOS"
-                                            defaultValue=""
                                             {...field}
                                         />
                                     </FormControl>

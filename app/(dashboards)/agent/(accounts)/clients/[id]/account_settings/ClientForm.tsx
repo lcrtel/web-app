@@ -94,7 +94,7 @@ export function ClientForm({ user, agentID }: { user: any; agentID: any }) {
                 toast.error(error.message);
                 return;
             } else {
-                toast.success("Vendor's details updated");
+                toast.success("Client's details updated");
                 setLoading(false);
                 router.refresh();
             }

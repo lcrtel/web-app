@@ -15,10 +15,10 @@ const VendorDetails = async ({ id }: { id: string }) => {
         .eq("id", id)
         .single();
 
-        let { data: agents } = await supabase
-            .from("profiles")
-            .select("*")
-            .eq("role", "agent")
+    let { data: agents } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("role", "agent");
 
     return <ClientForm user={vendor} agents={agents} />;
 };
@@ -34,7 +34,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             <div className="flex justify-between max-w-3xl items-center border border-red-500 rounded-lg p-4 text-red-500">
                 <div>
                     <h3 className="font-semibold tracking-tight">
-                        Delete this Vendor
+                        Delete this Client
                     </h3>
                     <p className="text-sm">
                         Once deleted, it will be gone forever. Please be

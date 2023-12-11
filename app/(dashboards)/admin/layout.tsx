@@ -1,8 +1,5 @@
-import { supabaseServer } from "@/lib/supabase-server";
 import { fetchUserMetadata, fetchUserRole } from "@/utils/user";
-import { redirect } from "next/navigation";
 import AdminNav from "./admin-nav";
-import { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0; // revalidate at most every hour
@@ -15,10 +12,7 @@ export default async function DashboardLayout({
 }) {
     const userData = await fetchUserMetadata();
     const userRole = await fetchUserRole();
-    if (userRole !== "admin") {
-        redirect("/");
-    }
-    
+   
     return (
         <section className="w-full h-screen overflow-hidden relative ">
             <AdminNav userRole={userRole} user={userData} />

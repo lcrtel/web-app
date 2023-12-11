@@ -1,25 +1,15 @@
-import { supabaseServer } from "@/lib/supabase-server";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
-const CheckSession = async () => {
-    const supabase = await supabaseServer();
-    const {
-        data: { session },
-    } = await supabase.auth.getSession();
 
-    if (session) {
-        redirect("/user");
-    }
-};
 export const dynamic = "force-dynamic";
-export default function DashboardLayout({
-    children, // will be a page or nested layout
+
+export default async function DashboardLayout({
+    children,
 }: {
     children: React.ReactNode;
 }) {
-    CheckSession();
+    
     return (
         <section className="min-h-screen flex justify-between ">
             <div

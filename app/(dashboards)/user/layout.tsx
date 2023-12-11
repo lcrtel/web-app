@@ -1,9 +1,7 @@
 import { supabaseServer } from "@/lib/supabase-server";
-import { fetchUserData, fetchUserMetadata, fetchUserRole } from "@/utils/user";
+import { fetchUserData } from "@/utils/user";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import Navigation from "./nav";
-import { UserMetadata } from "@supabase/supabase-js";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0; // revalidate at most every hour
@@ -15,10 +13,7 @@ export default async function DashboardLayout({
 }) {
     const user = await fetchUserData();
     const supabase = await supabaseServer();
-    
-    if (!user) {
-        redirect("/auth/login");
-    }
+
 
     const { data: selectedRoutes } = await supabase
         .from("selected_routes")

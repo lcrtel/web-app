@@ -1,18 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import LoginForm from "./login-form";
 import { Metadata } from "next";
+import LoginForm from "./login-form";
 
 export const metadata: Metadata = {
     title: "Login",
 };
 
-export const dynamic = "force-dynamic";
-
-
 const page = async () => {
-
+    
     return (
         <div className="w-full md:w-2/3 p-8  flex items-center justify-center">
             <section className="w-full">
@@ -32,7 +29,7 @@ const page = async () => {
                         Please enter your details.
                     </p>
                 </div>
-               <LoginForm/>
+                <LoginForm />
             </section>
         </div>
     );

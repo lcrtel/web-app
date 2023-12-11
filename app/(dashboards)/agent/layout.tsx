@@ -1,7 +1,5 @@
-import { supabaseServer } from "@/lib/supabase-server";
 import { fetchUserMetadata, fetchUserRole } from "@/utils/user";
 import AgentNav from "./AgentNav";
-import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0; // revalidate at most every hour
@@ -13,9 +11,7 @@ export default async function DashboardLayout({
 }) {
     const userData = await fetchUserMetadata();
     const userRole = await fetchUserRole();
-    if (userRole !== "agent") {
-        redirect("/");
-    }
+    
     return (
         <section className="w-full h-screen overflow-hidden relative ">
             <AgentNav userRole={userRole} user={userData} />

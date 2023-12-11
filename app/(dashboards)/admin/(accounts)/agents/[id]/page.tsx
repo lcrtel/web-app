@@ -32,7 +32,8 @@ const Clients = async ({
     let { data: clients, error } = await supabase
         .from("profiles")
         .select("*")
-        .match({ agent_id: agentID, role: "client" });
+        .eq("agent_id", agentID)
+        .or(`role.eq.client,role.eq.vendor`);
 
     return (
         <p className="font-bold tracking-tight text-3xl ">{clients.length}</p>
@@ -45,15 +46,20 @@ const RouteOffers = async ({
     agentID: string;
     supabase: any;
 }) => {
-    let { data: route_offers, error } = await supabase
+    let { data: verified_routes } = await supabase
         .from("routes")
         .select(`*, profiles (agent_id)`)
-        .eq("profiles.agent_id", agentID);
+        .match({ verification: "verified" });
+
+    let routes = verified_routes?.filter(
+        (offer: any) => offer.profiles?.agent_id === agentID
+    );
 
     return (
-        <p className="font-bold tracking-tight text-3xl ">{route_offers.length}</p>
+        <p className="font-bold tracking-tight text-3xl ">{routes.length}</p>
     );
 };
+
 const RouteRequests = async ({
     agentID,
     supabase,
@@ -61,13 +67,15 @@ const RouteRequests = async ({
     agentID: string;
     supabase: any;
 }) => {
-    let { data: route_requests, error } = await supabase
+    let { data: routeRequests, error } = await supabase
         .from("targets")
-        .select(`*, profiles (agent_id)`)
-        .eq("profiles.agent_id", agentID);
+        .select(`*, profiles (agent_id)`);
 
+    let requests = routeRequests?.filter(
+        (offer: any) => offer.profiles?.agent_id === agentID
+    );
     return (
-        <p className="font-bold tracking-tight text-3xl ">{route_requests.length}</p>
+        <p className="font-bold tracking-tight text-3xl ">{requests.length}</p>
     );
 };
 const Purchases = async ({
@@ -77,13 +85,16 @@ const Purchases = async ({
     agentID: string;
     supabase: any;
 }) => {
-    let { data: route_requests, error } = await supabase
+    let { data: routeRequests, error } = await supabase
         .from("purchase_requests")
         .select(`*, profiles (agent_id)`)
-        .eq("profiles.agent_id", agentID).match({status: "approved"});
-
+        .eq("profiles.agent_id", agentID)
+        .match({ status: "approved" });
+    let purchases = routeRequests?.filter(
+        (offer: any) => offer.profiles?.agent_id === agentID
+    );
     return (
-        <p className="font-bold tracking-tight text-3xl ">{route_requests.length}</p>
+        <p className="font-bold tracking-tight text-3xl ">{purchases.length}</p>
     );
 };
 
@@ -122,11 +133,10 @@ export default async function Page({ params }: { params: { id: string } }) {
                         <Clients agentID={params.id} supabase={supabase} />
                     </Suspense>
                 </Link>
-                <div
-                    className="hover:bg-slate-50 hover:shadow-lg transition-all space-y-2 ease-in duration-300 border rounded-xl p-4 md:p-5 active:scale-[95%]"
-                >
+                <div className="hover:bg-slate-50 hover:shadow-lg transition-all space-y-2 ease-in duration-300 border rounded-xl p-4 md:p-5 active:scale-[95%]">
                     <h3 className="text-sm font-medium text-gray-400 tracking-tight flex items-center justify-between">
-                        Route Offers <HiArrowRight className="" />
+                        Route Offers
+                         {/* <HiArrowRight className="" /> */}
                     </h3>
                     <Suspense
                         fallback={
@@ -136,11 +146,10 @@ export default async function Page({ params }: { params: { id: string } }) {
                         <RouteOffers agentID={params.id} supabase={supabase} />
                     </Suspense>
                 </div>
-                <div
-                    className="hover:bg-slate-50 hover:shadow-lg transition-all space-y-2 ease-in duration-300 border rounded-xl p-4 md:p-5 active:scale-[95%]"
-                >
+                <div className="hover:bg-slate-50 hover:shadow-lg transition-all space-y-2 ease-in duration-300 border rounded-xl p-4 md:p-5 active:scale-[95%]">
                     <h3 className="text-sm font-medium text-gray-400 tracking-tight flex items-center justify-between">
-                        Route Requests <HiArrowRight className="" />
+                        Route Requests 
+                        {/* <HiArrowRight className="" /> */}
                     </h3>
                     <Suspense
                         fallback={
@@ -153,12 +162,10 @@ export default async function Page({ params }: { params: { id: string } }) {
                         />
                     </Suspense>
                 </div>
-                <div
-                    className="hover:bg-slate-50 hover:shadow-lg transition-all space-y-2 ease-in duration-300 border rounded-xl p-4 md:p-5 active:scale-[95%]"
-                >
+                <div className="hover:bg-slate-50 hover:shadow-lg transition-all space-y-2 ease-in duration-300 border rounded-xl p-4 md:p-5 active:scale-[95%]">
                     <h3 className="text-sm font-medium text-gray-400 tracking-tight flex items-center justify-between">
                         Purchases
-                        <HiArrowRight className="" />
+                        {/* <HiArrowRight className="" /> */}
                     </h3>
                     <Suspense
                         fallback={

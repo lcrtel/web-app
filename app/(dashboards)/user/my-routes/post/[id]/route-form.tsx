@@ -135,6 +135,7 @@ export function RouteForm({ route }: { route: Route }) {
                                         <SelectItem value="tdm">TDM</SelectItem>
                                         <SelectItem value="pri">PRI</SelectItem>
                                         <SelectItem value="did">DID</SelectItem>
+                                        <SelectItem value="did">CC</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <FormMessage />

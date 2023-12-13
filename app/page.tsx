@@ -28,9 +28,8 @@ const HeroSection = async () => {
         >
             <div className="mx-auto w-full max-w-8xl">
                 <div className="flex flex-col items-start sm:items-center pt-24 pb-10 px-5 max-w-4xl mx-auto">
-                    <div className="flex flex-col items-start sm:items-center    rounded-2xl sm:rounded-3xl  w-full py-5 px-5 md:py-20">
-                        <h1 className="text-4xl
-                        text-center font-bold tracking-tight text-primary-500 sm:text-5xl max-w-xs md:max-w-lg">
+                    <div className="flex flex-col items-center    rounded-2xl sm:rounded-3xl  w-full py-5 px-5 md:py-20">
+                        <h1 className="text-4xl text-center font-bold tracking-tight text-primary-500 sm:text-5xl max-w-xs sm:max-w-lg">
                             Welcome to LCRTel
                         </h1>
                         {/* <p className="mt-6 text-lg sm:text-center leading-8 max-w-2xl text-primary-500">

@@ -309,8 +309,10 @@ export function PostOffersTable() {
                                         <SelectItem value="tdm">TDM</SelectItem>
                                         <SelectItem value="pri">PRI</SelectItem>
                                         <SelectItem value="did">DID</SelectItem>
-                                        <SelectItem value="did">CC</SelectItem>
-                                        <SelectItem value="did">CC</SelectItem>
+                                                                                <SelectItem value="cc">CC</SelectItem>
+
+                                                                                <SelectItem value="cc">CC</SelectItem>
+
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>

@@ -74,7 +74,7 @@ export default function InputForm() {
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="grid sm:grid-cols-3  gap-4 mb-4"
+                    className="grid sm:grid-cols-3  gap-4"
                 >
                     <div className="relative w-full">
                         <div
@@ -166,7 +166,7 @@ export default function InputForm() {
                                         <SelectItem value="tdm">TDM</SelectItem>
                                         <SelectItem value="pri">PRI</SelectItem>
                                         <SelectItem value="did">DID</SelectItem>
-                                        <SelectItem value="did">CC</SelectItem>
+                                        <SelectItem value="cc">CC</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <FormMessage />

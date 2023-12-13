@@ -304,7 +304,8 @@ export function AddRouteTable({ users }: { users: any }) {
                                         <SelectItem value="tdm">TDM</SelectItem>
                                         <SelectItem value="pri">PRI</SelectItem>
                                         <SelectItem value="did">DID</SelectItem>
-                                        <SelectItem value="did">CC</SelectItem>
+                                                                                <SelectItem value="cc">CC</SelectItem>
+
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>

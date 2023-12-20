@@ -32,11 +32,11 @@ const HeroSection = async () => {
                         <h1 className="text-4xl text-center font-bold tracking-tight text-primary-500 sm:text-5xl max-w-xs sm:max-w-lg">
                             Welcome to LCRTel
                         </h1>
-                        {/* <p className="mt-6 text-lg sm:text-center leading-8 max-w-2xl text-primary-500">
+                        <p className="mt-6 text-lg sm:text-center leading-8 max-w-2xl text-primary-500">
                             Unlock new possibilities and maximize your VoIP
                             trading potential with LCR Telcom&apos;s
                             cutting-edge platform.
-                        </p> */}
+                        </p>
                         <div className="mt-8 flex flex-row items-center justify-center gap-4 w-full">
                             <Link
                                 href="/post/offers"

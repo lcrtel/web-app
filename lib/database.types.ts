@@ -265,48 +265,54 @@ export interface Database {
       profiles: {
         Row: {
           agent_id: string | null
+          balance: string | null
           company_name: string | null
           email: string | null
           finance_department: Json | null
           id: string
           name: string | null
-          noc_dipartment: Json | null
+          noc_department: Json | null
+          over_draft: string | null
           payment_method: Json | null
           phone: string | null
           role: string | null
-          sales_dipartment: Json | null
+          sales_department: Json | null
           skype_id: string | null
           vos_client_id: string | null
           vos_vendor_id: string | null
         }
         Insert: {
           agent_id?: string | null
+          balance?: string | null
           company_name?: string | null
           email?: string | null
           finance_department?: Json | null
           id: string
           name?: string | null
-          noc_dipartment?: Json | null
+          noc_department?: Json | null
+          over_draft?: string | null
           payment_method?: Json | null
           phone?: string | null
           role?: string | null
-          sales_dipartment?: Json | null
+          sales_department?: Json | null
           skype_id?: string | null
           vos_client_id?: string | null
           vos_vendor_id?: string | null
         }
         Update: {
           agent_id?: string | null
+          balance?: string | null
           company_name?: string | null
           email?: string | null
           finance_department?: Json | null
           id?: string
           name?: string | null
-          noc_dipartment?: Json | null
+          noc_department?: Json | null
+          over_draft?: string | null
           payment_method?: Json | null
           phone?: string | null
           role?: string | null
-          sales_dipartment?: Json | null
+          sales_department?: Json | null
           skype_id?: string | null
           vos_client_id?: string | null
           vos_vendor_id?: string | null
@@ -335,7 +341,7 @@ export interface Database {
           whatsapp_no: string | null
         }
         Insert: {
-          client_id?: string
+          client_id: string
           communication_status?: string
           created_at?: string
           id?: string

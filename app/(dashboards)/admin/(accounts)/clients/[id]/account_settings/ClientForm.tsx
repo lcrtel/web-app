@@ -334,7 +334,7 @@ export function ClientForm({ user, agents }: { user: any; agents: any }) {
                                         className="w-full p-0 overflow-clip"
                                     >
                                         <Command>
-                                            <CommandInput placeholder="Search Client..." />
+                                            <CommandInput placeholder="Search Agent..." />
                                             <CommandEmpty>
                                                 No agents found.
                                             </CommandEmpty>

@@ -89,7 +89,7 @@ export default function BulkInvoiceForm({
             newStartDate.setDate(newStartDate.getDate() - 7);
             setStartDate(newStartDate);
         }
-    }, [dateIssued]);
+    }, [dateIssued, endDate]);
 
     const handleAddInvoice = () => {
         setInvoices([

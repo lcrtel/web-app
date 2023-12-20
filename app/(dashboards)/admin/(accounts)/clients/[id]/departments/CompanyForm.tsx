@@ -51,7 +51,7 @@ export function CompanyForm({ user }: { user: any }) {
     const router = useRouter();
 
     const FinanceDipartment = () => {
-        const defaultValues = user.user_metadata.finance_department;
+        const defaultValues = user.finance_department;
         const form = useForm<any>({
             resolver: zodResolver(departmentSchema),
             defaultValues,
@@ -150,7 +150,7 @@ export function CompanyForm({ user }: { user: any }) {
         );
     };
     const NOCDipartment = () => {
-        const defaultValues = user.user_metadata.noc_department;
+        const defaultValues = user.noc_department;
         const form = useForm<any>({
             resolver: zodResolver(departmentSchema),
             defaultValues,
@@ -250,7 +250,7 @@ export function CompanyForm({ user }: { user: any }) {
         );
     };
     const SalesDipartment = () => {
-        const defaultValues = user.user_metadata.sales_department;
+        const defaultValues = user.sales_department;
         const form = useForm<any>({
             resolver: zodResolver(departmentSchema),
             defaultValues,
@@ -350,7 +350,7 @@ export function CompanyForm({ user }: { user: any }) {
     };
 
     return (
-        <section>
+        <section className=" max-w-2xl">
             <div className="p-5 border rounded-lg mb-5">
                 <h2 className=" font-semibold text-lg tracking-tight mb-2">
                     Finance Department

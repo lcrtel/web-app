@@ -44,6 +44,14 @@ export default async function SettingsLayout({
             title: "Account Settings",
             href: `/admin/clients/${params.id}/account_settings`,
         },
+        {
+            title: "Departments",
+            href: `/admin/clients/${params.id}/departments`,
+        },
+        {
+            title: "Email Notification",
+            href: `/admin/clients/${params.id}/email_notification`,
+        },
     ];
 
     return (

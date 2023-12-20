@@ -9,56 +9,33 @@ import { IoWallet } from "react-icons/io5";
 
 export const revalidate = 0;
 
-const Balance = async ({
+const Wallet = async ({
     supabase,
-    userID,
+    userId,
+    userName,
 }: {
     supabase: any;
-    userID: any;
+    userId: any;
+    userName: any;
 }) => {
-    const { data: user } = await supabase
-        .from("profiles")
-        .select("name")
-        .eq("id", userID)
-        .single();
-
-    const name: string = user.name;
-    let balance = "$ 0";
     try {
         const VOSCustomer = await getCustomerInfo({
-            name: name.toLocaleUpperCase(),
+            name: userName.toLocaleUpperCase(),
         });
-        if (VOSCustomer?.data) {
-            balance = VOSCustomer?.data?.balance;
-        }
-    } catch {}
-    return <p className="font-medium">{balance}</p>;
-};
-const OverDraft = async ({
-    supabase,
-    userID,
-}: {
-    supabase: any;
-    userID: any;
-}) => {
-    const { data: user } = await supabase
-        .from("profiles")
-        .select("name")
-        .eq("id", userID)
-        .single();
 
-    const name: string = user.name;
-
-    let overDraft = "$ 0";
-    try {
-        const VOSCustomer = await getCustomerInfo({
-            name: name.toLocaleUpperCase(),
-        });
         if (VOSCustomer?.data) {
-            overDraft = "$" + VOSCustomer?.data?.over_draft;
+            await supabase
+                .from("profiles")
+                .update({
+                    balance: VOSCustomer.data.balance.replace(/\$/g, ""),
+                    over_draft: VOSCustomer.data.over_draft,
+                })
+                .eq("id", userId);
         }
-    } catch {}
-    return <p className="font-medium">{overDraft}</p>;
+    } catch (error) {
+        console.error("Error updating wallet:", error);
+    }
+    return <></>;
 };
 
 const RoutRequestsCount = async ({
@@ -99,9 +76,13 @@ const PurchasedRoutes = async ({
     );
 };
 
-
 export default async function Page({ params }: { params: { id: string } }) {
     const supabase = await supabaseServer();
+    const { data: user } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", params.id)
+        .single();
 
     return (
         <section className="">
@@ -116,25 +97,11 @@ export default async function Page({ params }: { params: { id: string } }) {
                         </div>
                         <div className="bg-white rounded-lg p-3">
                             <h3 className="text-sm text-slate-400 ">Balance</h3>
-                            <Suspense
-                                fallback={<Skeleton className="w-full h-6" />}
-                            >
-                                <Balance
-                                    userID={params.id}
-                                    supabase={supabase}
-                                />
-                            </Suspense>
+                            <p className="font-medium">${user?.balance}</p>
                             <h3 className="text-sm pt-2 text-slate-400 ">
                                 Over Draft
                             </h3>
-                            <Suspense
-                                fallback={<Skeleton className="w-full h-6" />}
-                            >
-                                <OverDraft
-                                    userID={params.id}
-                                    supabase={supabase}
-                                />
-                            </Suspense>
+                            <p className="font-medium">${user?.over_draft}</p>
                         </div>
                     </div>
                 </div>
@@ -171,6 +138,13 @@ export default async function Page({ params }: { params: { id: string } }) {
                     </Suspense>
                 </Link>
             </div>
+            <Suspense>
+                <Wallet
+                    supabase={supabase}
+                    userId={params.id}
+                    userName={user?.name}
+                />
+            </Suspense>
         </section>
     );
 }

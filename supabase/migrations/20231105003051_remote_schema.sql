@@ -314,8 +314,8 @@ CREATE TABLE IF NOT EXISTS "public"."profiles" (
     "skype_id" "text",
     "role" "text",
     "finance_department" "json",
-    "noc_dipartment" "json",
-    "sales_dipartment" "json",
+    "noc_department" "json",
+    "sales_department" "json",
     "payment_method" "jsonb"
 );
 

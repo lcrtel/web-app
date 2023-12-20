@@ -11,14 +11,14 @@ export default async function DashboardLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const user = await fetchUserData();
+    const user:any = await fetchUserData();
     const supabase = await supabaseServer();
 
 
     const { data: selectedRoutes } = await supabase
         .from("selected_routes")
         .select(`*, routes (*)`)
-        .eq("user_id", user?.id);
+        .eq("user_id", user.id);
     
     return (
         <section className="bg-white min-h-screen flex flex-col justify-between relative">

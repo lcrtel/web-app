@@ -1,47 +1,31 @@
 "use client";
 
-import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 
-import { supabaseClient } from "@/lib/supabase-client";
-import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
+import {
+    updateFinanceDipartment,
+    updateNOCDipartment,
+    updateSalesDipartment,
+} from "./actions";
 
 const departmentSchema = z.object({
-    name: z
-        .string()
-        .min(2, {
-            message: "Username must be at least 2 characters.",
-        })
-        .max(30, {
-            message: "Username must not be longer than 30 characters.",
-        })
-        .optional(),
-    email: z.string().email().optional(),
+    name: z.string().optional(),
+    email: z.string().optional(),
     phone: z.string().optional(),
     skype_id: z.string().optional(),
 });
@@ -58,21 +42,12 @@ export function CompanyForm({ user }: { user: any }) {
             mode: "onChange",
         });
         async function onSubmit(data: any) {
-            const supabase = supabaseClient();
-            const { data: any } = await supabase.auth.updateUser({
-                data: { finance_department: data },
+            await updateFinanceDipartment({
+                user_id: userID,
+                finance_department: data,
             });
-            const { data: user, error } = await supabase
-                .from("profiles")
-                .update({ finance_department: data })
-                .eq("id", userID)
-                .select();
-            if (error) {
-                toast.error(error.message);
-                return;
-            }
-            toast.success("Finance department details saved");
 
+            toast.success("Finance department details saved");
             router.refresh();
         }
         return (
@@ -103,6 +78,7 @@ export function CompanyForm({ user }: { user: any }) {
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
                                         <Input
+                                            type="email"
                                             placeholder="email address"
                                             {...field}
                                         />
@@ -158,19 +134,11 @@ export function CompanyForm({ user }: { user: any }) {
         });
 
         async function onSubmit(data: any) {
-            const supabase = supabaseClient();
-            const { data: any } = await supabase.auth.updateUser({
-                data: { noc_department: data },
+            await updateNOCDipartment({
+                user_id: userID,
+                noc_department: data,
             });
-            const { data: user, error } = await supabase
-                .from("profiles")
-                .update({ noc_department: data })
-                .eq("id", userID)
-                .select();
-            if (error) {
-                toast.error(error.message);
-                return;
-            }
+
             toast.success("NOC department details saved");
 
             router.refresh();
@@ -203,6 +171,7 @@ export function CompanyForm({ user }: { user: any }) {
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
                                         <Input
+                                            type="email"
                                             placeholder="email address"
                                             {...field}
                                         />
@@ -257,19 +226,11 @@ export function CompanyForm({ user }: { user: any }) {
             mode: "onChange",
         });
         async function onSubmit(data: any) {
-            const supabase = supabaseClient();
-            const { data: any } = await supabase.auth.updateUser({
-                data: { sales_department: data },
+            await updateSalesDipartment({
+                user_id: userID,
+                sales_department: data,
             });
-            const { data: user, error } = await supabase
-                .from("profiles")
-                .update({ sales_department: data })
-                .eq("id", userID)
-                .select();
-            if (error) {
-                toast.error(error.message);
-                return;
-            }
+
             toast.success("Sales department details saved");
 
             router.refresh();
@@ -302,6 +263,7 @@ export function CompanyForm({ user }: { user: any }) {
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
                                         <Input
+                                            type="email"
                                             placeholder="email address"
                                             {...field}
                                         />

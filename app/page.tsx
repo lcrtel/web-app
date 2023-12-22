@@ -9,7 +9,6 @@ import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
 
-
 export const metadata: Metadata = {
     title: "Home Page",
 };
@@ -28,23 +27,23 @@ const HeroSection = async () => {
         >
             <div className="mx-auto w-full max-w-8xl">
                 <div className="flex flex-col items-start sm:items-center pt-24 pb-10 px-5 max-w-4xl mx-auto">
-                    <div className="flex flex-col items-center    rounded-2xl sm:rounded-3xl  w-full py-5 px-5 md:py-20">
-                        <h1 className="text-4xl text-center font-bold tracking-tight text-primary-500 sm:text-5xl max-w-xs sm:max-w-lg">
-                            Welcome to LCRTel
+                    <div className="flex flex-col items-start sm:items-center bg-white bg-opacity-25 backdrop-blur p-5 md:p-10 rounded-2xl sm:rounded-3xl border-2 border-white">
+                        <h1 className="text-4xl sm:text-center font-bold tracking-tight text-primary-500 sm:text-5xl">
+                            Streamline Your VoIP Trading Experience
                         </h1>
                         <p className="mt-6 text-lg sm:text-center leading-8 max-w-2xl text-primary-500">
                             Unlock new possibilities and maximize your VoIP
                             trading potential with LCR Telcom&apos;s
                             cutting-edge platform.
                         </p>
-                        <div className="mt-8 flex flex-row items-center justify-center gap-4 w-full">
+                        <div className="mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-center gap-4">
                             <Link
                                 href="/post/offers"
                                 className={`${buttonVariants({
                                     variant: "default",
                                 })}`}
                             >
-                                Post routes
+                                Post your routes
                                 <HiOutlineArrowSmRight className="ml-2 w-5 h-5" />
                             </Link>
                             <Link
@@ -54,7 +53,7 @@ const HeroSection = async () => {
                                     variant: "secondary",
                                 })}`}
                             >
-                                Request route
+                                Request for route
                                 <HiOutlineArrowSmRight className="ml-2 w-5 h-5" />
                             </Link>
                         </div>
@@ -391,17 +390,16 @@ const Footer = () => {
 };
 
 const HomePage = async () => {
-   
-
     return (
         <main>
+            
             <Nav />
             <HeroSection />
             {/* <MarketView /> */}
-            {/* <ClientsSection /> */}
-            {/* <FAQ /> */}
+            <ClientsSection />
+            <FAQ />
             {/* <Contact /> */}
-            {/* <Footer /> */}
+            <Footer />
         </main>
     );
 };

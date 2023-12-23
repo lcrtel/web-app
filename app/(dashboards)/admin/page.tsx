@@ -46,7 +46,7 @@ const PurchaseRequests = async () => {
                     Purchase Requests
                 </h2>
                 <Link
-                    href="/admin/gateways/requests"
+                    href="/admin/requests/purchase_requests"
                     className=" text-sm hover:underline"
                 >
                     View All

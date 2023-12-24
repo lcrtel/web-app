@@ -13,7 +13,7 @@ import {
     Text,
 } from "@react-email/components";
 import { Tailwind } from "@react-email/tailwind";
-export default function ResetPassword({ user }: { user: any }) {
+export default function GatewayAccountDetailsTemplate({ data }: { data: any }) {
     return (
         <Tailwind
             config={{
@@ -36,10 +36,10 @@ export default function ResetPassword({ user }: { user: any }) {
                         fontStyle="normal"
                     />
                 </Head>
-                <Preview>Your Password Has Been Successfully Reset</Preview>
+                <Preview>{data.subject}</Preview>
                 <Body className="bg-surface ">
                     <Container className="bg-white rounded-md shadow mt-8">
-                            <Hr className="h-1.5 w-full bg-primary rounded-t-md m-0"></Hr>
+                        <Hr className="h-1.5 w-full bg-primary rounded-t-md m-0"></Hr>
                         <Section className=" mx-auto w-full max-w-[90%]">
                             <Img
                                 className="block mx-auto my-8"
@@ -50,37 +50,49 @@ export default function ResetPassword({ user }: { user: any }) {
                         </Section>
                         <Section className="mx-auto w-full max-w-[90%]">
                             <Text className="text-primary mt-6 font-bold tracking-tight text-xl">
-                                Your Password Has Been Successfully Reset
+                                {data.subject}
                             </Text>
                             <Text className="text-gray-500  font-medium ">
-                                Hello {user?.name} {user?.company_name},
-                            </Text>
-                            <Text className="text-gray-500  font-medium ">
-                                We&apos;re writing to inform you that your
-                                password for your LCRTel.com account has been
-                                successfully reset. Here is your updated
-                                password:
+                                {data.body.body}
                             </Text>
                         </Section>
                         <Section className="mx-auto w-full max-w-[90%]">
-                            <Text className="text-primary font-semibold text-lg">
-                                {user?.password}
+                            <Text className="text-gray-500  font-medium m-0">
+                                Company Name:{" "}
+                                {data.body.gateway_details.company_name}
+                            </Text>
+                            <Text className="text-gray-500  font-medium m-0">
+                                Address: {data.body.gateway_details.address}
+                            </Text>
+                            <Text className="text-gray-500  font-medium m-0">
+                                Mail ID: {data.body.gateway_details.mail_id}
+                            </Text>
+                            <Text className="text-gray-500  font-medium m-0">
+                                CDR Link: {data.body.gateway_details.cdr_link}
+                            </Text>
+                            <Text className="text-gray-500  font-medium m-0">
+                                Username: {data.body.gateway_details.username}
+                            </Text>
+                            <Text className="text-gray-500  font-medium m-0">
+                                Password: {data.body.gateway_details.password}
+                            </Text>
+                            <Text className="text-gray-500  font-medium m-0">
+                                Skype ID: {data.body.gateway_details.skype_id}
+                            </Text>
+                            <Text className="text-gray-500  font-medium m-0">
+                                SIP: {data.body.gateway_details.sip}
                             </Text>
                         </Section>
                         <Section className="mx-auto w-full max-w-[90%]">
                             <Text className="text-gray-500  font-medium ">
-                                Please keep these credentials secure and do not
-                                share them with anyone. You can use this
-                                information to log in to your account on our
-                                platform.
+                                Thank you for your prompt attention to this
+                                matter.
                             </Text>
                             <Text className="text-gray-500  font-medium ">
-                                If you did not initiate this password reset,
-                                please contact our support team immediately to
-                                ensure the security of your account.
+                                Best Regards,
                             </Text>
-                            <Text className="text-gray-500 mb-5  font-medium ">
-                                Best regards, The LCRTel Team
+                            <Text className="text-gray-500  font-medium m-0">
+                                LCRTel
                             </Text>
                         </Section>
                     </Container>

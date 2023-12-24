@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { FaPaperPlane } from "react-icons/fa6";
 import { HiPaperAirplane } from "react-icons/hi";
 import {
+    sendGatewayAccountDetails,
     sendLowBalanceNotification,
     sendPaymentReminder,
     sendRateNotification,
@@ -644,6 +645,296 @@ LCRTel`;
         </form>
     );
 };
+const GatewayAccount = ({ clientDetails }: { clientDetails: any }) => {
+    const [cc, setCc] = useState<any>([]);
+    useEffect(() => {
+        const addEmailToCc = (email: any) => {
+            setCc((prevCc: any) => {
+                if (!prevCc.includes(email)) {
+                    return [...prevCc, email];
+                }
+                return prevCc;
+            });
+        };
+
+        if (clientDetails?.finance_department?.email) {
+            addEmailToCc(clientDetails.finance_department.email);
+        }
+        if (clientDetails?.noc_department?.email) {
+            addEmailToCc(clientDetails.noc_department.email);
+        }
+        if (clientDetails?.sales_department?.email) {
+            addEmailToCc(clientDetails.sales_department.email);
+        }
+    }, [clientDetails]);
+    const [editIndex, setEditIndex] = useState<number | null>(null);
+    const [subject, setSubject] = useState("Verify Your Gateway Account Details");
+    const [loading, setLoading] = useState(false);
+    const [body, setBody] =
+        useState(`Dear ${clientDetails.name} (${clientDetails.company_name}),
+
+We hope this message finds you well. To ensure the continued smooth operation of your services, we kindly request you to review your Gateway Account details.
+
+Here are the key details we need you to verify:`);
+    const [gatewayAccountDetails, setGatewayAccountDetails] = useState({
+        company_name: "",
+        address: "",
+        mail_id: "",
+        cdr_link: "",
+        username: "",
+        password: "",
+        skype_id: "",
+        sip: "",
+    });
+
+    const addCc = (email: string) => {
+        if (!cc.includes(email)) {
+            setCc((prevData: any) => [...prevData, email]);
+        } else {
+            toast.error("Email already added");
+        }
+        setEditIndex(null);
+    };
+
+    const editCc = (index: number) => {
+        setEditIndex(index);
+    };
+
+    const updateCc = (index: number, email: string) => {
+        setCc((prevData: any) => {
+            const newData = [...prevData];
+            newData[index] = email;
+            return newData;
+        });
+        setEditIndex(null);
+    };
+
+    const removeCc = (index: number) => {
+        setCc((prevData: any) => {
+            const newData = [...prevData];
+            newData.splice(index, 1);
+            return newData;
+        });
+    };
+
+    const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const data = {
+            to: clientDetails.email,
+            cc: cc,
+            subject: subject,
+            body: { body, gateway_details: gatewayAccountDetails },
+        };
+        setLoading(true);
+        await sendGatewayAccountDetails(data);
+        setLoading(false);
+        toast.success("Email sent successfully");
+    };
+
+    return (
+        <form onSubmit={sendEmail}>
+            <div className="grid gap-2 sm:grid-cols-3 pt-4 pb-2 px-4 items-center">
+                <Label>To</Label>
+                <Input
+                    type="email"
+                    className=" col-span-2"
+                    defaultValue={clientDetails?.email}
+                    disabled
+                />
+            </div>
+            <div className="grid gap-2 sm:grid-cols-3 py-2 px-4">
+                <Label className="py-2">Cc</Label>
+                <div className="flex flex-col gap-2 col-span-2">
+                    {cc.map((email: string, index: number) => (
+                        <div className="flex gap-2" key={index}>
+                            <Input
+                                type="email"
+                                value={email}
+                                readOnly={editIndex !== index}
+                                onChange={(e) =>
+                                    updateCc(index, e.target.value)
+                                }
+                            />
+                            <button type="button" onClick={() => editCc(index)}>
+                                <Edit className="w-4 h-4" />
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => removeCc(index)}
+                            >
+                                <Trash className="w-4 h-4 text-red-500" />
+                            </button>
+                        </div>
+                    ))}
+                    <Input
+                        type="email"
+                        placeholder="Enter a valid email address"
+                        onBlur={(e) => {
+                            if (emailRegex.test(e.target.value)) {
+                                addCc(e.target.value);
+                                e.target.value = "";
+                            } else if (e.target.value !== "") {
+                                toast.error(
+                                    "Please enter a valid email address"
+                                );
+                            }
+                        }}
+                    />
+                </div>
+            </div>
+            <div className="grid gap-2 sm:grid-cols-3 py-2 px-4 items-center">
+                <Label>Subject</Label>
+                <Input
+                    type="text"
+                    value={subject}
+                    className="col-span-2"
+                    onChange={(e) => setSubject(e.target.value)}
+                    required
+                />
+            </div>
+            <div className="grid gap-2 sm:grid-cols-3 py-2 px-4 items-start">
+                <Label className="py-2">Body</Label>
+                <div className="col-span-2 grid gap-2">
+                    <Textarea
+                        rows={7}
+                        className=""
+                        value={body}
+                        onChange={(e) => setBody(e.target.value)}
+                        required
+                    />
+                    <div className="grid gap-2">
+                        <div>
+                            <Label>Company Name</Label>
+                            <Input
+                                value={gatewayAccountDetails.company_name}
+                                onChange={(e) =>
+                                    setGatewayAccountDetails(
+                                        (prev: any) => ({
+                                            ...prev,
+                                            company_name: e.target.value,
+                                        })
+                                    )
+                                }
+                            />
+                        </div>
+                        <div>
+                            <Label>Address</Label>
+                            <Input
+                                value={gatewayAccountDetails.address}
+                                onChange={(e) =>
+                                    setGatewayAccountDetails(
+                                        (prev: any) => ({
+                                            ...prev,
+                                            address: e.target.value,
+                                        })
+                                    )
+                                }
+                            />
+                        </div>
+                        <div>
+                            <Label>Mail ID</Label>
+                            <Input
+                                value={gatewayAccountDetails.mail_id}
+                                onChange={(e) =>
+                                    setGatewayAccountDetails(
+                                        (prev: any) => ({
+                                            ...prev,
+                                            mail_id: e.target.value,
+                                        })
+                                    )
+                                }
+                            />
+                        </div>
+                        <div>
+                            <Label>CDR Link</Label>
+                            <Input
+                                value={gatewayAccountDetails.cdr_link}
+                                onChange={(e) =>
+                                    setGatewayAccountDetails(
+                                        (prev: any) => ({
+                                            ...prev,
+                                            cdr_link: e.target.value,
+                                        })
+                                    )
+                                }
+                            />
+                        </div>
+                        <div>
+                            <Label>Username</Label>
+                            <Input
+                                value={gatewayAccountDetails.username}
+                                onChange={(e) =>
+                                    setGatewayAccountDetails(
+                                        (prev: any) => ({
+                                            ...prev,
+                                            username: e.target.value,
+                                        })
+                                    )
+                                }
+                            />
+                        </div>
+                        <div>
+                            <Label>Password</Label>
+                            <Input
+                                value={gatewayAccountDetails.password}
+                                onChange={(e) =>
+                                    setGatewayAccountDetails(
+                                        (prev: any) => ({
+                                            ...prev,
+                                            password: e.target.value,
+                                        })
+                                    )
+                                }
+                            />
+                        </div>
+                        <div>
+                            <Label>Skype ID</Label>
+                            <Input
+                                value={gatewayAccountDetails.skype_id}
+                                onChange={(e) =>
+                                    setGatewayAccountDetails(
+                                        (prev: any) => ({
+                                            ...prev,
+                                            skype_id: e.target.value,
+                                        })
+                                    )
+                                }
+                            />
+                        </div>
+                        <div>
+                            <Label>SIP</Label>
+                            <Input
+                                value={gatewayAccountDetails.sip}
+                                onChange={(e) =>
+                                    setGatewayAccountDetails(
+                                        (prev: any) => ({
+                                            ...prev,
+                                            sip: e.target.value,
+                                        })
+                                    )
+                                }
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="flex justify-end px-4">
+                <Button type="submit" className="gap-2">
+                    {loading ? (
+                        <>
+                            Sending <Loader2 className="h-4 w-4 animate-spin" />
+                        </>
+                    ) : (
+                        <>
+                            Send{" "}
+                            <HiPaperAirplane className="h-4 w-4 rotate-90" />
+                        </>
+                    )}
+                </Button>
+            </div>
+        </form>
+    );
+};
 
 const MailForm = ({ clientDetails }: { clientDetails: any }) => {
     return (
@@ -676,6 +967,14 @@ const MailForm = ({ clientDetails }: { clientDetails: any }) => {
                     </AccordionTrigger>
                     <AccordionContent>
                         <RateNotification clientDetails={clientDetails} />
+                    </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="gateway-account">
+                    <AccordionTrigger className="px-4">
+                        Gateway account setup
+                    </AccordionTrigger>
+                    <AccordionContent>
+                        <GatewayAccount clientDetails={clientDetails} />
                     </AccordionContent>
                 </AccordionItem>
             </Accordion>

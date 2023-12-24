@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { HiCheck, HiOutlineArrowSmRight } from "react-icons/hi";
 import MarketSearch from "./MarketSearch";
+import { FaWhatsapp } from "react-icons/fa";
+
 
 import type { Metadata } from "next";
 
@@ -392,8 +394,13 @@ const Footer = () => {
 const HomePage = async () => {
     return (
         <main>
-            
             <Nav />
+            <Link
+                href="https://wa.me/13024262298"
+                className="inline-flex px-4 py-3 fixed right-0 animate-pulse bottom-5 md:bottom-20 rounded-l-full gap-2 text-white font-semibold items-center bg-[rgb(38,211,103)] whitespace-nowrap shadow-[0px_8px_24px_0px_rgba(38,211,103,.2)]"
+            >
+                <FaWhatsapp className=" w-6 h-6" />
+            </Link>
             <HeroSection />
             {/* <MarketView /> */}
             <ClientsSection />

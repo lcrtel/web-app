@@ -32,6 +32,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -42,11 +43,19 @@ import {
 import { cn } from "@/lib/utils";
 import formatDate from "@/utils/formatDate";
 import { format } from "date-fns";
-import { CalendarIcon, Check, ChevronsUpDown, Loader2 } from "lucide-react";
+import {
+    CalendarIcon,
+    Check,
+    ChevronsUpDown,
+    Edit,
+    Loader2,
+    Trash,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { HiOutlinePlusCircle, HiX } from "react-icons/hi";
+import sendInvoice from "./actions";
 
 const invoiceFormSchema = z.object({
     date_issued: z.date({
@@ -60,6 +69,8 @@ const invoiceFormSchema = z.object({
     total_amount: z.string(),
 });
 
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
 export function CreateInvoice({
     clients,
     paymentMethods,
@@ -67,19 +78,74 @@ export function CreateInvoice({
     clients: any;
     paymentMethods: any;
 }) {
+    const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
+    const [clientPopover, setClientPopover] = useState(false);
     const [startDate, setStartDate] = useState<Date>();
     const [endDate, setEndDate] = useState<Date>();
-    const [duration, setDuration] = useState(0);
-    const [calls, setCalls] = useState(0);
-    const [rate, setRate] = useState(0);
-    const [invoiceTo, setInvoiceTo] = useState();
+
+    const [client, setClient] = useState<any>();
+
+    const [to, setTo] = useState<string>("");
+    const [cc, setCc] = useState<any>([]);
+    useEffect(() => {
+        setCc([]);
+        const addEmailToCc = (email: any) => {
+            setCc((prevCc: any) => {
+                if (!prevCc.includes(email)) {
+                    return [...prevCc, email];
+                }
+                return prevCc;
+            });
+        };
+        setTo(client?.email);
+        if (client?.finance_department?.email) {
+            addEmailToCc(client.finance_department.email);
+        }
+        if (client?.noc_department?.email) {
+            addEmailToCc(client.noc_department.email);
+        }
+        if (client?.sales_department?.email) {
+            addEmailToCc(client.sales_department.email);
+        }
+    }, [client]);
+
+    const [editIndex, setEditIndex] = useState<number | null>(null);
+
+    const addCc = (email: string) => {
+        if (!cc.includes(email)) {
+            setCc((prevData: any) => [...prevData, email]);
+        } else {
+            toast.error("Email already added");
+        }
+        setEditIndex(null);
+    };
+
+    const editCc = (index: number) => {
+        setEditIndex(index);
+    };
+
+    const updateCc = (index: number, email: string) => {
+        setCc((prevData: any) => {
+            const newData = [...prevData];
+            newData[index] = email;
+            return newData;
+        });
+        setEditIndex(null);
+    };
+
+    const removeCc = (index: number) => {
+        setCc((prevData: any) => {
+            const newData = [...prevData];
+            newData.splice(index, 1);
+            return newData;
+        });
+    };
+
     const [paymentMethod, setPaymentMethod] = useState(paymentMethods[0]);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-    const router = useRouter();
 
     const form = useForm<z.infer<typeof invoiceFormSchema>>({
         resolver: zodResolver(invoiceFormSchema),
@@ -90,40 +156,29 @@ export function CreateInvoice({
     async function onSubmit(data: z.infer<typeof invoiceFormSchema>) {
         setErrorMessage(null);
         setLoading(true);
-
-        try {
-            const response = await fetch("/admin/invoices/create", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    date_issued: data.date_issued,
-                    date_due: data.date_due,
-                    invoice_to: invoiceTo,
-                    description: `Invoice period: ${formatDate(
-                        startDate
-                    )} to ${formatDate(endDate)}. Calls: ${
-                        data.number_of_cdr
-                    }. Duration: ${data.total_duration}mins.`,
-                    total_amount: data.total_amount,
-                    balance: data.total_amount,
-                    bill_to: paymentMethod.details,
-                }),
-            });
-
-            if (!response.ok) {
-                const error = await response.json();
-                toast.error(error.message);
-            } else {
-                form.reset();
-                router.refresh();
-                toast.success("Invoices Sent Successfully");
-            }
-        } catch (error) {
-            console.error("An error occurred:", error);
-            toast.error("An error occurred while submitting the form.");
-        } finally {
+        const res: any = await sendInvoice({
+            invoice_details: {
+                date_issued: data.date_issued,
+                date_due: data.date_due,
+                invoice_to: client.id,
+                description: `Invoice period: ${formatDate(
+                    startDate
+                )} to ${formatDate(endDate)}. Calls: ${
+                    data.number_of_cdr
+                }. Duration: ${data.total_duration}mins.`,
+                total_amount: data.total_amount,
+                balance: data.total_amount,
+                bill_to: paymentMethod.details,
+            },
+            to: to,
+            cc: cc,
+        });
+        if (!res.success) {
+            toast.error(res.error.message);
+        } else {
+            form.reset();
+            router.refresh();
+            toast.success("Invoices Sent Successfully");
             setLoading(false);
             setIsOpen(false);
         }
@@ -165,25 +220,31 @@ export function CreateInvoice({
                                     <div className="grid gap-5  mb-5">
                                         <div className="flex flex-col items-start gap-2">
                                             <Label>Client</Label>
-                                            <Popover>
+                                            <Popover
+                                                open={clientPopover}
+                                                onOpenChange={setClientPopover}
+                                            >
                                                 <PopoverTrigger asChild>
                                                     <FormControl>
                                                         <Button
                                                             variant="outline"
                                                             role="combobox"
+                                                            aria-expanded={
+                                                                clientPopover
+                                                            }
                                                             className={cn(
                                                                 "w-full rounded-lg justify-between",
-                                                                !invoiceTo &&
+                                                                !client &&
                                                                     "text-muted-foreground"
                                                             )}
                                                         >
-                                                            {invoiceTo
+                                                            {client
                                                                 ? clients.find(
                                                                       (
-                                                                          client: any
+                                                                          item: any
                                                                       ) =>
-                                                                          client.id ===
-                                                                          invoiceTo
+                                                                          item.id ===
+                                                                          client?.id
                                                                   )?.name
                                                                 : "Select Client"}
                                                             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -201,37 +262,38 @@ export function CreateInvoice({
                                                         </CommandEmpty>
                                                         <CommandGroup>
                                                             {clients.map(
-                                                                (
-                                                                    client: any
-                                                                ) => (
+                                                                (item: any) => (
                                                                     <CommandItem
                                                                         value={
-                                                                            client.name
+                                                                            item.name
                                                                         }
                                                                         key={
-                                                                            client.id
+                                                                            item.id
                                                                         }
                                                                         onSelect={() => {
-                                                                            setInvoiceTo(
-                                                                                client.id
+                                                                            setClient(
+                                                                                item
+                                                                            );
+                                                                            setClientPopover(
+                                                                                false
                                                                             );
                                                                         }}
                                                                     >
                                                                         <Check
                                                                             className={cn(
                                                                                 "mr-2 h-4 w-4",
-                                                                                client.id ===
-                                                                                    invoiceTo
+                                                                                item.id ===
+                                                                                    client?.id
                                                                                     ? "opacity-100"
                                                                                     : "opacity-0"
                                                                             )}
                                                                         />
                                                                         {
-                                                                            client.name
+                                                                            item.name
                                                                         }{" "}
                                                                         -{" "}
                                                                         {
-                                                                            client.company_name
+                                                                            item.company_name
                                                                         }
                                                                     </CommandItem>
                                                                 )
@@ -241,6 +303,84 @@ export function CreateInvoice({
                                                 </PopoverContent>
                                             </Popover>
                                         </div>
+                                        <div className="flex flex-col gap-2 items-start space-y-0">
+                                            <Label>Email</Label>
+                                            <Input
+                                                placeholder="Reciepient Email"
+                                                type="email"
+                                                value={to}
+                                                onChange={(e) =>
+                                                    setTo(e.target.value)
+                                                }
+                                            />
+                                        </div>
+                                        <div className="flex flex-col items-start gap-2">
+                                            <Label>CC</Label>
+                                            {cc?.map(
+                                                (
+                                                    email: string,
+                                                    index: number
+                                                ) => (
+                                                    <div
+                                                        className="flex gap-2 w-full"
+                                                        key={index}
+                                                    >
+                                                        <Input
+                                                            type="email"
+                                                            value={email}
+                                                            readOnly={
+                                                                editIndex !==
+                                                                index
+                                                            }
+                                                            onChange={(e) =>
+                                                                updateCc(
+                                                                    index,
+                                                                    e.target
+                                                                        .value
+                                                                )
+                                                            }
+                                                        />
+                                                        <button
+                                                            type="button"
+                                                            onClick={() =>
+                                                                editCc(index)
+                                                            }
+                                                        >
+                                                            <Edit className="w-4 h-4" />
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() =>
+                                                                removeCc(index)
+                                                            }
+                                                        >
+                                                            <Trash className="w-4 h-4 text-red-500" />
+                                                        </button>
+                                                    </div>
+                                                )
+                                            )}
+                                            <Input
+                                                type="email"
+                                                placeholder="Enter a valid email address"
+                                                onBlur={(e) => {
+                                                    if (
+                                                        emailRegex.test(
+                                                            e.target.value
+                                                        )
+                                                    ) {
+                                                        addCc(e.target.value);
+                                                        e.target.value = "";
+                                                    } else if (
+                                                        e.target.value !== ""
+                                                    ) {
+                                                        toast.error(
+                                                            "Please enter a valid email address"
+                                                        );
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+
                                         <div className="flex flex-col  gap-2 border-b pb-5">
                                             <h3 className="text-base text-left font-semibold">
                                                 Invoice Period
@@ -636,8 +776,7 @@ export function CreateInvoice({
                                     <Button
                                         type="submit"
                                         disabled={
-                                            !endDate ||
-                                            !startDate 
+                                            !endDate || !startDate
                                                 ? true
                                                 : false
                                         }

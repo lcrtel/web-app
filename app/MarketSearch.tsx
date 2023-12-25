@@ -8,21 +8,11 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
-    FormLabel,
-    FormMessage,
+    FormMessage
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import {
     Command,
     CommandEmpty,
@@ -31,17 +21,19 @@ import {
     CommandItem,
 } from "@/components/ui/command";
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover";
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { destinations } from "@/lib/countries";
+import { supabaseClient } from "@/lib/supabase-client";
 import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
+import { Check, ChevronsUpDown } from "lucide-react";
 import { useState } from "react";
 import { RatesTable } from "./rates-table";
-import { supabaseClient } from "@/lib/supabase-client";
-import { destinations } from "@/lib/countries";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
 
 const FormSchema = z.object({
     route_type: z.string(),

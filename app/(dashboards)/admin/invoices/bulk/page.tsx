@@ -1,7 +1,7 @@
-import fetchUser from "@/app/post/fetchUser";
 import { supabaseServer } from "@/lib/supabase-server";
 import { fetchUserData } from "@/utils/user";
 import BulkInvoiceForm from "./BulkInvoiceForm";
+import fetchUser from "@/app/(public)/post/fetchUser";
 export const revalidate = 0;
 
 

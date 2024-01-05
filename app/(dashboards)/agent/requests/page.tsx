@@ -16,7 +16,7 @@ import { EditPurchaseRequest } from "./EditPurchaseRequest";
 import { FaWhatsapp } from "react-icons/fa6";
 import CopyButton from "@/components/ui/copy-button";
 import { RequestsTable } from "./RequestsTable";
-import fetchUser from "@/app/post/fetchUser";
+import fetchUser from "@/app/(public)/post/fetchUser";
 export const revalidate = 0; // revalidate this page every 60 seconds
 
 export default async function Page() {

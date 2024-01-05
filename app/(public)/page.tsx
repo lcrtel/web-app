@@ -15,6 +15,28 @@ export const metadata: Metadata = {
     title: "Home Page",
 };
 
+
+
+const HomePage = async () => {
+    return (
+        <main>
+            <Link
+                href="https://wa.me/13024262298"
+                className="inline-flex px-4 py-3 fixed right-0 animate-pulse bottom-5 md:bottom-20 rounded-l-full gap-2 text-white font-semibold items-center bg-[rgb(38,211,103)] whitespace-nowrap shadow-[0px_8px_24px_0px_rgba(38,211,103,.2)]"
+            >
+                <FaWhatsapp className=" w-6 h-6" />
+            </Link>
+            <HeroSection />
+            {/* <MarketView /> */}
+            <ClientsSection />
+            {/* <FAQ /> */}
+            {/* <Contact /> */}
+        </main>
+    );
+};
+
+export default HomePage;
+
 const HeroSection = async () => {
     return (
         <section
@@ -337,78 +359,3 @@ const Contact = () => {
     );
 };
 
-const Footer = () => {
-    return (
-        <footer className="bg-surface px-6 py-10">
-            <div className="mx-auto max-w-screen-xl">
-                <div className="md:flex md:justify-between">
-                    <div className="mb-6 md:mb-0">
-                        <Link passHref href="/" className="flex items-center">
-                            <Image
-                                src="/lcrtelcom_logo.svg"
-                                className="mr-3 "
-                                alt="Flowbite Logo"
-                                width={180}
-                                height={20}
-                            />
-                        </Link>
-                    </div>
-                    <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
-                        <div>
-                            <h2 className="mb-6 text-sm font-semibold text-primary-500 uppercase ">
-                                Legal
-                            </h2>
-                            <ul className="text-gray-600 ">
-                                <li className="mb-4">
-                                    <Link
-                                        href="/privacy-policy"
-                                        className="hover:underline"
-                                    >
-                                        Privacy Policy
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="#" className="hover:underline">
-                                        Terms &amp; Conditions
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <hr className="my-6 border-gray-300 sm:mx-auto lg:my-8" />
-                <div className="flex items-center">
-                    <span className="text-sm text-gray-500 sm:text-center ">
-                        © 2023 (1445 AH){" "}
-                        <Link href="/" className="hover:underline">
-                            LCRTelcom™
-                        </Link>
-                        . All Rights Reserved.
-                    </span>
-                </div>
-            </div>
-        </footer>
-    );
-};
-
-const HomePage = async () => {
-    return (
-        <main>
-            <Nav />
-            <Link
-                href="https://wa.me/13024262298"
-                className="inline-flex px-4 py-3 fixed right-0 animate-pulse bottom-5 md:bottom-20 rounded-l-full gap-2 text-white font-semibold items-center bg-[rgb(38,211,103)] whitespace-nowrap shadow-[0px_8px_24px_0px_rgba(38,211,103,.2)]"
-            >
-                <FaWhatsapp className=" w-6 h-6" />
-            </Link>
-            <HeroSection />
-            {/* <MarketView /> */}
-            <ClientsSection />
-            <FAQ />
-            {/* <Contact /> */}
-            <Footer />
-        </main>
-    );
-};
-
-export default HomePage;

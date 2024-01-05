@@ -14,7 +14,7 @@ import Link from "next/link";
 import { FaWhatsapp } from "react-icons/fa6";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { EditPurchaseRequest } from "../EditPurchaseRequest";
-import fetchUser from "@/app/post/fetchUser";
+import fetchUser from "@/app/(public)/post/fetchUser";
 export const revalidate = 0; // revalidate this page every 60 seconds
 
 export default async function Page() {

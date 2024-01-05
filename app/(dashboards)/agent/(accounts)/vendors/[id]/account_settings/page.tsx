@@ -3,7 +3,7 @@ import DeleteUser from "./DeleteUser";
 import { VendorForm } from "./VendorForm";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import fetchUser from "@/app/post/fetchUser";
+import fetchUser from "@/app/(public)/post/fetchUser";
 
 export const revalidate = 0;
 

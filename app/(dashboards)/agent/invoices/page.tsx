@@ -1,4 +1,4 @@
-import fetchUser from "@/app/post/fetchUser";
+import fetchUser from "@/app/(public)/post/fetchUser";
 import { buttonVariants } from "@/components/ui/button";
 import { supabaseServer } from "@/lib/supabase-server";
 import Link from "next/link";

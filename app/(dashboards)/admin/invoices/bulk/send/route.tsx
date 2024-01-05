@@ -7,7 +7,6 @@ export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
     const formData = await request.json();
-
     const supabase = await supabaseRouteHandler();
     
     

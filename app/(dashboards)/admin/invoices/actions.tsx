@@ -1,6 +1,7 @@
 "use server";
 import InvoiceTemplate from "@/emails/Invoice";
 import { supabaseServer } from "@/lib/supabase-server";
+import formatDate from "@/utils/formatDate";
 import { renderAsync } from "@react-email/render";
 import nodemailer from "nodemailer";
 
@@ -41,4 +42,34 @@ export default async function sendInvoice(data: any) {
         }
         return { success: true };
     }
+
+    console.log(data);
+}
+
+export async function sendBulkInvoice(invoices: any) {
+    try {
+        invoices.invoices.map(
+            async (invoice: any) =>
+                await sendInvoice({
+                    invoice_details: {
+                        date_issued: invoices.date_issued,
+                        date_due: invoices.date_due,
+                        invoice_to: invoice.invoice_to.id,
+                        description: `Invoice period: ${formatDate(
+                            invoices.start_date
+                        )} to ${formatDate(invoices.end_date)}. Calls: ${
+                            invoice.calls
+                        }. Duration: ${invoice.total_duration}mins.`,
+                        total_amount: invoice.total_amount,
+                        balance: invoice.total_amount,
+                        bill_to: invoices.bill_to,
+                    },
+                    to: invoice.to,
+                    cc: invoice.cc,
+                })
+        );
+    } catch (error) {
+        return { success: false, error: error };
+    }
+    return { success: true };
 }

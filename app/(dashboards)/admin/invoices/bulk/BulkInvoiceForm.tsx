@@ -9,7 +9,7 @@ import * as XLSX from "xlsx";
 
 import { Button } from "@/components/ui/button";
 import * as z from "zod";
-
+import { AnimatePresence, motion } from "framer-motion";
 import { Calendar } from "@/components/ui/calendar";
 import {
     Command,
@@ -36,11 +36,18 @@ import {
 import { cn } from "@/lib/utils";
 import formatDate from "@/utils/formatDate";
 import { format } from "date-fns";
-import { CalendarIcon, Check, ChevronsUpDown, Loader2 } from "lucide-react";
+import {
+    CalendarIcon,
+    Check,
+    ChevronsUpDown,
+    Loader2,
+    Trash,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { HiX } from "react-icons/hi";
+import sendInvoice, { sendBulkInvoice } from "../actions";
 
 const invoiceFormSchema = z.object({
     date_issued: z.date({
@@ -73,9 +80,7 @@ export default function BulkInvoiceForm({
 
     useEffect(() => {
         if (dateIssued) {
-            // Clone the dateIssued to avoid mutating it
             const newDateDue = new Date(dateIssued);
-            // Add 3 days to the dateDue
             newDateDue.setDate(newDateDue.getDate() + 3);
             setDateDue(newDateDue);
         }
@@ -83,9 +88,7 @@ export default function BulkInvoiceForm({
 
     useEffect(() => {
         if (endDate) {
-            // Clone the dateIssued to avoid mutating it
             const newStartDate = new Date(endDate);
-            // Add 3 days to the dateDue
             newStartDate.setDate(newStartDate.getDate() - 7);
             setStartDate(newStartDate);
         }
@@ -99,6 +102,7 @@ export default function BulkInvoiceForm({
                 total_amount: "",
                 total_duration: "",
                 calls: "",
+                cc: [""],
             },
         ]);
     };
@@ -124,38 +128,23 @@ export default function BulkInvoiceForm({
     async function handleSubmit() {
         setErrorMessage(null);
         setLoading(true);
-        
-        const response = await fetch("/admin/invoices/bulk/send", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(
-                invoices.map((item: any) => ({
-                    invoice_to: item.invoice_to,
-                    total_amount: item.total_amount,
-                    balance: item.total_amount,
-                    description: `Invoice period: ${formatDate(
-                        startDate
-                    )} to ${formatDate(endDate)}. Calls: ${
-                        item.calls
-                    }. Duration: ${item.total_duration}mins.`,
-                    bill_to: paymentMethod.details,
-                    date_issued: dateIssued,
-                    date_due: dateDue,
-                }))
-            ),
+
+        const res: any = await sendBulkInvoice({
+            invoices: invoices,
+            date_due: dateDue,
+            date_issued: dateIssued,
+            start_date: startDate,
+            end_date: endDate,
+            bill_to: paymentMethod.details,
         });
-        
-        if (response.ok) {
-            setLoading(false);
-            setInvoices([]);
-            router.refresh();
-            router.push("/admin/invoices");
-            toast.success("Invoices Sent Successfully");
+
+        if (!res.success) {
+            toast.error(res.error.message);
         } else {
-            const error = await response.json()
-            toast.error(error.error);
+            router.refresh();
+            toast.success("Invoices Sent Successfully");
+            setInvoices([]);
+            router.back();
             setLoading(false);
         }
     }
@@ -208,10 +197,11 @@ export default function BulkInvoiceForm({
                             (client: any) =>
                                 client.name.toLowerCase() ===
                                 json["Account id"].toLowerCase()
-                        )?.id,
+                        ),
                         total_amount: json["Total charges"],
                         total_duration: json["Total duration"],
                         calls: json["Number of cdr"],
+                        cc: [""],
                     }));
                     setInvoices((prevData: any) => [...prevData, ...newArray]);
                 }
@@ -509,15 +499,15 @@ export default function BulkInvoiceForm({
                                         role="combobox"
                                         className={cn(
                                             "w-full rounded-lg justify-between",
-                                            !invoice.invoice_to &&
+                                            !invoice.invoice_to?.id &&
                                                 "text-muted-foreground"
                                         )}
                                     >
-                                        {invoice.invoice_to
+                                        {invoice.invoice_to?.id
                                             ? clients.find(
                                                   (client: any) =>
                                                       client.id ===
-                                                      invoice.invoice_to
+                                                      invoice.invoice_to?.id
                                               )?.name
                                             : "Select Client"}
                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -541,7 +531,7 @@ export default function BulkInvoiceForm({
                                                         handleInvoiceChange(
                                                             index,
                                                             "invoice_to",
-                                                            client.id
+                                                            client
                                                         );
                                                     }}
                                                 >
@@ -549,7 +539,9 @@ export default function BulkInvoiceForm({
                                                         className={cn(
                                                             "mr-2 h-4 w-4",
                                                             client.id ===
-                                                                invoice.invoice_to
+                                                                invoice
+                                                                    .invoice_to
+                                                                    ?.id
                                                                 ? "opacity-100"
                                                                 : "opacity-0"
                                                         )}
@@ -563,6 +555,13 @@ export default function BulkInvoiceForm({
                                 </PopoverContent>
                             </Popover>
                         </div>
+                        <MailCC
+                            client={invoice.invoice_to}
+                            index={index}
+                            invoice={invoice}
+                            invoices={invoices}
+                            setInvoices={setInvoices}
+                        />
                         <div className="flex flex-col gap-2">
                             <Label>Number of CDR</Label>
                             <Input
@@ -619,3 +618,101 @@ export default function BulkInvoiceForm({
         </section>
     );
 }
+
+const MailCC = ({
+    invoice,
+    invoices,
+    setInvoices,
+    index,
+    client,
+}: {
+    invoice: any;
+    invoices: any;
+    setInvoices: any;
+    index: number;
+    client: any;
+}) => {
+    useEffect(() => {
+        const updatedInvoices = [...invoices];
+        updatedInvoices[index].cc = [];
+        setInvoices(updatedInvoices);
+
+        const addEmailToCc = (email: any) => {
+            const updatedInvoices = [...invoices];
+            updatedInvoices[index].cc.push(email);
+            setInvoices(updatedInvoices);
+        };
+        if (client?.finance_department?.email) {
+            addEmailToCc(client.finance_department.email);
+        }
+        if (client?.noc_department?.email) {
+            addEmailToCc(client.noc_department.email);
+        }
+        if (client?.sales_department?.email) {
+            addEmailToCc(client.sales_department.email);
+        }
+    }, [client]);
+
+
+    const handleCcChange = (emailIndex: any, value: any) => {
+        const updatedInvoices = [...invoices];
+        updatedInvoices[index].cc[emailIndex] = value;
+        setInvoices(updatedInvoices);
+    };
+
+    const addCcInput = () => {
+        const updatedInvoices = [...invoices];
+        updatedInvoices[index].cc.push("");
+        setInvoices(updatedInvoices);
+    };
+
+    const removeCcInput = (emailIndex: any) => {
+        if (emailIndex !== 0) {
+            const updatedInvoices = [...invoices];
+            updatedInvoices[index].cc.splice(emailIndex, 1);
+            setInvoices(updatedInvoices);
+        }
+    };
+
+    return (
+        <div className="flex flex-col items-start gap-2">
+            <Label>CC</Label>
+            <AnimatePresence>
+                {invoice?.cc?.map((email: string, emailIndex: number) => (
+                    <motion.div
+                        key={emailIndex}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        className="flex gap-2 w-full"
+                    >
+                        <Input
+                            type="email"
+                            value={email}
+                            onChange={(e) =>
+                                handleCcChange(emailIndex, e.target.value)
+                            }
+                        />
+                        {emailIndex !== 0 && (
+                            <button
+                                type="button"
+                                onClick={() => removeCcInput(emailIndex)}
+                            >
+                                <Trash className="w-4 h-4 text-red-500" />
+                            </button>
+                        )}
+                    </motion.div>
+                ))}
+            </AnimatePresence>
+            <Button
+                type="button"
+                onClick={() => addCcInput()}
+                className="w-full"
+                size="sm"
+                variant="outline"
+            >
+                Add CC Email
+            </Button>
+        </div>
+    );
+};

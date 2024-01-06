@@ -89,60 +89,11 @@ export function CreateInvoice({
     const [client, setClient] = useState<any>();
 
     const [to, setTo] = useState<string>("");
-    const [cc, setCc] = useState<any>([]);
     useEffect(() => {
-        setCc([]);
-        const addEmailToCc = (email: any) => {
-            setCc((prevCc: any) => {
-                if (!prevCc.includes(email)) {
-                    return [...prevCc, email];
-                }
-                return prevCc;
-            });
-        };
         setTo(client?.email);
-        if (client?.finance_department?.email) {
-            addEmailToCc(client.finance_department.email);
-        }
-        if (client?.noc_department?.email) {
-            addEmailToCc(client.noc_department.email);
-        }
-        if (client?.sales_department?.email) {
-            addEmailToCc(client.sales_department.email);
-        }
     }, [client]);
 
-    const [editIndex, setEditIndex] = useState<number | null>(null);
-
-    const addCc = (email: string) => {
-        if (!cc.includes(email)) {
-            setCc((prevData: any) => [...prevData, email]);
-        } else {
-            toast.error("Email already added");
-        }
-        setEditIndex(null);
-    };
-
-    const editCc = (index: number) => {
-        setEditIndex(index);
-    };
-
-    const updateCc = (index: number, email: string) => {
-        setCc((prevData: any) => {
-            const newData = [...prevData];
-            newData[index] = email;
-            return newData;
-        });
-        setEditIndex(null);
-    };
-
-    const removeCc = (index: number) => {
-        setCc((prevData: any) => {
-            const newData = [...prevData];
-            newData.splice(index, 1);
-            return newData;
-        });
-    };
+    const [cc, setCc] = useState<any>([]);
 
     const [paymentMethod, setPaymentMethod] = useState(paymentMethods[0]);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -314,73 +265,11 @@ export function CreateInvoice({
                                                 }
                                             />
                                         </div>
-                                        <div className="flex flex-col items-start gap-2">
-                                            <Label>CC</Label>
-                                            {cc?.map(
-                                                (
-                                                    email: string,
-                                                    index: number
-                                                ) => (
-                                                    <div
-                                                        className="flex gap-2 w-full"
-                                                        key={index}
-                                                    >
-                                                        <Input
-                                                            type="email"
-                                                            value={email}
-                                                            readOnly={
-                                                                editIndex !==
-                                                                index
-                                                            }
-                                                            onChange={(e) =>
-                                                                updateCc(
-                                                                    index,
-                                                                    e.target
-                                                                        .value
-                                                                )
-                                                            }
-                                                        />
-                                                        <button
-                                                            type="button"
-                                                            onClick={() =>
-                                                                editCc(index)
-                                                            }
-                                                        >
-                                                            <Edit className="w-4 h-4" />
-                                                        </button>
-                                                        <button
-                                                            type="button"
-                                                            onClick={() =>
-                                                                removeCc(index)
-                                                            }
-                                                        >
-                                                            <Trash className="w-4 h-4 text-red-500" />
-                                                        </button>
-                                                    </div>
-                                                )
-                                            )}
-                                            <Input
-                                                type="email"
-                                                placeholder="Enter a valid email address"
-                                                onBlur={(e) => {
-                                                    if (
-                                                        emailRegex.test(
-                                                            e.target.value
-                                                        )
-                                                    ) {
-                                                        addCc(e.target.value);
-                                                        e.target.value = "";
-                                                    } else if (
-                                                        e.target.value !== ""
-                                                    ) {
-                                                        toast.error(
-                                                            "Please enter a valid email address"
-                                                        );
-                                                    }
-                                                }}
-                                            />
-                                        </div>
-
+                                        <MailCC
+                                            cc={cc}
+                                            client={client}
+                                            setCc={setCc}
+                                        />
                                         <div className="flex flex-col  gap-2 border-b pb-5">
                                             <h3 className="text-base text-left font-semibold">
                                                 Invoice Period
@@ -813,3 +702,113 @@ export function CreateInvoice({
         </>
     );
 }
+
+export const MailCC = ({
+    cc,
+    setCc,
+    client,
+}: {
+    cc: any;
+    setCc: any;
+    client: any;
+}) => {
+    useEffect(() => {
+        setCc([]);
+        const addEmailToCc = (email: any) => {
+            setCc((prevCc: any) => {
+                if (!prevCc.includes(email)) {
+                    return [...prevCc, email];
+                }
+                return prevCc;
+            });
+        };
+        if (client?.finance_department?.email) {
+            addEmailToCc(client.finance_department.email);
+        }
+        if (client?.noc_department?.email) {
+            addEmailToCc(client.noc_department.email);
+        }
+        if (client?.sales_department?.email) {
+            addEmailToCc(client.sales_department.email);
+        }
+    }, [client]);
+
+    const [editIndex, setEditIndex] = useState<number | null>(null);
+
+    const addCc = (email: string) => {
+        if (!cc.includes(email)) {
+            setCc((prevData: any) => [...prevData, email]);
+        } else {
+            toast.error("Email already added");
+        }
+        setEditIndex(null);
+    };
+
+    const editCc = (index: number) => {
+        setEditIndex(index);
+    };
+
+    const updateCc = (index: number, email: string) => {
+        setCc((prevData: any) => {
+            const newData = [...prevData];
+            newData[index] = email;
+            return newData;
+        });
+        setEditIndex(null);
+    };
+
+    const removeCc = (index: number) => {
+        setCc((prevData: any) => {
+            const newData = [...prevData];
+            newData.splice(index, 1);
+            return newData;
+        });
+    };
+
+    const handleEnterKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            e.preventDefault(); // Prevent the default behavior (e.g., form submission)
+            if (emailRegex.test(e.currentTarget.value)) {
+                addCc(e.currentTarget.value);
+                e.currentTarget.value = "";
+            } else if (e.currentTarget.value !== "") {
+                toast.error("Please enter a valid email address");
+            }
+        }
+    };
+
+    return (
+        <div className="flex flex-col items-start gap-2">
+            <Label>CC</Label>
+            {cc?.map((email: string, index: number) => (
+                <div className="flex gap-2 w-full" key={index}>
+                    <Input
+                        type="email"
+                        value={email}
+                        readOnly={editIndex !== index}
+                        onChange={(e) => updateCc(index, e.target.value)}
+                    />
+                    <button type="button" onClick={() => editCc(index)}>
+                        <Edit className="w-4 h-4" />
+                    </button>
+                    <button type="button" onClick={() => removeCc(index)}>
+                        <Trash className="w-4 h-4 text-red-500" />
+                    </button>
+                </div>
+            ))}
+            <Input
+                type="email"
+                placeholder="Enter a valid email address"
+                onBlur={(e) => {
+                    if (emailRegex.test(e.target.value)) {
+                        addCc(e.target.value);
+                        e.target.value = "";
+                    } else if (e.target.value !== "") {
+                        toast.error("Please enter a valid email address");
+                    }
+                }}
+                onKeyDown={handleEnterKeyPress}
+            />
+        </div>
+    );
+};

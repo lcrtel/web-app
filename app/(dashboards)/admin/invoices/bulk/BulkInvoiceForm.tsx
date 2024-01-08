@@ -102,7 +102,7 @@ export default function BulkInvoiceForm({
                 total_amount: "",
                 total_duration: "",
                 calls: "",
-                cc: [""],
+                cc: [],
             },
         ]);
     };
@@ -555,6 +555,15 @@ export default function BulkInvoiceForm({
                                 </PopoverContent>
                             </Popover>
                         </div>
+                        <div className="flex flex-col gap-2">
+                            <Label>To</Label>
+                            <Input
+                                type="text"
+                                placeholder="Email"
+                                value={invoice.invoice_to.email}
+                                disabled
+                            />
+                        </div>
                         <MailCC
                             client={invoice.invoice_to}
                             index={index}
@@ -653,7 +662,6 @@ const MailCC = ({
         }
     }, [client]);
 
-
     const handleCcChange = (emailIndex: any, value: any) => {
         const updatedInvoices = [...invoices];
         updatedInvoices[index].cc[emailIndex] = value;
@@ -667,15 +675,13 @@ const MailCC = ({
     };
 
     const removeCcInput = (emailIndex: any) => {
-        if (emailIndex !== 0) {
-            const updatedInvoices = [...invoices];
-            updatedInvoices[index].cc.splice(emailIndex, 1);
-            setInvoices(updatedInvoices);
-        }
+        const updatedInvoices = [...invoices];
+        updatedInvoices[index].cc.splice(emailIndex, 1);
+        setInvoices(updatedInvoices);
     };
 
     return (
-        <div className="flex flex-col items-start gap-2">
+        <motion.div className="flex flex-col items-start gap-2">
             <Label>CC</Label>
             <AnimatePresence>
                 {invoice?.cc?.map((email: string, emailIndex: number) => (
@@ -693,14 +699,12 @@ const MailCC = ({
                                 handleCcChange(emailIndex, e.target.value)
                             }
                         />
-                        {emailIndex !== 0 && (
-                            <button
-                                type="button"
-                                onClick={() => removeCcInput(emailIndex)}
-                            >
-                                <Trash className="w-4 h-4 text-red-500" />
-                            </button>
-                        )}
+                        <button
+                            type="button"
+                            onClick={() => removeCcInput(emailIndex)}
+                        >
+                            <Trash className="w-4 h-4 text-red-500" />
+                        </button>
                     </motion.div>
                 ))}
             </AnimatePresence>
@@ -713,6 +717,6 @@ const MailCC = ({
             >
                 Add CC Email
             </Button>
-        </div>
+        </motion.div>
     );
 };

@@ -64,7 +64,7 @@ export async function sendBulkInvoice(invoices: any) {
                         balance: invoice.total_amount,
                         bill_to: invoices.bill_to,
                     },
-                    to: invoice.to,
+                    to: invoice.invoice_to.email,
                     cc: invoice.cc,
                 })
         );

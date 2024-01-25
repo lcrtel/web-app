@@ -1,12 +1,12 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
+import { unstable_noStore } from "next/cache";
 import { Suspense } from "react";
 import AddClient from "./AddClient";
 import { ClientsTable } from "./ClientsTable";
 
-export const revalidate = 0;
-
 const Clients = async () => {
+    unstable_noStore();
     const supabase = supabaseServer();
     let { data: clients, error } = await supabase
         .from("profiles")
@@ -34,7 +34,7 @@ const Clients = async () => {
     return <ClientsTable data={clientsWithTargetCounts} />;
 };
 
-export default async function Page() {
+export default function Page() {
     return (
         <div className=" ">
             <div className="mb-5 ">
@@ -43,7 +43,7 @@ export default async function Page() {
                     <AddClient />
                 </div>
             </div>
-           
+
             <div className="flex flex-col gap-3 xl:flex-row w-full overflow-x-auto">
                 <Suspense fallback={<Loader />}>
                     <Clients />

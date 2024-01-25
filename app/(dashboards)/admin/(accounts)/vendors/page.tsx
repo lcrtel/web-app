@@ -3,10 +3,10 @@ import { supabaseServer } from "@/lib/supabase-server";
 import { Suspense } from "react";
 import AddVendor from "./AddVendor";
 import { VendorsTable } from "./VendorsTable";
-
-export const revalidate = 0;
+import { unstable_noStore } from "next/cache";
 
 const Vendors = async () => {
+    unstable_noStore();
     const supabase = supabaseServer();
     let { data: vendors, error } = await supabase
         .from("profiles")
@@ -24,7 +24,7 @@ const Vendors = async () => {
         }
         return acc;
     }, new Map());
-    
+
     let { data: requests } = await supabase.from("targets").select("*");
 
     const userRouteRequestCount = requests?.reduce((acc, route) => {
@@ -56,7 +56,7 @@ export default async function Page() {
                     <AddVendor />
                 </div>
             </div>
-           
+
             <div className="flex flex-col gap-3 xl:flex-row w-full overflow-x-auto">
                 <Suspense fallback={<Loader />}>
                     <Vendors />

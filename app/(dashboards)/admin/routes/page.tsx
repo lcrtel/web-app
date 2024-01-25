@@ -32,11 +32,13 @@ const Routes = async () => {
     );
 };
 
-export default async function Page() {
+export default function Page() {
     return (
         <div className="h-full">
             <div className="flex  gap-2  flex-wrap md:items-center mb-4 justify-between ">
-                <h1 className="text-2xl font-bold text-primary">Route Offers</h1>
+                <h1 className="text-2xl font-bold text-primary">
+                    Route Offers
+                </h1>
                 <Link
                     passHref
                     href="/admin/routes/post"

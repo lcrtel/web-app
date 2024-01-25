@@ -4,10 +4,10 @@ import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AgentsTable } from "./AgentsTable";
 import { supabaseServer } from "@/lib/supabase-server";
-
-export const revalidate = 0;
+import { unstable_noStore } from "next/cache";
 
 const Agents = async () => {
+    unstable_noStore();
     const supabase = supabaseServer();
     const { data: agents } = await supabase
         .from("profiles")
@@ -21,7 +21,7 @@ const Agents = async () => {
     );
 };
 
-export default async function Page() {
+export default function Page() {
     return (
         <div className=" ">
             <div className="mb-5 ">

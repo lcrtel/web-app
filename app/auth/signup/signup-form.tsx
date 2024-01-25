@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabaseClient } from "@/lib/supabase-client";
 import { toast } from "react-hot-toast";
+import { signUp } from "./action";
 
 const SignupForm = () => {
     const supabase = supabaseClient();
@@ -60,33 +61,33 @@ const SignupForm = () => {
 
         onSubmit: async (values) => {
             setLoading(true);
+            await signUp(values);
+            // await fetch("/api/auth/signup", {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "application/json", // Set the appropriate content type
+            //     },
+            //     body: JSON.stringify(values), // Convert data to JSON string
+            // }).then(async (response) => {
+            //     if (!response.ok) {
+            //         const error = await response.json();
+            //         toast.error(error.message);
+            //         setLoading(false);
+            //         return;
+            //     }
+            // });
 
-            await fetch("/api/auth/signup", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json", // Set the appropriate content type
-                },
-                body: JSON.stringify(values), // Convert data to JSON string
-            }).then(async (response) => {
-                if (!response.ok) {
-                    const error = await response.json();
-                    toast.error(error.message);
-                    setLoading(false);
-                    return;
-                }
-            });
+            // fetch(`/api/emails/auth/signup`, {
+            //     method: "POST",
+            //     body: JSON.stringify({
+            //         name: values.name,
+            //         company_name: values.company_name,
+            //         email: values.email,
+            //         password: values.password,
+            //     }),
+            // });
 
-            fetch(`/api/emails/auth/signup`, {
-                method: "POST",
-                body: JSON.stringify({
-                    name: values.name,
-                    company_name: values.company_name,
-                    email: values.email,
-                    password: values.password,
-                }),
-            });
-
-            router.push("/auth/check-email");
+            // router.push("/auth/check-email");
         },
     });
 
@@ -255,7 +256,6 @@ const SignupForm = () => {
                     "Signup"
                 )}
             </Button>
-            
         </form>
     );
 };

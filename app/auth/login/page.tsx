@@ -7,9 +7,7 @@ import LoginForm from "./login-form";
 export const metadata: Metadata = {
     title: "Login",
 };
-
-const page = async () => {
-    
+const page = ({ searchParams }: { searchParams: { message: string } }) => {
     return (
         <div className="w-full md:w-2/3 p-8  flex items-center justify-center">
             <section className="w-full">
@@ -29,6 +27,11 @@ const page = async () => {
                         Please enter your details.
                     </p>
                 </div>
+                {searchParams?.message && (
+                    <p className="md:max-w-[360px] w-full my-4 p-4 mx-auto bg-surface text-primary-500 text-center rounded-md">
+                        {searchParams.message}
+                    </p>
+                )}
                 <LoginForm />
             </section>
         </div>

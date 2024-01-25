@@ -8,7 +8,7 @@ import { ClientsTable } from "./ClientsTable";
 export const revalidate = 0;
 
 const Clients = async () => {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     const user = await fetchUser();
     let { data: clients, error } = await supabase
         .from("profiles")

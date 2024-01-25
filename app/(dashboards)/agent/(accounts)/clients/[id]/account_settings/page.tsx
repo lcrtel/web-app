@@ -8,7 +8,7 @@ import fetchUser from "@/app/(public)/post/fetchUser";
 export const revalidate = 0;
 
 const VendorDetails = async ({ id }: { id: string }) => {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
 const user = await fetchUser()
     let { data: vendor, error } = await supabase
         .from("profiles")

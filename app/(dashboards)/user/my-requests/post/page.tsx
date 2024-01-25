@@ -8,7 +8,7 @@ export const revalidate = 0;
 const page = async () => {
     const user = await fetchUserData();
 
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     let { data: routes, error } = await supabase
         .from("routes")
         .select("*")

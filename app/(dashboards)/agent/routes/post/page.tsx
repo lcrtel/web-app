@@ -6,7 +6,7 @@ import { supabaseServer } from "@/lib/supabase-server";
 import fetchUser from "@/app/(public)/post/fetchUser";
 export const revalidate = 0;
 const page = async () => {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
    const user = await fetchUser();
    let { data: clients, error } = await supabase
        .from("profiles")

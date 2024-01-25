@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 
 const PurchaseRequests = async () => {
     unstable_noStore();
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
 
     let { data: gateways } = await supabase
         .from("gateways")

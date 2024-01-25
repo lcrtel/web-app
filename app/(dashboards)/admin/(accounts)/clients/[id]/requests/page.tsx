@@ -5,7 +5,7 @@ import Link from "next/link";
 import { HiPencilAlt } from "react-icons/hi";
 
 export default async function Page({ params }: { params: { id: string } }) {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     let { data: request, error } = await supabase
         .from("targets")
         .select("*")

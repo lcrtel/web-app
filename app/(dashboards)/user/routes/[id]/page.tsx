@@ -7,7 +7,7 @@ import AddToCart from "../AddToCart";
 
 export const revalidate = 0;
 export default async function Page({ params }: { params: { id: string } }) {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     let { data: route } = await supabase
         .from("routes")
         .select("*")

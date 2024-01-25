@@ -4,7 +4,7 @@ import { PurchaseRequestForm } from "./PurchaseRequestForm";
 import RealTimePurchaseRequests from "./RealTimePurchaseRequests";
 export const revalidate = 0;
 export default async function Page() {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     const user = await fetchUserData();
 
     const { data: selectedRoutes } = await supabase

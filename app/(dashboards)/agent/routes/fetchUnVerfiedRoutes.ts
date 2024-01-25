@@ -4,7 +4,7 @@ import { supabaseServer } from "@/lib/supabase-server";
 import { fetchUserData } from "@/utils/user";
 
 export async function fetchUnVerfiedRoutes() {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
 
     const user:any = await fetchUserData();
     let { data: vendors, error } = await supabase

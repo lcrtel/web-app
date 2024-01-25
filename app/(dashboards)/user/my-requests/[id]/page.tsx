@@ -9,7 +9,7 @@ import formatString from "@/utils/formatString";
 import { fetchUserData } from "@/utils/user";
 export const revalidate = 0;
 export default async function Page({ params }: { params: { id: string } }) {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     const user = await fetchUserData();
     let { data: target } = await supabase
         .from("targets")

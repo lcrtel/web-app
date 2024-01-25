@@ -1,14 +1,15 @@
+"use server";
 import { supabaseServer } from "@/lib/supabase-server";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
+import { redirect } from "next/navigation";
 
-export async function POST(request: Request) {
-    const requestUrl = new URL(request.url);
-    const cookieStore = cookies();
-    const formData = await request.json();
+export const signUp = async (formData: any) => {
+    "use server";
 
-    const supabase = supabaseServer()
+    const origin = headers().get("origin");
+    const supabase = supabaseServer();
 
-    const { data, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         options: {
@@ -24,17 +25,13 @@ export async function POST(request: Request) {
                 noc_department: {},
                 sales_department: {},
             },
-            emailRedirectTo: `${requestUrl.origin}/api/auth/callback`,
+            emailRedirectTo: `${origin}/api/auth/callback`,
         },
     });
 
     if (error) {
+        return redirect(`/auth/signup?message=${error.message}`);
+    }
 
-        return new Response(JSON.stringify(error), {
-            status: 500,
-            headers: { "Content-Type": "application/json" },
-        });
-    } 
-    
-    return new Response
-}
+    return redirect("/auth/login?message=Check email to continue sign in process");
+};

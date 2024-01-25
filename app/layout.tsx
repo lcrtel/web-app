@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Toast from "./Toast";
 import "./globals.css";
+import { supabaseServer } from "@/lib/supabase-server";
 // export const dynamic = "force-dynamic";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -23,6 +24,7 @@ export default async function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
+   
     return (
         <html lang="en">
             <body className={`${inter.className} text-primary-500 `}>

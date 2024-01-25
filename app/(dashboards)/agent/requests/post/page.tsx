@@ -7,7 +7,7 @@ import { AddRouteTable } from "./AddTargets";
 export const revalidate = 0; // revalidate at most every hour
 
 const page = async () => {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     const user = await fetchUser();
     let { data: clients, error } = await supabase
         .from("profiles")

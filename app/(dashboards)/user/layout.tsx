@@ -12,7 +12,7 @@ export default async function DashboardLayout({
     children: React.ReactNode;
 }) {
     const user:any = await fetchUserData();
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
 
 
     const { data: selectedRoutes } = await supabase

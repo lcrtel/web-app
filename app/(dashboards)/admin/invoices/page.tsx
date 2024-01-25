@@ -36,7 +36,7 @@ const Invoices = async ({ supabase }: { supabase: any }) => {
     );
 };
 const page = async () => {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
 
     let { data: clients } = await supabase
         .from("profiles")

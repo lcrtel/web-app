@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 
 const PurchaseRequests = async () => {
     unstable_noStore();
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
 
     let { data: gateways } = await supabase
         .from("gateways")
@@ -134,7 +134,7 @@ const UnverifiedRoutes = async () => {
 };
 
 const Payments = async () => {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
 
     const { data: payments } = await supabase
         .from("payments")
@@ -194,7 +194,7 @@ const Payments = async () => {
 };
 
 const Invoices = async () => {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
 
     const { data: invoices } = await supabase
         .from("invoices")

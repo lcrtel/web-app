@@ -12,7 +12,7 @@ import { fetchUserData } from "@/utils/user";
 export const revalidate = 0;
 
 export default async function Page({ params }: { params: { id: string } }) {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     const user = await fetchUserData();
 
     let { data: route } = await supabase

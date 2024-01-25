@@ -8,7 +8,7 @@ import { VendorsTable } from "../../../vendors/VendorsTable";
 export const revalidate = 0;
 
 const Vendors = async ({ agentID }: { agentID: string }) => {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     let { data: clients, error } = await supabase
         .from("profiles")
         .select("*")

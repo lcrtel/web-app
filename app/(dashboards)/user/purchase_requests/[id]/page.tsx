@@ -3,7 +3,7 @@ import Link from "next/link";
 import { HiOutlineArrowCircleLeft, HiOutlineClock } from "react-icons/hi";
 export const revalidate = 0;
 export default async function Page({ params }: { params: { id: string } }) {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     let { data: requests, error } = await supabase
         .from("purchase_requests")
         .select(`*, routes (*)`)

@@ -6,7 +6,7 @@ import { renderAsync } from "@react-email/render";
 import nodemailer from "nodemailer";
 
 export default async function sendInvoice(data: any) {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 465,

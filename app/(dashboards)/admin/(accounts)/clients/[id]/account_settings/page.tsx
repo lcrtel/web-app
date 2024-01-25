@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 export const revalidate = 0;
 
 const VendorDetails = async ({ id }: { id: string }) => {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
 
     let { data: vendor, error } = await supabase
         .from("profiles")

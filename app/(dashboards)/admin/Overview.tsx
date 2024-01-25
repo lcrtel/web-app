@@ -5,7 +5,7 @@ import { unstable_noStore } from "next/cache";
 import { Suspense } from "react";
 
 const Routes = async () => {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
 
     unstable_noStore();
     let { data: offers, error } = await supabase
@@ -22,7 +22,7 @@ const Routes = async () => {
 };
 
 const Targets = async () => {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
 
     unstable_noStore();
     let { data: targets, error } = await supabase.from("targets").select("id");
@@ -37,7 +37,7 @@ const Targets = async () => {
 
 
 const Clients = async () => {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     unstable_noStore();
 
     let { data: clients, error } = await supabase
@@ -54,7 +54,7 @@ const Clients = async () => {
 };
 
 const Vendors = async () => {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     unstable_noStore();
 
     let { data: vendors, error } = await supabase
@@ -71,7 +71,7 @@ const Vendors = async () => {
 };
 
 const Agents = async () => {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
 
     unstable_noStore();
     let { data: agents, error } = await supabase

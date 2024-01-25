@@ -7,7 +7,7 @@ import { ClientsTable } from "../../../clients/ClientsTable";
 export const revalidate = 0;
 
 const Clients = async ({ agentID }: { agentID: string }) => {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     let { data: clients, error } = await supabase
         .from("profiles")
         .select("*")

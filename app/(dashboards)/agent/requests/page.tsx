@@ -20,7 +20,7 @@ import fetchUser from "@/app/(public)/post/fetchUser";
 export const revalidate = 0; // revalidate this page every 60 seconds
 
 export default async function Page() {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     const user: any = await fetchUser();
     let { data: clients } = await supabase
         .from("profiles")

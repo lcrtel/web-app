@@ -4,7 +4,7 @@ import AddBank from "./add-bank/AddBank";
 import { HiCash, HiCreditCard } from "react-icons/hi";
 import DeleteBank from "./add-bank/DeleteBank";
 export default async function Page() {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
 
     let { data: payment_methods, error } = await supabase
         .from("config")

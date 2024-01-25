@@ -100,7 +100,7 @@ const PurchasedRoutes = async ({
 };
 
 export default async function Page({ params }: { params: { id: string } }) {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
 
     return (
         <section className="">

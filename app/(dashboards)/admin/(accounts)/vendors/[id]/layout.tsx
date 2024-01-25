@@ -18,7 +18,7 @@ export default async function SettingsLayout({
     children,
     params,
 }: SettingsLayoutProps) {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
 
     let { data: vendor, error } = await supabase
         .from("profiles")

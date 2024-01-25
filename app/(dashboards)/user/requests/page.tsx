@@ -7,7 +7,7 @@ import { TargetsTable } from "./targets-table";
 export const revalidate = 0; // revalidate this page every 60 seconds
 
 export default async function Page() {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     let { data: routes, error } = await supabase
         .from("targets")
         .select("*");

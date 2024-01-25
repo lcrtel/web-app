@@ -15,7 +15,7 @@ import { supabaseServer } from "@/lib/supabase-server";
 export const revalidate = 0;
 
 const page = async ({ params }: { params: { id: string } }) => {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     const { data: invoice }:any = await supabase
         .from("invoices")
         .select(`*, profiles (*)`)

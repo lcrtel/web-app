@@ -4,7 +4,7 @@ import { supabaseServer } from "@/lib/supabase-server";
 
 
 const Notification = async ({ params }: { params: { id: string } }) => {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
 
     let { data: client, error } = await supabase
         .from("profiles")

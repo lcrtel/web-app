@@ -82,7 +82,7 @@ const PurchaseRequests = async ({
 };
 
 const page = async () => {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     const user = await fetchUserData();
 
     return (

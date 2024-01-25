@@ -4,7 +4,7 @@ import Link from "next/link";
 import { InvoiceTable } from "./InvoiceTable";
 export const revalidate = 0;
 const page = async () => {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     const { data: invoices } = await supabase.from("invoices").select(`*`);
     return (
         <div className=" ">

@@ -185,7 +185,7 @@ const PurchaseRequests = async ({
 };
 
 const page = async ({ params }: { params: { id: string } }) => {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
 
     return (
         <section className="flex flex-col gap-5">

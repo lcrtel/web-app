@@ -6,7 +6,7 @@ import Link from "next/link";
 import { HiArrowRight } from "react-icons/hi";
 
 const Overview = async () => {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     const user:any = await fetchUserData();
 
     const Routes = async () => {

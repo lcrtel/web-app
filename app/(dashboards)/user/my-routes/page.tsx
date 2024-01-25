@@ -6,7 +6,7 @@ import { HiOutlinePlusCircle } from "react-icons/hi";
 import { RoutesTable } from "./RoutesTable";
 export const revalidate = 0;
 const page = async () => {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     const user = await fetchUserData();
     let { data: routes, error } = await supabase
         .from("routes")

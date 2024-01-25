@@ -9,7 +9,7 @@ import { RoutesTable } from "./routes-table";
 export const revalidate = 0;
 
 export default async function Page({ params }: { params: { id: string } }) {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     let { data: route_request } = await supabase
         .from("targets")
         .select(`*, profiles (*)`)

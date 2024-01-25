@@ -5,7 +5,7 @@ import { PostOffersTable } from "./PostRouteTable";
 import { TargetsTable } from "../../requests/targets-table";
 export const revalidate = 0;
 const page = async () => {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     let { data: targets, error } = await supabase
         .from("targets")
         .select("*");

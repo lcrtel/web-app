@@ -8,7 +8,7 @@ import { supabaseServer } from "@/lib/supabase-server";
 export const revalidate = 0;
 
 const Agents = async () => {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     const { data: agents } = await supabase
         .from("profiles")
         .select("*")

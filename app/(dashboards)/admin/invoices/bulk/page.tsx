@@ -7,7 +7,7 @@ export const revalidate = 0;
 
 
 export default async function page() {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     const user = await fetchUser();
     const { data: invoices } = await supabase.from("invoices").select(`*`);
     const agent: any = await fetchUserData();

@@ -17,7 +17,7 @@ import { EditPurchaseRequest } from "../EditPurchaseRequest";
 export const revalidate = 0; // revalidate this page every 60 seconds
 
 export default async function Page() {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
 
     let { data: requests } = await supabase
         .from("purchase_requests")

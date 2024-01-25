@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { HiOutlineArrowCircleLeft } from "react-icons/hi";
 export const revalidate = 0;
 export default async function Page({ params }: { params: { id: string } }) {
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     let { data: target } = await supabase
         .from("targets")
         .select("*")

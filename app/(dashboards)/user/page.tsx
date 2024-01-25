@@ -127,7 +127,7 @@ const PurchaseRequests = async ({
 const page = async () => {
     const user = await fetchUserData();
     const userData = await fetchUserMetadata();
-    const supabase = await supabaseServer();
+    const supabase = supabaseServer();
     const Links = () => {
         return (
             <div className="grid md:grid-cols-2  gap-3 ">

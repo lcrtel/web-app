@@ -4,6 +4,7 @@ import VOSLogin from "./VOSLogin";
 import { JSDOM } from "jsdom";
 
 export default async function getPayments({ name }: { name: string | null }) {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
     const VOS = await VOSLogin();
     if (VOS?.details) {
         const payments: any[] = [];

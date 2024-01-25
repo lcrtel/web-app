@@ -4,6 +4,7 @@ import { JSDOM } from "jsdom";
 import VOSLogin from "./VOSLogin";
 
 export default async function getMapping() {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
     const VOS = await VOSLogin();
     
     if (VOS?.details) {

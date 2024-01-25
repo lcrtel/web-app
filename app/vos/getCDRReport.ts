@@ -12,7 +12,7 @@ export default async function getCDRReport({
     endDate: string;
 }) {
     const VOS = await VOSLogin();
-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
     const date = new Date();
     const today = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
         2,

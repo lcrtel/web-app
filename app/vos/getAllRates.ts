@@ -4,6 +4,7 @@ import VOSLogin from "./VOSLogin";
 import { JSDOM } from "jsdom";
 
 export default async function getAllRates() {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
     const VOS = await VOSLogin();
     const extractIdFromUrl = (url: string | null) => {
         const match = url?.match(/\/(\d+)$/); // Extracts the last digits after the last '/'

@@ -4,6 +4,7 @@ import VOSLogin from "./VOSLogin";
 import { JSDOM } from "jsdom";
 
 export default async function getCustomerInfo({ name }: { name: string }) {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
     const VOS = await VOSLogin();
     if (VOS?.details) {
         const customersPage = await fetch(

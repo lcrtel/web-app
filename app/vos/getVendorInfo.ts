@@ -4,6 +4,7 @@ import VOSLogin from "./VOSLogin";
 import { JSDOM } from "jsdom";
 
 export default async function getVendorInfo({ name }: { name: string }) {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
     const VOS = await VOSLogin();
     if (VOS?.details) {
         const vendorsPage = await fetch(

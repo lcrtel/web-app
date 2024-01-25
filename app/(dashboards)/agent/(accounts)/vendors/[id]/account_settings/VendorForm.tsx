@@ -136,7 +136,7 @@ export function VendorForm({ user, agentID }: { user: any; agentID: any }) {
                             name="phone"
                             render={({ field }) => (
                                 <FormItem className="">
-                                    <FormLabel>Phone</FormLabel>
+                                    <FormLabel>WhatsApp No</FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="phone number"

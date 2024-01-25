@@ -92,7 +92,7 @@ export function CompanyForm({ user }: { user: any }) {
                             name="phone"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Phone</FormLabel>
+                                    <FormLabel>WhatsApp No</FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="phone number"
@@ -185,7 +185,7 @@ export function CompanyForm({ user }: { user: any }) {
                             name="phone"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Phone</FormLabel>
+                                    <FormLabel>WhatsApp No</FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="phone number"
@@ -277,7 +277,7 @@ export function CompanyForm({ user }: { user: any }) {
                             name="phone"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Phone</FormLabel>
+                                    <FormLabel>WhatsApp No</FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="phone number"

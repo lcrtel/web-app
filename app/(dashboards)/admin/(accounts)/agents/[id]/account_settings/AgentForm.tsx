@@ -148,7 +148,7 @@ export function AgentForm({ user }: { user: any }) {
                             name="phone"
                             render={({ field }) => (
                                 <FormItem className="">
-                                    <FormLabel>Phone</FormLabel>
+                                    <FormLabel>WhatsApp No</FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="phone number"

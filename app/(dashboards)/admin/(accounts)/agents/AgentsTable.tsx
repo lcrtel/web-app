@@ -59,7 +59,7 @@ export const columns: ColumnDef<any>[] = [
     {
         accessorKey: "phone",
         header: ({ column }) => {
-            return <div className="">Phone</div>;
+            return <div className="">WhatsApp No</div>;
         },
         cell: ({ row }) => {
             return <div className="font-medium">{row.getValue("phone")}</div>;

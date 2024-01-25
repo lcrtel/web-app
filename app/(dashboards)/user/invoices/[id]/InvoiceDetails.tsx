@@ -82,7 +82,7 @@ const InvoiceDetails = ({
                                 {invoice?.profiles?.company_name}
                             </p>
                             <p>Email: {invoice?.profiles?.email}</p>
-                            <p>Phone: {invoice?.profiles?.phone}</p>
+                            <p>WhatsApp No: {invoice?.profiles?.phone}</p>
                         </div>
                     </div>
                     <div className="w-[200px] flex flex-col gap-2">

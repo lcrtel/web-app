@@ -125,10 +125,10 @@ const AddAgent = () => {
                                         name="phone"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Phone</FormLabel>
+                                                <FormLabel>WhatsApp No</FormLabel>
                                                 <FormControl>
                                                     <Input
-                                                        placeholder="Phone number"
+                                                        placeholder="WhatsApp No number"
                                                         {...field}
                                                     />
                                                 </FormControl>

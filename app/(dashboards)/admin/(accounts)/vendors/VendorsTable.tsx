@@ -54,7 +54,7 @@ export const columns: ColumnDef<any>[] = [
     },
     {
         accessorKey: "phone",
-        header: "Phone",
+        header: "WhatsApp No",
     },
     {
         accessorKey: "skype_id",

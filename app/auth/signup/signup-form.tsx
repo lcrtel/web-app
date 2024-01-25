@@ -42,7 +42,7 @@ const SignupForm = () => {
             .nullable(),
         phone: yup
             .string()
-            .required("Phone is required")
+            .required("WhatsApp No is required")
             .matches(/^\+?[0-9]*$/, "Invalid phone number"),
         skype_id: yup.string(),
     });
@@ -181,7 +181,7 @@ const SignupForm = () => {
                 </div>
                 <div>
                     <Label htmlFor="phone" className="inline-block mb-2">
-                        Phone
+                        WhatsApp No
                     </Label>
                     <Input
                         type="text"

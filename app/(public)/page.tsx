@@ -1,13 +1,13 @@
-import Nav from "@/components/Nav";
 import { buttonVariants } from "@/components/ui/button";
-import Image from "next/image";
 import Link from "next/link";
+import { FaWhatsapp } from "react-icons/fa";
 import { HiCheck, HiOutlineArrowSmRight } from "react-icons/hi";
 import MarketSearch from "./MarketSearch";
-import { FaWhatsapp } from "react-icons/fa";
 
-
+import { supabaseServer } from "@/lib/supabase-server";
 import type { Metadata } from "next";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -15,9 +15,14 @@ export const metadata: Metadata = {
     title: "Home Page",
 };
 
-
-
 const HomePage = async () => {
+    const supabase = supabaseServer();
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+    if (user) {
+       redirect("/auth/login")
+    }
     return (
         <main>
             <Link
@@ -358,4 +363,3 @@ const Contact = () => {
         </section>
     );
 };
-

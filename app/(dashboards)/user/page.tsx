@@ -14,7 +14,7 @@ export const revalidate = 0;
 
 const Balance = async ({ user }: { user: any }) => {
     let balance = "$ 0";
-    let name: string = user.name;
+    let name: string = user?.name;
     try {
         const VOSCustomer = await getCustomerInfo({
             name: name.toLocaleUpperCase(),
@@ -27,7 +27,7 @@ const Balance = async ({ user }: { user: any }) => {
 };
 const OverDraft = async ({ user }: { user: any }) => {
     let overDraft = "$ 0";
-    let name: string = user.name;
+    let name: string = user?.name;
     try {
         const VOSCustomer = await getCustomerInfo({
             name: name,
@@ -41,7 +41,7 @@ const OverDraft = async ({ user }: { user: any }) => {
 
 const PurchasedRoutes = async ({ user }: { user: any }) => {
     const name: string = user?.user_metadata.name;
-    const rates = await getRates({ name: name.toLocaleUpperCase() });
+    const rates = await getRates({ name: name?.toLocaleUpperCase() });
     return rates.data?.length ? (
         <div className=" grid gap-2">
             {rates.data?.map((rate, index) => (

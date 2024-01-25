@@ -7,13 +7,13 @@ const FetchLocalStorage = () => {
     if (typeof window !== "undefined") {
         const storedRouteData = localStorage.getItem("pendingRouteOffersData");
         if (storedRouteData) {
-            router.push("/user/routes/offers/post");
+            router.push("/user/my-routes/post");
         }
         const storedTargetData = localStorage.getItem(
             "pendingBuyingTargetsData"
         );
         if (storedTargetData) {
-            router.push("/user/routes/requests/post");
+            router.push("/user/my-requests/post");
         }
     }
     return <></>;

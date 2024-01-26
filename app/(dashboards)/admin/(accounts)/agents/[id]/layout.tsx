@@ -52,7 +52,7 @@ export default async function SettingsLayout({
             </p>
             <div className="flex flex-wrap gap-2 mb-4 justify-between">
                 <div className="">
-                    <h1 className="text-xl font-bold tracking-tight">
+                    <h1 className="text-xl font-bold tracking-tight capitalize">
                         {agent?.name}
                     </h1>
                 </div>

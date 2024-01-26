@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { HiEye, HiEyeOff, HiX } from "react-icons/hi";
+import { addClient, sendClientGreetingMail } from "./actions";
 
 const profileFormSchema = z.object({
     name: z.string(),
@@ -52,31 +53,28 @@ const AddClient = () => {
     async function onSubmit(data: any) {
         setErrorMessage(null);
         setLoading(true);
-
-        await fetch("/api/admin/accounts/add-client", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json", // Set the appropriate content type
-            },
-            body: JSON.stringify(data), // Convert data to JSON string
-        }).then(async (response) => {
-            if (!response.ok) {
-                const error = await response.json();
-                toast.error(error.message);
-                setLoading(false);
-                setErrorMessage(error.message);
-                return;
-            } else {
-                setIsOpen(false);
-                router.refresh();
-                toast.success("Created a new client");
-            }
-        });
+        const res = await addClient(data);
+        if (res?.error) {
+            toast.error(res.error);
+            setLoading(false);
+        } else {
+            setIsOpen(false);
+            sendClientGreetingMail(data);
+            router.refresh();
+            toast.success(`Added client: ${data.name}`);
+        }
     }
 
     return (
         <>
-            <Button onClick={(e) => setIsOpen(true)}>Add client</Button>
+            <Button
+                onClick={(e) => {
+                    setIsOpen(true);
+                    form.reset();
+                }}
+            >
+                Add client
+            </Button>
             <AnimatePresence>
                 {isOpen && (
                     <>
@@ -144,7 +142,9 @@ const AddClient = () => {
                                         name="phone"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>WhatsApp No</FormLabel>
+                                                <FormLabel>
+                                                    WhatsApp No
+                                                </FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         placeholder="WhatsApp No number"
@@ -239,11 +239,14 @@ const AddClient = () => {
                         </motion.div>
                         <motion.div
                             className="w-full h-full absolute right-0 top-0 bg-white/50 backdrop-blur"
-                            onClick={(e) => setIsOpen(false)}
+                            onClick={(e) => {
+                                setIsOpen(true);
+                                form.reset();
+                            }}
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                        ></motion.div>
+                        />
                     </>
                 )}
             </AnimatePresence>

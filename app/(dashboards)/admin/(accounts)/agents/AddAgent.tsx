@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
 
 import {
     Form,
@@ -18,10 +17,11 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { HiEye, HiEyeOff, HiX } from "react-icons/hi";
+import { addAgent, sendAgentGreetingMail } from "./actions";
+import { z } from "zod";
 
 const profileFormSchema = z.object({
     name: z.string(),
-    company_name: z.string().optional(),
     email: z.string().email(),
     phone: z.string(),
     password: z.string(),
@@ -38,44 +38,34 @@ const AddAgent = () => {
 
     const form = useForm<any>({
         resolver: zodResolver(profileFormSchema),
-        defaultValues: {
-            name: "",
-            email: "",
-            password: "",
-            phone: "",
-            skype_id: "",
-        },
         mode: "onChange",
     });
 
     async function onSubmit(data: any) {
         setErrorMessage(null);
         setLoading(true);
-
-        await fetch("/api/admin/accounts/add-agent", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json", // Set the appropriate content type
-            },
-            body: JSON.stringify(data), // Convert data to JSON string
-        }).then(async (response) => {
-            if (!response.ok) {
-                const error = await response.json();
-                toast.error(error.message);
-                setLoading(false);
-                setErrorMessage(error.message);
-                return;
-            } else {
-                setIsOpen(false);
-                router.refresh();
-                toast.success("Created a new agent");
-            }
-        });
+        const res = await addAgent(data);
+        if (res?.error) {
+            toast.error(res.error);
+            setLoading(false);
+        } else {
+            setIsOpen(false);
+            sendAgentGreetingMail(data);
+            router.refresh();
+            toast.success("Created a new agent");
+        }
     }
 
     return (
         <>
-            <Button onClick={(e) => setIsOpen(true)}>Add agent</Button>
+            <Button
+                onClick={(e) => {
+                    setIsOpen(true);
+                    form.reset();
+                }}
+            >
+                Add agent
+            </Button>
             <AnimatePresence>
                 {isOpen && (
                     <>
@@ -99,6 +89,7 @@ const AddAgent = () => {
                             </div>
                             <Form {...form}>
                                 <form
+                                    autoComplete="off"
                                     onSubmit={form.handleSubmit(onSubmit)}
                                     className="space-y-4 md:space-y-6 max-w-4xl"
                                 >
@@ -125,11 +116,14 @@ const AddAgent = () => {
                                         name="phone"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>WhatsApp No</FormLabel>
+                                                <FormLabel>
+                                                    WhatsApp No
+                                                </FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         placeholder="WhatsApp No number"
                                                         {...field}
+                                                        type="number"
                                                     />
                                                 </FormControl>
                                                 <FormMessage />
@@ -220,11 +214,14 @@ const AddAgent = () => {
                         </motion.div>
                         <motion.div
                             className="w-full h-full absolute right-0 top-0 bg-white/50 backdrop-blur"
-                            onClick={(e) => setIsOpen(false)}
+                            onClick={(e) => {
+                                setIsOpen(true);
+                                form.reset();
+                            }}
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                        ></motion.div>
+                        />
                     </>
                 )}
             </AnimatePresence>

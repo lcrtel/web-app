@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 
 export const supabaseAdminServer = async () => {
     const cookieStore = cookies();
-    return createServerClient<Database>(
+    return createServerClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.SUPABASE_SERVICE_ROLE_KEY!,
         {

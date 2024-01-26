@@ -27,8 +27,8 @@ const Wallet = async ({
             await supabase
                 .from("profiles")
                 .update({
-                    balance: VOSCustomer.data.balance.replace(/\$/g, ""),
-                    over_draft: VOSCustomer.data.over_draft,
+                    balance: VOSCustomer?.data?.balance?.replace(/\$/g, ""),
+                    over_draft: VOSCustomer?.data?.over_draft,
                 })
                 .eq("id", userId);
         }

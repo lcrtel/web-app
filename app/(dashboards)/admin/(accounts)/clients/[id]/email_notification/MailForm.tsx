@@ -50,8 +50,8 @@ const LowBalanceEmail = ({ clientDetails }: { clientDetails: any }) => {
     const [subject, setSubject] = useState("Low Balance Notification");
     const [loading, setLoading] = useState(false);
     const balance =
-        Number(clientDetails.over_draft) -
-        Number(clientDetails.balance.replace(/\-/g, ""));
+        Number(clientDetails?.over_draft) -
+        Number(clientDetails?.balance?.replace(/\-/g, ""));
     const message = `Dear ${clientDetails.name} (${clientDetails.company_name}),
 
 We hope this message finds you well.

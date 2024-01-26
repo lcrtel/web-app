@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { HiEye, HiEyeOff, HiX } from "react-icons/hi";
+import { addVendor, sendVendorGreetingMail } from "./actions";
 
 const profileFormSchema = z.object({
     name: z.string(),
@@ -52,27 +53,18 @@ const AddVendor = () => {
     async function onSubmit(data: any) {
         setErrorMessage(null);
         setLoading(true);
-
-        await fetch("/api/admin/accounts/add-vendor", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json", // Set the appropriate content type
-            },
-            body: JSON.stringify(data), // Convert data to JSON string
-        }).then(async (response) => {
-            if (!response.ok) {
-                const error = await response.json();
-                toast.error(error.message);
-                setLoading(false);
-                setErrorMessage(error.message);
-                return;
-            } else {
-                setIsOpen(false);
-                router.refresh();
-                toast.success("Created a new vendor");
-            }
-        });
+        const res = await addVendor(data);
+        if (res?.error) {
+            toast.error(res.error);
+            setLoading(false);
+        } else {
+            setIsOpen(false);
+            sendVendorGreetingMail(data);
+            router.refresh();
+            toast.success(`Added vendor: ${data.name}`);
+        }
     }
+
 
     return (
         <>

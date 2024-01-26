@@ -1,19 +1,17 @@
 "use client";
 
-import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
-    FormMessage,
+    FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
@@ -23,13 +21,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 
-import { supabaseClient } from "@/lib/supabase-client";
-import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
+import { sendUpdateNotification, updateRoute } from "./actions";
 
 const routeFormSchema = z.object({
     destination: z.string(),
@@ -56,20 +51,16 @@ export function RouteForm({ route }: { route: Route }) {
 
     const router = useRouter();
     async function onSubmit(data: Route) {
-        const supabase = supabaseClient();
-        const { data: target, error } = await supabase
-            .from("routes")
-            .update({ ...data, updated_at: new Date().toISOString() })
-            .eq("id", route.id)
-            .select();
-        if (error) {
-            toast.error(error.message);
+        const { oldRecords, error, updatedRecords, userDetails } =
+            await updateRoute(route, data);
 
+        if (error) {
+            toast.error(error);
             return;
+        } else {
+            toast.success("Route offer updated");
+            sendUpdateNotification(oldRecords, updatedRecords, userDetails);
         }
-        toast.success("Route updated");
-        router.refresh();
-        router.back();
     }
     return (
         <Form {...form}>
@@ -135,8 +126,7 @@ export function RouteForm({ route }: { route: Route }) {
                                         <SelectItem value="tdm">TDM</SelectItem>
                                         <SelectItem value="pri">PRI</SelectItem>
                                         <SelectItem value="did">DID</SelectItem>
-                                                                                <SelectItem value="cc">CC</SelectItem>
-
+                                        <SelectItem value="cc">CC</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <FormMessage />

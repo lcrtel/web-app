@@ -30,6 +30,7 @@ import { toast } from "react-hot-toast";
 import { FaWhatsapp } from "react-icons/fa6";
 import { HiTrash } from "react-icons/hi";
 import * as z from "zod";
+import { postPurchaseRequest } from "./actions";
 
 const FormSchema = z.object({
     buying_rate: z
@@ -64,7 +65,7 @@ export function PurchaseRequestForm({
     });
     const supabase = supabaseClient();
     const router = useRouter();
-    
+
     const DeleteButton = ({ id }: { id: string }) => {
         const [loading, setLoading] = useState(false);
         const handleDelete = async (id: string) => {
@@ -98,23 +99,12 @@ export function PurchaseRequestForm({
     };
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
-        const supabase = supabaseClient();
-
         selectedRoutes.map(async (route: SelectedRoute) => {
-            const { error } = await supabase.from("purchase_requests").insert([
-                {
-                    route_id: route.route_id,
-                    payment_type: data.payment_type,
-                    ip: data.ip,
-                    whatsapp_no: data.whatsapp_no,
-                    communication_status: "not_contacted",
-                },
-            ]);
-            if (error) {
-                toast.error(error.message);
+            const res = await postPurchaseRequest(route, data);
+            if (res?.error) {
+                toast.error(res.error);
                 return;
             }
-            await supabase.from("selected_routes").delete().eq("id", route.id);
         });
 
         toast.success("Purchase request posted");

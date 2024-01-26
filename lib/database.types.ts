@@ -341,7 +341,7 @@ export interface Database {
           whatsapp_no: string | null
         }
         Insert: {
-          client_id: string
+          client_id?: string
           communication_status?: string
           created_at?: string
           id?: string

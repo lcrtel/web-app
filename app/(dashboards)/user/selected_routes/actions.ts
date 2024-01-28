@@ -1,7 +1,9 @@
 "use server";
+import PurchaseRequestEmailTemplate from "@/emails/PurchaseRequestEmailTemplate";
 import { supabaseServer } from "@/lib/supabase-server";
 import { renderAsync } from "@react-email/render";
 import nodemailer from "nodemailer";
+import XLSX from "xlsx";
 
 export async function postPurchaseRequest(route: SelectedRoute, data: any) {
     const supabase = supabaseServer();
@@ -21,23 +23,41 @@ export async function postPurchaseRequest(route: SelectedRoute, data: any) {
     }
 }
 
-// export async function sendPurchaseRequestNotificatiion(data:any) {
-// const transporter = nodemailer.createTransport({
-//     host: "smtp.gmail.com",
-//     port: 465,
-//     secure: true,
-//     auth: {
-//         user: process.env.SMTP_USER,
-//         pass: process.env.SMTP_PASSWORD,
-//     },
-// });
+export async function sendPurchaseRequestNotificatiion(
+    selectedRoutes: any,
+    purchaseRequest: any,
+    user: any
+) {
+    const transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASSWORD,
+        },
+    });
 
-// const emailHtml = await renderAsync(AddAgentMailTemplate({ user: data }));
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(selectedRoutes);
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Selected routes");
+    const excelBuffer = XLSX.write(workbook, {
+        bookType: "xlsx",
+        type: "buffer",
+    });
 
-// transporter.sendMail({
-//     from: process.env.SMTP_USER,
-//     to: data?.email,
-//     subject: `Welcome to LCRTel.com! Account Details Inside.`,
-//     html: emailHtml,
-// });
-// }
+    const emailHtml = await renderAsync(
+        PurchaseRequestEmailTemplate({
+            user: user,
+            selectedRoutes: selectedRoutes,
+            request: purchaseRequest,
+        })
+    );
+
+    transporter.sendMail({
+        from: process.env.SMTP_USER,
+        to: user?.email,
+        subject: `Welcome to LCRTel.com! Account Details Inside.`,
+        html: emailHtml,
+    });
+}

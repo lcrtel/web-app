@@ -30,7 +30,10 @@ import { toast } from "react-hot-toast";
 import { FaWhatsapp } from "react-icons/fa6";
 import { HiTrash } from "react-icons/hi";
 import * as z from "zod";
-import { postPurchaseRequest } from "./actions";
+import {
+    postPurchaseRequest,
+    sendPurchaseRequestNotificatiion,
+} from "./actions";
 
 const FormSchema = z.object({
     buying_rate: z
@@ -49,11 +52,11 @@ const FormSchema = z.object({
 export function PurchaseRequestForm({
     selectedRoutes,
     purchaseRequest,
-    userID,
+    user,
 }: {
     selectedRoutes: any[];
     purchaseRequest: any;
-    userID: string | undefined;
+    user: any;
 }) {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -74,7 +77,7 @@ export function PurchaseRequestForm({
             const { error } = await supabase
                 .from("selected_routes")
                 .delete()
-                .match({ id: id, user_id: userID });
+                .match({ id: id, user_id: user.id });
             if (error) {
                 toast.error(error.message);
                 return;
@@ -106,7 +109,7 @@ export function PurchaseRequestForm({
                 return;
             }
         });
-
+        sendPurchaseRequestNotificatiion(selectedRoutes, data, user);
         toast.success("Purchase request posted");
         router.refresh();
     }

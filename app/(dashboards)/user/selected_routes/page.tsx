@@ -33,7 +33,7 @@ export default async function Page() {
                         <PurchaseRequestForm
                         purchaseRequest={purchaseRequests?.[0]}
                             selectedRoutes={selectedRoutes}
-                            userID={user?.id}
+                            user={user}
                         />
                     </div>
                 ) : (

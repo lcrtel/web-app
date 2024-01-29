@@ -1,18 +1,27 @@
-import React from "react";
+import React, { Suspense } from "react";
 import MailForm from "./MailForm";
 import { supabaseServer } from "@/lib/supabase-server";
+import Loader from "@/components/Loader";
 
+export default function Page({ params }: { params: { id: string } }) {
+    return (
+        <Suspense fallback={
+                <div className=" h-[400px] flex items-center justify-center container">
+                    <Loader />
+                </div>
+            }>
+            <Notifications userId={params.id} />
+        </Suspense>
+    );
+}
 
-const Notification = async ({ params }: { params: { id: string } }) => {
+async function Notifications({ userId }: { userId: string }) {
     const supabase = supabaseServer();
 
-    let { data: client, error } = await supabase
+    let { data: vendor, error } = await supabase
         .from("profiles")
         .select("*")
-        .eq("id", params.id)
+        .eq("id", userId)
         .single();
-
-    return <MailForm clientDetails={client} />;
-};
-
-export default Notification;
+    return <MailForm clientDetails={vendor} />;
+}

@@ -4,8 +4,6 @@ import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export const signUp = async (formData: any) => {
-    ("use server");
-
     const origin = headers().get("origin");
     const supabase = supabaseServer();
 

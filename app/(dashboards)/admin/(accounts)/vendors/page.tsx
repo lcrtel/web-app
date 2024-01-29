@@ -5,6 +5,25 @@ import AddVendor from "./AddVendor";
 import { VendorsTable } from "./VendorsTable";
 import { unstable_noStore } from "next/cache";
 
+export default function Page() {
+    return (
+        <div className=" ">
+            <div className="mb-5 ">
+                <div className="flex items-center mb-3 justify-between ">
+                    <h2 className="text-2xl font-bold text-primary">Vendors</h2>
+                    <AddVendor />
+                </div>
+            </div>
+
+            <div className="flex flex-col gap-3 xl:flex-row w-full overflow-x-auto">
+                <Suspense fallback={<Loader />}>
+                    <Vendors />
+                </Suspense>
+            </div>
+        </div>
+    );
+}
+
 const Vendors = async () => {
     unstable_noStore();
     const supabase = supabaseServer();
@@ -46,25 +65,6 @@ const Vendors = async () => {
 
     return <VendorsTable data={vendorsWithRouteCounts} />;
 };
-
-export default async function Page() {
-    return (
-        <div className=" ">
-            <div className="mb-5 ">
-                <div className="flex items-center mb-3 justify-between ">
-                    <h2 className="text-2xl font-bold text-primary">Vendors</h2>
-                    <AddVendor />
-                </div>
-            </div>
-
-            <div className="flex flex-col gap-3 xl:flex-row w-full overflow-x-auto">
-                <Suspense fallback={<Loader />}>
-                    <Vendors />
-                </Suspense>
-            </div>
-        </div>
-    );
-}
 
 const Loader = () => {
     return (

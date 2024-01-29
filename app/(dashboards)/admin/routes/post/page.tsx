@@ -5,7 +5,7 @@ import { HiArrowLeft } from "react-icons/hi";
 import { AddRouteTable } from "./AddRoutes";
 export const revalidate = 0;
 const page = async () => {
-    const supabase = await supabaseAdminServer();
+    const supabase = supabaseAdminServer();
     const {
         data: { users },
         error,

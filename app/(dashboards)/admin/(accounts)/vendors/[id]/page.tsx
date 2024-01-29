@@ -1,122 +1,16 @@
 import getCustomerInfo from "@/app/vos/getCustomerInfo";
 import getRates from "@/app/vos/getRates";
-import getVendorInfo from "@/app/vos/getVendorInfo";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { IoWallet } from "react-icons/io5";
 
 export const revalidate = 0;
 
-const Balance = async ({
-    supabase,
-    userID,
-}: {
-    supabase: any;
-    userID: any;
-}) => {
-    const { data: user } = await supabase
-        .from("profiles")
-        .select("name")
-        .eq("id", userID)
-        .single();
-
-    const name: string = user.name;
-    let balance = "$ 0";
-    try {
-        const VOSCustomer = await getCustomerInfo({
-            name: name.toLocaleUpperCase(),
-        });
-        if (VOSCustomer?.data) {
-            balance = VOSCustomer?.data?.balance;
-        }
-    } catch {}
-    return <p className="font-medium">{balance}</p>;
-};
-const OverDraft = async ({
-    supabase,
-    userID,
-}: {
-    supabase: any;
-    userID: any;
-}) => {
-    const { data: user } = await supabase
-        .from("profiles")
-        .select("name")
-        .eq("id", userID)
-        .single();
-
-    const name: string = user.name;
-
-    let overDraft = "$ 0";
-    try {
-        const VOSCustomer = await getCustomerInfo({
-            name: name.toLocaleUpperCase(),
-        });
-        if (VOSCustomer?.data) {
-            overDraft = "$" + VOSCustomer?.data?.over_draft;
-        }
-    } catch {}
-    return <p className="font-medium">{overDraft}</p>;
-};
-
-const RoutsCount = async ({
-    supabase,
-    userID,
-}: {
-    supabase: any;
-    userID: any;
-}) => {
-    let { data: routes, error } = await supabase
-        .from("routes")
-        .select("vendor_id")
-        .eq("vendor_id", userID);
-    return (
-        <p className="font-bold tracking-tight text-3xl ">{routes.length}</p>
-    );
-};
-
-const RoutRequestsCount = async ({
-    supabase,
-    userID,
-}: {
-    supabase: any;
-    userID: any;
-}) => {
-    let { data: requests, error } = await supabase
-        .from("targets")
-        .select("client_id")
-        .eq("client_id", userID);
-    return (
-        <p className="font-bold tracking-tight text-3xl ">{requests.length}</p>
-    );
-};
-
-const PurchasedRoutes = async ({
-    supabase,
-    userID,
-}: {
-    supabase: any;
-    userID: any;
-}) => {
-    const { data: user } = await supabase
-        .from("profiles")
-        .select("name")
-        .eq("id", userID)
-        .single();
-
-    const name: string = user.name;
-    const rates = await getRates({ name: name.toLocaleUpperCase() });
-    return (
-        <p className="font-bold tracking-tight text-3xl ">
-            {rates?.data?.length ? rates?.data?.length : 0}
-        </p>
-    );
-};
-
-export default async function Page({ params }: { params: { id: string } }) {
+export default function Page({ params }: { params: { id: string } }) {
     const supabase = supabaseServer();
     return (
         <section className="">
@@ -129,28 +23,28 @@ export default async function Page({ params }: { params: { id: string } }) {
                                 Wallet
                             </h2>
                         </div>
-                        <div className="bg-white rounded-lg p-3">
-                            <h3 className="text-sm text-slate-400 ">Balance</h3>
-                            <Suspense
-                                fallback={<Skeleton className="w-full h-6" />}
-                            >
-                                <Balance
-                                    userID={params.id}
-                                    supabase={supabase}
-                                />
-                            </Suspense>
-                            <h3 className="text-sm pt-2 text-slate-400 ">
-                                Over Draft
-                            </h3>
-                            <Suspense
-                                fallback={<Skeleton className="w-full h-6" />}
-                            >
-                                <OverDraft
-                                    userID={params.id}
-                                    supabase={supabase}
-                                />
-                            </Suspense>
-                        </div>
+                        <Suspense
+                            fallback={
+                                <div className="bg-white rounded-lg p-3">
+                                    <h3 className="text-sm text-slate-400 ">
+                                        Balance
+                                    </h3>
+                                    <p className="font-medium">
+                                        $
+                                        <Skeleton className="w-full max-w-xs h-4" />
+                                    </p>
+                                    <h3 className="text-sm pt-2 text-slate-400 ">
+                                        Over Draft
+                                    </h3>
+                                    <p className="font-medium">
+                                        $
+                                        <Skeleton className="w-full max-w-xs h-4" />
+                                    </p>
+                                </div>
+                            }
+                        >
+                            <Wallet supabase={supabase} userId={params.id} />
+                        </Suspense>
                     </div>
                 </div>
                 <Link
@@ -204,3 +98,114 @@ export default async function Page({ params }: { params: { id: string } }) {
         </section>
     );
 }
+
+async function Wallet({ supabase, userId }: { supabase: any; userId: any }) {
+    const { data: user } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", userId)
+        .single();
+    if (!user) {
+        redirect("/admin/vendors");
+    }
+    return (
+        user && (
+            <div className="bg-white rounded-lg p-3">
+                <h3 className="text-sm text-slate-400 ">Balance</h3>
+                <p className="font-medium">${user?.balance}</p>
+                <h3 className="text-sm pt-2 text-slate-400 ">Over Draft</h3>
+                <p className="font-medium">${user?.over_draft}</p>
+
+                <Suspense>
+                    <UpdateWallet
+                        supabase={supabase}
+                        userId={userId}
+                        userName={user?.name}
+                    />
+                </Suspense>
+            </div>
+        )
+    );
+}
+
+const UpdateWallet = async ({
+    supabase,
+    userId,
+    userName,
+}: {
+    supabase: any;
+    userId: any;
+    userName: any;
+}) => {
+    try {
+        const VOSCustomer = await getCustomerInfo({
+            name: userName.toLocaleUpperCase(),
+        });
+
+        if (VOSCustomer?.data) {
+            await supabase
+                .from("profiles")
+                .update({
+                    balance: VOSCustomer?.data?.balance?.replace(/\$/g, ""),
+                    over_draft: VOSCustomer?.data?.over_draft,
+                })
+                .eq("id", userId);
+        }
+    } catch (error) {
+        console.error("Error updating wallet:", error);
+    }
+    return <></>;
+};
+const RoutsCount = async ({
+    supabase,
+    userID,
+}: {
+    supabase: any;
+    userID: any;
+}) => {
+    let { data: routes, error } = await supabase
+        .from("routes")
+        .select("vendor_id")
+        .eq("vendor_id", userID);
+    return (
+        <p className="font-bold tracking-tight text-3xl ">{routes.length}</p>
+    );
+};
+
+const RoutRequestsCount = async ({
+    supabase,
+    userID,
+}: {
+    supabase: any;
+    userID: any;
+}) => {
+    let { data: requests, error } = await supabase
+        .from("targets")
+        .select("client_id")
+        .eq("client_id", userID);
+    return (
+        <p className="font-bold tracking-tight text-3xl ">{requests.length}</p>
+    );
+};
+
+const PurchasedRoutes = async ({
+    supabase,
+    userID,
+}: {
+    supabase: any;
+    userID: any;
+}) => {
+    const { data: user } = await supabase
+        .from("profiles")
+        .select("name")
+        .eq("id", userID)
+        .single();
+
+    const name: string = user.name;
+    const rates = await getRates({ name: name.toLocaleUpperCase() });
+    return (
+        <p className="font-bold tracking-tight text-3xl ">
+            {rates?.data?.length ? rates?.data?.length : 0}
+        </p>
+    );
+};

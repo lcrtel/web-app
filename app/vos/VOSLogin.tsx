@@ -14,8 +14,8 @@ type VOSConfig = {
 
 const VOSLogin = async () => {
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-    
-    const supabase = await supabaseAdminServer();
+
+    const supabase = supabaseAdminServer();
 
     let { data: config }: any = await supabase
         .from("config")
@@ -100,7 +100,7 @@ const VOSLogin = async () => {
 
             return updatedConfig;
         } catch (error) {
-            return false;
+            return { error: error };
         }
     } else return config;
 };

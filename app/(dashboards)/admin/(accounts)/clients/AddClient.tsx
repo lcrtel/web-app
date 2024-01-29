@@ -18,7 +18,8 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { HiEye, HiEyeOff, HiX } from "react-icons/hi";
-import { addClient, sendClientGreetingMail } from "./actions";
+import { addClient } from "../actions";
+import { Loader2 } from "lucide-react";
 
 const profileFormSchema = z.object({
     name: z.string(),
@@ -39,14 +40,6 @@ const AddClient = () => {
 
     const form = useForm<any>({
         resolver: zodResolver(profileFormSchema),
-        defaultValues: {
-            name: "",
-            company_name: "",
-            email: "",
-            password: "",
-            phone: "",
-            skype_id: "",
-        },
         mode: "onChange",
     });
 
@@ -57,11 +50,12 @@ const AddClient = () => {
         if (res?.error) {
             toast.error(res.error);
             setLoading(false);
+            return;
         } else {
-            setIsOpen(false);
-            sendClientGreetingMail(data);
+            setLoading(false);
             router.refresh();
             toast.success(`Added client: ${data.name}`);
+            setIsOpen(false);
         }
     }
 
@@ -232,7 +226,11 @@ const AddClient = () => {
                                         </div>
                                     )}
                                     <Button type="submit" className="w-full">
-                                        Add
+                                        {loading ? (
+                                            <Loader2 className="animate-spin w-4 h-4" />
+                                        ) : (
+                                            "Add"
+                                        )}
                                     </Button>
                                 </form>
                             </Form>

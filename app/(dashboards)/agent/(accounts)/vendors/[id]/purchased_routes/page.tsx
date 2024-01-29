@@ -33,7 +33,7 @@ const PurchasedRoutes = async ({
         .eq("id", userID)
         .single();
 
-    const name: string = client.name;
+    const name: string = client?.name;
     const rates = await getRates({ name: name.toLocaleUpperCase() });
 
     return rates.data?.length ? (

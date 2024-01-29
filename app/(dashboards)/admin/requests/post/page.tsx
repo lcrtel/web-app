@@ -6,7 +6,7 @@ import { HiArrowLeft } from "react-icons/hi";
 export const revalidate = 0; // revalidate at most every hour
 
 const page = async () => {
-    const supabase = await supabaseAdminServer();
+    const supabase = supabaseAdminServer();
     const {
         data: { users },
         error,

@@ -48,7 +48,11 @@ export default async function Page() {
             </div>
 
             <div className="flex flex-col gap-3 xl:flex-row w-full overflow-x-auto">
-                <Suspense fallback={<Loader />}>
+                <Suspense fallback={
+                <div className=" h-[400px] flex items-center justify-center container">
+                    <Loader />
+                </div>
+            }>
                     <Clients />
                 </Suspense>
             </div>

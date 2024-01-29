@@ -202,7 +202,7 @@ export default function BulkInvoiceForm({
                     const newArray = jsonData.map((json) => ({
                         invoice_to: clients.find(
                             (client: any) =>
-                                client.name.toLowerCase() ===
+                                client?.name.toLowerCase() ===
                                 json["Account id"].toLowerCase()
                         )?.id,
                         total_amount: json["Total charges"],
@@ -531,7 +531,7 @@ export default function BulkInvoiceForm({
                                         <CommandGroup>
                                             {clients.map((client: any) => (
                                                 <CommandItem
-                                                    value={client.name}
+                                                    value={client?.name}
                                                     key={client.id}
                                                     onSelect={() => {
                                                         handleInvoiceChange(
@@ -550,7 +550,7 @@ export default function BulkInvoiceForm({
                                                                 : "opacity-0"
                                                         )}
                                                     />
-                                                    {client.name} -{" "}
+                                                    {client?.name} -{" "}
                                                     {client.company_name}
                                                 </CommandItem>
                                             ))}

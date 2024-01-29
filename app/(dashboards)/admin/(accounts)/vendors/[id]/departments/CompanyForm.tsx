@@ -21,7 +21,7 @@ import {
     updateFinanceDipartment,
     updateNOCDipartment,
     updateSalesDipartment,
-} from "./actions";
+} from "../../../actions";
 
 const departmentSchema = z.object({
     name: z.string().optional(),

@@ -24,6 +24,52 @@ import {
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
+export default function MailForm({ clientDetails }: { clientDetails: any }) {
+    return (
+        <>
+            <Accordion
+                type="single"
+                collapsible
+                className="w-full max-w-2xl  border rounded-lg"
+                defaultValue="low-balance"
+            >
+                <AccordionItem value="low-balance">
+                    <AccordionTrigger className="px-4">
+                        Low Balance Notification
+                    </AccordionTrigger>
+                    <AccordionContent>
+                        <LowBalanceEmail clientDetails={clientDetails} />
+                    </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="payment-reminder">
+                    <AccordionTrigger className="px-4">
+                        Payment Reminder
+                    </AccordionTrigger>
+                    <AccordionContent>
+                        <PaymentReminder clientDetails={clientDetails} />
+                    </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="rate-notification">
+                    <AccordionTrigger className="px-4">
+                        Rate Notification
+                    </AccordionTrigger>
+                    <AccordionContent>
+                        <RateNotification clientDetails={clientDetails} />
+                    </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="gateway-account">
+                    <AccordionTrigger className="px-4">
+                        Gateway account setup
+                    </AccordionTrigger>
+                    <AccordionContent>
+                        <GatewayAccount clientDetails={clientDetails} />
+                    </AccordionContent>
+                </AccordionItem>
+            </Accordion>
+        </>
+    );
+}
+
 const LowBalanceEmail = ({ clientDetails }: { clientDetails: any }) => {
     const [cc, setCc] = useState<any>([]);
     useEffect(() => {
@@ -668,7 +714,9 @@ const GatewayAccount = ({ clientDetails }: { clientDetails: any }) => {
         }
     }, [clientDetails]);
     const [editIndex, setEditIndex] = useState<number | null>(null);
-    const [subject, setSubject] = useState("Verify Your Gateway Account Details");
+    const [subject, setSubject] = useState(
+        "Verify Your Gateway Account Details"
+    );
     const [loading, setLoading] = useState(false);
     const [body, setBody] =
         useState(`Dear ${clientDetails.name} (${clientDetails.company_name}),
@@ -808,12 +856,10 @@ Here are the key details we need you to verify:`);
                             <Input
                                 value={gatewayAccountDetails.company_name}
                                 onChange={(e) =>
-                                    setGatewayAccountDetails(
-                                        (prev: any) => ({
-                                            ...prev,
-                                            company_name: e.target.value,
-                                        })
-                                    )
+                                    setGatewayAccountDetails((prev: any) => ({
+                                        ...prev,
+                                        company_name: e.target.value,
+                                    }))
                                 }
                             />
                         </div>
@@ -822,12 +868,10 @@ Here are the key details we need you to verify:`);
                             <Input
                                 value={gatewayAccountDetails.address}
                                 onChange={(e) =>
-                                    setGatewayAccountDetails(
-                                        (prev: any) => ({
-                                            ...prev,
-                                            address: e.target.value,
-                                        })
-                                    )
+                                    setGatewayAccountDetails((prev: any) => ({
+                                        ...prev,
+                                        address: e.target.value,
+                                    }))
                                 }
                             />
                         </div>
@@ -836,12 +880,10 @@ Here are the key details we need you to verify:`);
                             <Input
                                 value={gatewayAccountDetails.mail_id}
                                 onChange={(e) =>
-                                    setGatewayAccountDetails(
-                                        (prev: any) => ({
-                                            ...prev,
-                                            mail_id: e.target.value,
-                                        })
-                                    )
+                                    setGatewayAccountDetails((prev: any) => ({
+                                        ...prev,
+                                        mail_id: e.target.value,
+                                    }))
                                 }
                             />
                         </div>
@@ -850,12 +892,10 @@ Here are the key details we need you to verify:`);
                             <Input
                                 value={gatewayAccountDetails.cdr_link}
                                 onChange={(e) =>
-                                    setGatewayAccountDetails(
-                                        (prev: any) => ({
-                                            ...prev,
-                                            cdr_link: e.target.value,
-                                        })
-                                    )
+                                    setGatewayAccountDetails((prev: any) => ({
+                                        ...prev,
+                                        cdr_link: e.target.value,
+                                    }))
                                 }
                             />
                         </div>
@@ -864,12 +904,10 @@ Here are the key details we need you to verify:`);
                             <Input
                                 value={gatewayAccountDetails.username}
                                 onChange={(e) =>
-                                    setGatewayAccountDetails(
-                                        (prev: any) => ({
-                                            ...prev,
-                                            username: e.target.value,
-                                        })
-                                    )
+                                    setGatewayAccountDetails((prev: any) => ({
+                                        ...prev,
+                                        username: e.target.value,
+                                    }))
                                 }
                             />
                         </div>
@@ -878,12 +916,10 @@ Here are the key details we need you to verify:`);
                             <Input
                                 value={gatewayAccountDetails.password}
                                 onChange={(e) =>
-                                    setGatewayAccountDetails(
-                                        (prev: any) => ({
-                                            ...prev,
-                                            password: e.target.value,
-                                        })
-                                    )
+                                    setGatewayAccountDetails((prev: any) => ({
+                                        ...prev,
+                                        password: e.target.value,
+                                    }))
                                 }
                             />
                         </div>
@@ -892,12 +928,10 @@ Here are the key details we need you to verify:`);
                             <Input
                                 value={gatewayAccountDetails.skype_id}
                                 onChange={(e) =>
-                                    setGatewayAccountDetails(
-                                        (prev: any) => ({
-                                            ...prev,
-                                            skype_id: e.target.value,
-                                        })
-                                    )
+                                    setGatewayAccountDetails((prev: any) => ({
+                                        ...prev,
+                                        skype_id: e.target.value,
+                                    }))
                                 }
                             />
                         </div>
@@ -906,12 +940,10 @@ Here are the key details we need you to verify:`);
                             <Input
                                 value={gatewayAccountDetails.sip}
                                 onChange={(e) =>
-                                    setGatewayAccountDetails(
-                                        (prev: any) => ({
-                                            ...prev,
-                                            sip: e.target.value,
-                                        })
-                                    )
+                                    setGatewayAccountDetails((prev: any) => ({
+                                        ...prev,
+                                        sip: e.target.value,
+                                    }))
                                 }
                             />
                         </div>
@@ -935,51 +967,3 @@ Here are the key details we need you to verify:`);
         </form>
     );
 };
-
-const MailForm = ({ clientDetails }: { clientDetails: any }) => {
-    return (
-        <>
-            <Accordion
-                type="single"
-                collapsible
-                className="w-full max-w-2xl  border rounded-lg"
-                defaultValue="low-balance"
-            >
-                <AccordionItem value="low-balance">
-                    <AccordionTrigger className="px-4">
-                        Low Balance Notification
-                    </AccordionTrigger>
-                    <AccordionContent>
-                        <LowBalanceEmail clientDetails={clientDetails} />
-                    </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="payment-reminder">
-                    <AccordionTrigger className="px-4">
-                        Payment Reminder
-                    </AccordionTrigger>
-                    <AccordionContent>
-                        <PaymentReminder clientDetails={clientDetails} />
-                    </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="rate-notification">
-                    <AccordionTrigger className="px-4">
-                        Rate Notification
-                    </AccordionTrigger>
-                    <AccordionContent>
-                        <RateNotification clientDetails={clientDetails} />
-                    </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="gateway-account">
-                    <AccordionTrigger className="px-4">
-                        Gateway account setup
-                    </AccordionTrigger>
-                    <AccordionContent>
-                        <GatewayAccount clientDetails={clientDetails} />
-                    </AccordionContent>
-                </AccordionItem>
-            </Accordion>
-        </>
-    );
-};
-
-export default MailForm;

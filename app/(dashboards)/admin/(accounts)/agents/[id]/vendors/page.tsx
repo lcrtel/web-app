@@ -12,7 +12,7 @@ const Vendors = async ({ agentID }: { agentID: string }) => {
     let { data: clients, error } = await supabase
         .from("profiles")
         .select("*")
-        .match({agent_id: agentID, role: "vendor"});
+        .match({ agent_id: agentID, role: "vendor" });
 
     let { data: routes } = await supabase.from("routes").select("*");
 

@@ -1,48 +1,35 @@
+import { AccountSettingsForm } from "@/app/(dashboards)/admin/(accounts)/_components/AccountSettingsForm";
+import Loader from "@/components/Loader";
 import { supabaseServer } from "@/lib/supabase-server";
-import DeleteUser from "./DeleteUser";
-import { VendorForm } from "./VendorForm";
+import { unstable_noStore } from "next/cache";
 import { Suspense } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
 
-export const revalidate = 0;
+export default function Page({ params }: { params: { id: any } }) {
+    return (
+        <Suspense
+            fallback={
+                <div className=" h-[400px] flex items-center justify-center container">
+                    <Loader />
+                </div>
+            }
+        >
+            <VendorDetails id={params.id} />
+        </Suspense>
+    );
+}
 
 const VendorDetails = async ({ id }: { id: string }) => {
+    unstable_noStore();
     const supabase = supabaseServer();
-
     let { data: vendor, error } = await supabase
         .from("profiles")
         .select("*")
         .eq("id", id)
         .single();
-             let { data: agents } = await supabase
-                 .from("profiles")
-                 .select("*")
-                 .eq("role", "agent");
-    return <VendorForm user={vendor} agents={agents} />;
-};
+    let { data: agents } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("role", "agent");
 
-export default async function Page({ params }: { params: { id: string } }) {
-    return (
-        <div className="">
-            <Suspense
-                fallback={<Skeleton className="w-full h-[421px]  max-w-3xl" />}
-            >
-                <VendorDetails id={params.id} />
-            </Suspense>
-            <div className="flex justify-between max-w-3xl items-center border border-red-500 rounded-lg p-4 text-red-500">
-                <div>
-                    <h3 className="font-semibold tracking-tight">
-                        Delete this Vendor
-                    </h3>
-                    <p className="text-sm">
-                        Once deleted, it will be gone forever. Please be
-                        certain.
-                    </p>
-                </div>
-                <div className="p-2 bg-red-500 text-white rounded-lg ">
-                    <DeleteUser userID={params.id} />
-                </div>
-            </div>
-        </div>
-    );
-}
+    return <AccountSettingsForm user={vendor} agents={agents} />;
+};

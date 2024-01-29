@@ -206,7 +206,7 @@ export function CreateInvoice({
                                                                 ) => (
                                                                     <CommandItem
                                                                         value={
-                                                                            client.name
+                                                                            client?.name
                                                                         }
                                                                         key={
                                                                             client.id
@@ -227,7 +227,7 @@ export function CreateInvoice({
                                                                             )}
                                                                         />
                                                                         {
-                                                                            client.name
+                                                                            client?.name
                                                                         }{" "}
                                                                         -{" "}
                                                                         {

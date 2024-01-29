@@ -5,6 +5,25 @@ import { Suspense } from "react";
 import AddClient from "./AddClient";
 import { ClientsTable } from "./ClientsTable";
 
+export default function Page() {
+    return (
+        <div className=" ">
+            <div className="mb-5 ">
+                <div className="flex items-center mb-3 justify-between ">
+                    <h2 className="text-2xl font-bold text-primary">Clients</h2>
+                    <AddClient />
+                </div>
+            </div>
+
+            <div className="flex flex-col gap-3 xl:flex-row w-full overflow-x-auto">
+                <Suspense fallback={<Loader />}>
+                    <Clients />
+                </Suspense>
+            </div>
+        </div>
+    );
+}
+
 const Clients = async () => {
     unstable_noStore();
     const supabase = supabaseServer();
@@ -33,25 +52,6 @@ const Clients = async () => {
 
     return <ClientsTable data={clientsWithTargetCounts} />;
 };
-
-export default function Page() {
-    return (
-        <div className=" ">
-            <div className="mb-5 ">
-                <div className="flex items-center mb-3 justify-between ">
-                    <h2 className="text-2xl font-bold text-primary">Clients</h2>
-                    <AddClient />
-                </div>
-            </div>
-
-            <div className="flex flex-col gap-3 xl:flex-row w-full overflow-x-auto">
-                <Suspense fallback={<Loader />}>
-                    <Clients />
-                </Suspense>
-            </div>
-        </div>
-    );
-}
 
 const Loader = () => {
     return (

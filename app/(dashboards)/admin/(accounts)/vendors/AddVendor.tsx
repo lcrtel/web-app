@@ -15,10 +15,11 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { HiEye, HiEyeOff, HiX } from "react-icons/hi";
-import { addVendor, sendVendorGreetingMail } from "./actions";
+import { addVendor } from "../actions";
 
 const profileFormSchema = z.object({
     name: z.string(),
@@ -39,14 +40,6 @@ const AddVendor = () => {
 
     const form = useForm<any>({
         resolver: zodResolver(profileFormSchema),
-        defaultValues: {
-            name: "",
-            company_name: "",
-            email: "",
-            password: "",
-            phone: "",
-            skype_id: "",
-        },
         mode: "onChange",
     });
 
@@ -57,18 +50,25 @@ const AddVendor = () => {
         if (res?.error) {
             toast.error(res.error);
             setLoading(false);
+            return;
         } else {
-            setIsOpen(false);
-            sendVendorGreetingMail(data);
+            setLoading(false);
             router.refresh();
             toast.success(`Added vendor: ${data.name}`);
+            setIsOpen(false);
         }
     }
 
-
     return (
         <>
-            <Button onClick={(e) => setIsOpen(true)}>Add vendor</Button>
+            <Button
+                onClick={(e) => {
+                    setIsOpen(true);
+                    form.reset();
+                }}
+            >
+                Add vendor
+            </Button>
             <AnimatePresence>
                 {isOpen && (
                     <>
@@ -136,7 +136,9 @@ const AddVendor = () => {
                                         name="phone"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>WhatsApp No</FormLabel>
+                                                <FormLabel>
+                                                    WhatsApp No
+                                                </FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         placeholder="WhatsApp No number"
@@ -224,18 +226,25 @@ const AddVendor = () => {
                                         </div>
                                     )}
                                     <Button type="submit" className="w-full">
-                                        Add
+                                        {loading ? (
+                                            <Loader2 className="animate-spin w-4 h-4" />
+                                        ) : (
+                                            "Add"
+                                        )}
                                     </Button>
                                 </form>
                             </Form>
                         </motion.div>
                         <motion.div
                             className="w-full h-full absolute right-0 top-0 bg-white/50 backdrop-blur"
-                            onClick={(e) => setIsOpen(false)}
+                            onClick={(e) => {
+                                setIsOpen(true);
+                                form.reset();
+                            }}
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                        ></motion.div>
+                        />
                     </>
                 )}
             </AnimatePresence>

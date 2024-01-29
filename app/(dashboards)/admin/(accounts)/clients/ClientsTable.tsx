@@ -27,6 +27,15 @@ import { HiOutlineExternalLink } from "react-icons/hi";
 
 export const columns: ColumnDef<any>[] = [
     {
+        accessorKey: "name",
+        header: ({ column }) => {
+            return <div className=" ">Name</div>;
+        },
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("name")}</div>
+        ),
+    },
+    {
         accessorKey: "id",
         header: "",
         cell: ({ row }) => {
@@ -39,15 +48,6 @@ export const columns: ColumnDef<any>[] = [
                 </div>
             );
         },
-    },
-    {
-        accessorKey: "name",
-        header: ({ column }) => {
-            return <div className=" ">Name</div>;
-        },
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("name")}</div>
-        ),
     },
     {
         accessorKey: "company_name",
@@ -108,7 +108,7 @@ export function ClientsTable({ data }: any) {
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
         getCoreRowModel: getCoreRowModel(),
-        
+
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,

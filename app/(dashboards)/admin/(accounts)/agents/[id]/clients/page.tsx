@@ -14,29 +14,28 @@ const Clients = async ({ agentID }: { agentID: string }) => {
         .eq("agent_id", agentID)
         .or(`role.eq.client,role.eq.vendor`);
 
-     let { data: targets } = await supabase.from("targets").select("*");
+    let { data: targets } = await supabase.from("targets").select("*");
 
-     const userRouteCounts = targets?.reduce((acc, route) => {
-         const { client_id } = route;
-         if (acc.has(client_id)) {
-             acc.set(client_id, acc.get(client_id) + 1);
-         } else {
-             acc.set(client_id, 1);
-         }
-         return acc;
-     }, new Map());
+    const userRouteCounts = targets?.reduce((acc, route) => {
+        const { client_id } = route;
+        if (acc.has(client_id)) {
+            acc.set(client_id, acc.get(client_id) + 1);
+        } else {
+            acc.set(client_id, 1);
+        }
+        return acc;
+    }, new Map());
 
-     const clientsWithTargetCounts = clients?.map((user) => {
-         const { id } = user;
-         const targetCount = userRouteCounts?.get(id) || 0;
-         return { ...user, targets: targetCount };
-     });
+    const clientsWithTargetCounts = clients?.map((user) => {
+        const { id } = user;
+        const targetCount = userRouteCounts?.get(id) || 0;
+        return { ...user, targets: targetCount };
+    });
 
     return <ClientsTable data={clientsWithTargetCounts} />;
 };
 
 export default async function Page({ params }: { params: { id: string } }) {
-
     return (
         <div className=" ">
             <div className="mb-5 ">

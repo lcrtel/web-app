@@ -119,7 +119,7 @@ LCRTel`;
                     <p className="font-medium">
                         Balance: ${balance.toFixed(2)}
                     </p>
-                    {isBalanceBelowThreshold && (
+                    {!isBalanceBelowThreshold && (
                         <span className=" text-slate-400 text-xs bg-white px-2 py-1 rounded-full">
                             The balance is not low
                         </span>

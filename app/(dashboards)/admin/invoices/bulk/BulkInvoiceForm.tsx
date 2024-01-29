@@ -8,8 +8,6 @@ import {
 import * as XLSX from "xlsx";
 
 import { Button } from "@/components/ui/button";
-import * as z from "zod";
-import { AnimatePresence, motion } from "framer-motion";
 import { Calendar } from "@/components/ui/calendar";
 import {
     Command,
@@ -34,8 +32,8 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import formatDate from "@/utils/formatDate";
 import { format } from "date-fns";
+import { AnimatePresence, motion } from "framer-motion";
 import {
     CalendarIcon,
     Check,
@@ -47,7 +45,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { HiX } from "react-icons/hi";
-import sendInvoice, { sendBulkInvoice } from "../actions";
+import * as z from "zod";
+import { sendBulkInvoice } from "../actions";
 
 const invoiceFormSchema = z.object({
     date_issued: z.date({
@@ -195,7 +194,7 @@ export default function BulkInvoiceForm({
                     const newArray = jsonData.map((json) => ({
                         invoice_to: clients.find(
                             (client: any) =>
-                                client.name.toLowerCase() ===
+                                client?.name.toLowerCase() ===
                                 json["Account id"].toLowerCase()
                         ),
                         total_amount: json["Total charges"],
@@ -525,7 +524,7 @@ export default function BulkInvoiceForm({
                                         <CommandGroup>
                                             {clients.map((client: any) => (
                                                 <CommandItem
-                                                    value={client.name}
+                                                    value={client?.name}
                                                     key={client.id}
                                                     onSelect={() => {
                                                         handleInvoiceChange(
@@ -546,7 +545,7 @@ export default function BulkInvoiceForm({
                                                                 : "opacity-0"
                                                         )}
                                                     />
-                                                    {client.name} -{" "}
+                                                    {client?.name} -{" "}
                                                     {client.company_name}
                                                 </CommandItem>
                                             ))}

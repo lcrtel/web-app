@@ -262,7 +262,7 @@ export const columns: ColumnDef<Route>[] = [
             const id = row.getValue("id");
             return (
                 <Link
-                    href={`/user/requests/${id}`}
+                    href={`/user/targets/${id}`}
                     className="font-medium text-sm  bg-primary-50 px-3 py-1.5 rounded-full text-primary-500 whitespace-nowrap"
                 >
                     Details

@@ -18,7 +18,7 @@ const Navigation = ({ user, cartItems }: { user: any; cartItems: any[] | null })
 
     const Nav = [
         ["Routes", "/user/routes"],
-        ["Requests", "/user/requests"],
+        ["Targets", "/user/targets"],
         ["My Routes", "/user/my-routes"],
         ["My Targets", "/user/my-targets"],
         ["Purchases", "/user/purchases"],

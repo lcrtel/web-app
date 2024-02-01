@@ -11,13 +11,13 @@ export default async function Page({ params }: { params: { id: string } }) {
         .select("*")
         .match({ id: params.id });
     if (target === null) {
-        redirect("/user/requests");
+        redirect("/user/targets");
     }
 
     return (
         <div>
             <Link
-                href="/user/requests"
+                href="/user/targets"
                 className="inline-flex items-center text-gray-400 hover:text-primary-500 transition-all ease-in-out mb-2"
             >
                 <HiOutlineArrowCircleLeft className="mr-1.5" /> Targets

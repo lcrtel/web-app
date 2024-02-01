@@ -5,15 +5,40 @@ import { fetchUserData } from "@/utils/user";
 import Link from "next/link";
 import { Suspense } from "react";
 import { HiOutlineExternalLink } from "react-icons/hi";
-export const revalidate = 0;
 
-const PurchasedRoutes = async ({ user }: { user: any }) => {
+export default function Purchases() {
+    return (
+        <div>
+            <div className="flex mb-4 justify-between">
+                <h3 className="text-2xl tracking-tight font-bold">
+                    Purchased Routes
+                </h3>
+            </div>
+            <Suspense fallback={<Skeleton className="w-full h-20" />}>
+                <PurchasedRoutes />
+            </Suspense>
+            <div className="flex py-4 justify-between">
+                <h3 className="text-xl tracking-tight font-semibold">
+                    Purchase Requests
+                </h3>
+            </div>
+            <Suspense fallback={<Skeleton className="w-full h-20" />}>
+                <PurchaseRequests />
+            </Suspense>
+        </div>
+    );
+}
+const PurchasedRoutes = async () => {
+    const user = await fetchUserData();
     const name: string = user?.user_metadata.name;
     const rates = await getRates({ name: name.toLocaleUpperCase() });
     return rates.data?.length ? (
         <div className=" grid gap-2">
             {rates.data?.map((rate, index) => (
-                <div key={index} className="px-4 py-2 flex-wrap gap-2 rounded-lg border flex items-center justify-between bg-slate-50 ">
+                <div
+                    key={index}
+                    className="px-4 py-2 flex-wrap gap-2 rounded-lg border flex items-center justify-between bg-slate-50 "
+                >
                     <div className="flex items-center gap-6">
                         <div className="flex items-center gap-2">
                             <h4 className=" text-slate-400">Prefix:</h4>
@@ -38,13 +63,9 @@ const PurchasedRoutes = async ({ user }: { user: any }) => {
     );
 };
 
-const PurchaseRequests = async ({
-    supabase,
-    user,
-}: {
-    supabase: any;
-    user: any;
-}) => {
+const PurchaseRequests = async () => {
+    const supabase = supabaseServer();
+    const user = await fetchUserData();
     let { data: purchaseRequests, error } = await supabase
         .from("purchase_requests")
         .select(`*, routes (*)`)
@@ -78,34 +99,9 @@ const PurchaseRequests = async ({
                 </Link>
             ))}
         </div>
-    ) : null;
-};
-
-const page = async () => {
-    const supabase = supabaseServer();
-    const user = await fetchUserData();
-
-    return (
-        <div>
-            {" "}
-            <div className="flex mb-4 justify-between">
-                <h3 className="text-2xl tracking-tight font-bold">
-                    Purchased Routes
-                </h3>
-            </div>
-            <Suspense fallback={<Skeleton className="w-full h-20" />}>
-                <PurchasedRoutes user={user} />
-            </Suspense>
-            <div className="flex py-4 justify-between">
-                <h3 className="text-xl tracking-tight font-semibold">
-                    Purchase Requests
-                </h3>
-            </div>
-            <Suspense fallback={<Skeleton className="w-full h-20" />}>
-                <PurchaseRequests user={user} supabase={supabase} />
-            </Suspense>
+    ) : (
+        <div className="border rounded-md p-10 text-center text-gray-500 text-sm">
+            No purchases requests found
         </div>
     );
 };
-
-export default page;

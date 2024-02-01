@@ -29,13 +29,7 @@ export default function Page({ params }: { params: { id: string } }) {
                 </p>
             </div>
             <Separator className="mb-3" />
-            <Suspense
-                fallback={
-                    <div className=" h-[400px] flex items-center justify-center container">
-                        <Loader />
-                    </div>
-                }
-            >
+            <Suspense fallback={<Loader />}>
                 <TargetDetails id={params.id} />
             </Suspense>
             <div className="flex my-5 justify-between items-center border border-red-500 rounded-lg p-4 text-red-500">

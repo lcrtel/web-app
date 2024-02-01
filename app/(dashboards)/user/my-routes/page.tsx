@@ -4,14 +4,11 @@ import { fetchUserData } from "@/utils/user";
 import Link from "next/link";
 import { HiOutlinePlusCircle } from "react-icons/hi";
 import { RoutesTable } from "./RoutesTable";
-export const revalidate = 0;
-const page = async () => {
-    const supabase = supabaseServer();
-    const user = await fetchUserData();
-    let { data: routes, error } = await supabase
-        .from("routes")
-        .select("*")
-        .match({ vendor_id: user?.id });
+import { Suspense } from "react";
+import Loader from "@/components/Loader";
+import { unstable_noStore } from "next/cache";
+
+export default function MyRouteOffers() {
     return (
         <section className="">
             <div className="flex mb-5 justify-between items-center flex-wrap gap-2">
@@ -33,9 +30,22 @@ const page = async () => {
                     <HiOutlinePlusCircle className="w-5 h-5" />
                 </Link>
             </div>
-            <RoutesTable data={routes} />
+            <Suspense fallback={<Loader />}>
+                <RouteOffers />
+            </Suspense>
         </section>
     );
-};
+}
 
-export default page;
+async function RouteOffers() {
+    unstable_noStore();
+    const supabase = supabaseServer();
+    const user = await fetchUserData();
+    if (user) {
+        let { data: routes, error } = await supabase
+            .from("routes")
+            .select("*")
+            .eq("vendor_id", user?.id);
+        return <RoutesTable data={routes} />;
+    }
+}

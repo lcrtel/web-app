@@ -26,13 +26,7 @@ export default function Page({ params }: { params: { id: string } }) {
                     </h2>
                 </div>
             </div>
-            <Suspense
-                fallback={
-                    <div className=" h-[400px] flex items-center justify-center container">
-                        <Loader />
-                    </div>
-                }
-            >
+            <Suspense fallback={<Loader />}>
                 <TargetDetails id={params.id} />
             </Suspense>
         </div>

@@ -163,7 +163,7 @@ const PurchaseRequests = async ({
             <div className=" space-y-2">
                 {purchaseRequests.map((item: any) => (
                     <Link
-                        href={`/user/purchase_requests/${item.id}`}
+                        href={`/user/purchases/${item.id}`}
                         passHref
                         key={item.id}
                         className={`flex gap-2 flex-wrap active:translate-x-1 cursor-pointer transition-all ease-in-out duration-500 items-center justify-between border rounded-lg p-3  `}

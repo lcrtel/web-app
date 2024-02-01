@@ -163,7 +163,20 @@ export default async function Page({ params }: { params: { id: string } }) {
                         </p>
                     </div>
                 </div>
-                <section>
+                
+
+                <div className="flex justify-between items-center border border-red-500 rounded-lg p-4 text-red-500">
+                    <div>
+                        <h3 className="font-semibold tracking-tight">Delete</h3>
+                        <p className="text-sm">
+                            Once deleted, it will be gone forever. Please be
+                            certain.
+                        </p>
+                    </div>
+                    <button className="p-2 bg-red-500 rounded-md text-white rou">
+                        <DeleteRoute routeID={params.id} />
+                    </button>
+                </div><section>
                     <h2 className="text-xl font-bold pb-2 tracking-tight">
                         Purchase Requests
                     </h2>
@@ -276,19 +289,6 @@ export default async function Page({ params }: { params: { id: string } }) {
                         </div>
                     )}
                 </section>
-
-                <div className="flex justify-between items-center border border-red-500 rounded-lg p-4 text-red-500">
-                    <div>
-                        <h3 className="font-semibold tracking-tight">Delete</h3>
-                        <p className="text-sm">
-                            Once deleted, it will be gone forever. Please be
-                            certain.
-                        </p>
-                    </div>
-                    <button className="p-2 bg-red-500 rounded-md text-white rou">
-                        <DeleteRoute routeID={params.id} />
-                    </button>
-                </div>
                 <Separator />
                 <div className="my-5">
                     <RoutesTable data={route_requests} />

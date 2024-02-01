@@ -1,107 +1,152 @@
-import getRates from "@/app/vos/getRates";
-import { Skeleton } from "@/components/ui/skeleton";
+import Loader from "@/components/Loader";
 import { supabaseServer } from "@/lib/supabase-server";
 import { fetchUserData } from "@/utils/user";
-import Link from "next/link";
+import { unstable_noStore } from "next/cache";
 import { Suspense } from "react";
-import { HiOutlineExternalLink } from "react-icons/hi";
-
-export default function Purchases() {
+import { DeleteButton } from "./DeleteButton";
+interface PurchaseRequestWithRoutes extends PurchaseRequest {
+    routes: Route;
+}
+export default function PurchaseRequests() {
     return (
         <div>
-            <div className="flex mb-4 justify-between">
-                <h3 className="text-2xl tracking-tight font-bold">
-                    Purchased Routes
-                </h3>
-            </div>
-            <Suspense fallback={<Skeleton className="w-full h-20" />}>
-                <PurchasedRoutes />
-            </Suspense>
-            <div className="flex py-4 justify-between">
-                <h3 className="text-xl tracking-tight font-semibold">
-                    Purchase Requests
-                </h3>
-            </div>
-            <Suspense fallback={<Skeleton className="w-full h-20" />}>
-                <PurchaseRequests />
+            <h1 className="text-2xl tracking-tight font-bold">
+                Purchase Requests
+            </h1>
+            <Suspense fallback={<Loader />}>
+                <Requests />
             </Suspense>
         </div>
     );
 }
-const PurchasedRoutes = async () => {
-    const user = await fetchUserData();
-    const name: string = user?.user_metadata.name;
-    const rates = await getRates({ name: name.toLocaleUpperCase() });
-    return rates.data?.length ? (
-        <div className=" grid gap-2">
-            {rates.data?.map((rate, index) => (
-                <div
-                    key={index}
-                    className="px-4 py-2 flex-wrap gap-2 rounded-lg border flex items-center justify-between bg-slate-50 "
-                >
-                    <div className="flex items-center gap-6">
-                        <div className="flex items-center gap-2">
-                            <h4 className=" text-slate-400">Prefix:</h4>
-                            <p className=" font-medium">{rate.prefix}</p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <h4 className=" text-slate-400">Area Prefix:</h4>
-                            <p className=" font-medium">{rate.area_prefix}</p>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <h4 className=" text-slate-400">Rate:</h4>
-                        <p className=" font-medium">$ {rate.rate}/min</p>
-                    </div>
-                </div>
-            ))}
-        </div>
-    ) : (
-        <div className="gap-2  h-12 text-center flex items-center text-sm  justify-center border py-10 rounded-lg">
-            <p>No purchases completed yet</p>
-        </div>
-    );
-};
 
-const PurchaseRequests = async () => {
-    const supabase = supabaseServer();
+async function Requests() {
+    unstable_noStore();
     const user = await fetchUserData();
-    let { data: purchaseRequests, error } = await supabase
+    const supabase = supabaseServer();
+    let { data: purchase_requests }: any = await supabase
         .from("purchase_requests")
         .select(`*, routes (*)`)
         .match({ client_id: user?.id, status: "pending" });
-    return purchaseRequests?.length ? (
-        <div className=" space-y-2">
-            {purchaseRequests.map((item: any) => (
-                <Link
-                    href={`/user/purchase_requests/${item.id}`}
-                    passHref
-                    key={item.id}
-                    className={`flex gap-5  active:translate-x-1 cursor-pointer transition-all ease-in-out duration-500 items-center justify-between border rounded-lg px-4 py-2  `}
-                >
-                    <div className="flex gap-4">
-                        <p>Prefix: {item.routes?.prefix} </p>
-                        <p className="capitalize">
-                            Destination: {item.routes?.destination} -{" "}
-                            <span className="uppercase font-medium">
-                                {item.routes?.route_type}
-                            </span>{" "}
-                        </p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <span className="text-xs font-medium bg-slate-100 border-[1.5px] border-slate-200 text-slate-500 rounded-full px-2 py-1 ml-2 capitalize">
-                            {item.status}
-                        </span>
-                        <div>
-                            <HiOutlineExternalLink className="-mt-[2px] w-5 h-5" />
-                        </div>
-                    </div>
-                </Link>
-            ))}
+    return purchase_requests?.length ? (
+        <div className=" mt-4">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+                {purchase_requests?.map(
+                    (purchaserequest: PurchaseRequestWithRoutes) => (
+                        <PurchaserequestCard request={purchaserequest} key={purchaserequest.id} />
+                    )
+                )}
+            </div>
         </div>
     ) : (
-        <div className="border rounded-md p-10 text-center text-gray-500 text-sm">
-            No purchases requests found
+        <div className="gap-2 mt-4 h-12 text-center flex items-center text-sm  justify-center border py-10 rounded-lg">
+            <p>No purchase requests found</p>
+        </div>
+    );
+}
+
+export const PurchaserequestCard = ({
+    request,
+}: {
+    request: PurchaseRequestWithRoutes;
+}) => {
+    return (
+        <div
+            className="w-full  flex flex-col justify-between bg-slate-50 rounded-xl border "
+        >
+            <h2 className=" p-4 border-b capitalize">
+                Status: {request.status}
+            </h2>
+            <div className="p-4">
+                <h3 className=" text-base font-medium ">Route details:</h3>
+                <div className="mb-2.5 grid grid-cols-2">
+                    <div>
+                        <p className=" text-xs text-gray-400">Destination</p>
+                        <h4 className="text-base font-bold mr-3 uppercase text-primary">
+                            {request.routes.destination}
+                        </h4>
+                    </div>
+                    <div>
+                        <p className=" text-xs text-gray-400">Code</p>
+                        <h4 className="text-base font-bold mr-3 uppercase text-primary">
+                            {request.routes.destination_code}
+                        </h4>
+                    </div>
+                </div>
+                <div className="mb-2">
+                    <div className="mb-2.5 flex items-center">
+                        <div className="flex-1">
+                            <p className=" text-xs text-gray-400">Type</p>
+                            <h4 className="text-base font-bold text-primary uppercase">
+                                {request.routes.route_type}
+                            </h4>
+                        </div>
+                        <div className="flex-1">
+                            <p className=" text-xs text-gray-400">Rate</p>
+                            <h4 className="text-base font-bold text-primary">
+                                $ {request.routes.rate}
+                            </h4>
+                        </div>
+                    </div>
+                    <div className="flex flex-col gap-2.5 rounded-xl bg-white p-2.5">
+                        <div className="flex">
+                            <div className="flex-1">
+                                <p className=" text-[10px] text-gray-400">
+                                    Prefix
+                                </p>
+                                <h4 className="text-sm font-semibold text-primary">
+                                    {request.routes.prefix}
+                                </h4>
+                            </div>{" "}
+                            <div className="flex-1">
+                                <p className=" text-[10px] text-gray-400">
+                                    PDD
+                                </p>
+                                <h4 className="text-sm font-semibold text-primary ">
+                                    {request.routes.pdd}
+                                </h4>
+                            </div>
+                        </div>
+                        <div className="flex">
+                            <div className="flex-1">
+                                <p className=" text-[10px] text-gray-400">
+                                    ASR %
+                                </p>
+                                <h4 className="text-sm font-semibold text-primary">
+                                    {request.routes.asr}
+                                </h4>
+                            </div>
+                            <div className="flex-1">
+                                <p className=" text-[10px] text-gray-400">
+                                    ACD
+                                </p>
+                                <h4 className="text-sm font-semibold text-primary">
+                                    {request.routes.acd}
+                                </h4>
+                            </div>
+                        </div>
+                        <div className="flex">
+                            <div className="flex-1">
+                                <p className=" text-[10px] text-gray-400">
+                                    Ports
+                                </p>
+                                <h4 className="text-sm font-semibold text-primary">
+                                    {request.routes.ports}
+                                </h4>
+                            </div>
+                            <div className="flex-1">
+                                <p className=" text-[10px] text-gray-400">
+                                    Capacity
+                                </p>
+                                <h4 className="text-sm font-semibold text-primary">
+                                    {request.routes.capacity}
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <DeleteButton id={request.id} />
+            </div>
         </div>
     );
 };

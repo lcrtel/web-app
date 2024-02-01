@@ -13,7 +13,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         <div>
             <div>
                 <Link
-                    href="/user/purchase_requests"
+                    href="/user/purchases"
                     className="inline-flex items-center text-gray-400 hover:text-primary-500 transition-all ease-in-out mb-2"
                 >
                     <HiOutlineArrowCircleLeft className="mr-1.5" /> Purchase

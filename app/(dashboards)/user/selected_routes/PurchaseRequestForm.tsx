@@ -32,6 +32,7 @@ import { HiTrash } from "react-icons/hi";
 import * as z from "zod";
 import {
     postPurchaseRequest,
+    removeFromSelectedRoutes,
     sendPurchaseRequestNotificatiion,
 } from "./actions";
 
@@ -66,24 +67,18 @@ export function PurchaseRequestForm({
             ip: purchaseRequest?.ip,
         },
     });
-    const supabase = supabaseClient();
     const router = useRouter();
 
     const DeleteButton = ({ id }: { id: string }) => {
         const [loading, setLoading] = useState(false);
         const handleDelete = async (id: string) => {
             setLoading(true);
-
-            const { error } = await supabase
-                .from("selected_routes")
-                .delete()
-                .match({ id: id, user_id: user.id });
-            if (error) {
-                toast.error(error.message);
+            const res = await removeFromSelectedRoutes(id, user?.id);
+            if (res?.error) {
+                toast.error(res?.error);
                 return;
             }
             router.refresh();
-            toast.success("Removed from the cart");
         };
         return (
             <Button

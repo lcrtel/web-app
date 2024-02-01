@@ -39,7 +39,7 @@ export function CartDropdown({ items }: { items: any[] | null }) {
                             onMouseLeave={(event) => setIsMenuOpen(false)}
                         >
                             <h3 className="text-lg tracking-tight mb-2 font-bold">
-                                Cart
+                                Selected Routes
                             </h3>
                             {items?.length ? (
                                 <div className="grid gap-2 mb-2">

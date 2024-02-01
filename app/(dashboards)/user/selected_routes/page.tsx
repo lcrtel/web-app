@@ -1,9 +1,24 @@
+import Loader from "@/components/Loader";
 import { supabaseServer } from "@/lib/supabase-server";
 import { fetchUserData } from "@/utils/user";
+import { unstable_noStore } from "next/cache";
+import { Suspense } from "react";
+import { PurchaserequestCard } from "../purchases/page";
 import { PurchaseRequestForm } from "./PurchaseRequestForm";
-import RealTimePurchaseRequests from "./RealTimePurchaseRequests";
-export const revalidate = 0;
-export default async function Page() {
+
+export default function Page() {
+    return (
+        <section className="flex gap-5 flex-col ">
+            <h1 className="text-2xl tracking-tight font-bold">Selected Routes</h1>
+            <Suspense fallback={<Loader />}>
+                <SelectedRoutes />
+            </Suspense>
+        </section>
+    );
+}
+
+async function SelectedRoutes() {
+    unstable_noStore();
     const supabase = supabaseServer();
     const user = await fetchUserData();
 
@@ -16,34 +31,23 @@ export default async function Page() {
         .from("purchase_requests")
         .select(`*, routes (*)`)
         .match({ client_id: user?.id, status: "pending" });
-
     return (
-        <section className="flex gap-5 flex-col ">
-            <div className="w-full">
-                <div className="flex mb-4 justify-between">
-                    <h3 className="text-2xl tracking-tight font-bold flex items-center gap-2">
-                        Cart{" "}
-                        <span className="inline-flex items-center justify-center w-6 h-6  text-sm rounded-full bg-surface">
-                            {selectedRoutes?.length}
-                        </span>
-                    </h3>
-                </div>
-                {selectedRoutes?.length ? (
-                    <div className="grid gap-4 w-full">
-                        <PurchaseRequestForm
+        <>
+            {selectedRoutes?.length ? (
+                <div className="grid gap-4 w-full">
+                    <PurchaseRequestForm
                         purchaseRequest={purchaseRequests?.[0]}
-                            selectedRoutes={selectedRoutes}
-                            user={user}
-                        />
-                    </div>
-                ) : (
-                    <div className="border rounded-lg h-[30vh] flex items-center justify-center">
-                        <p className=" text-slate-400  text-center">
-                            Your cart is empty
-                        </p>
-                    </div>
-                )}
-            </div>
+                        selectedRoutes={selectedRoutes}
+                        user={user}
+                    />
+                </div>
+            ) : (
+                <div className="border rounded-lg h-[30vh] flex items-center justify-center">
+                    <p className=" text-slate-400  text-center">
+                        Your cart is empty
+                    </p>
+                </div>
+            )}
             <div className=" ">
                 <div className="flex mb-5 justify-between">
                     <h3 className="text-xl tracking-tight font-semibold">
@@ -52,9 +56,9 @@ export default async function Page() {
                 </div>
                 {purchaseRequests?.length ? (
                     <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 w-full">
-                        <RealTimePurchaseRequests
-                            purchaseRequests={purchaseRequests}
-                        />
+                        {purchaseRequests?.map((purchaseRequest: any) => (
+                            <PurchaserequestCard request={purchaseRequest} key={purchaseRequest.id} />
+                        ))}
                     </div>
                 ) : (
                     <div className="border rounded-lg h-[30vh] flex items-center justify-center">
@@ -64,6 +68,6 @@ export default async function Page() {
                     </div>
                 )}
             </div>
-        </section>
+        </>
     );
 }

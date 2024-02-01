@@ -57,7 +57,24 @@ export async function sendPurchaseRequestNotificatiion(
     transporter.sendMail({
         from: process.env.SMTP_USER,
         to: user?.email,
-        subject: `Welcome to LCRTel.com! Account Details Inside.`,
+        subject: "Purchase Request Confirmation: Selected Routes Details",
         html: emailHtml,
+        // attachments: [
+        //     {
+        //         filename: "Selected Routes.xlsx",
+        //         content: excelBuffer,
+        //     },
+        // ],
     });
+}
+
+export async function removeFromSelectedRoutes(id: string, userId: string) {
+    const supabase = supabaseServer();
+    const { error } = await supabase
+        .from("selected_routes")
+        .delete()
+        .match({ id: id, user_id: userId });
+    if (error) {
+        return { error: error.message };
+    }
 }

@@ -59,12 +59,6 @@ export function PasswordForm({ user }: { user: any }) {
             return;
         }
         toast.success("Your password updated");
-        fetch(`${location.origin}/api/emails/auth/reset_password`, {
-            method: "POST",
-            body: JSON.stringify({
-                password: data.password,
-            }),
-        });
         router.refresh();
     }
 

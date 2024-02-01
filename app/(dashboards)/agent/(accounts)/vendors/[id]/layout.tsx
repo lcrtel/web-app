@@ -1,96 +1,109 @@
-import { buttonVariants } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
-import { Metadata } from "next";
-import { DropDownMenu } from "./dropdownMenu";
+import { redirect } from "next/navigation";
+import { Suspense } from "react";
 import { VendorNav } from "./VendorNav";
-
-export const metadata: Metadata = {
-    title: "Account Settings | LCRTel",
-    description: "",
-};
+import { DropDownMenu } from "./dropdownMenu";
 
 interface SettingsLayoutProps {
     children: React.ReactNode;
     params: { id: string };
 }
 
-export default async function SettingsLayout({
+export default function SettingsLayout({
     children,
     params,
 }: SettingsLayoutProps) {
-    const supabase = supabaseServer();
-
-    let { data: vendor, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", params.id)
-        .single();
-
+    const basePath = "/agent/vendors";
     const NavItems = [
         {
             title: "Overview",
-            href: `/agent/vendors/${params.id}`,
+            href: `${basePath}/${params.id}`,
         },
 
         {
             title: "Route Offers",
-            href: `/agent/vendors/${params.id}/routes`,
+            href: `${basePath}/${params.id}/routes`,
         },
         {
             title: "Purchased Routes",
-            href: `/agent/vendors/${params.id}/purchased_routes`,
+            href: `${basePath}/${params.id}/purchased_routes`,
         },
         {
             title: "Requests",
-            href: `/agent/vendors/${params.id}/requests`,
+            href: `${basePath}/${params.id}/requests`,
+        },
+        {
+            title: "Departments",
+            href: `${basePath}/${params.id}/departments`,
+        },
+        {
+            title: "Notification",
+            href: `${basePath}/${params.id}/email_notification`,
         },
         {
             title: "Account Settings",
-            href: `/agent/vendors/${params.id}/account_settings`,
+            href: `${basePath}/${params.id}/account_settings`,
         },
     ];
 
     return (
         <div className="w-full">
-            <p className="text-sm mb-2 font-medium text-slate-400">
-                Vendors / {vendor?.name}
-            </p>
-            <div className="flex flex-col gap-2 mb-4">
-                <div className="">
-                    <h1 className="text-xl font-bold tracking-tight">
-                        {vendor?.name}
-                    </h1>
-                    {vendor?.company_name && (
-                        <p className="font-medium text-base text-slate-400">
-                            Company: {vendor?.company_name}
+            <Suspense
+                fallback={
+                    <>
+                        <p className="text-sm mb-2 font-medium text-slate-400 flex gap-2 items-center">
+                            Vendors /{" "}
+                            <Skeleton className="w-full max-w-xs h-4" />
                         </p>
-                    )}
-                </div>
-                {/* <div className="flex flex-wrap gap-2">
-                    <a
-                        href={`tel:${vendor?.phone}`}
-                        className=''
-                    >
-                        {vendor?.phone}
-                    </a>
-                    <a
-                        href={`mailto:${vendor?.email}`}
-                        className=''
-                    >
-                        {vendor?.email}
-                    </a>
-                    {vendor?.skype_id && (
-                        <p
-                            className=''
-                        >
-                            {vendor?.skype_id}
-                        </p>
-                    )}
-                </div> */}
-            </div>
+                        <div className="flex flex-col gap-2 mb-4">
+                            <div className="">
+                                <Skeleton className="w-full max-w-xs h-7" />
+                            </div>
+                            <Skeleton className="w-full max-w-xs h-6" />
+                        </div>
+                    </>
+                }
+            >
+                <VendorDetails userId={params.id} />
+            </Suspense>
             <DropDownMenu items={NavItems} />
             <VendorNav items={NavItems} />
             {children}
         </div>
+    );
+}
+
+async function VendorDetails({ userId }: { userId: any }) {
+    const supabase = supabaseServer();
+
+    let { data: vendor, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", userId)
+        .single();
+    if (!vendor) {
+        redirect("/agent/vendors");
+    }
+    return (
+        vendor && (
+            <>
+                <p className="text-sm mb-2 font-medium text-slate-400">
+                    Vendors / {vendor?.name}
+                </p>
+                <div className="flex flex-col gap-2 mb-4">
+                    <div className="">
+                        <h1 className="text-xl font-bold tracking-tight capitalize">
+                            {vendor?.name}
+                        </h1>
+                        {vendor?.company_name && (
+                            <p className="font-medium text-base text-slate-400">
+                                Company: {vendor?.company_name}
+                            </p>
+                        )}
+                    </div>
+                </div>
+            </>
+        )
     );
 }

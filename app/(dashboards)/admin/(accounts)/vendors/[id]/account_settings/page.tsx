@@ -26,10 +26,5 @@ const VendorDetails = async ({ id }: { id: string }) => {
         .select("*")
         .eq("id", id)
         .single();
-    let { data: agents } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("role", "agent");
-
-    return <AccountSettingsForm user={vendor} agents={agents} />;
+    return <AccountSettingsForm user={vendor} type="admin" />;
 };

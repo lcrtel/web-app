@@ -1,9 +1,10 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
 import { Suspense } from "react";
-import AddVendor from "./AddVendor";
 import { VendorsTable } from "./VendorsTable";
 import { unstable_noStore } from "next/cache";
+import { AddAccountForm } from "../_components/AddAccount";
+import { Button } from "@/components/ui/button";
 
 export default function Page() {
     return (
@@ -11,7 +12,7 @@ export default function Page() {
             <div className="mb-5 ">
                 <div className="flex items-center mb-3 justify-between ">
                     <h2 className="text-2xl font-bold text-primary">Vendors</h2>
-                    <AddVendor />
+                    <AddAccountForm role="vendor" type="admin" />
                 </div>
             </div>
 
@@ -23,7 +24,6 @@ export default function Page() {
         </div>
     );
 }
-
 const Vendors = async () => {
     unstable_noStore();
     const supabase = supabaseServer();

@@ -4,6 +4,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
     Command,
@@ -36,25 +47,16 @@ import {
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { HiTrash } from "react-icons/hi";
 import {
     deleteAccount,
+    getAgents,
     updateAccountDetails,
     updateCredentials,
 } from "../actions";
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { HiTrash } from "react-icons/hi";
+import { fetchUserData } from "@/utils/user";
 
 const profileFormSchema = z.object({
     name: z
@@ -81,23 +83,23 @@ const profileFormSchema = z.object({
 
 export function AccountSettingsForm({
     user,
-    agents,
+    type,
 }: {
     user: any;
-    agents: any;
+    type: "admin" | "agent";
 }) {
+    const [agents, setAgents] = useState<Profile[]>([]);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
     const defaultValues = {
-        name: user.name,
-        company_name: user.company_name,
-        phone: user.phone,
-        skype_id: user.skype_id,
-        role: user.role,
-        agent_id: user.agent_id,
+        name: user?.name,
+        company_name: user?.company_name,
+        phone: user?.phone,
+        skype_id: user?.skype_id,
+        role: user?.role,
+        agent_id: user?.agent_id,
     };
-    const userID = user.id;
     const form = useForm<any>({
         resolver: zodResolver(profileFormSchema),
         defaultValues,
@@ -106,17 +108,35 @@ export function AccountSettingsForm({
 
     async function onSubmit(data: any) {
         setLoading(true);
-        const { error } = await updateAccountDetails({ id: user.id, ...data });
+        const toastId = toast.loading("Updating...");
+        const { error } = await updateAccountDetails({ id: user?.id, ...data });
         if (error) {
             setLoading(false);
             toast.error(error);
             return;
         }
+        toast.dismiss(toastId);
         toast.success("Account details updated");
         setLoading(false);
         router.refresh();
     }
-
+    const fetchAgents = useCallback(async () => {
+        const agents = await getAgents();
+        setAgents(agents);
+    }, []);
+    const setAgent = useCallback(async () => {
+        const agent = await fetchUserData();
+        if (agent) {
+            form.setValue("agent_id", agent?.id);
+        }
+    }, []);
+    useEffect(() => {
+        if (type === "admin") {
+            fetchAgents();
+        } else if (type === "agent") {
+            setAgent();
+        }
+    }, [fetchAgents]);
     return (
         <>
             <Form {...form}>
@@ -218,9 +238,12 @@ export function AccountSettingsForm({
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem value="agent">
-                                                Agent
-                                            </SelectItem>
+                                            {type === "admin" && (
+                                                <SelectItem value="agent">
+                                                    Agent
+                                                </SelectItem>
+                                            )}
+
                                             <SelectItem value="client">
                                                 Client
                                             </SelectItem>
@@ -234,84 +257,97 @@ export function AccountSettingsForm({
                             )}
                         />
                     </div>
-                    <div className="p-3 border-b">
-                        <FormField
-                            control={form.control}
-                            name="agent_id"
-                            render={({ field }) => (
-                                <FormItem className=" items-center grid md:grid-cols-2">
-                                    <FormLabel className="text-lg font-semibold tracking-tight">
-                                        Agent
-                                    </FormLabel>
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <FormControl>
-                                                <Button
-                                                    variant="outline"
-                                                    role="combobox"
-                                                    className={cn(
-                                                        "w-full rounded-lg justify-between",
-                                                        !field.value &&
-                                                            "text-muted-foreground"
-                                                    )}
-                                                >
-                                                    {field.value
-                                                        ? agents.find(
-                                                              (client: any) =>
-                                                                  client.id ===
-                                                                  field.value
-                                                          )?.name
-                                                        : "Choose Agent"}
-                                                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                                </Button>
-                                            </FormControl>
-                                        </PopoverTrigger>
-                                        <PopoverContent
-                                            align="start"
-                                            className="w-full p-0 overflow-clip"
-                                        >
-                                            <Command>
-                                                <CommandInput placeholder="Search Client..." />
-                                                <CommandEmpty>
-                                                    No agents found.
-                                                </CommandEmpty>
-                                                <CommandGroup>
-                                                    {agents.map(
-                                                        (agent: any) => (
-                                                            <CommandItem
-                                                                value={
-                                                                    agent.name
-                                                                }
-                                                                key={agent.id}
-                                                                onSelect={() => {
-                                                                    form.setValue(
-                                                                        "agent_id",
+                    {user?.role !== "agent" && type !== "agent" && (
+                        <div className="p-3 border-b">
+                            <FormField
+                                control={form.control}
+                                name="agent_id"
+                                render={({ field }) => (
+                                    <FormItem className=" items-center grid md:grid-cols-2">
+                                        <FormLabel className="text-lg font-semibold tracking-tight">
+                                            Agent
+                                        </FormLabel>
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <FormControl>
+                                                    <Button
+                                                        variant="outline"
+                                                        role="combobox"
+                                                        className={cn(
+                                                            "w-full rounded-lg justify-between",
+                                                            !field.value &&
+                                                                "text-muted-foreground"
+                                                        )}
+                                                    >
+                                                        {field.value
+                                                            ? agents.find(
+                                                                  (
+                                                                      client: any
+                                                                  ) =>
+                                                                      client.id ===
+                                                                      field.value
+                                                              )?.name
+                                                            : "Choose Agent"}
+                                                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                                    </Button>
+                                                </FormControl>
+                                            </PopoverTrigger>
+                                            <PopoverContent
+                                                align="start"
+                                                className="w-full p-0 overflow-clip"
+                                            >
+                                                <Command>
+                                                    <CommandInput placeholder="Search Client..." />
+                                                    <CommandEmpty>
+                                                        No agents found.
+                                                    </CommandEmpty>
+                                                    <CommandGroup>
+                                                        {agents.map(
+                                                            (agent: any) => (
+                                                                <CommandItem
+                                                                    value={
+                                                                        agent.name
+                                                                    }
+                                                                    key={
                                                                         agent.id
-                                                                    );
-                                                                }}
-                                                            >
-                                                                <Check
-                                                                    className={cn(
-                                                                        "mr-2 h-4 w-4",
-                                                                        agent.id ===
-                                                                            field.value
-                                                                            ? "opacity-100"
-                                                                            : "opacity-0"
-                                                                    )}
-                                                                />
-                                                                {agent.name}
-                                                            </CommandItem>
-                                                        )
-                                                    )}
-                                                </CommandGroup>
-                                            </Command>
-                                        </PopoverContent>
-                                    </Popover>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
+                                                                    }
+                                                                    onSelect={() => {
+                                                                        field.value ===
+                                                                        agent.id
+                                                                            ? form.setValue(
+                                                                                  "agent_id",
+                                                                                  ""
+                                                                              )
+                                                                            : form.setValue(
+                                                                                  "agent_id",
+                                                                                  agent.id
+                                                                              );
+                                                                    }}
+                                                                >
+                                                                    <Check
+                                                                        className={cn(
+                                                                            "mr-2 h-4 w-4",
+                                                                            agent.id ===
+                                                                                field.value
+                                                                                ? "opacity-100"
+                                                                                : "opacity-0"
+                                                                        )}
+                                                                    />
+                                                                    {agent.name}
+                                                                </CommandItem>
+                                                            )
+                                                        )}
+                                                    </CommandGroup>
+                                                </Command>
+                                            </PopoverContent>
+                                        </Popover>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                    )}
+
                     <div className="p-3 self-end w-full md:w-fit">
                         <Button type="submit" className="">
                             {" "}
@@ -335,7 +371,6 @@ export function AccountSettingsForm({
 
 function LoginCredentials({ user }: { user: any }) {
     const [loading, setLoading] = useState(false);
-    const router = useRouter();
     const defaultValues = {
         email: user.email,
     };
@@ -353,19 +388,20 @@ function LoginCredentials({ user }: { user: any }) {
 
     async function onSubmit(data: any) {
         setLoading(true);
-        const { error } = await updateCredentials({
+        const updating = toast.loading("Updating...");
+        const res = await updateCredentials({
             id: user.id,
             name: user.name,
             ...data,
         });
-        if (error) {
+        if (res?.error) {
             setLoading(false);
-            toast.error(error);
+            toast.error(res?.error);
             return;
         }
+        toast.dismiss(updating);
         toast.success("Login credentials updated");
         setLoading(false);
-        router.refresh();
     }
 
     return (
@@ -413,7 +449,7 @@ function LoginCredentials({ user }: { user: any }) {
                             )}
                         />
                     </div>
-                    <Button type="submit" className="">
+                    <Button type="submit" className="" disabled={loading}>
                         {" "}
                         {loading ? (
                             <>
@@ -433,12 +469,14 @@ function LoginCredentials({ user }: { user: any }) {
 function Delete({ user }: { user: any }) {
     const router = useRouter();
     const handleDelete = async () => {
-        toast.loading("Deleting...");
-        const res = await deleteAccount(user, "vendor");
+        const deleting = toast.loading("Deleting...");
+        const res = await deleteAccount(user);
         if (res?.error) {
-            toast.error(res.error, { duration: 10000  });
+            toast.error(res?.error);
         } else {
+            toast.dismiss(deleting);
             toast.success("Deleted account");
+            router.refresh();
         }
     };
     return (
@@ -451,7 +489,7 @@ function Delete({ user }: { user: any }) {
             </div>
             <AlertDialog>
                 <AlertDialogTrigger asChild>
-                    <div className="p-2 bg-red-500 text-white rounded-lg ">
+                    <div className="p-2 bg-red-500 text-white rounded-lg cursor-pointer">
                         <HiTrash className="w-5 h-5" />{" "}
                     </div>
                 </AlertDialogTrigger>

@@ -1,6 +1,7 @@
+"use server";
 import { supabaseServer } from "@/lib/supabase-server";
 export async function fetchUserRole() {
-    const supabase = supabaseServer()
+    const supabase = supabaseServer();
     const {
         data: { user },
     } = await supabase.auth.getUser();
@@ -10,7 +11,7 @@ export async function fetchUserRole() {
 }
 
 export async function fetchUserMetadata() {
-    const supabase = supabaseServer()
+    const supabase = supabaseServer();
     const {
         data: { user },
     } = await supabase.auth.getUser();
@@ -19,7 +20,7 @@ export async function fetchUserMetadata() {
     }
 }
 export async function fetchUserData() {
-    const supabase = supabaseServer()
+    const supabase = supabaseServer();
     const {
         data: { user },
     } = await supabase.auth.getUser();

@@ -1,10 +1,9 @@
-import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
-import AddAgent from "./AddAgent";
-import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { AgentsTable } from "./AgentsTable";
 import { supabaseServer } from "@/lib/supabase-server";
 import { unstable_noStore } from "next/cache";
+import { Suspense } from "react";
+import { AddAccountForm } from "../_components/AddAccount";
+import { AgentsTable } from "./AgentsTable";
 
 const Agents = async () => {
     unstable_noStore();
@@ -14,11 +13,7 @@ const Agents = async () => {
         .select("*")
         .eq("role", "agent");
 
-    return (
-        <>
-            <AgentsTable data={agents} />
-        </>
-    );
+    return <AgentsTable data={agents} />;
 };
 
 export default function Page() {
@@ -27,7 +22,7 @@ export default function Page() {
             <div className="mb-5 ">
                 <div className="flex items-center mb-3 justify-between ">
                     <h2 className="text-2xl font-bold text-primary">Agents</h2>
-                    <AddAgent />
+                    <AddAccountForm role="agent" type="admin" />
                 </div>
             </div>
 

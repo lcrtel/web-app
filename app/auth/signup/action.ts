@@ -30,20 +30,15 @@ export const signUp = async (formData: any) => {
     if (error) {
         return redirect(`/auth/signup?message=${error.message}`);
     }
-    if (
-        data.user?.identities &&
-        !data.user?.identities[0].identity_data?.email_verified
-    ) {
-        fetch(`${origin}/api/emails/auth/signup`, {
-            method: "POST",
-            body: JSON.stringify({
-                name: formData.name,
-                company_name: formData.company_name,
-                email: formData.email,
-                password: formData.password,
-            }),
-        });
-    }
+    fetch(`${origin}/api/emails/auth/signup`, {
+        method: "POST",
+        body: JSON.stringify({
+            name: formData.name,
+            company_name: formData.company_name,
+            email: formData.email,
+            password: formData.password,
+        }),
+    });
     return redirect(
         "/auth/login?message=Check email to continue sign in process"
     );

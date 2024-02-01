@@ -1,10 +1,9 @@
-import Loader from "@/components/Loader";
 import { supabaseServer } from "@/lib/supabase-server";
 import { Suspense } from "react";
-import { AccountSettingsForm } from "../../../_components/AccountSettingsForm";
-import { unstable_noStore } from "next/cache";
+import { CompanyForm } from "./CompanyForm";
+import Loader from "@/components/Loader";
 
-export default function Page({ params }: { params: { id: any } }) {
+export default function Page({ params }: { params: { id: string } }) {
     return (
         <Suspense
             fallback={
@@ -13,18 +12,18 @@ export default function Page({ params }: { params: { id: any } }) {
                 </div>
             }
         >
-            <VendorDetails id={params.id} />
+            <Departments userId={params.id} />
         </Suspense>
     );
 }
 
-const VendorDetails = async ({ id }: { id: string }) => {
-    unstable_noStore();
+async function Departments({ userId }: { userId: string }) {
     const supabase = supabaseServer();
+
     let { data: vendor, error } = await supabase
         .from("profiles")
         .select("*")
-        .eq("id", id)
+        .eq("id", userId)
         .single();
-    return <AccountSettingsForm user={vendor} type="admin" />;
-};
+    return <CompanyForm user={vendor} />;
+}

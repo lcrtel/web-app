@@ -11,8 +11,8 @@ import {
     Text,
 } from "@react-email/components";
 import { Tailwind } from "@react-email/tailwind";
-
-export default function Signup({ user }: { user: any }) {
+const companyName = "LCRTel";
+export default function AddAccountEmail({ user }: { user: any }) {
     return (
         <Html>
             <Head>
@@ -23,9 +23,7 @@ export default function Signup({ user }: { user: any }) {
                     fontStyle="normal"
                 />
             </Head>
-            <Preview>
-                Welcome to LCRTel.com! Your Account Details Inside.
-            </Preview>
+            <Preview>Welcome to LCRTel.com - Your Account is Ready!</Preview>
             <Body className="bg-surface ">
                 <Container className="bg-white rounded-md shadow mt-8">
                     <Hr className="h-1.5 w-full bg-primary rounded-t-md m-0"></Hr>
@@ -42,12 +40,14 @@ export default function Signup({ user }: { user: any }) {
                             Welcome to LCRTel.com
                         </Text>
                         <Text className="text-gray-500  font-medium ">
-                            Hello {user?.name} {user?.company_name},
+                            Dear {user?.name},
                         </Text>
                         <Text className="text-gray-500  font-medium ">
-                            Welcome to LCRTel.com! We&apos;re excited to have
-                            you join our platform. Below are your account
-                            details that you can use to access your account:
+                            We are delighted to welcome you to {companyName}!
+                            Your account has been successfully created, and
+                            we're thrilled to support your journey with us.
+                            Below are the details you'll need to access your
+                            account:
                         </Text>
                     </Section>
                     <Section className="mx-auto w-full max-w-[90%]">
@@ -57,48 +57,47 @@ export default function Signup({ user }: { user: any }) {
                                 {user?.email}
                             </span>
                         </Text>
-                        <Text className="text-gray-500  font-medium m-0">
-                            Password:{" "}
-                            <span className="text-primary font-semibold text-lg">
-                                {user?.password}
-                            </span>
-                        </Text>
+                        {user?.password && (
+                            <>
+                                <Text className="text-gray-500  font-medium m-0">
+                                    Temporary Password:{" "}
+                                    <span className="text-primary font-semibold text-lg">
+                                        {user?.password}
+                                    </span>
+                                </Text>
+                                <Text className="text-red-500  font-semibold m-0">
+                                    Important: Please change your temporary
+                                    password immediately upon your first login.
+                                </Text>
+                            </>
+                        )}
                     </Section>
                     <Section className="mx-auto w-full max-w-[90%]">
                         <Text className="text-gray-500  font-medium ">
-                            Please keep these credentials secure and do not
-                            share them with anyone. You can use this information
-                            to log in to your account on our platform.
-                        </Text>
-                        <Text className="text-gray-500  font-medium m-0">
-                            With your LCRTel.com account, you can:
-                            <ul className="text-gray-500 m-0 pl-5 text-sm">
-                                <li>Post and manage your routes and targets</li>
-                                <li>
-                                    Explore potential matches based on your
-                                    preferences
-                                </li>
-                                <li>
-                                    Stay updated on the latest routes and
-                                    targets
-                                </li>
-                            </ul>
+                            Please ensure the security of your credentials and
+                            refrain from sharing them with anyone. You can
+                            utilize this information to log in to your
+                            LCRTel.com account.
                         </Text>
                         <Text className="text-gray-500  font-medium ">
-                            If you have any questions or need assistance, feel
-                            free to reach out to our support team. We&apos;re
-                            here to help! <br />
-                            Thank you for choosing LCRTel.com! We look forward
-                            to supporting your business needs.
+                            Should you have any queries or require assistance,
+                            please don't hesitate to contact our dedicated
+                            support team. We're committed to providing you with
+                            the assistance you need.
+                        </Text>
+                        <Text className="text-gray-500  font-medium ">
+                            Thank you for choosing {companyName} as your
+                            business platform. We look forward to fostering a
+                            successful partnership with you.
                         </Text>
                         <Text className="text-gray-500 mb-5  font-medium ">
-                            Best regards, The LCRTel Team
+                            Warm regards, The {companyName} Team
                         </Text>
                     </Section>
                 </Container>
                 <Container>
                     <Text className=" font-medium text-xs my-8 text-gray-500 text-center">
-                        &copy; 2023 (1445 AH) LCRTel, All Rights Reserved
+                        &copy; 2023 (1445 AH) {companyName}, All Rights Reserved
                     </Text>
                 </Container>
             </Body>

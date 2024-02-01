@@ -27,6 +27,22 @@ import { HiOutlineExternalLink } from "react-icons/hi";
 
 export const columns: ColumnDef<any>[] = [
     {
+        accessorKey: "name",
+        header: ({ column }) => {
+            return <div className=" ">Name</div>;
+        },
+        cell: ({ row }) => {
+            const id = row.getValue("id");
+            return (
+                <div className="capitalize">
+                    <Link href={`/agent/vendors/${id}`} className="">
+                        {row.getValue("name")}
+                    </Link>
+                </div>
+            );
+        },
+    },
+    {
         accessorKey: "id",
         header: "",
         cell: ({ row }) => {
@@ -39,10 +55,6 @@ export const columns: ColumnDef<any>[] = [
                 </div>
             );
         },
-    },
-    {
-        accessorKey: "name",
-        header: "Name",
     },
     {
         accessorKey: "company_name",

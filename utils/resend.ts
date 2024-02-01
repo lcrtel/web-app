@@ -1,0 +1,1 @@
+export const authEmailFrom:string = "LCRtel <auth@updates.lcrtel.com>"

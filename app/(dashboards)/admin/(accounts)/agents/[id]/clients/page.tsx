@@ -6,6 +6,26 @@ import { ClientsTable } from "../../../clients/ClientsTable";
 
 export const revalidate = 0;
 
+export default async function Page({ params }: { params: { id: string } }) {
+    return (
+        <div className=" ">
+            <div className="mb-5 ">
+                <div className="flex items-center mb-3 justify-between ">
+                    <h2 className="text-lg font-semibold tracking-tight">
+                        Clients
+                    </h2>
+                </div>
+            </div>
+
+            <div className="flex flex-col gap-3 xl:flex-row w-full overflow-x-auto">
+                <Suspense fallback={<Loader />}>
+                    <Clients agentID={params.id} />
+                </Suspense>
+            </div>
+        </div>
+    );
+}
+
 const Clients = async ({ agentID }: { agentID: string }) => {
     const supabase = supabaseServer();
     let { data: clients, error } = await supabase
@@ -34,26 +54,6 @@ const Clients = async ({ agentID }: { agentID: string }) => {
 
     return <ClientsTable data={clientsWithTargetCounts} />;
 };
-
-export default async function Page({ params }: { params: { id: string } }) {
-    return (
-        <div className=" ">
-            <div className="mb-5 ">
-                <div className="flex items-center mb-3 justify-between ">
-                    <h2 className="text-lg font-semibold tracking-tight">
-                        Clients
-                    </h2>
-                </div>
-            </div>
-
-            <div className="flex flex-col gap-3 xl:flex-row w-full overflow-x-auto">
-                <Suspense fallback={<Loader />}>
-                    <Clients agentID={params.id} />
-                </Suspense>
-            </div>
-        </div>
-    );
-}
 
 const Loader = () => {
     return (

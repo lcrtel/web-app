@@ -10,7 +10,6 @@ const Toast = () => {
             containerStyle={{}}
             toastOptions={{
                 className: "",
-                duration: 2000,
             }}
         />
     );

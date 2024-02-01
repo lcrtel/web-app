@@ -1,8 +1,6 @@
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
-import AddVendor from "./(accounts)/vendors/AddVendor";
-import AddClient from "./(accounts)/clients/AddClient";
-
+import { AddAccountForm } from "../admin/(accounts)/_components/AddAccount";
 
 const QuickActions = () => {
     return (
@@ -11,8 +9,8 @@ const QuickActions = () => {
                 Quick Actions
             </h2>
             <div className="flex gap-2 flex-wrap">
-                <AddClient />
-                <AddVendor />
+                <AddAccountForm role="client" type="agent" />
+                <AddAccountForm role="vendor" type="agent" />
                 <Link
                     href="/agent/routes/post"
                     className={`${buttonVariants({

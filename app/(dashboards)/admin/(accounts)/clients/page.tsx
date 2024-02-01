@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
 import { unstable_noStore } from "next/cache";
 import { Suspense } from "react";
-import AddClient from "./AddClient";
+import { AddAccountForm } from "../_components/AddAccount";
 import { ClientsTable } from "./ClientsTable";
 
 export default function Page() {
@@ -11,7 +11,7 @@ export default function Page() {
             <div className="mb-5 ">
                 <div className="flex items-center mb-3 justify-between ">
                     <h2 className="text-2xl font-bold text-primary">Clients</h2>
-                    <AddClient />
+                    <AddAccountForm  role="client" type="admin" />
                 </div>
             </div>
 

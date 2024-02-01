@@ -41,8 +41,8 @@ const AgentNav = ({ userRole, user }: { user: any; userRole: any }) => {
     const adminNav = [
         ["Route Offers", "/agent/routes"],
         ["Route Requests", "/agent/requests"],
-        ["Mapping(VOS)", "/agent/mapping"],
-        ["Routing(VOS)", "/agent/routing"],
+        // ["Mapping(VOS)", "/agent/mapping"],
+        // ["Routing(VOS)", "/agent/routing"],
         ["Clients", "/agent/clients"],
         ["Vendors", "/agent/vendors"],
         ["Invoices", "/agent/invoices"],

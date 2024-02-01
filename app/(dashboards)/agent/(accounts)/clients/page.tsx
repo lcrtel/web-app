@@ -1,11 +1,36 @@
+import { AddAccountForm } from "@/app/(dashboards)/admin/(accounts)/_components/AddAccount";
 import fetchUser from "@/app/(public)/post/fetchUser";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
 import { Suspense } from "react";
-import AddClient from "./AddClient";
 import { ClientsTable } from "./ClientsTable";
 
 export const revalidate = 0;
+
+export default function Page() {
+    return (
+        <div className=" ">
+            <div className="mb-5 ">
+                <div className="flex items-center mb-3 justify-between ">
+                    <h2 className="text-2xl font-bold text-primary">Clients</h2>
+                    <AddAccountForm role="client" type="agent" />
+                </div>
+            </div>
+
+            <div className="flex flex-col gap-3 xl:flex-row w-full overflow-x-auto">
+                <Suspense
+                    fallback={
+                        <div className=" h-[400px] flex items-center justify-center container">
+                            <Loader />
+                        </div>
+                    }
+                >
+                    <Clients />
+                </Suspense>
+            </div>
+        </div>
+    );
+}
 
 const Clients = async () => {
     const supabase = supabaseServer();
@@ -36,29 +61,6 @@ const Clients = async () => {
 
     return <ClientsTable data={clientsWithTargetCounts} />;
 };
-
-export default async function Page() {
-    return (
-        <div className=" ">
-            <div className="mb-5 ">
-                <div className="flex items-center mb-3 justify-between ">
-                    <h2 className="text-2xl font-bold text-primary">Clients</h2>
-                    <AddClient />
-                </div>
-            </div>
-
-            <div className="flex flex-col gap-3 xl:flex-row w-full overflow-x-auto">
-                <Suspense fallback={
-                <div className=" h-[400px] flex items-center justify-center container">
-                    <Loader />
-                </div>
-            }>
-                    <Clients />
-                </Suspense>
-            </div>
-        </div>
-    );
-}
 
 const Loader = () => {
     return (

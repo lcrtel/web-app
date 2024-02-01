@@ -1,11 +1,29 @@
-import fetchUser from "@/app/(public)/post/fetchUser";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
 import { Suspense } from "react";
-import { ClientsTable } from "../../../clients/ClientsTable";
 import { VendorsTable } from "../../../vendors/VendorsTable";
 
 export const revalidate = 0;
+
+export default function Page({ params }: { params: { id: string } }) {
+    return (
+        <div className=" ">
+            <div className="mb-5 ">
+                <div className="flex items-center mb-3 justify-between ">
+                    <h2 className="text-lg font-semibold tracking-tight">
+                        Vendors
+                    </h2>
+                </div>
+            </div>
+
+            <div className="flex flex-col gap-3 xl:flex-row w-full overflow-x-auto">
+                <Suspense fallback={<Loader />}>
+                    <Vendors agentID={params.id} />
+                </Suspense>
+            </div>
+        </div>
+    );
+}
 
 const Vendors = async ({ agentID }: { agentID: string }) => {
     const supabase = supabaseServer();
@@ -47,26 +65,6 @@ const Vendors = async ({ agentID }: { agentID: string }) => {
 
     return <VendorsTable data={vendorsWithRouteCounts} />;
 };
-
-export default async function Page({ params }: { params: { id: string } }) {
-    return (
-        <div className=" ">
-            <div className="mb-5 ">
-                <div className="flex items-center mb-3 justify-between ">
-                    <h2 className="text-lg font-semibold tracking-tight">
-                        Vendors
-                    </h2>
-                </div>
-            </div>
-
-            <div className="flex flex-col gap-3 xl:flex-row w-full overflow-x-auto">
-                <Suspense fallback={<Loader />}>
-                    <Vendors agentID={params.id} />
-                </Suspense>
-            </div>
-        </div>
-    );
-}
 
 const Loader = () => {
     return (

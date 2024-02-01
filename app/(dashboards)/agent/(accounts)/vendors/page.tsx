@@ -1,12 +1,30 @@
+import { AddAccountForm } from "@/app/(dashboards)/admin/(accounts)/_components/AddAccount";
 import fetchUser from "@/app/(public)/post/fetchUser";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
 import { Suspense } from "react";
-import AddVendor from "./AddVendor";
 import { VendorsTable } from "./VendorsTable";
 
 export const revalidate = 0;
 
+export default async function Page() {
+    return (
+        <div className=" ">
+            <div className="mb-5 ">
+                <div className="flex items-center mb-3 justify-between ">
+                    <h2 className="text-2xl font-bold text-primary">Vendors</h2>
+                    <AddAccountForm role="vendor" type="agent" />
+                </div>
+            </div>
+
+            <div className="flex flex-col gap-3 xl:flex-row w-full overflow-x-auto">
+                <Suspense fallback={<Loader />}>
+                    <Vendors />
+                </Suspense>
+            </div>
+        </div>
+    );
+}
 const Vendors = async () => {
     const supabase = supabaseServer();
     const user = await fetchUser();
@@ -48,26 +66,6 @@ const Vendors = async () => {
 
     return <VendorsTable data={vendorsWithRouteCounts} />;
 };
-
-export default async function Page() {
-    return (
-        <div className=" ">
-            <div className="mb-5 ">
-                <div className="flex items-center mb-3 justify-between ">
-                    <h2 className="text-2xl font-bold text-primary">Vendors</h2>
-                    <AddVendor />
-                </div>
-            </div>
-
-            <div className="flex flex-col gap-3 xl:flex-row w-full overflow-x-auto">
-                <Suspense fallback={<Loader />}>
-                    <Vendors />
-                </Suspense>
-            </div>
-        </div>
-    );
-}
-
 const Loader = () => {
     return (
         <div className="w-full">

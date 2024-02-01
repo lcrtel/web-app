@@ -16,9 +16,45 @@ import {
 import { FaWhatsapp } from "react-icons/fa6";
 import formatString from "@/utils/formatString";
 import CopyButton from "@/components/ui/copy-button";
-import { EditPurchaseRequest } from "@/app/(dashboards)/agent/requests/EditPurchaseRequest";
+import { EditPurchaseRequest } from "@/app/(dashboards)/admin/requests/EditPurchaseRequest";
+import { unstable_noStore } from "next/cache";
 
-export const revalidate = 0;
+export default function PurchasedRoutesPage({
+    params,
+}: {
+    params: { id: string };
+}) {
+    const supabase = supabaseServer();
+
+    return (
+        <section className="flex flex-col gap-5">
+            <div className="">
+                <div className="flex justify-between">
+                    <h3 className="text-lg font-semibold mb-2">
+                        Purchase Requests
+                    </h3>
+                </div>
+                <Suspense fallback={<Skeleton className="w-full h-32" />}>
+                    <PurchaseRequests supabase={supabase} userID={params.id} />
+                </Suspense>
+            </div>
+
+            <div className="">
+                <div className="flex justify-between">
+                    <h3 className="text-lg font-semibold mb-2">
+                        Purchased Routes{" "}
+                        <span className=" text-xs text-slate-400 font-normal">
+                            (Fetched from VOS3000)
+                        </span>
+                    </h3>
+                </div>
+                <Suspense fallback={<Skeleton className="w-full h-32" />}>
+                    <PurchasedRoutes userID={params.id} supabase={supabase} />
+                </Suspense>
+            </div>
+        </section>
+    );
+}
 
 const PurchasedRoutes = async ({
     supabase,
@@ -27,6 +63,7 @@ const PurchasedRoutes = async ({
     supabase: any;
     userID: any;
 }) => {
+    unstable_noStore();
     const { data: client } = await supabase
         .from("profiles")
         .select("name")
@@ -49,12 +86,8 @@ const PurchasedRoutes = async ({
                 <TableBody>
                     {rates.data?.map((request: any) => (
                         <TableRow key={request.id}>
-                            <TableCell>
-                                {request?.prefix}
-                            </TableCell>
-                            <TableCell>
-                                {request?.area_prefix}
-                            </TableCell>
+                            <TableCell>{request?.prefix}</TableCell>
+                            <TableCell>{request?.area_prefix}</TableCell>
                             <TableCell>{request?.rate}</TableCell>
                         </TableRow>
                     ))}
@@ -99,7 +132,7 @@ const PurchaseRequests = async ({
                         <TableRow key={request.id}>
                             <TableCell className="font-medium">
                                 <Link
-                                    href={`/agent/routes/${request.route_id}`}
+                                    href={`/admin/routes/${request.route_id}`}
                                     className=" uppercase flex gap-2 group relative"
                                 >
                                     {request?.routes?.destination} -{" "}
@@ -110,7 +143,7 @@ const PurchaseRequests = async ({
                             <TableCell className="">
                                 <div className="flex gap-2 group items-center relative">
                                     <Link
-                                        href={`/agent/clients/${request.client_id}`}
+                                        href={`/admin/clients/${request.client_id}`}
                                     >
                                         {request?.profiles?.name}
                                         <span className=" text-slate-400">
@@ -183,38 +216,3 @@ const PurchaseRequests = async ({
         </div>
     );
 };
-
-const page = async ({ params }: { params: { id: string } }) => {
-    const supabase = supabaseServer();
-
-    return (
-        <section className="flex flex-col gap-5">
-            <div className="">
-                <div className="flex justify-between">
-                    <h3 className="text-lg font-semibold mb-2">
-                        Purchase Requests
-                    </h3>
-                </div>
-                <Suspense fallback={<Skeleton className="w-full h-32" />}>
-                    <PurchaseRequests supabase={supabase} userID={params.id} />
-                </Suspense>
-            </div>
-
-            <div className="">
-                <div className="flex justify-between">
-                    <h3 className="text-lg font-semibold mb-2">
-                        Purchased Routes{" "}
-                        <span className=" text-xs text-slate-400 font-normal">
-                            (Fetched from VOS3000)
-                        </span>
-                    </h3>
-                </div>
-                <Suspense fallback={<Skeleton className="w-full h-32" />}>
-                    <PurchasedRoutes userID={params.id} supabase={supabase} />
-                </Suspense>
-            </div>
-        </section>
-    );
-};
-
-export default page;

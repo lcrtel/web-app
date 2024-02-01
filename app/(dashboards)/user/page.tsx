@@ -1,4 +1,5 @@
 import getCustomerInfo from "@/app/vos/getCustomerInfo";
+import getRates from "@/app/vos/getRates";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
 import { fetchUserData, fetchUserMetadata } from "@/utils/user";
@@ -7,40 +8,107 @@ import { Suspense } from "react";
 import { HiArrowRight, HiOutlineExternalLink } from "react-icons/hi";
 import { IoWallet } from "react-icons/io5";
 import FetchLocalStorage from "./FetchLocalStorage";
-import getVendorInfo from "@/app/vos/getVendorInfo";
-import getRates from "@/app/vos/getRates";
+import { redirect } from "next/navigation";
 
 export const revalidate = 0;
 
-const Balance = async ({ user }: { user: any }) => {
-    let balance = "$ 0";
-    let name: string = user?.name;
-    try {
-        const VOSCustomer = await getCustomerInfo({
-            name: name.toLocaleUpperCase(),
-        });
-        if (VOSCustomer?.data) {
-            balance = VOSCustomer?.data?.balance;
-        }
-    } catch {}
-    return <p className="font-medium">{balance}</p>;
-};
-const OverDraft = async ({ user }: { user: any }) => {
-    let overDraft = "$ 0";
-    let name: string = user?.name;
-    try {
-        const VOSCustomer = await getCustomerInfo({
-            name: name,
-        });
-        if (VOSCustomer?.data) {
-            overDraft = VOSCustomer?.data?.over_draft;
-        }
-    } catch {}
-    return <p className="font-medium">{overDraft}</p>;
-};
+export default async function Dashboard() {
+    const userData = await fetchUserMetadata();
+    const supabase = supabaseServer();
 
+    return (
+        <main className="flex flex-col gap-5">
+            <h3 className="text-2xl font-bold text-primary tracking-tight">
+                Welcome, {userData?.name}👋
+            </h3>
+            <div className="flex flex-col sm:flex-row-reverse justify-between gap-4">
+                <div className=" sm:w-[300px] ">
+                    <div className="border bg-slate-50 rounded-xl p-3 space-y-2">
+                        <div className="flex  items-center gap-2">
+                            <IoWallet className="w-5 h-5" />
+                            <h2 className=" font-bold tracking-tight text-lg">
+                                Wallet
+                            </h2>
+                        </div>
+                        <Suspense
+                            fallback={
+                                <div className="bg-white rounded-lg p-3">
+                                    <h3 className="text-sm text-slate-400 ">
+                                        Balance
+                                    </h3>
+                                    <p className="font-medium">
+                                        $
+                                        <Skeleton className="w-full max-w-xs h-4" />
+                                    </p>
+                                    <h3 className="text-sm pt-2 text-slate-400 ">
+                                        Over Draft
+                                    </h3>
+                                    <p className="font-medium">
+                                        $
+                                        <Skeleton className="w-full max-w-xs h-4" />
+                                    </p>
+                                </div>
+                            }
+                        >
+                            <Wallet supabase={supabase} userId={userData?.id} />
+                        </Suspense>
+                    </div>
+                </div>
+                <div className=" w-full">
+                    <Links />
+                    <Suspense
+                        fallback={<Skeleton className="w-full h-32 mt-4" />}
+                    >
+                        <PurchaseRequests supabase={supabase} user={userData} />
+                    </Suspense>
+                    {/* <div className="pt-4">
+                        <div className="flex justify-between">
+                            <h3 className="text-lg font-semibold mb-2">
+                                Purchased Routes
+                            </h3>
+                        </div>
+                        <Suspense
+                            fallback={<Skeleton className="w-full h-32" />}
+                        >
+                            <PurchasedRoutes user={userData} />
+                        </Suspense>
+                    </div> */}
+                </div>
+            </div>
+            <FetchLocalStorage />
+        </main>
+    );
+}
+async function Wallet({ supabase, userId }: { supabase: any; userId: any }) {
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+    const { data: profile } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .single();
+    return (
+        user && (
+            <div className="bg-white rounded-lg p-3">
+                <h3 className="text-sm text-slate-400 ">Balance</h3>
+                <p className="font-medium">${profile?.balance}</p>
+                <h3 className="text-sm pt-2 text-slate-400 ">Over Draft</h3>
+                <p className="font-medium">${profile?.over_draft}</p>
+
+                <Suspense>
+                    <UpdateWallet
+                        supabase={supabase}
+                        userId={profile.id}
+                        userName={profile?.name}
+                    />
+                </Suspense>
+            </div>
+        )
+    );
+}
 const PurchasedRoutes = async ({ user }: { user: any }) => {
-    const name: string = user?.user_metadata.name;
+    const name: string = user?.name;
     const rates = await getRates({ name: name?.toLocaleUpperCase() });
     return rates.data?.length ? (
         <div className=" grid gap-2">
@@ -123,96 +191,62 @@ const PurchaseRequests = async ({
         </div>
     ) : null;
 };
-
-const page = async () => {
-    const user = await fetchUserData();
-    const userData = await fetchUserMetadata();
-    const supabase = supabaseServer();
-    const Links = () => {
-        return (
-            <div className="grid md:grid-cols-2  gap-3 ">
-                <Link
-                    href="/user/routes"
-                    passHref
-                    className="bg-slate-50 hover:shadow-lg transition-all ease-in border rounded-xl  p-5 active:scale-[99%]"
-                >
-                    <div className="flex justify-between items-center">
-                        <h3 className="font-semibold tracking-tight text-xl">
-                            🏷️ Explore our route offers
-                        </h3>
-                        <HiArrowRight className="w-5 h-5" />
-                    </div>
-                </Link>
-                <Link
-                    href="/user/my-requests/post"
-                    passHref
-                    className="bg-slate-50 hover:shadow-lg transition-all ease-in border rounded-xl  p-5 active:scale-[99%]"
-                >
-                    <div className="flex justify-between items-center">
-                        <h3 className="font-semibold tracking-tight text-xl">
-                            🎯 Post your target rate
-                        </h3>
-                        <HiArrowRight className="w-5 h-5" />
-                    </div>
-                </Link>
-            </div>
-        );
-    };
-
+const Links = () => {
     return (
-        <main className="flex flex-col gap-5">
-            <h3 className="text-2xl font-bold text-primary tracking-tight">
-                Welcome, {userData?.name}👋
-            </h3>
-            <div className="flex flex-col sm:flex-row-reverse justify-between gap-4">
-                <div className=" sm:w-[300px] ">
-                    <div className="border bg-slate-50 rounded-xl p-3 space-y-2">
-                        <div className="flex  items-center gap-2">
-                            <IoWallet className="w-5 h-5" />
-                            <h2 className=" font-bold tracking-tight text-lg">
-                                Wallet
-                            </h2>
-                        </div>
-                        <div className="bg-white rounded-lg p-3">
-                            <h3 className="text-sm text-slate-400 ">Balance</h3>
-                            <Suspense
-                                fallback={<Skeleton className="w-full h-6" />}
-                            >
-                                <Balance user={userData} />
-                            </Suspense>
-                            <h3 className="text-sm pt-2 text-slate-400 ">
-                                Over Draft
-                            </h3>
-                            <Suspense
-                                fallback={<Skeleton className="w-full h-6" />}
-                            >
-                                <OverDraft user={userData} />
-                            </Suspense>
-                        </div>
-                    </div>
+        <div className="grid md:grid-cols-2  gap-3 ">
+            <Link
+                href="/user/routes"
+                passHref
+                className="bg-slate-50 hover:shadow-lg transition-all ease-in border rounded-xl  p-5 active:scale-[99%]"
+            >
+                <div className="flex justify-between items-center">
+                    <h3 className="font-semibold tracking-tight text-xl">
+                        🏷️ Explore our route offers
+                    </h3>
+                    <HiArrowRight className="w-5 h-5" />
                 </div>
-                <div className=" w-full">
-                    <Links />
-                    <Suspense fallback={<Skeleton className="w-full h-32 mt-4" />}>
-                        <PurchaseRequests supabase={supabase} user={user} />
-                    </Suspense>
-                    <div className="pt-4">
-                        <div className="flex justify-between">
-                            <h3 className="text-lg font-semibold mb-2">
-                                Purchased Routes
-                            </h3>
-                        </div>
-                        <Suspense
-                            fallback={<Skeleton className="w-full h-32" />}
-                        >
-                            <PurchasedRoutes user={user} />
-                        </Suspense>
-                    </div>
+            </Link>
+            <Link
+                href="/user/my-requests/post"
+                passHref
+                className="bg-slate-50 hover:shadow-lg transition-all ease-in border rounded-xl  p-5 active:scale-[99%]"
+            >
+                <div className="flex justify-between items-center">
+                    <h3 className="font-semibold tracking-tight text-xl">
+                        🎯 Post your target rate
+                    </h3>
+                    <HiArrowRight className="w-5 h-5" />
                 </div>
-            </div>
-            <FetchLocalStorage />
-        </main>
+            </Link>
+        </div>
     );
 };
 
-export default page;
+const UpdateWallet = async ({
+    supabase,
+    userId,
+    userName,
+}: {
+    supabase: any;
+    userId: any;
+    userName: any;
+}) => {
+    try {
+        const VOSCustomer = await getCustomerInfo({
+            name: userName.toLocaleUpperCase(),
+        });
+
+        if (VOSCustomer?.data) {
+            await supabase
+                .from("profiles")
+                .update({
+                    balance: VOSCustomer?.data?.balance?.replace(/\$/g, ""),
+                    over_draft: VOSCustomer?.data?.over_draft,
+                })
+                .eq("id", userId);
+        }
+    } catch (error) {
+        console.error("Error updating wallet:", error);
+    }
+    return <></>;
+};

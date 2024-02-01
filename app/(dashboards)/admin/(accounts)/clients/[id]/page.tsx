@@ -29,14 +29,14 @@ export default function Page({ params }: { params: { id: string } }) {
                                     <h3 className="text-sm text-slate-400 ">
                                         Balance
                                     </h3>
-                                    <p className="font-medium">
+                                    <p className="font-medium flex gap-2">
                                         $
                                         <Skeleton className="w-full max-w-xs h-4" />
                                     </p>
                                     <h3 className="text-sm pt-2 text-slate-400 ">
                                         Over Draft
                                     </h3>
-                                    <p className="font-medium">
+                                    <p className="font-medium flex gap-2">
                                         $
                                         <Skeleton className="w-full max-w-xs h-4" />
                                     </p>
@@ -90,9 +90,6 @@ async function Wallet({ supabase, userId }: { supabase: any; userId: any }) {
         .select("*")
         .eq("id", userId)
         .single();
-    if (!user) {
-        redirect("/admin/vendors");
-    }
     return (
         user && (
             <div className="bg-white rounded-lg p-3">

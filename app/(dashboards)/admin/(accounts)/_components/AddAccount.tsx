@@ -298,7 +298,7 @@ export const AddAccountForm = ({
                                                             className="w-full p-0 overflow-clip"
                                                         >
                                                             <Command>
-                                                                <CommandInput placeholder="Search Client..." />
+                                                                <CommandInput placeholder="Search Agents..." />
                                                                 <CommandEmpty>
                                                                     No agents
                                                                     found.

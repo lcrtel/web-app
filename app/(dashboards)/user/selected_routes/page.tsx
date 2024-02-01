@@ -4,7 +4,10 @@ import { fetchUserData } from "@/utils/user";
 import { unstable_noStore } from "next/cache";
 import { Suspense } from "react";
 import { PurchaseRequestForm } from "./PurchaseRequestForm";
-
+import { DeleteButton } from "../purchases/DeleteButton";
+interface PurchaseRequestWithRoutes extends PurchaseRequest {
+    routes: Route;
+}
 export default function Page() {
     return (
         <section className="flex gap-5 flex-col ">

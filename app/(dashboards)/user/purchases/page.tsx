@@ -44,8 +44,7 @@ async function Requests() {
         </div>
     );
 }
-
-export const PurchaserequestCard = ({
+ const PurchaserequestCard = ({
     request,
 }: {
     request: PurchaseRequestWithRoutes;

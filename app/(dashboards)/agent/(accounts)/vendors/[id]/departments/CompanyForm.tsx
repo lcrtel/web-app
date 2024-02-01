@@ -17,11 +17,8 @@ import { Input } from "@/components/ui/input";
 
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
-import {
-    updateFinanceDipartment,
-    updateNOCDipartment,
-    updateSalesDipartment,
-} from "../../../actions";
+import { updateFinanceDipartment, updateNOCDipartment, updateSalesDipartment } from "@/app/(dashboards)/admin/(accounts)/actions";
+
 
 const departmentSchema = z.object({
     name: z.string().optional(),

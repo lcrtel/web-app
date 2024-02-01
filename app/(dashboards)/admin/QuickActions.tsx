@@ -9,9 +9,9 @@ const QuickActions = () => {
                 Quick Actions
             </h2>
             <div className="flex gap-2 flex-wrap">
-                <AddAccountForm role="client" />
-                <AddAccountForm role="vendor" />
-                <AddAccountForm role="agent" />
+                <AddAccountForm role="client" type="admin" />
+                <AddAccountForm role="vendor" type="admin" />
+                <AddAccountForm role="agent" type="admin" />
                 <Link
                     href="/admin/routes/post"
                     className={`${buttonVariants({

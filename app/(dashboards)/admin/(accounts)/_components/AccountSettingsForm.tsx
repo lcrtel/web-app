@@ -123,20 +123,20 @@ export function AccountSettingsForm({
     const fetchAgents = useCallback(async () => {
         const agents = await getAgents();
         setAgents(agents);
-    }, []);
+    }, [setAgents]);
     const setAgent = useCallback(async () => {
         const agent = await fetchUserData();
         if (agent) {
             form.setValue("agent_id", agent?.id);
         }
-    }, []);
+    }, [form]);
     useEffect(() => {
         if (type === "admin") {
             fetchAgents();
         } else if (type === "agent") {
             setAgent();
         }
-    }, [fetchAgents]);
+    }, [fetchAgents, setAgent, type]);
     return (
         <>
             <Form {...form}>

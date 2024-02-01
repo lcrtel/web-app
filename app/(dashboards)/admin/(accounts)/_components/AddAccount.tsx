@@ -77,27 +77,24 @@ export const AddAccountForm = ({
         router.refresh();
         setIsOpen(false);
         console.log(user);
-        
     }
     const fetchAgents = useCallback(async () => {
         const agents = await getAgents();
         setAgents(agents);
-    }, []);
+    }, [setAgents]);
     const setAgent = useCallback(async () => {
         const agent = await fetchUserData();
-        console.log(agent);
-        
         if (agent) {
             form.setValue("agent_id", agent?.id);
         }
-    }, []);
+    }, [form]);
     useEffect(() => {
         if (type === "admin") {
             fetchAgents();
         } else if (type === "agent") {
             setAgent();
         }
-    }, [fetchAgents]);
+    }, [fetchAgents, setAgent,type]);
     return (
         <>
             <Button

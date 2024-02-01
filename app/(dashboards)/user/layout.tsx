@@ -25,7 +25,7 @@ export default async function DashboardLayout({
             <div>
                 <Navigation cartItems={selectedRoutes} user={user} />
                 <div className="h-2 background-animate bg-gradient-to-r from-secondary to-primary-500 w-full"></div>
-                <section className="mx-auto max-w-8xl p-4 md:px-8 md:py-4">
+                <section className="mx-auto max-w-8xl p-4 md:px-8 md:py-6">
                     {children}
                 </section>
             </div>

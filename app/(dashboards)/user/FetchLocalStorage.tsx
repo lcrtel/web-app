@@ -13,7 +13,7 @@ const FetchLocalStorage = () => {
             "pendingBuyingTargetsData"
         );
         if (storedTargetData) {
-            router.push("/user/my-requests/post");
+            router.push("/user/my-targets/post");
         }
     }
     return <></>;

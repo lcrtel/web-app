@@ -207,7 +207,7 @@ const Links = () => {
                 </div>
             </Link>
             <Link
-                href="/user/my-requests/post"
+                href="/user/my-targets/post"
                 passHref
                 className="bg-slate-50 hover:shadow-lg transition-all ease-in border rounded-xl  p-5 active:scale-[99%]"
             >

@@ -17,10 +17,10 @@ const page = async () => {
     return (
         <section className="">
             <Link
-                href="/user/my-requests/"
+                href="/user/my-targets/"
                 className="inline-flex mt-3 items-center text-gray-400 hover:text-primary-500 transition-all ease-in-out mb-2"
             >
-                <HiOutlineArrowCircleLeft className="mr-1.5" /> My Requests
+                <HiOutlineArrowCircleLeft className="mr-1.5" /> My Targets
             </Link>
             <PostTargetTable />
             {routes?.length ? (

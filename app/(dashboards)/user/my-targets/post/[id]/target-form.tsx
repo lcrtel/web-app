@@ -30,6 +30,7 @@ import { supabaseClient } from "@/lib/supabase-client";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
+import { updateTarget } from "../../actions";
 
 const routeFormSchema = z.object({
     destination: z.string(),
@@ -46,7 +47,7 @@ const routeFormSchema = z.object({
     pdd: z.string(),
 });
 
-export function RouteForm({ route }: { route: Target }) {
+export function TargetForm({ route }: { route: Target }) {
     const defaultValues = route;
     const form = useForm<any>({
         resolver: zodResolver(routeFormSchema),
@@ -54,23 +55,16 @@ export function RouteForm({ route }: { route: Target }) {
         mode: "onChange",
     });
 
-    const router = useRouter();
     async function onSubmit(data: Route) {
-        const supabase = supabaseClient();
-        const { data: target, error } = await supabase
-            .from("targets")
-            .update(data)
-            .eq("id", route.id)
-            .select();
-        if (error) {
-            toast.error(error.message);
-        
+        const updating = toast.loading("Updating...");
+        const res = await updateTarget(route, data);
+        if (res?.error) {
+            toast.dismiss(updating);
+            toast.error(res?.error);
             return;
         }
-        toast.success("Request updated");
-
-        router.refresh();
-        router.back();
+        toast.dismiss(updating);
+        toast.success("Target updated");
     }
 
     return (
@@ -105,7 +99,8 @@ export function RouteForm({ route }: { route: Target }) {
                                 <FormMessage />
                             </FormItem>
                         )}
-                    /> <FormField
+                    />{" "}
+                    <FormField
                         control={form.control}
                         name="destination_code"
                         render={({ field }) => (
@@ -138,7 +133,6 @@ export function RouteForm({ route }: { route: Target }) {
                             </FormItem>
                         )}
                     />
-                   
                     <FormField
                         control={form.control}
                         name="route_type"
@@ -166,15 +160,13 @@ export function RouteForm({ route }: { route: Target }) {
                                         <SelectItem value="tdm">TDM</SelectItem>
                                         <SelectItem value="pri">PRI</SelectItem>
                                         <SelectItem value="did">DID</SelectItem>
-                                                                                <SelectItem value="cc">CC</SelectItem>
-
+                                        <SelectItem value="cc">CC</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
-
                     <FormField
                         control={form.control}
                         name="asr"
@@ -227,7 +219,6 @@ export function RouteForm({ route }: { route: Target }) {
                             </FormItem>
                         )}
                     />
-
                     <FormField
                         control={form.control}
                         name="pdd"
@@ -242,7 +233,7 @@ export function RouteForm({ route }: { route: Target }) {
                         )}
                     />
                 </div>
-                <Button type="submit">Update request</Button>
+                <Button type="submit">Update target</Button>
             </form>
         </Form>
     );

@@ -1,11 +1,9 @@
 import Link from "next/link";
 
 import { supabaseServer } from "@/lib/supabase-server";
-import { HiArrowRight, HiOutlinePlusCircle } from "react-icons/hi";
-import { buttonVariants } from "@/components/ui/button";
-import { OffersTable } from "./offers-table";
-import TradeNav from "../nav";
 import { fetchUserData } from "@/utils/user";
+import { HiArrowRight } from "react-icons/hi";
+import { OffersTable } from "./offers-table";
 
 export const revalidate = 0; // revalidate this page every 60 seconds
 
@@ -36,7 +34,7 @@ export default async function Page() {
                 </div>
             )}
             <Link
-                href="/user/my-requests/post"
+                href="/user/my-targets/post"
                 passHref
                 className="bg-slate-50 mt-4 w-full block hover:bg-slate-100 transition-all ease-in border rounded-xl  p-5 active:scale-[99%]"
             >

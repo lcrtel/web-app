@@ -2,46 +2,46 @@ import { Separator } from "@/components/ui/separator";
 import { supabaseServer } from "@/lib/supabase-server";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { revalidatePath } from "next/cache";
-import { RouteForm } from "./route-form";
 import DeleteRoute from "../../DeleteRoute";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { HiOutlineArrowCircleLeft } from "react-icons/hi";
-// import DeleteUser from "./DeleteUser";
+import { TargetForm } from "./target-form";
+import { Suspense } from "react";
+import Loader from "@/components/Loader";
 export const revalidate = 0;
-export default async function Page({ params }: { params: { id: string } }) {
-    const supabase = supabaseServer();
-    let { data: route } = await supabase
-        .from("targets")
-        .select("*")
-        .match({ id: params.id });
-    if (route === null) {
-        redirect("/user/my-requests");
-    }
 
+export default function Page({ params }: { params: { id: string } }) {
     return (
         <div>
             <Link
-                href="/user/my-requests"
+                href="/user/my-targets"
                 className="inline-flex items-center text-gray-400 hover:text-primary-500 transition-all ease-in-out mb-2"
             >
-                <HiOutlineArrowCircleLeft className="mr-1.5" /> My Requests
+                <HiOutlineArrowCircleLeft className="mr-1.5" /> My Targets
             </Link>
             <div className="mb-3 ">
                 <h2 className="text-2xl font-bold text-primary tracking-tight">
-                    Edit route request
+                    Edit your target rate
                 </h2>
                 <p className="text-sm text-muted-foreground">
-                    View and edit your route request
+                    View and edit your target rate
                 </p>
             </div>
             <Separator className="mb-3" />
-            {route?.length ? <RouteForm route={route?.[0]} /> : null}
-
+            <Suspense
+                fallback={
+                    <div className=" h-[400px] flex items-center justify-center container">
+                        <Loader />
+                    </div>
+                }
+            >
+                <TargetDetails id={params.id} />
+            </Suspense>
             <div className="flex my-5 justify-between items-center border border-red-500 rounded-lg p-4 text-red-500">
                 <div>
                     <h3 className="font-semibold tracking-tight">
-                        Delete request
+                        Delete target
                     </h3>
                     <p className="text-sm">
                         Once deleted, it will be gone forever. Please be
@@ -54,4 +54,17 @@ export default async function Page({ params }: { params: { id: string } }) {
             </div>
         </div>
     );
+}
+
+async function TargetDetails({ id }: { id: string }) {
+    const supabase = supabaseServer();
+    let { data: target } = await supabase
+        .from("targets")
+        .select("*")
+        .match({ id: id })
+        .single();
+    if (!target) {
+        redirect("/user/my-targets");
+    }
+    return <TargetForm route={target} />;
 }

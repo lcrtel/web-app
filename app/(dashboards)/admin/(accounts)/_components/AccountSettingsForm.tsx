@@ -372,7 +372,7 @@ export function AccountSettingsForm({
 function LoginCredentials({ user }: { user: any }) {
     const [loading, setLoading] = useState(false);
     const defaultValues = {
-        email: user.email,
+        email: user?.email,
     };
     const userID = user.id;
     const form = useForm<any>({

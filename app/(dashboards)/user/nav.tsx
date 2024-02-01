@@ -20,7 +20,7 @@ const Navigation = ({ user, cartItems }: { user: any; cartItems: any[] | null })
         ["Routes", "/user/routes"],
         ["Requests", "/user/requests"],
         ["My Routes", "/user/my-routes"],
-        ["My Requests", "/user/my-requests"],
+        ["My Targets", "/user/my-targets"],
         ["Purchases", "/user/purchases"],
         // ["Transactions", "/user/transactions"],
     ].map(([title, url]) => (

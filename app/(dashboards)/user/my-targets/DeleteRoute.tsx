@@ -1,7 +1,6 @@
 "use client";
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
@@ -11,26 +10,31 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
-import { supabaseClient } from "@/lib/supabase-client";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
+import { deleteTarget } from "./actions";
 
 export default function DeleteRoute({ routeID }: { routeID: string }) {
-    const supabase = supabaseClient();
+    const [isOpen, setIsOpen] = useState(false);
     const router = useRouter();
     const handleDelete = async () => {
-        const { error } = await supabase
-            .from("targets")
-            .delete()
-            .eq("id", routeID);
+        const deleting = toast.loading("Deleting...");
+        const res = await deleteTarget(routeID);
+        if (res?.error) {
+            toast.error(res?.error);
+            toast.dismiss(deleting);
+            return;
+        }
+        toast.dismiss(deleting);
         toast.success("Deleted target ");
+        setIsOpen(false);
         router.refresh();
-        router.push("/user/my-requests");
+        router.push("/user/my-targets");
     };
     return (
-        <AlertDialog>
+        <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
             <AlertDialogTrigger asChild>
                 <div className=" cursor-pointer">
                     <HiTrash className="w-5 h-5" />{" "}
@@ -52,12 +56,12 @@ export default function DeleteRoute({ routeID }: { routeID: string }) {
                     <AlertDialogCancel className="bg-red-100 hover:bg-red-200 text-red-500 hover:text-red-600 border-red-200">
                         Cancel
                     </AlertDialogCancel>
-                    <AlertDialogAction
+                    <Button
                         onClick={() => handleDelete()}
                         className="bg-red-500 hover:bg-red-600 text-white hover:white border-red-200"
                     >
                         I&apos;m sure
-                    </AlertDialogAction>
+                    </Button>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

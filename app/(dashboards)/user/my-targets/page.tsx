@@ -17,14 +17,14 @@ const page = async () => {
             <div className="flex mb-5 justify-between items-center flex-wrap gap-2">
                 <div>
                     <h3 className="text-2xl tracking-tight font-bold text-primary-500 flex items-center">
-                        My Route Requests
+                        My Target Rates
                     </h3>
-                    <p className="text-gray-400 text-sm">
-                        View and manage your route requests
+                    <p className="text-gray-500 text-sm">
+                        View and manage your target rates
                     </p>
                 </div>
                 <Link
-                    href="/user/my-requests/post"
+                    href="/user/my-targets/post"
                     className={`${buttonVariants({
                         variant: "default",
                         size: "icon",

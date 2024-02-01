@@ -2,14 +2,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
-import {
     Select,
     SelectContent,
     SelectGroup,
@@ -17,6 +9,14 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
 
 import { supabaseClient } from "@/lib/supabase-client";
 import {
@@ -32,13 +32,12 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-
-import { toast } from "react-hot-toast";
 import { Loader2 } from "lucide-react";
+import { toast } from "react-hot-toast";
 import { HiOutlineCloudUpload, HiPlusCircle, HiTrash } from "react-icons/hi";
 import { v4 as uuidv4 } from "uuid";
 import * as XLSX from "xlsx";
-import { Label } from "@/components/ui/label";
+import { postTargets } from "../actions";
 
 declare module "@tanstack/react-table" {
     interface TableMeta<TData extends RowData> {
@@ -107,55 +106,29 @@ export function PostTargetTable() {
         );
     };
 
-    function dec20Percent(rate: number) {
-        const commission = rate * 0.2;
-        const result = rate - commission;
-        return result.toFixed(5).toString();
-    }
-
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         localStorage.setItem("pendingBuyingTargetsData", JSON.stringify(data));
-
         setPosting(true);
-        const { data: route, error } = await supabase
-            .from("targets")
-            .insert(
-                data.map((route: any) => ({
-                    destination: route.destination,
-                    destination_code: route.destination_code,
-                    rate: route.rate,
-                    buying_rate: dec20Percent(Number(route.rate)),
-                    route_type: route.route_type,
-                    prefix: route.prefix,
-                    asr: route.asr,
-                    acd: route.acd,
-                    ports: route.ports,
-                    capacity: route.capacity,
-                    pdd: route.pdd,
-                }))
-            )
-            .select();
-        if (error) {
+        const posting = toast.loading("Posting...");
+        const res = await postTargets(data);
+        if (res?.error) {
             setPosting(false);
-            toast.error(error.message);
+            toast.dismiss(posting);
+            toast.error(res?.error);
             return;
-        } else {
-            router.refresh();
-            router.push("/user/my-requests");
-            toast.success("Route requests posted!");
-            setPosting(false);
-            setData([]);
-            const storedTargetData = localStorage.getItem(
-                "pendingBuyingTargetsData"
-            );
-            if (storedTargetData) {
-                localStorage.removeItem("pendingBuyingTargetsData");
-            }
-            fetch(`${location.origin}/api/emails/routes/post-target`, {
-                method: "POST",
-                body: JSON.stringify(data),
-            });
+        }
+        router.refresh();
+        router.push("/user/my-targets");
+        toast.dismiss(posting);
+        toast.success("Target rates posted!");
+        setPosting(false);
+        setData([]);
+        const storedTargetData = localStorage.getItem(
+            "pendingBuyingTargetsData"
+        );
+        if (storedTargetData) {
+            localStorage.removeItem("pendingBuyingTargetsData");
         }
     };
 
@@ -310,8 +283,7 @@ export function PostTargetTable() {
                                         <SelectItem value="tdm">TDM</SelectItem>
                                         <SelectItem value="pri">PRI</SelectItem>
                                         <SelectItem value="did">DID</SelectItem>
-                                                                                <SelectItem value="cc">CC</SelectItem>
-
+                                        <SelectItem value="cc">CC</SelectItem>
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
@@ -760,7 +732,7 @@ export function PostTargetTable() {
         <div className="w-full">
             <div className="flex justify-between items-center mb-4">
                 <h3 className="text-2xl font-bold text-primary tracking-tight">
-                    Request for routes
+                    Post your target rates
                 </h3>
                 <ImportDropdown />
             </div>
@@ -770,14 +742,14 @@ export function PostTargetTable() {
                         {table.getFilteredRowModel().rows.length} request(s)
                     </div>
                     {data.length ? (
-                        <Button type="submit">
+                        <Button type="submit" disabled={posting}>
                             {posting ? (
                                 <>
                                     Posting
                                     <Loader2 className="ml-2 h-4 w-4 animate-spin" />
                                 </>
                             ) : (
-                                "Submit"
+                                "Post"
                             )}
                         </Button>
                     ) : (

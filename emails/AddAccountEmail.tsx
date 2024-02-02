@@ -6,6 +6,7 @@ import {
     Hr,
     Html,
     Img,
+    Link,
     Preview,
     Section,
     Text,
@@ -76,8 +77,17 @@ export default function AddAccountEmail({ user }: { user: any }) {
                         <Text className="text-gray-500  font-medium ">
                             Please ensure the security of your credentials and
                             refrain from sharing them with anyone. You can
-                            utilize this information to log in to your
-                            LCRTel.com account.
+                            utilize this information to{" "}
+                            <Link
+                                href="https://www.lcrtel.com/auth/login"
+                                style={{
+                                    color: "#0062ffab",
+                                    textDecoration: "underline",
+                                }}
+                            >
+                                log in
+                            </Link>{" "}
+                            to your LCRTel.com account.
                         </Text>
                         <Text className="text-gray-500  font-medium ">
                             Should you have any queries or require assistance,

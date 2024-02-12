@@ -43,6 +43,7 @@ export default function InputForm() {
     const supabase = supabaseClient();
     const [routeOffers, setRouteOffers] = useState<Route[]>([]);
     const [destination, setDestination] = useState("");
+    const [destinationCode, setDestinationCode] = useState("");
     const [open, setOpen] = useState(false);
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -54,7 +55,7 @@ export default function InputForm() {
             .select("*")
             .match({
                 route_type: data.route_type,
-                destination_code: destination,
+                destination_code: destinationCode,
             });
         if (routes) {
             setRouteOffers(routes);
@@ -77,7 +78,8 @@ export default function InputForm() {
                         >
                             {destination
                                 ? destinations.find(
-                                      (item: any) => item.code === destination
+                                      (item: any) =>
+                                          item.country === destination
                                   )?.country
                                 : "Select Destination..."}
                             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -105,6 +107,12 @@ export default function InputForm() {
                                                         }
                                                         onSelect={() => {
                                                             setDestination(
+                                                                item.country ===
+                                                                    destination
+                                                                    ? ""
+                                                                    : item.country
+                                                            );
+                                                            setDestinationCode(
                                                                 item.code ===
                                                                     destination
                                                                     ? ""

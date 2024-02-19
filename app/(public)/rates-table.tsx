@@ -189,9 +189,9 @@ export function RatesTable({ data }: any) {
     return (
         <div className="">
             {data && (
-                <div className="rounded-xl border mt-4 max-h-[300px] overflow-y-auto">
-                    <Table>
-                        <TableHeader>
+                <div className="rounded-xl border mt-4 max-h-[266px] overflow-y-auto">
+                    <Table className="relative">
+                        <TableHeader className="sticky top-0">
                             {table.getHeaderGroups().map((headerGroup) => (
                                 <TableRow key={headerGroup.id}>
                                     {headerGroup.headers.map((header) => {
@@ -210,7 +210,7 @@ export function RatesTable({ data }: any) {
                                 </TableRow>
                             ))}
                         </TableHeader>
-                        <TableBody>
+                        <TableBody >
                             {table?.getRowModel().rows?.length ? (
                                 table.getRowModel().rows.map((row) => (
                                     <TableRow

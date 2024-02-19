@@ -9,7 +9,7 @@ import {
     FormControl,
     FormField,
     FormItem,
-    FormMessage
+    FormMessage,
 } from "@/components/ui/form";
 
 import {
@@ -31,7 +31,7 @@ import { supabaseClient } from "@/lib/supabase-client";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RatesTable } from "./rates-table";
 
 const FormSchema = z.object({
@@ -47,7 +47,17 @@ export default function InputForm() {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
     });
-
+    useEffect(() => {
+        const fetchRouteOffers = async () => {
+            let { data: routes, error } = await supabase
+                .from("routes")
+                .select("*");
+            if (routes) {
+                setRouteOffers(routes);
+            }
+        };
+        fetchRouteOffers();
+    }, [setRouteOffers]);
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         let { data: routes, error } = await supabase
             .from("routes")

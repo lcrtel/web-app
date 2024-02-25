@@ -79,7 +79,6 @@ export function PostRouteTable() {
                 destination: "",
                 rate: "",
                 route_type: "",
-                prefix: "",
                 asr: "",
                 acd: "",
                 ports: "",
@@ -125,7 +124,6 @@ export function PostRouteTable() {
                     rate: route.rate,
                     buying_rate: subtract20Percent(Number(route.rate)),
                     route_type: route.route_type,
-                    prefix: route.prefix,
                     asr: route.asr,
                     acd: route.acd,
                     ports: route.ports,
@@ -151,42 +149,6 @@ export function PostRouteTable() {
 
     const columns = useMemo<ColumnDef<any>[]>(
         () => [
-            {
-                accessorKey: "prefix",
-                header: "Prefix",
-                cell: function Cell({
-                    getValue,
-                    row: { index },
-                    column: { id },
-                    table,
-                }) {
-                    const initialValue = getValue();
-                    // We need to keep and update the state of the cell normally
-                    const [value, setValue] = useState<any>(initialValue);
-
-                    // When the input is blurred, we'll call our table meta's updateData function
-                    const onBlur = () => {
-                        table.options.meta?.updateData(index, id, value);
-                    };
-
-                    // If the initialValue is changed external, sync it up with our state
-                    useEffect(() => {
-                        setValue(initialValue);
-                    }, [initialValue]);
-
-                    return (
-                        <Input
-                            type="number"
-                            value={value}
-                            onChange={(e) => setValue(e.target.value)}
-                            onBlur={onBlur}
-                            required
-                            className=""
-                            placeholder="Prefix"
-                        />
-                    );
-                },
-            },
             {
                 accessorKey: "destination",
                 header: ({ column }) => {
@@ -586,7 +548,6 @@ export function PostRouteTable() {
             const workbook = XLSX.utils.book_new();
             const worksheet = XLSX.utils.aoa_to_sheet([
                 [
-                    "prefix",
                     "destination",
                     "destination_code",
                     "route_type",

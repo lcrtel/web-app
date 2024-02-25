@@ -81,10 +81,6 @@ async function TargetDetails({ id }: { id: string }) {
             </div>
             <div className="grid sm:grid-cols-2 gap-4 bg-surface rounded-lg p-4 mb-5">
                 <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
-                    <p className=" text-sm text-gray-500">Prefix</p>
-                    <p className=" font-semibold">{target?.prefix}</p>
-                </div>
-                <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                     <p className=" text-sm text-gray-500">Destination Code</p>
                     <p className=" font-semibold">{target?.destination_code}</p>
                 </div>

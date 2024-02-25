@@ -32,7 +32,6 @@ const routeFormSchema = z.object({
         message: "Cannot leave this field blank",
     }),
     route_type: z.string(),
-    prefix: z.string(),
     asr: z.string(),
     acd: z.string(),
     ports: z.string(),
@@ -129,19 +128,6 @@ export function RouteForm({ route }: { route: Route }) {
                                         <SelectItem value="cc">CC</SelectItem>
                                     </SelectContent>
                                 </Select>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="prefix"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Prefix</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="Prefix" {...field} />
-                                </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}

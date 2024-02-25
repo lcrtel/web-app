@@ -38,7 +38,6 @@ const routeFormSchema = z.object({
         message: "Cannot leave this field blank",
     }),
     route_type: z.string(),
-    prefix: z.string(),
     asr: z.string(),
     acd: z.string(),
     ports: z.string(),
@@ -89,26 +88,13 @@ export function TargetForm({ route }: { route: Target }) {
                     />
                     <FormField
                         control={form.control}
-                        name="prefix"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Prefix</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="Prefix" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />{" "}
-                    <FormField
-                        control={form.control}
                         name="destination_code"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Area Prefix</FormLabel>
+                                <FormLabel>Destination Code</FormLabel>
                                 <FormControl>
                                     <Input
-                                        placeholder="Area Prefix"
+                                        placeholder="Destination Code"
                                         {...field}
                                     />
                                 </FormControl>

@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -9,23 +8,12 @@ import {
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
-    getPaginationRowModel,
     getSortedRowModel,
-    useReactTable,
+    useReactTable
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
+import * as React from "react";
 
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
     Table,
@@ -35,52 +23,10 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import Link from "next/link";
 import formatTimestamptz from "@/utils/formatTimestamptz";
-import formatDate from "@/utils/formatDate";
-import formatString from "@/utils/formatString";
+import Link from "next/link";
 
 export const columns: ColumnDef<Target>[] = [
-    // {
-    //     id: "select",
-    //     header: ({ table }) => (
-    //         <Checkbox
-    //             checked={table.getIsAllPageRowsSelected()}
-    //             onCheckedChange={(value: boolean) =>
-    //                 table.toggleAllPageRowsSelected(!!value)
-    //             }
-    //             aria-label="Select all"
-    //         />
-    //     ),
-    //     cell: ({ row }) => (
-    //         <Checkbox
-    //             checked={row.getIsSelected()}
-    //             onCheckedChange={(value: boolean) =>
-    //                 row.toggleSelected(!!value)
-    //             }
-    //             aria-label="Select row"
-    //         />
-    //     ),
-    //     enableSorting: false,
-    //     enableHiding: false,
-    // },
-
-    {
-        accessorKey: "prefix",
-        header: ({ column }) => {
-            return (
-                <div
-                    className="flex gap-2 items-center cursor-pointer"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Prefix
-                    <ArrowUpDown className=" h-4 w-4" />
-                </div>
-            );
-        },
-    },
     {
         accessorKey: "destination",
         header: ({ column }) => {
@@ -134,7 +80,9 @@ export const columns: ColumnDef<Target>[] = [
             }).format(Rate);
 
             return (
-                <div className="font-medium">${" "}{row.getValue("buying_rate")}</div>
+                <div className="font-medium">
+                    $ {row.getValue("buying_rate")}
+                </div>
             );
         },
         // cell: ({ row }) => (
@@ -260,9 +208,7 @@ export const columns: ColumnDef<Target>[] = [
         header: "",
         cell: ({ row }) => {
             const id = row.getValue("id");
-            return (
-                <p></p>
-            );
+            return <p></p>;
         },
     },
 ];
@@ -281,7 +227,7 @@ export function TargetsTable({ data }: any) {
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
         getCoreRowModel: getCoreRowModel(),
-        
+
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,
@@ -311,7 +257,6 @@ export function TargetsTable({ data }: any) {
                     }
                     className="max-w-[200px] mr-2"
                 />
-               
             </div>
             <div className="rounded-lg border">
                 <Table>

@@ -119,11 +119,9 @@ const PurchasedRoutes = async ({ user }: { user: any }) => {
                 >
                     <div className="flex items-center gap-6">
                         <div className="flex items-center gap-2">
-                            <h4 className=" text-slate-400">Prefix:</h4>
-                            <p className=" font-medium">{rate.prefix}</p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <h4 className=" text-slate-400">Area Prefix:</h4>
+                            <h4 className=" text-slate-400">
+                                Destination Code:
+                            </h4>
                             <p className=" font-medium">{rate.area_prefix}</p>
                         </div>
                     </div>
@@ -169,7 +167,7 @@ const PurchaseRequests = async ({
                         className={`flex gap-2 flex-wrap active:translate-x-1 cursor-pointer transition-all ease-in-out duration-500 items-center justify-between border rounded-lg p-3  `}
                     >
                         <div className="flex gap-4">
-                            <p>Prefix: {item.routes?.prefix} </p>
+                            <p>Area Code: {item.routes?.destination_code} </p>
                             <p className="capitalize">
                                 Destination: {item.routes?.destination} -{" "}
                                 <span className="uppercase font-medium">

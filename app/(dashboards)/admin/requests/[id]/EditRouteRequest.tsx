@@ -45,7 +45,6 @@ const routeFormSchema = z.object({
     destination_code: z.string(),
     pdd: z.string(),
     ports: z.string(),
-    prefix: z.string(),
     rate: z.string(),
     route_type: z.string(),
 });
@@ -101,22 +100,7 @@ export function EditRouteRequest({ route_request }: { route_request: Target }) {
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
                         <div className="grid gap-5 sm:grid-cols-2 mb-5">
-                            <FormField
-                                control={form.control}
-                                name="prefix"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Prefix</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="Prefix"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                           
                             <FormField
                                 control={form.control}
                                 name="destination"

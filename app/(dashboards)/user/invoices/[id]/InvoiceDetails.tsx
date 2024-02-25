@@ -112,9 +112,9 @@ const InvoiceDetails = ({
                         </h2>
                         <div className="mt-2 flex flex-wrap text-slate-500">
                             <p>
-                                Prefix:{" "}
+                                Area Code:{" "}
                                 <span className="text-primary-500 mr-4 font-semibold">
-                                    {connection?.routes?.prefix}
+                                    {connection?.routes?.destination_code}
                                 </span>
                             </p>
                             <p>

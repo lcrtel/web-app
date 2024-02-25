@@ -88,9 +88,6 @@ export default function RouteOfferUpdatesEmail({
                                 <b>Route Type:</b> {oldRoute.route_type}
                             </Text>
                             <Text className="text-gray-500 font-medium m-0">
-                                <b>Prefix:</b> {oldRoute.prefix}
-                            </Text>
-                            <Text className="text-gray-500 font-medium m-0">
                                 <b>ASR:</b> {oldRoute.asr}
                             </Text>
                             <Text className="text-gray-500 font-medium m-0">
@@ -121,9 +118,6 @@ export default function RouteOfferUpdatesEmail({
                             </Text>
                             <Text className="text-gray-500 font-medium m-0">
                                 <b>Route Type:</b> {newRoute.route_type}
-                            </Text>
-                            <Text className="text-gray-500 font-medium m-0">
-                                <b>Prefix:</b> {newRoute.prefix}
                             </Text>
                             <Text className="text-gray-500 font-medium m-0">
                                 <b>ASR:</b> {newRoute.asr}

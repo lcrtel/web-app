@@ -75,7 +75,6 @@ export function AddRouteTable({ users }: { users: any }) {
             destination: "",
             rate: 0,
             route_type: "cli",
-            prefix: "",
             asr: "",
             acd: "",
             ports: "",
@@ -93,7 +92,6 @@ export function AddRouteTable({ users }: { users: any }) {
                 destination: "",
                 rate: 0,
                 route_type: "cli",
-                prefix: "",
                 asr: "",
                 acd: "",
                 ports: "",
@@ -133,7 +131,6 @@ export function AddRouteTable({ users }: { users: any }) {
                         rate: route.rate,
                         selling_rate: add20Percent(Number(route.rate)),
                         route_type: route.route_type,
-                        prefix: route.prefix,
                         asr: route.asr,
                         acd: route.acd,
                         ports: route.ports,
@@ -160,44 +157,6 @@ export function AddRouteTable({ users }: { users: any }) {
 
     const columns = useMemo<ColumnDef<any>[]>(
         () => [
-            {
-                accessorKey: "prefix",
-                header: ({ column }) => {
-                    return <div className="min-w-[80px]">Prefix</div>;
-                },
-                cell: function Cell({
-                    getValue,
-                    row: { index },
-                    column: { id },
-                    table,
-                }) {
-                    const initialValue = getValue();
-                    // We need to keep and update the state of the cell normally
-                    const [value, setValue] = useState<any>(initialValue);
-
-                    // When the input is blurred, we'll call our table meta's updateData function
-                    const onBlur = () => {
-                        table.options.meta?.updateData(index, id, value);
-                    };
-
-                    // If the initialValue is changed external, sync it up with our state
-                    useEffect(() => {
-                        setValue(initialValue);
-                    }, [initialValue]);
-
-                    return (
-                        <Input
-                            type="number"
-                            value={value}
-                            onChange={(e) => setValue(e.target.value)}
-                            onBlur={onBlur}
-                            required
-                            className=""
-                            placeholder="Prefix"
-                        />
-                    );
-                },
-            },
             {
                 accessorKey: "destination",
                 header: ({ column }) => {
@@ -309,8 +268,7 @@ export function AddRouteTable({ users }: { users: any }) {
                                         <SelectItem value="tdm">TDM</SelectItem>
                                         <SelectItem value="pri">PRI</SelectItem>
                                         <SelectItem value="did">DID</SelectItem>
-                                                                                <SelectItem value="cc">CC</SelectItem>
-
+                                        <SelectItem value="cc">CC</SelectItem>
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
@@ -597,7 +555,6 @@ export function AddRouteTable({ users }: { users: any }) {
             const workbook = XLSX.utils.book_new();
             const worksheet = XLSX.utils.aoa_to_sheet([
                 [
-                    "prefix",
                     "destination",
                     "destination_code",
                     "route_type",
@@ -690,7 +647,7 @@ export function AddRouteTable({ users }: { users: any }) {
                     }
 
                     // Assuming you have a `setData` and `setIsOpen` function in your component
-                    setData([])
+                    setData([]);
                     setData((prevData: any) => [...prevData, ...jsonData]);
                     setIsOpen(false);
                 }
@@ -812,40 +769,33 @@ export function AddRouteTable({ users }: { users: any }) {
                                     </CommandEmpty>
                                     <CommandGroup>
                                         {users.map((user: any) => (
-                                                <CommandItem
-                                                    key={user.id}
-                                                    onSelect={() => {
-                                                        setVendor(
-                                                            user.id === vendor
-                                                                ? ""
-                                                                : user.id
-                                                        );
-                                                        setOpen(false);
-                                                    }}
-                                                >
-                                                    <Check
-                                                        className={cn(
-                                                            "mr-2 h-4 w-4",
-                                                            vendor === user.id
-                                                                ? "opacity-100"
-                                                                : "opacity-0"
-                                                        )}
-                                                    />
-                                                    {user.name}
-                                                    {user
-                                                        .company_name && (
-                                                        <span className="text-slate-400">
-                                                            (
-                                                            {
-                                                                user
-                                                                    
-                                                                    .company_name
-                                                            }
-                                                            )
-                                                        </span>
+                                            <CommandItem
+                                                key={user.id}
+                                                onSelect={() => {
+                                                    setVendor(
+                                                        user.id === vendor
+                                                            ? ""
+                                                            : user.id
+                                                    );
+                                                    setOpen(false);
+                                                }}
+                                            >
+                                                <Check
+                                                    className={cn(
+                                                        "mr-2 h-4 w-4",
+                                                        vendor === user.id
+                                                            ? "opacity-100"
+                                                            : "opacity-0"
                                                     )}
-                                                </CommandItem>
-                                            ))}
+                                                />
+                                                {user.name}
+                                                {user.company_name && (
+                                                    <span className="text-slate-400">
+                                                        ({user.company_name})
+                                                    </span>
+                                                )}
+                                            </CommandItem>
+                                        ))}
                                     </CommandGroup>
                                 </Command>
                             </PopoverContent>

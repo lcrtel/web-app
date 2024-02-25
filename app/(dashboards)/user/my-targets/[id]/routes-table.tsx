@@ -9,7 +9,7 @@ import {
     getCoreRowModel,
     getFilteredRowModel,
     getSortedRowModel,
-    useReactTable
+    useReactTable,
 } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import * as React from "react";
@@ -26,46 +26,6 @@ import formatDate from "@/utils/formatDate";
 import Link from "next/link";
 
 export const columns: ColumnDef<Route>[] = [
-    // {
-    //     id: "select",
-    //     header: ({ table }) => (
-    //         <Checkbox
-    //             checked={table.getIsAllPageRowsSelected()}
-    //             onCheckedChange={(value: boolean) =>
-    //                 table.toggleAllPageRowsSelected(!!value)
-    //             }
-    //             aria-label="Select all"
-    //         />
-    //     ),
-    //     cell: ({ row }) => (
-    //         <Checkbox
-    //             checked={row.getIsSelected()}
-    //             onCheckedChange={(value: boolean) =>
-    //                 row.toggleSelected(!!value)
-    //             }
-    //             aria-label="Select row"
-    //         />
-    //     ),
-    //     enableSorting: false,
-    //     enableHiding: false,
-    // },
-
-    {
-        accessorKey: "prefix",
-        header: ({ column }) => {
-            return (
-                <div
-                    className="flex gap-2 items-center cursor-pointer"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Prefix
-                    <ArrowUpDown className=" h-4 w-4" />
-                </div>
-            );
-        },
-    },
     {
         accessorKey: "destination",
         header: ({ column }) => {
@@ -120,7 +80,7 @@ export const columns: ColumnDef<Route>[] = [
 
             return (
                 <div className="font-medium">
-                   ${" "}{row.getValue("selling_rate")}
+                    $ {row.getValue("selling_rate")}
                 </div>
             );
         },
@@ -273,7 +233,7 @@ export function RoutesTable({ data }: any) {
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
         getCoreRowModel: getCoreRowModel(),
-        
+
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,
@@ -292,7 +252,6 @@ export function RoutesTable({ data }: any) {
                 <h3 className="tracking-tight text-lg font-semibold">
                     Matching Route Offers
                 </h3>
-               
             </div>
             <div className="rounded-lg border">
                 <Table>

@@ -75,14 +75,6 @@ async function Requests({ userId }: { userId: string }) {
                         <div className="flex">
                             <div className="flex-1">
                                 <p className=" text-[10px] text-gray-400">
-                                    Prefix
-                                </p>
-                                <h4 className="text-sm font-semibold text-primary">
-                                    {route.prefix}
-                                </h4>
-                            </div>{" "}
-                            <div className="flex-1">
-                                <p className=" text-[10px] text-gray-400">
                                     PDD
                                 </p>
                                 <h4 className="text-sm font-semibold text-primary ">

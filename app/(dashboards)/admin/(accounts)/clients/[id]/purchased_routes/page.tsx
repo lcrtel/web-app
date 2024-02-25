@@ -78,17 +78,15 @@ const PurchasedRoutes = async ({
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead>Prefix</TableHead>
-                        <TableHead>Area Prefix</TableHead>
+                        <TableHead>Destination Code</TableHead>
                         <TableHead>Rate</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {rates.data?.map((request: any) => (
-                        <TableRow key={request.id}>
-                            <TableCell>{request?.prefix}</TableCell>
-                            <TableCell>{request?.area_prefix}</TableCell>
-                            <TableCell>{request?.rate}</TableCell>
+                    {rates.data?.map((route: any) => (
+                        <TableRow key={route.id}>
+                            <TableCell>{route?.area_prefix}</TableCell>
+                            <TableCell>{route?.rate}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

@@ -30,7 +30,6 @@ export async function postTargets(data: any) {
             rate: route.rate,
             buying_rate: dec20Percent(Number(route.rate)),
             route_type: route.route_type,
-            prefix: route.prefix,
             asr: route.asr,
             acd: route.acd,
             ports: route.ports,

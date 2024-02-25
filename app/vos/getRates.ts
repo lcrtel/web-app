@@ -70,7 +70,6 @@ export default async function getRates({ name }: { name: string | null }) {
                     );
                     // Create an object with the column headers as keys
                     const rowObject = {
-                        prefix: rowData[1],
                         area_prefix: rowData[2],
                         rate: rowData[6],
                     };

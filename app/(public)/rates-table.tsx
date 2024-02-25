@@ -122,23 +122,6 @@ export const columns: ColumnDef<Route>[] = [
         ),
     },
     {
-        accessorKey: "prefix",
-        header: ({ column }) => (
-            <div
-                className="flex gap-2 items-center cursor-pointer"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                Prefix
-                <ArrowUpDown className=" h-4 w-4" />
-            </div>
-        ),
-        cell: ({ row }) => (
-            <div className="lowercase">{row.getValue("prefix")}</div>
-        ),
-    },
-    {
         accessorKey: "created_at",
         header: ({ column }) => (
             <div
@@ -210,7 +193,7 @@ export function RatesTable({ data }: any) {
                                 </TableRow>
                             ))}
                         </TableHeader>
-                        <TableBody >
+                        <TableBody>
                             {table?.getRowModel().rows?.length ? (
                                 table.getRowModel().rows.map((row) => (
                                     <TableRow

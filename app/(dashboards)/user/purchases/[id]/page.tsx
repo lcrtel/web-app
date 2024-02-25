@@ -1,6 +1,6 @@
 import { supabaseServer } from "@/lib/supabase-server";
 import Link from "next/link";
-import { HiOutlineArrowCircleLeft, HiOutlineClock } from "react-icons/hi";
+import { HiOutlineArrowCircleLeft } from "react-icons/hi";
 export const revalidate = 0;
 export default async function Page({ params }: { params: { id: string } }) {
     const supabase = supabaseServer();
@@ -49,10 +49,6 @@ export default async function Page({ params }: { params: { id: string } }) {
             </div>
 
             <div className="grid sm:grid-cols-2 gap-4 bg-surface rounded-lg p-4 mb-5">
-                <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
-                    <p className=" text-sm text-gray-500">Prefix</p>
-                    <p className=" font-semibold">{requests?.routes?.prefix}</p>
-                </div>
                 <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                     <p className=" text-sm text-gray-500">Destination Code</p>
                     <p className=" font-semibold">

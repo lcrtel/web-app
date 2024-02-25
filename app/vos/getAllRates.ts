@@ -68,7 +68,6 @@ export default async function getAllRates() {
                         // Create an object with the column headers as keys
                         const rowObject = {
                             client: name,
-                            prefix: rowData[1],
                             area_prefix: rowData[2],
                             rate: rowData[6],
                         };

@@ -46,7 +46,7 @@ export default function RateNotificationTemplate({ data }: { data: any }) {
                             <thead>
                                 <tr className=" ">
                                     <th className="py-2 px-3 rounded-md bg-surface text-left">
-                                        Prefix
+                                        Destination code
                                     </th>
                                     <th className="py-2 px-3 rounded-md bg-surface  text-left">
                                         Description
@@ -65,7 +65,7 @@ export default function RateNotificationTemplate({ data }: { data: any }) {
                             <tbody className=" ">
                                 <tr className="font-medium text-slate-500">
                                     <td className="py-2  rounded-md px-3 bg-slate-100">
-                                        {data.body.rateConfig.prefix}
+                                        {data.body.rateConfig.destination}
                                     </td>{" "}
                                     <td className="py-2  rounded-md px-3 bg-slate-100">
                                         {data.body.rateConfig.description}

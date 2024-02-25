@@ -65,22 +65,6 @@ export const columns: ColumnDef<Route>[] = [
         ),
     },
     {
-        accessorKey: "prefix",
-        header: ({ column }) => {
-            return (
-                <div
-                    className="flex gap-2 items-center cursor-pointer"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Prefix
-                    <ArrowUpDown className=" h-4 w-4" />
-                </div>
-            );
-        },
-    },
-    {
         accessorKey: "destination",
         header: ({ column }) => {
             return (

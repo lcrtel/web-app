@@ -37,7 +37,6 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { HiX } from "react-icons/hi";
 const routeFormSchema = z.object({
-    prefix: z.string(),
     destination: z.string(),
     rate: z.string(),
     selling_rate: z.string(),
@@ -103,22 +102,7 @@ export function EditRoute({ route }: { route: Route }) {
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
                         <div className="grid gap-5 sm:grid-cols-2 mb-5">
-                            <FormField
-                                control={form.control}
-                                name="prefix"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Prefix</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="Prefix"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                          
                             <FormField
                                 control={form.control}
                                 name="destination"

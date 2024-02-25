@@ -145,12 +145,6 @@ export function PurchaseRequestForm({
                         </div>{" "}
                         <div className="grid gap-1 ">
                             <div className="w-full flex justify-between items-center bg-white border border-slate-100 rounded-md px-2 py-1">
-                                <p className=" text-sm text-gray-500">Prefix</p>
-                                <p className=" font-semibold">
-                                    {route.routes?.prefix}
-                                </p>
-                            </div>
-                            <div className="w-full flex justify-between items-center bg-white border border-slate-100 rounded-md px-2 py-1">
                                 <p className=" text-sm text-gray-500">
                                     Destination Code
                                 </p>

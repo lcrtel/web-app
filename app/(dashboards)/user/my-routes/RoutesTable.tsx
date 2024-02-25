@@ -42,22 +42,6 @@ import { useRouter } from "next/navigation";
 
 export const columns: ColumnDef<Route>[] = [
     {
-        accessorKey: "prefix",
-        header: ({ column }) => {
-            return (
-                <div
-                    className="flex gap-2 items-center cursor-pointer"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Prefix
-                    <ArrowUpDown className=" h-4 w-4" />
-                </div>
-            );
-        },
-    },
-    {
         accessorKey: "destination",
         header: ({ column }) => {
             return (
@@ -77,7 +61,7 @@ export const columns: ColumnDef<Route>[] = [
     },
     {
         accessorKey: "destination_code",
-        header: "Area Prefix",
+        header: "Destination Code",
         cell: ({ row }) => (
             <Link
                 href={`/user/my-routes/${row.getValue("id")}`}

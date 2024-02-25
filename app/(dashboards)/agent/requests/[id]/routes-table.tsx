@@ -27,23 +27,6 @@ import formatDate from "@/utils/formatDate";
 import Link from "next/link";
 
 export const columns: ColumnDef<Route>[] = [
-
-    {
-        accessorKey: "prefix",
-        header: ({ column }) => {
-            return (
-                <div
-                    className="flex gap-2 items-center cursor-pointer"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Prefix
-                    <ArrowUpDown className=" h-4 w-4" />
-                </div>
-            );
-        },
-    },
     {
         accessorKey: "destination",
         header: ({ column }) => {
@@ -98,7 +81,7 @@ export const columns: ColumnDef<Route>[] = [
 
             return (
                 <div className="font-medium">
-                   ${" "}{row.getValue("selling_rate")}
+                    $ {row.getValue("selling_rate")}
                 </div>
             );
         },
@@ -251,7 +234,7 @@ export function RoutesTable({ data }: any) {
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
         getCoreRowModel: getCoreRowModel(),
-        
+
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,
@@ -270,7 +253,6 @@ export function RoutesTable({ data }: any) {
                 <h3 className="tracking-tight text-lg font-semibold">
                     Matching Route Offers
                 </h3>
-               
             </div>
             <div className="rounded-lg border">
                 <Table>

@@ -107,10 +107,6 @@ export default async function Page({ params }: { params: { id: string } }) {
                         </p>
                     </div>
                     <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
-                        <p className=" text-sm text-gray-500">Prefix</p>
-                        <p className=" font-semibold">{route?.prefix}</p>
-                    </div>
-                    <div className="w-full flex justify-between items-center bg-white rounded-md px-2 py-1">
                         <p className=" text-sm text-gray-500">
                             Destination Code
                         </p>

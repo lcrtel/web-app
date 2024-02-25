@@ -75,14 +75,7 @@ async function Routes({ userId }: { userId: any }) {
                     </div>
                     <div className="flex flex-col gap-2.5 rounded-xl bg-white p-2.5">
                         <div className="flex">
-                            <div className="flex-1">
-                                <p className=" text-[10px] text-gray-400">
-                                    Prefix
-                                </p>
-                                <h4 className="text-sm font-semibold text-primary">
-                                    {route.prefix}
-                                </h4>
-                            </div>{" "}
+                           
                             <div className="flex-1">
                                 <p className=" text-[10px] text-gray-400">
                                     PDD

@@ -430,7 +430,7 @@ LCRTel`;
     const [body1, setBody1] = useState(message1);
     const [body2, setBody2] = useState(message2);
     const [rateConfig, setRateConfig] = useState({
-        prefix: "",
+        destination: "",
         description: "",
         old_rate: "",
         new_rate: "",
@@ -554,13 +554,13 @@ LCRTel`;
                     />
                     <div className="grid grid-cols-3 gap-2">
                         <div>
-                            <Label>Prefix</Label>
+                            <Label>Destination</Label>
                             <Input
-                                value={rateConfig.prefix}
+                                value={rateConfig.destination}
                                 onChange={(e) =>
                                     setRateConfig((prevRateConfig: any) => ({
                                         ...prevRateConfig,
-                                        prefix: e.target.value,
+                                        destination: e.target.value,
                                     }))
                                 }
                                 required

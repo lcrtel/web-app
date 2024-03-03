@@ -18,7 +18,6 @@ import {
     TableRow,
 } from "@/components/ui/table";
 
-import { supabaseClient } from "@/lib/supabase-client";
 import {
     ColumnDef,
     RowData,
@@ -30,9 +29,9 @@ import {
 } from "@tanstack/react-table";
 
 import { AnimatePresence, motion } from "framer-motion";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { HiOutlineCloudUpload, HiPlusCircle, HiTrash } from "react-icons/hi";
 import { v4 as uuidv4 } from "uuid";
@@ -55,7 +54,6 @@ export function PostTargetTable() {
     const [columnVisibility, setColumnVisibility] = useState({});
     const [posting, setPosting] = useState(false);
     const router = useRouter();
-    const supabase = supabaseClient();
     const [data, setData] = useState<any>([
         {
             id: uuidv4(),

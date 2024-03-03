@@ -14,7 +14,6 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import {
@@ -22,7 +21,6 @@ import {
     updateNOCDipartment,
     updateSalesDipartment,
 } from "../../../actions";
-
 
 const departmentSchema = z.object({
     name: z.string().optional(),

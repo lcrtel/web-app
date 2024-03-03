@@ -6,7 +6,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       agents: {
@@ -267,6 +267,7 @@ export interface Database {
           agent_id: string | null
           balance: string | null
           company_name: string | null
+          departments: Json | null
           email: string | null
           finance_department: Json | null
           id: string
@@ -285,6 +286,7 @@ export interface Database {
           agent_id?: string | null
           balance?: string | null
           company_name?: string | null
+          departments?: Json | null
           email?: string | null
           finance_department?: Json | null
           id: string
@@ -303,6 +305,7 @@ export interface Database {
           agent_id?: string | null
           balance?: string | null
           company_name?: string | null
+          departments?: Json | null
           email?: string | null
           finance_department?: Json | null
           id?: string
@@ -392,7 +395,6 @@ export interface Database {
           id: string
           pdd: string
           ports: string
-          prefix: string
           rate: string
           route_type: string
           selling_rate: string
@@ -412,7 +414,6 @@ export interface Database {
           id?: string
           pdd: string
           ports: string
-          prefix: string
           rate: string
           route_type: string
           selling_rate?: string
@@ -432,7 +433,6 @@ export interface Database {
           id?: string
           pdd?: string
           ports?: string
-          prefix?: string
           rate?: string
           route_type?: string
           selling_rate?: string
@@ -448,6 +448,62 @@ export interface Database {
             columns: ["vendor_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      routes_history: {
+        Row: {
+          acd: string
+          asr: string
+          capacity: string
+          destination: string
+          destination_code: string
+          effective_date: string | null
+          id: string
+          pdd: string
+          ports: string
+          rate: string
+          route_id: string | null
+          route_type: string
+          selling_rate: string
+        }
+        Insert: {
+          acd: string
+          asr: string
+          capacity: string
+          destination: string
+          destination_code: string
+          effective_date?: string | null
+          id?: string
+          pdd: string
+          ports: string
+          rate: string
+          route_id?: string | null
+          route_type: string
+          selling_rate?: string
+        }
+        Update: {
+          acd?: string
+          asr?: string
+          capacity?: string
+          destination?: string
+          destination_code?: string
+          effective_date?: string | null
+          id?: string
+          pdd?: string
+          ports?: string
+          rate?: string
+          route_id?: string | null
+          route_type?: string
+          selling_rate?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_routes_history_route_id_fkey"
+            columns: ["route_id"]
+            isOneToOne: false
+            referencedRelation: "routes"
             referencedColumns: ["id"]
           }
         ]
@@ -498,7 +554,6 @@ export interface Database {
           id: string
           pdd: string
           ports: string
-          prefix: string
           rate: string
           route_type: string
           updated_at: string | null
@@ -515,7 +570,6 @@ export interface Database {
           id?: string
           pdd: string
           ports: string
-          prefix: string
           rate: string
           route_type: string
           updated_at?: string | null
@@ -532,7 +586,6 @@ export interface Database {
           id?: string
           pdd?: string
           ports?: string
-          prefix?: string
           rate?: string
           route_type?: string
           updated_at?: string | null
@@ -543,6 +596,62 @@ export interface Database {
             columns: ["client_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      targets_history: {
+        Row: {
+          acd: string
+          asr: string
+          buying_rate: number
+          capacity: string
+          destination: string
+          destination_code: string
+          effective_date: string | null
+          id: string
+          pdd: string
+          ports: string
+          rate: string
+          route_type: string
+          target_id: string | null
+        }
+        Insert: {
+          acd: string
+          asr: string
+          buying_rate?: number
+          capacity: string
+          destination: string
+          destination_code: string
+          effective_date?: string | null
+          id?: string
+          pdd: string
+          ports: string
+          rate: string
+          route_type: string
+          target_id?: string | null
+        }
+        Update: {
+          acd?: string
+          asr?: string
+          buying_rate?: number
+          capacity?: string
+          destination?: string
+          destination_code?: string
+          effective_date?: string | null
+          id?: string
+          pdd?: string
+          ports?: string
+          rate?: string
+          route_type?: string
+          target_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_targets_history_target_id_fkey"
+            columns: ["target_id"]
+            isOneToOne: false
+            referencedRelation: "targets"
             referencedColumns: ["id"]
           }
         ]

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { HiOutlineArrowCircleLeft } from "react-icons/hi";
 import AddToCart from "../AddToCart";
+import { PriceChart } from "./_components/LineChart";
 
 export const revalidate = 0;
 export default async function Page({ params }: { params: { id: string } }) {
@@ -12,6 +13,11 @@ export default async function Page({ params }: { params: { id: string } }) {
         .from("routes")
         .select("*")
         .match({ id: params.id });
+    const { data: rateHistory } = await supabase
+        .from("routes_history")
+        .select("*")
+        .match({ route_id: params.id });
+    // .match({ route_id: "ad71fc08-a30c-4ee7-88b6-b7f4dda1851a" });
     if (route === null) {
         redirect("/user/routes");
     }
@@ -97,6 +103,11 @@ export default async function Page({ params }: { params: { id: string } }) {
                         </p>
                     </div>
                 </div>
+                {rateHistory
+                    ? rateHistory?.length > 1 && (
+                          <PriceChart rates={rateHistory} />
+                      )
+                    : null}
             </div>
         </div>
     );

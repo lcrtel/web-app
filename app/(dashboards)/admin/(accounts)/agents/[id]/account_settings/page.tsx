@@ -1,14 +1,13 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
+import { unstable_noStore } from "next/cache";
 import { Suspense } from "react";
 import { AccountSettingsForm } from "../../../_components/AccountSettingsForm";
-
-export const revalidate = 0;
 
 export default function Page({ params }: { params: { id: string } }) {
     return (
         <Suspense
-            fallback={<Skeleton className="w-full h-[421px]  max-w-3xl" />}
+            fallback={<Skeleton className="w-full h-[421px] max-w-3xl" />}
         >
             <AgentDetails id={params.id} />
         </Suspense>
@@ -16,8 +15,9 @@ export default function Page({ params }: { params: { id: string } }) {
 }
 
 const AgentDetails = async ({ id }: { id: string }) => {
+    unstable_noStore();
     const supabase = supabaseServer();
-    let { data: agent, error } = await supabase
+    let { data: agent } = await supabase
         .from("profiles")
         .select("*")
         .eq("id", id)

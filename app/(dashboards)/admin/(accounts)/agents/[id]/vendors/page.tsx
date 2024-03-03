@@ -2,12 +2,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
 import { Suspense } from "react";
 import { VendorsTable } from "../../../vendors/VendorsTable";
-
-export const revalidate = 0;
+import { unstable_noStore } from "next/cache";
 
 export default function Page({ params }: { params: { id: string } }) {
     return (
-        <div className=" ">
+        <div>
             <div className="mb-5 ">
                 <div className="flex items-center mb-3 justify-between ">
                     <h2 className="text-lg font-semibold tracking-tight">
@@ -15,7 +14,6 @@ export default function Page({ params }: { params: { id: string } }) {
                     </h2>
                 </div>
             </div>
-
             <div className="flex flex-col gap-3 xl:flex-row w-full overflow-x-auto">
                 <Suspense fallback={<Loader />}>
                     <Vendors agentID={params.id} />
@@ -26,8 +24,9 @@ export default function Page({ params }: { params: { id: string } }) {
 }
 
 const Vendors = async ({ agentID }: { agentID: string }) => {
+    unstable_noStore()
     const supabase = supabaseServer();
-    let { data: clients, error } = await supabase
+    let { data: vendors } = await supabase
         .from("profiles")
         .select("*")
         .match({ agent_id: agentID, role: "vendor" });
@@ -56,7 +55,7 @@ const Vendors = async ({ agentID }: { agentID: string }) => {
         return acc;
     }, new Map());
 
-    const vendorsWithRouteCounts = clients?.map((user) => {
+    const vendorsWithRouteCounts = vendors?.map((user) => {
         const { id } = user;
         const routeCount = userRouteCount?.get(id) || 0;
         const routeRequestCount = userRouteRequestCount?.get(id) || 0;

@@ -95,7 +95,6 @@ export function AgentsTable({ data }: any) {
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
         getCoreRowModel: getCoreRowModel(),
-
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,
@@ -113,15 +112,14 @@ export function AgentsTable({ data }: any) {
             <div className="flex items-center pb-4">
                 <Input
                     type="text"
-                    placeholder="Search by email"
+                    placeholder="Search by name"
                     value={
-                        (table
-                            .getColumn("email")
-                            ?.getFilterValue() as string) ?? ""
+                        (table.getColumn("name")?.getFilterValue() as string) ??
+                        ""
                     }
                     onChange={(event) =>
                         table
-                            .getColumn("email")
+                            .getColumn("name")
                             ?.setFilterValue(event.target.value)
                     }
                     className="w-full "
@@ -158,7 +156,7 @@ export function AgentsTable({ data }: any) {
                                     }
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
+                                        <TableCell key={cell.id} className="p-2">
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()

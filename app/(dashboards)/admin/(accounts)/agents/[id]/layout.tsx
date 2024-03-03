@@ -3,6 +3,8 @@ import { supabaseServer } from "@/lib/supabase-server";
 import { Metadata } from "next";
 import { DropDownMenu } from "./dropdownMenu";
 import { AgentNav } from "./AgentNav";
+import { unstable_noStore } from "next/cache";
+import Link from "next/link";
 
 export const metadata: Metadata = {
     title: "Account Settings | LCRTel",
@@ -18,8 +20,8 @@ export default async function SettingsLayout({
     children,
     params,
 }: SettingsLayoutProps) {
+    unstable_noStore();
     const supabase = supabaseServer();
-
     let { data: agent, error } = await supabase
         .from("profiles")
         .select("*")
@@ -48,7 +50,7 @@ export default async function SettingsLayout({
     return (
         <div className="w-full">
             <p className="text-sm mb-2 font-medium text-slate-400">
-                Agents / {agent?.name}
+                <Link href="/admin/agents/">Agents</Link> / {agent?.name}
             </p>
             <div className="flex flex-wrap gap-2 mb-4 justify-between">
                 <div className="">

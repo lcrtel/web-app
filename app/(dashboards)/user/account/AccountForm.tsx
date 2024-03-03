@@ -15,9 +15,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { supabaseClient } from "@/lib/supabase-client";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
+import { updateUser } from "../_actions/userActions";
 
 const profileFormSchema = z.object({
     company_name: z.string(),
@@ -36,8 +36,7 @@ export function AccountForm({ user }: { user: any }) {
     });
 
     async function onSubmit(data: any) {
-        const supabase = supabaseClient();
-        const { data: any, error } = await supabase.auth.updateUser({
+        const { error } = await updateUser({
             data: data,
         });
         if (error) {
@@ -45,7 +44,6 @@ export function AccountForm({ user }: { user: any }) {
             return;
         }
         toast.success("Your details updated");
-
         router.refresh();
     }
 
@@ -57,7 +55,6 @@ export function AccountForm({ user }: { user: any }) {
                     className="space-y-4 "
                 >
                     <div className="grid sm:grid-cols-2 gap-5">
-                       
                         <FormField
                             control={form.control}
                             name="company_name"

@@ -11,21 +11,20 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-import { supabaseClient } from "@/lib/supabase-client";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
+import { deleteRoute } from "../_actions/routeActions";
 
 export default function DeleteRoute({ routeID }: { routeID: string }) {
-    const supabase = supabaseClient();
     const router = useRouter();
     const handleDelete = async () => {
-        const { error } = await supabase
-            .from("routes")
-            .delete()
-            .eq("id", routeID);
+        const { error } = await deleteRoute(routeID);
+        if (error) {
+            toast.error(error.message);
+            return;
+        }
         toast.success("Route deleted");
-
         router.refresh();
     };
     return (

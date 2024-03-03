@@ -17,7 +17,6 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { supabaseClient } from "@/lib/supabase-client";
 import {
     ColumnDef,
     RowData,
@@ -32,7 +31,6 @@ import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { toast } from "react-hot-toast";
 import {
     HiOutlineArrowCircleLeft,
     HiOutlineCloudUpload,
@@ -52,12 +50,10 @@ declare module "@tanstack/react-table" {
 }
 
 export function PostRouteTable() {
-    const [sorting, setSorting] = useState([]);
-    const [columnFilters, setColumnFilters] = useState([]);
+    const [sorting] = useState([]);
     const [columnVisibility, setColumnVisibility] = useState({});
     const [posting, setPosting] = useState(false);
     const router = useRouter();
-    const supabase = supabaseClient();
     const [data, setData] = useState<any>([]);
 
     useEffect(() => {
@@ -95,57 +91,13 @@ export function PostRouteTable() {
         );
     };
 
-    function add20Percent(rate: number) {
-        const increase = rate * 0.2; // Calculate 20% of the rate
-        const result = rate + increase; // Add the increase to the original number
-        return result.toFixed(5).toString();
-    }
-
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         setPosting(true);
         localStorage.setItem("pendingRouteOffersData", JSON.stringify(data));
-        const { data: user } = await supabase.auth.getUser();
-        if (!user.user) {
-            router.push("/post/auth");
-            setPosting(false);
-            return;
-        } else if (user.user) {
-            const { data: route, error } = await supabase.from("routes").insert(
-                data.map((route: any) => ({
-                    destination: route.destination,
-                    destination_code: route.destination_code,
-                    rate: route.rate,
-                    selling_rate: add20Percent(Number(route.rate)),
-                    route_type: route.route_type,
-                    asr: route.asr,
-                    acd: route.acd,
-                    ports: route.ports,
-                    capacity: route.capacity,
-                    pdd: route.pdd,
-                }))
-            );
-            if (error) {
-                toast.error(error.message);
-                setPosting(false);
-                return;
-            }
-            if (user?.user.user_metadata.role === "client") {
-                await supabase.auth.updateUser({
-                    data: { role: "vendor" },
-                });
-            }
-            fetch("http://localhost:3000/api/routes/post-offer", {
-                method: "POST",
-                body: JSON.stringify(data),
-            });
-        }
+        router.push("/post/auth");
         setPosting(false);
-        toast.success("Routes posted");
-        setData([]);
-
-        localStorage.removeItem("pendingRouteOffersData");
-        router.push("/user/routes/offers");
+        return;
     };
 
     const ImportDropdown = () => {
@@ -675,14 +627,12 @@ export function PostRouteTable() {
     const table = useReactTable({
         data,
         columns,
-        // defaultColumn,
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,
         state: {
             sorting,
-            columnFilters,
             columnVisibility,
         },
         meta: {

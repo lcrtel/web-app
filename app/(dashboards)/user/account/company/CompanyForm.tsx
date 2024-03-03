@@ -1,35 +1,23 @@
 "use client";
 
-import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 
-import { supabaseClient } from "@/lib/supabase-client";
-import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
+import { updateUser, updateUserProfile } from "../../_actions/userActions";
 
 const departmentSchema = z.object({
     name: z
@@ -49,7 +37,6 @@ const departmentSchema = z.object({
 export function CompanyForm({ user }: { user: any }) {
     const userID = user.id;
     const router = useRouter();
-
     const FinanceDipartment = () => {
         const defaultValues = user.user_metadata.finance_department;
         const form = useForm<any>({
@@ -58,15 +45,17 @@ export function CompanyForm({ user }: { user: any }) {
             mode: "onChange",
         });
         async function onSubmit(data: any) {
-            const supabase = supabaseClient();
-            const { data: any } = await supabase.auth.updateUser({
+            const { error: updateError } = await updateUser({
                 data: { finance_department: data },
             });
-            const { data: user, error } = await supabase
-                .from("profiles")
-                .update({ finance_department: data })
-                .eq("id", userID)
-                .select();
+            if (updateError) {
+                toast.error(updateError.message);
+                return;
+            }
+            const { error } = await updateUserProfile(
+                { finance_department: data },
+                userID
+            );
             if (error) {
                 toast.error(error.message);
                 return;
@@ -158,21 +147,22 @@ export function CompanyForm({ user }: { user: any }) {
         });
 
         async function onSubmit(data: any) {
-            const supabase = supabaseClient();
-            const { data: any } = await supabase.auth.updateUser({
+            const { error: updateError } = await updateUser({
                 data: { noc_department: data },
             });
-            const { data: user, error } = await supabase
-                .from("profiles")
-                .update({ noc_department: data })
-                .eq("id", userID)
-                .select();
+            if (updateError) {
+                toast.error(updateError.message);
+                return;
+            }
+            const { error } = await updateUserProfile(
+                { noc_department: data },
+                userID
+            );
             if (error) {
                 toast.error(error.message);
                 return;
             }
             toast.success("NOC department details saved");
-
             router.refresh();
         }
         return (
@@ -257,21 +247,22 @@ export function CompanyForm({ user }: { user: any }) {
             mode: "onChange",
         });
         async function onSubmit(data: any) {
-            const supabase = supabaseClient();
-            const { data: any } = await supabase.auth.updateUser({
+            const { error: updateError } = await updateUser({
                 data: { sales_department: data },
             });
-            const { data: user, error } = await supabase
-                .from("profiles")
-                .update({ sales_department: data })
-                .eq("id", userID)
-                .select();
+            if (updateError) {
+                toast.error(updateError.message);
+                return;
+            }
+            const { error } = await updateUserProfile(
+                { sales_department: data },
+                userID
+            );
             if (error) {
                 toast.error(error.message);
                 return;
             }
             toast.success("Sales department details saved");
-
             router.refresh();
         }
         return (

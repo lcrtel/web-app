@@ -12,9 +12,7 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table";
-import {
-    ArrowUpDown
-} from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 import * as React from "react";
 
 import { Input } from "@/components/ui/input";
@@ -28,6 +26,7 @@ import {
 } from "@/components/ui/table";
 import formatTimestamptz from "@/utils/formatTimestamptz";
 import AddToCart from "./AddToCart";
+import Link from "next/link";
 
 export function OffersTable({ data }: any) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -42,10 +41,8 @@ export function OffersTable({ data }: any) {
             header: "",
             cell: ({ row }) => {
                 const id: any = row.getValue("id");
-                
-                return (
-                    <AddToCart routeID={id}/>
-                );
+
+                return <AddToCart routeID={id} />;
             },
         },
         {
@@ -58,7 +55,12 @@ export function OffersTable({ data }: any) {
                 );
             },
             cell: ({ row }) => (
-                <div className="capitalize">{row.getValue("destination")}</div>
+                <Link
+                    href={`/user/routes/${row.getValue("id")}`}
+                    className="capitalize"
+                >
+                    {row.getValue("destination")}
+                </Link>
             ),
         },
         {
@@ -77,9 +79,12 @@ export function OffersTable({ data }: any) {
                 );
             },
             cell: ({ row }) => (
-                <div className="capitalize">
+                <Link
+                    href={`/user/routes/${row.getValue("id")}`}
+                    className="capitalize"
+                >
                     {row.getValue("destination_code")}
-                </div>
+                </Link>
             ),
         },
         {
@@ -99,9 +104,12 @@ export function OffersTable({ data }: any) {
             },
             cell: ({ row }) => {
                 return (
-                    <div className="font-medium">
+                    <Link
+                        href={`/user/routes/${row.getValue("id")}`}
+                        className="font-medium"
+                    >
                         $ {row.getValue("selling_rate")}
-                    </div>
+                    </Link>
                 );
             },
         },
@@ -121,11 +129,12 @@ export function OffersTable({ data }: any) {
                 );
             },
             cell: ({ row }) => (
-                <div
+                <Link
+                    href={`/user/routes/${row.getValue("id")}`}
                     className="uppercase"
                 >
                     {row.getValue("route_type")}
-                </div>
+                </Link>
             ),
         },
         {
@@ -210,7 +219,14 @@ export function OffersTable({ data }: any) {
             cell: ({ row }) => {
                 const Date = row.getValue("created_at");
                 const formattedDate = formatTimestamptz(Date);
-                return <div className="font-medium">{formattedDate}</div>;
+                return (
+                    <Link
+                        href={`/user/routes/${row.getValue("id")}`}
+                        className="font-medium"
+                    >
+                        {formattedDate}
+                    </Link>
+                );
             },
         },
     ];
@@ -220,7 +236,7 @@ export function OffersTable({ data }: any) {
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
         getCoreRowModel: getCoreRowModel(),
-        
+
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,

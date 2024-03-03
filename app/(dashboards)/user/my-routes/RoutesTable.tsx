@@ -8,21 +8,12 @@ import {
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
-    getPaginationRowModel,
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 import * as React from "react";
 
-import ReloadButton from "@/components/ReloadButton";
-import { Button } from "@/components/ui/button";
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
     Table,
@@ -32,13 +23,10 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import formatString from "@/utils/formatString";
 import formatTimestamptz from "@/utils/formatTimestamptz";
 import Link from "next/link";
 import { HiOutlineExternalLink, HiOutlinePencilAlt } from "react-icons/hi";
 import DeleteRoute from "./DeleteRoute";
-import { supabaseClient } from "@/lib/supabase-client";
-import { useRouter } from "next/navigation";
 
 export const columns: ColumnDef<Route>[] = [
     {
@@ -91,7 +79,7 @@ export const columns: ColumnDef<Route>[] = [
                 href={`/user/my-routes/${row.getValue("id")}`}
                 className="uppercase"
             >
-               $ {row.getValue("rate")}
+                $ {row.getValue("rate")}
             </Link>
         ),
     },
@@ -258,7 +246,6 @@ export function RoutesTable({ data }: any) {
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
         getCoreRowModel: getCoreRowModel(),
-        
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,
@@ -270,22 +257,6 @@ export function RoutesTable({ data }: any) {
             rowSelection,
         },
     });
-    const supabase = supabaseClient();
-    const router = useRouter();
-    React.useEffect(() => {
-        const realTimeRoutes = supabase
-            .channel("realtime_routes")
-            .on(
-                "postgres_changes",
-                { event: "*", schema: "public", table: "routes" },
-                () => router.refresh()
-            )
-            .subscribe();
-
-        return () => {
-            supabase.removeChannel(realTimeRoutes);
-        };
-    }, [supabase, router]);
     return (
         <div>
             <div className="flex items-center pb-4">

@@ -40,7 +40,7 @@ const AdminNav = ({ userRole, user }: { user: any; userRole: any }) => {
 
     const adminNav = [
         ["Route Offers", "/admin/routes"],
-        ["Route Requests", "/admin/requests"],
+        ["Buying Targets", "/admin/requests"],
         // ["Mapping(VOS)", "/admin/mapping"],
         // ["Routing(VOS)", "/admin/routing"],
         ["Clients", "/admin/clients"],

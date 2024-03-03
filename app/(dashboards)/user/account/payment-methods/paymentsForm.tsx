@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { supabaseClient } from "@/lib/supabase-client";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 
@@ -39,7 +38,6 @@ export function PaymentsForm({ user }: { user: any }) {
 
     async function onSubmit(data: any) {
         toast.success("Payment method saved");
-        // const supabase = supabaseClient();
         // const { data: any } = await supabase.auth.updateUser({
         //     data: { payment_method: data },
         // });

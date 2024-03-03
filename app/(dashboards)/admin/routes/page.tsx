@@ -1,12 +1,11 @@
-import { buttonVariants } from "@/components/ui/button";
-import Link from "next/link";
-import { HiOutlinePlusCircle } from "react-icons/hi";
-import { fetchVerfiedRoutes } from "./fetchVerfiedRoutes";
-import { fetchUnVerfiedRoutes } from "./fetchUnVerfiedRoutes";
-import { RoutesTable } from "./routes-table";
-import { unstable_noStore } from "next/cache";
-import { Suspense } from "react";
 import Loader from "@/components/Loader";
+import { buttonVariants } from "@/components/ui/button";
+import { unstable_noStore } from "next/cache";
+import Link from "next/link";
+import { Suspense } from "react";
+import { HiOutlinePlusCircle } from "react-icons/hi";
+import { fetchUnVerfiedRoutes, fetchVerfiedRoutes } from "./actions";
+import { RoutesTable } from "./routes-table";
 
 const Routes = async () => {
     unstable_noStore();

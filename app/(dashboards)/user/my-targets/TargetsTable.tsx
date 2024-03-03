@@ -9,7 +9,7 @@ import {
     getCoreRowModel,
     getFilteredRowModel,
     getSortedRowModel,
-    useReactTable
+    useReactTable,
 } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import * as React from "react";
@@ -23,10 +23,8 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { supabaseClient } from "@/lib/supabase-client";
 import formatTimestamptz from "@/utils/formatTimestamptz";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { HiOutlineExternalLink, HiOutlinePencilAlt } from "react-icons/hi";
 import DeleteRoute from "./DeleteRoute";
 
@@ -230,7 +228,7 @@ export function TargetsTable({ data }: any) {
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
         getCoreRowModel: getCoreRowModel(),
-        
+
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,
@@ -242,22 +240,6 @@ export function TargetsTable({ data }: any) {
             rowSelection,
         },
     });
-    const supabase = supabaseClient();
-    const router = useRouter();
-    React.useEffect(() => {
-        const realTimeTargets = supabase
-            .channel("realtime_targets")
-            .on(
-                "postgres_changes",
-                { event: "*", schema: "public", table: "targets" },
-                () => router.refresh()
-            )
-            .subscribe();
-
-        return () => {
-            supabase.removeChannel(realTimeTargets);
-        };
-    }, [supabase, router]);
     return (
         <div>
             <div className="flex items-center pb-4">
@@ -275,7 +257,6 @@ export function TargetsTable({ data }: any) {
                     }
                     className="max-w-[200px] mr-2"
                 />
-               
             </div>
             <div className="rounded-lg border ">
                 <Table>

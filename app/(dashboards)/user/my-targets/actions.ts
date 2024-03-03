@@ -4,6 +4,7 @@ import DeleteTargetEmail from "@/emails/DeleteTargetEmail";
 import SubmitTargets from "@/emails/SubmitTargets";
 import UpdateTargetRate from "@/emails/target-rate/UpdateTargetRate";
 import { supabaseServer } from "@/lib/supabase-server";
+import { getUpdatedValues } from "@/utils/getUpdatedValuesOfObject";
 import { transporter } from "@/utils/smtp-transporter";
 import { fetchUserData, fetchUserMetadata } from "@/utils/user";
 import { renderAsync } from "@react-email/render";
@@ -92,6 +93,22 @@ export async function updateTarget(oldTarget: Target, newTarget: any) {
     if (updatedValues) {
         const user = await fetchUserMetadata();
         const supabase = supabaseServer();
+        await supabase.from("targets_history").insert([
+            {
+                pdd: oldTarget.pdd,
+                ports: oldTarget.ports,
+                route_type: oldTarget.route_type,
+                effective_date: oldTarget.created_at,
+                acd: oldTarget.acd,
+                asr: oldTarget.asr,
+                capacity: oldTarget.capacity,
+                destination: oldTarget.destination,
+                destination_code: oldTarget.destination_code,
+                rate: oldTarget.rate,
+                buying_rate: oldTarget.buying_rate,
+                target_id: oldTarget.id,
+            },
+        ]);
         const { error } = await supabase
             .from("targets")
             .update(newTarget)
@@ -109,21 +126,5 @@ export async function updateTarget(oldTarget: Target, newTarget: any) {
             ),
         });
     }
-    return
-}
-function getUpdatedValues(oldObj: any, newObj: any) {
-    const updatedValues: any = {};
-
-    // Iterate through the properties of the new object
-    for (const key in newObj) {
-        // Check if the property exists in the old object and has been updated
-        if (oldObj.hasOwnProperty(key) && oldObj[key] !== newObj[key]) {
-            updatedValues[key] = {
-                oldValue: oldObj[key],
-                newValue: newObj[key],
-            };
-        }
-    }
-
-    return updatedValues;
+    return;
 }

@@ -11,15 +11,14 @@ import {
     FormField,
     FormItem,
     FormLabel,
-    FormMessage
+    FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
-import { supabaseClient } from "@/lib/supabase-client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { HiEye, HiEyeOff } from "react-icons/hi";
+import { updateUser } from "../../_actions/userActions";
 
 const profileFormSchema = z.object({
     password: z
@@ -37,25 +36,19 @@ const profileFormSchema = z.object({
         ),
 });
 
-export function PasswordForm({ user }: { user: any }) {
-    const userID = user?.id;
+export function PasswordForm() {
     const [showPassword, setShowPassword] = useState(false);
-
     const router = useRouter();
     const form = useForm<any>({
         resolver: zodResolver(profileFormSchema),
         mode: "onChange",
     });
-
     async function onSubmit(data: any) {
-        const supabase = supabaseClient();
-
-        const { error } = await supabase.auth.updateUser({
+        const { error } = await updateUser({
             password: data.password,
         });
         if (error) {
             toast.error(error.message);
-
             return;
         }
         toast.success("Your password updated");

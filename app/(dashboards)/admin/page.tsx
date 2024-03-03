@@ -20,8 +20,8 @@ import Overview from "./Overview";
 import QuickActions from "./QuickActions";
 import { InvoiceTable } from "./invoices/InvoiceTable";
 import { EditPurchaseRequest } from "./requests/EditPurchaseRequest";
-import { fetchUnVerfiedRoutes } from "./routes/fetchUnVerfiedRoutes";
 import { RoutesTable } from "./routes/routes-table";
+import { fetchUnVerfiedRoutes } from "./routes/actions";
 
 export const metadata: Metadata = {
     title: "Dashboard - Admin",

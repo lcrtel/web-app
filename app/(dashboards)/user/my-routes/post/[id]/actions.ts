@@ -4,12 +4,18 @@ import { supabaseServer } from "@/lib/supabase-server";
 import { renderAsync } from "@react-email/render";
 import nodemailer from "nodemailer";
 import RouteOfferUpdatesEmail from "./RouteOfferUpdatesEmail";
+import { getUpdatedValues } from "@/utils/getUpdatedValuesOfObject";
+import { add20Percent } from "@/utils/rateHikes";
 
 export async function updateRoute(oldRoute: Route, updatedRoute: Route) {
     const supabase = supabaseServer();
-    const { data: target, error }: any = await supabase
+    const { data: route, error }: any = await supabase
         .from("routes")
-        .update({ ...updatedRoute, updated_at: new Date().toISOString() })
+        .update({
+            ...updatedRoute,
+            updated_at: new Date().toISOString(),
+            selling_rate: add20Percent(Number(updatedRoute.rate)),
+        })
         .eq("id", oldRoute.id)
         .select(`*, profiles (*)`)
         .single();
@@ -19,7 +25,7 @@ export async function updateRoute(oldRoute: Route, updatedRoute: Route) {
         return {
             oldRecords: oldRoute,
             updatedRecords: updatedRoute,
-            userDetails: target?.profiles,
+            userDetails: route?.profiles,
         };
     }
 }

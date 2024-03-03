@@ -8,7 +8,6 @@ import {
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
-    getPaginationRowModel,
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table";
@@ -138,7 +137,9 @@ export const columns: ColumnDef<Route>[] = [
             );
         },
         cell: ({ row }) => (
-            <div className="capitalize">{formatDate(row.getValue("created_at"))}</div>
+            <div className="capitalize">
+                {formatDate(row.getValue("created_at"))}
+            </div>
         ),
     },
     {
@@ -160,7 +161,7 @@ export const columns: ColumnDef<Route>[] = [
     },
 ];
 
-export function RequestsTable({ data }: any) {
+export function TargetsTable({ data }: any) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
@@ -174,7 +175,7 @@ export function RequestsTable({ data }: any) {
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
         getCoreRowModel: getCoreRowModel(),
-        
+
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,
@@ -204,7 +205,6 @@ export function RequestsTable({ data }: any) {
                     }
                     className="max-w-[200px] mr-2"
                 />
-               
             </div>
             <div className="rounded-lg border">
                 <Table>
@@ -237,7 +237,7 @@ export function RequestsTable({ data }: any) {
                                     }
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
+                                        <TableCell key={cell.id} className="p-2">
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()

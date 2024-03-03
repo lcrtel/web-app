@@ -1,14 +1,12 @@
-import fetchUser from "@/app/(public)/post/fetchUser";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
 import { Suspense } from "react";
 import { ClientsTable } from "../../../clients/ClientsTable";
-
-export const revalidate = 0;
+import { unstable_noStore } from "next/cache";
 
 export default async function Page({ params }: { params: { id: string } }) {
     return (
-        <div className=" ">
+        <div>
             <div className="mb-5 ">
                 <div className="flex items-center mb-3 justify-between ">
                     <h2 className="text-lg font-semibold tracking-tight">
@@ -27,16 +25,16 @@ export default async function Page({ params }: { params: { id: string } }) {
 }
 
 const Clients = async ({ agentID }: { agentID: string }) => {
+    unstable_noStore();
     const supabase = supabaseServer();
-    let { data: clients, error } = await supabase
+    let { data: clients } = await supabase
         .from("profiles")
         .select("*")
         .eq("agent_id", agentID)
         .or(`role.eq.client,role.eq.vendor`);
-
     let { data: targets } = await supabase.from("targets").select("*");
 
-    const userRouteCounts = targets?.reduce((acc, route) => {
+    const targetCounts = targets?.reduce((acc, route) => {
         const { client_id } = route;
         if (acc.has(client_id)) {
             acc.set(client_id, acc.get(client_id) + 1);
@@ -45,10 +43,9 @@ const Clients = async ({ agentID }: { agentID: string }) => {
         }
         return acc;
     }, new Map());
-
     const clientsWithTargetCounts = clients?.map((user) => {
         const { id } = user;
-        const targetCount = userRouteCounts?.get(id) || 0;
+        const targetCount = targetCounts?.get(id) || 0;
         return { ...user, targets: targetCount };
     });
 

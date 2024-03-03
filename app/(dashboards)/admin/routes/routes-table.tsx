@@ -267,20 +267,6 @@ export function RoutesTable({ data }: any) {
 
     const supabase = supabaseClient();
     const router = useRouter();
-    React.useEffect(() => {
-        const realTimeRoutes = supabase
-            .channel("realtime_routes")
-            .on(
-                "postgres_changes",
-                { event: "*", schema: "public", table: "routes" },
-                () => router.refresh()
-            )
-            .subscribe();
-
-        return () => {
-            supabase.removeChannel(realTimeRoutes);
-        };
-    }, [supabase, router]);
     return (
         <div className=" ">
             <div className="flex items-center pb-4">
@@ -358,7 +344,7 @@ export function RoutesTable({ data }: any) {
                                     }
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
+                                        <TableCell key={cell.id} className="p-2">
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()

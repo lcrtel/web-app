@@ -1,28 +1,26 @@
 "use client";
 
-import { Button, buttonVariants } from "@/components/ui/button";
-import { supabaseClient } from "@/lib/supabase-client";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { FaCartShopping } from "react-icons/fa6";
-import { HiLogout, HiOutlineLogout, HiUserCircle } from "react-icons/hi";
+import { useState } from "react";
+import { HiOutlineLogout, HiUserCircle } from "react-icons/hi";
+import { signOut } from "./_actions/userActions";
+import toast from "react-hot-toast";
 
 export default function ProfileDropdown({ user }: { user: any }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
     const router = useRouter();
-    const supabase = supabaseClient();
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
-        // setTimeout(() => {
-        //     setIsMenuOpen(false);
-        // }, 3000);
     };
 
     const handleSignOut = async () => {
-        await supabase.auth.signOut();
+        const { error } = await signOut();
+        if (error) {
+            toast.error(error.message);
+            return;
+        }
         router.push("/");
     };
     return (

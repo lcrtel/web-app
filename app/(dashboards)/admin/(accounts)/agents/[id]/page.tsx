@@ -1,10 +1,9 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
+import { unstable_noStore } from "next/cache";
 import Link from "next/link";
 import { Suspense } from "react";
 import { HiArrowRight } from "react-icons/hi";
-
-export const revalidate = 0;
 
 const Vendors = async ({
     agentID,
@@ -13,6 +12,7 @@ const Vendors = async ({
     agentID: string;
     supabase: any;
 }) => {
+    unstable_noStore();
     let { data: vendors, error } = await supabase
         .from("profiles")
         .select("*")
@@ -22,6 +22,7 @@ const Vendors = async ({
         <p className="font-bold tracking-tight text-3xl ">{vendors.length}</p>
     );
 };
+
 const Clients = async ({
     agentID,
     supabase,
@@ -29,6 +30,7 @@ const Clients = async ({
     agentID: string;
     supabase: any;
 }) => {
+    unstable_noStore();
     let { data: clients, error } = await supabase
         .from("profiles")
         .select("*")
@@ -39,6 +41,7 @@ const Clients = async ({
         <p className="font-bold tracking-tight text-3xl ">{clients.length}</p>
     );
 };
+
 const RouteOffers = async ({
     agentID,
     supabase,
@@ -46,6 +49,7 @@ const RouteOffers = async ({
     agentID: string;
     supabase: any;
 }) => {
+    unstable_noStore();
     let { data: verified_routes } = await supabase
         .from("routes")
         .select(`*, profiles (agent_id)`)
@@ -67,6 +71,7 @@ const RouteRequests = async ({
     agentID: string;
     supabase: any;
 }) => {
+    unstable_noStore();
     let { data: routeRequests, error } = await supabase
         .from("targets")
         .select(`*, profiles (agent_id)`);
@@ -98,7 +103,7 @@ const Purchases = async ({
     );
 };
 
-export default async function Page({ params }: { params: { id: string } }) {
+export default function Page({ params }: { params: { id: string } }) {
     const supabase = supabaseServer();
     return (
         <section className="">
@@ -136,7 +141,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 <div className="hover:bg-slate-50 hover:shadow-lg transition-all space-y-2 ease-in duration-300 border rounded-xl p-4 md:p-5 active:scale-[95%]">
                     <h3 className="text-sm font-medium text-gray-400 tracking-tight flex items-center justify-between">
                         Route Offers
-                         {/* <HiArrowRight className="" /> */}
+                        {/* <HiArrowRight className="" /> */}
                     </h3>
                     <Suspense
                         fallback={
@@ -148,7 +153,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 </div>
                 <div className="hover:bg-slate-50 hover:shadow-lg transition-all space-y-2 ease-in duration-300 border rounded-xl p-4 md:p-5 active:scale-[95%]">
                     <h3 className="text-sm font-medium text-gray-400 tracking-tight flex items-center justify-between">
-                        Route Requests 
+                        Route Requests
                         {/* <HiArrowRight className="" /> */}
                     </h3>
                     <Suspense

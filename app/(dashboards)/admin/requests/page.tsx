@@ -18,8 +18,8 @@ import { Suspense } from "react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { HiOutlineExternalLink, HiOutlinePlusCircle } from "react-icons/hi";
 import { EditPurchaseRequest } from "./EditPurchaseRequest";
-import { RequestsTable } from "./RequestsTable";
 import { unstable_noStore } from "next/cache";
+import { TargetsTable } from "./TargetsTable";
 
 export default function Page() {
     const supabase = supabaseServer();
@@ -27,7 +27,7 @@ export default function Page() {
         <div className="">
             <div className="flex  gap-2  flex-wrap md:items-center mb-4 justify-between ">
                 <h1 className="text-2xl font-bold text-primary">
-                    Route Requests
+                   Buying Targets
                 </h1>
                 <Link
                     passHref
@@ -92,7 +92,7 @@ async function BuyingTargets({ supabase }: { supabase: SupabaseClient }) {
                 };
             });
     }
-    return <RequestsTable data={addClientNameToTargets(targets, clients)} />;
+    return <TargetsTable data={addClientNameToTargets(targets, clients)} />;
 }
 
 async function PurchaseRequests({ supabase }: { supabase: SupabaseClient }) {

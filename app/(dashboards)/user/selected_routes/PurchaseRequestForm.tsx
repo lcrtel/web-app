@@ -17,17 +17,12 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { supabaseClient } from "@/lib/supabase-client";
-import formatString from "@/utils/formatString";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { User } from "@supabase/supabase-js";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { FaWhatsapp } from "react-icons/fa6";
 import { HiTrash } from "react-icons/hi";
 import * as z from "zod";
 import {

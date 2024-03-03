@@ -32,10 +32,10 @@ export default async function SettingsLayout({
             title: "Password",
             href: `/user/account/password`,
         },
-        {
-            title: "Payment methods",
-            href: `/user/account/payment-methods`,
-        },
+        // {
+        //     title: "Payment methods",
+        //     href: `/user/account/payment-methods`,
+        // },
     ];
 
     return (

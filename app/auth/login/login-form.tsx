@@ -60,9 +60,9 @@ const LoginForm = () => {
             if (userRole === "admin") {
                 router.push("/admin");
             } else if (userRole === "manager") {
-                router.push("/admin");
+                router.push("/manager");
             } else if (userRole === "agent") {
-                router.push("/agent");
+                router.push("/manager");
             } else if (userRole === "vendor") {
                 router.push("/user");
             } else if (userRole === "client") {

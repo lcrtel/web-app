@@ -54,7 +54,7 @@ export function AddRouteTable({ users }: { users: any }) {
         setData([]);
         toast.success("Route Offer Posted");
         router.refresh();
-        router.push("/admin/routes");
+        router.push("/admin/routes/offers");
     };
 
     const handleSubmit = async (e: any) => {

@@ -37,7 +37,7 @@ export const columns: ColumnDef<Route>[] = [
         },
         cell: ({ row }) => (
             <Link
-                href={`/user/routes/requests/${row.getValue("id")}`}
+                href={`/user/targets/${row.getValue("id")}`}
                 className="capitalize"
             >
                 {row.getValue("destination")}
@@ -49,7 +49,7 @@ export const columns: ColumnDef<Route>[] = [
         header: "Code",
         cell: ({ row }) => (
             <Link
-                href={`/user/routes/requests/${row.getValue("id")}`}
+                href={`/user/targets/${row.getValue("id")}`}
                 className="capitalize"
             >
                 {row.getValue("destination_code")}
@@ -110,7 +110,7 @@ export const columns: ColumnDef<Route>[] = [
         },
         cell: ({ row }) => (
             <Link
-                href={`/user/routes/requests/${row.getValue("id")}`}
+                href={`/user/targets/${row.getValue("id")}`}
                 className="uppercase"
             >
                 {row.getValue("route_type")}

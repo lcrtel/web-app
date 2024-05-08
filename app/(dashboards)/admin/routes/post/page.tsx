@@ -15,7 +15,7 @@ const page = async () => {
             <div className="flex items-center gap-4 justify-between mb-4">
                 <div className="flex items-center gap-4">
                     <Link
-                        href="/admin/routes"
+                        href="/admin/routes/offers"
                         className={buttonVariants({
                             variant: "secondary",
                             size: "icon",

@@ -1,87 +1,77 @@
 "use client";
 
-import { buttonVariants } from "@/components/ui/button";
-import { AnimatePresence, motion } from "framer-motion";
+import { fetchCartItems } from "@/components/navigation/user/actions";
+import { Button, buttonVariants } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { PopoverClose } from "@radix-ui/react-popover";
+import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
-import { FaCartShopping } from "react-icons/fa6";
+import { useEffect, useState } from "react";
 import { HiArrowRight } from "react-icons/hi";
-
-export function CartDropdown({ items }: { items: any[] | null }) {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
+export function CartDropdown() {
+  const [items, setItems]: any = useState([]);
+  useEffect(() => {
+    const fetchItems = async () => {
+      const selectedRoutes = await fetchCartItems();
+      setItems(selectedRoutes);
     };
+    fetchItems();
+  }, []);
 
-    return (
-        <div className="">
-            <button
-                type="button"
-                className={`inline-flex relative items?-center rounded-lg p-2 text-sm ${
-                    isMenuOpen ? "bg-surface" : ""
-                }`}
-                onClick={toggleMenu}
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button variant="outline" size="icon" className="relative">
+          <div className="absolute -right-[2px] -top-[2px] flex h-5 w-5 items-center justify-center rounded-full bg-surface text-xs">
+            {items?.length}
+          </div>
+          <ShoppingCart className="size-5" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className=" rounded-2xl text-primary-500">
+        <h3 className="mb-2 text-lg font-bold tracking-tight">
+          Selected Routes
+        </h3>
+        {items?.length ? (
+          <div className="mb-2 grid gap-2">
+            {items?.map((route: any) => (
+              <div
+                key={route.id}
+                className=" flex justify-between gap-2 rounded-full border bg-white px-3 py-1 font-medium uppercase"
+              >
+                <p className=" ">
+                  {route?.routes?.destination} - {route?.routes?.route_type}
+                </p>
+                <p>${route?.routes?.selling_rate}</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="py-4">
+            <p className="text-center font-medium tracking-tight text-slate-400">
+              Empty
+            </p>
+          </div>
+        )}
+
+        <PopoverClose asChild>
+          {items?.length ? (
+            <Link
+              href="/user/selected_routes"
+              className={`${buttonVariants({
+                variant: "secondary",
+                size: "sm",
+              })} mt-2 w-full gap-2`}
             >
-                <div className="bg-surface w-5 h-5 flex items?-center justify-center text-xs rounded-full absolute -top-[2px] -right-[2px]">
-                    {items?.length}
-                </div>
-                <FaCartShopping className="w-5 h-5" />
-            </button>{" "}
-            <AnimatePresence>
-                {isMenuOpen && (
-                    <>
-                        <motion.div
-                            className=" z-20 max-w-md min-w-[250px] absolute border  right-5 top-16 rounded-xl p-4 shadow-xl bg-slate-50"
-                            initial={{ opacity: 0, y: "-8%" }}
-                            animate={{ opacity: 1, y: "0%" }}
-                            exit={{ opacity: 0, y: "-8%" }}
-                            onClick={(event) => setIsMenuOpen(false)}
-                            onMouseLeave={(event) => setIsMenuOpen(false)}
-                        >
-                            <h3 className="text-lg tracking-tight mb-2 font-bold">
-                                Selected Routes
-                            </h3>
-                            {items?.length ? (
-                                <div className="grid gap-2 mb-2">
-                                    {items?.map((route: any) => (
-                                        <div
-                                            key={route.id}
-                                            className=" px-3 py-1 bg-white border flex gap-2 justify-between rounded-full font-medium uppercase"
-                                        >
-                                            <p className=" ">
-                                                {route?.routes?.destination} -{" "}
-                                                {route?.routes?.route_type}
-                                            </p>
-                                            <p>
-                                                ${route?.routes?.selling_rate}
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
-                            ) : (
-                                <div className="py-4">
-                                    <p className="font-medium tracking-tight text-center text-slate-400">
-                                        Empty
-                                    </p>
-                                </div>
-                            )}
-
-                            {items?.length ? (
-                                <Link
-                                    href="/user/selected_routes"
-                                    className={`${buttonVariants({
-                                        variant: "secondary",
-                                        size: "sm",
-                                    })} w-full gap-2 mt-2`}
-                                >
-                                    View All{" "}
-                                    <HiArrowRight className="w-4 h-4" />
-                                </Link>
-                            ) : null}
-                        </motion.div>
-                    </>
-                )}
-            </AnimatePresence>
-        </div>
-    );
+              View All <HiArrowRight className="h-4 w-4" />
+            </Link>
+          ) : null}
+        </PopoverClose>
+      </PopoverContent>
+    </Popover>
+  );
 }

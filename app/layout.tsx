@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import Toast from "./Toast";
 import "./globals.css";
 import { supabaseServer } from "@/lib/supabase-server";
+import { Chat } from "@/components/chat";
 // export const dynamic = "force-dynamic";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -32,6 +33,7 @@ export default async function RootLayout({
                 <main className="relative">
                     <RefreshOnFocus />
                     {children}{" "}
+                    <Chat/>
                 </main>
                 <Analytics />
                 <SpeedInsights />

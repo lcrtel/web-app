@@ -6,7 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 
 interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
     items: {
-        href: string;
+        href: any;
         title: string;
     }[];
 }

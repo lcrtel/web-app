@@ -10,7 +10,7 @@ import { HiOutlineMenuAlt3, HiOutlineX } from "react-icons/hi";
 
 interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
     items: {
-        href: string;
+        href: any;
         title: string;
     }[];
 }

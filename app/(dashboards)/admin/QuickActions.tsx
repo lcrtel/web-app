@@ -1,6 +1,6 @@
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
-import { AddAccountForm } from "./(accounts)/_components/AddAccount";
+import { AddAccountForm } from "./users/_components/AddAccount";
 
 const QuickActions = () => {
     return (
@@ -21,7 +21,7 @@ const QuickActions = () => {
                     Add Routes
                 </Link>
                 <Link
-                    href="/admin/requests/post"
+                    href="/admin/routes/targets/post"
                     className={`${buttonVariants({
                         variant: "outline",
                     })}`}

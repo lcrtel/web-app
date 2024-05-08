@@ -9,7 +9,7 @@ const MetricsCard = ({
 }: {
     count: number | undefined;
     label: string;
-    link: string;
+    link: any;
 }) => {
     return (
         <Link

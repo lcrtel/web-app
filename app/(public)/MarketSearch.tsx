@@ -51,17 +51,19 @@ export default function InputForm() {
         const fetchRouteOffers = async () => {
             let { data: routes, error } = await supabase
                 .from("routes")
-                .select("*");
+                .select("*")
+                .eq("verification", "verified");
             if (routes) {
                 setRouteOffers(routes);
             }
         };
         fetchRouteOffers();
-    }, [setRouteOffers]);
+    }, [setRouteOffers, supabase]);
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         let { data: routes, error } = await supabase
             .from("routes")
             .select("*")
+            .eq("verification", "verified")
             .match({
                 route_type: data.route_type,
                 destination_code: destinationCode,

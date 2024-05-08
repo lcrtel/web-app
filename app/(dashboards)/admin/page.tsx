@@ -1,4 +1,3 @@
-import { buttonVariants } from "@/components/ui/button";
 import {
     Table,
     TableBody,
@@ -9,7 +8,6 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { supabaseServer } from "@/lib/supabase-server";
-import formatDate from "@/utils/formatDate";
 import formatString from "@/utils/formatString";
 import { Metadata } from "next";
 import { unstable_noStore } from "next/cache";
@@ -18,10 +16,9 @@ import { Suspense } from "react";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import Overview from "./Overview";
 import QuickActions from "./QuickActions";
-import { InvoiceTable } from "./invoices/InvoiceTable";
-import { EditPurchaseRequest } from "./requests/EditPurchaseRequest";
-import { RoutesTable } from "./routes/routes-table";
-import { fetchUnVerfiedRoutes } from "./routes/actions";
+import { fetchUnVerfiedRoutes } from "./routes/offers/actions";
+import { RoutesTable } from "./routes/offers/routes-table";
+import { EditPurchaseRequest } from "./routes/targets/EditPurchaseRequest";
 
 export const metadata: Metadata = {
     title: "Dashboard - Admin",
@@ -30,10 +27,6 @@ export const metadata: Metadata = {
 const PurchaseRequests = async () => {
     unstable_noStore();
     const supabase = supabaseServer();
-
-    let { data: gateways } = await supabase
-        .from("gateways")
-        .select(`*, routes (*), profiles (*)`);
     let { data: requests } = await supabase
         .from("purchase_requests")
         .select(`*, routes (*), profiles (*)`)
@@ -46,7 +39,7 @@ const PurchaseRequests = async () => {
                     Purchase Requests
                 </h2>
                 <Link
-                    href="/admin/requests/purchase_requests"
+                    href="/admin/routes/purchase_requests"
                     className=" text-sm hover:underline"
                 >
                     View All
@@ -66,12 +59,11 @@ const PurchaseRequests = async () => {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {/* <pre>{JSON.stringify(requests, null, 2)}</pre> */}
                         {requests?.map((request) => (
                             <TableRow key={request.id}>
                                 <TableCell className="font-medium">
                                     <Link
-                                        href={`/admin/routes/${request.route_id}`}
+                                        href={`/admin/routes/offers/${request.route_id}`}
                                         className=" uppercase flex gap-2 group relative"
                                     >
                                         {request?.routes?.destination} -{" "}
@@ -81,7 +73,7 @@ const PurchaseRequests = async () => {
                                 </TableCell>
                                 <TableCell>
                                     <Link
-                                        href={`/admin/users/${request.client_id}`}
+                                        href={`/admin/users/clients/${request.client_id}`}
                                         className="flex gap-2 group relative"
                                     >
                                         {request?.profiles?.email}
@@ -124,116 +116,16 @@ const UnverifiedRoutes = async () => {
                 <h2 className="font-semibold tracking-tight text-lg">
                     Univerified Routes
                 </h2>
-                <Link href="/admin/routes" className=" text-sm hover:underline">
+                <Link
+                    href="/admin/routes/offers"
+                    className=" text-sm hover:underline"
+                >
                     View All
                 </Link>
             </div>
-            <RoutesTable data={unverified_routes} />
+            <RoutesTable data={unverified_routes.slice(0, 5)} />
         </div>
     ) : null;
-};
-
-const Payments = async () => {
-    const supabase = supabaseServer();
-
-    const { data: payments } = await supabase
-        .from("payments")
-        .select(`*, profiles (*)`)
-        .range(0, 4);
-    return (
-        <div className="">
-            <div className="flex mb-2 justify-between items-center">
-                <h2 className="font-semibold tracking-tight text-lg">
-                    Payments
-                </h2>
-                <Link
-                    href="/admin/transactions"
-                    className=" text-sm hover:underline"
-                >
-                    View All
-                </Link>
-            </div>
-            {payments?.length ? (
-                <Table className="">
-                    <TableCaption>A list of payments.</TableCaption>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead className="max-w-[200px]">
-                                User
-                            </TableHead>
-                            <TableHead>Payment Amount</TableHead>
-                            <TableHead>Payment Date</TableHead>
-                            <TableHead>Payment Method</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {payments?.map((payment) => (
-                            <TableRow key={payment.payment_id}>
-                                <TableCell className="font-medium">
-                                    {payment.profiles?.email}
-                                </TableCell>
-                                <TableCell>${payment.amount}</TableCell>
-
-                                <TableCell>
-                                    {formatDate(payment.paid_at)}
-                                </TableCell>
-                                <TableCell className=" capitalize">
-                                    {formatString(payment.payment_method)}
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            ) : (
-                <div className="gap-2  h-12 text-center flex items-center text-sm  justify-center border py-10 rounded-lg">
-                    <p>No payments yet</p>
-                </div>
-            )}
-        </div>
-    );
-};
-
-const Invoices = async () => {
-    const supabase = supabaseServer();
-
-    const { data: invoices } = await supabase
-        .from("invoices")
-        .select(`*`)
-        .range(0, 4);
-
-    return (
-        <div className=" ">
-            <div className="flex mb-2 justify-between items-center">
-                <h2 className="font-semibold tracking-tight text-lg">
-                    Invoices
-                </h2>
-                <Link
-                    href="/admin/invoices"
-                    className=" text-sm hover:underline"
-                >
-                    View All
-                </Link>
-            </div>
-            <div className="">
-                {invoices?.length ? (
-                    <InvoiceTable data={invoices} />
-                ) : (
-                    <div className="gap-2  h-12 text-center flex items-center text-sm  justify-center border py-10 rounded-lg">
-                        <p>No invoices created yet</p>
-                        <Link
-                            href="/admin/invoices/new"
-                            className={`${buttonVariants({
-                                variant: "default",
-                                size: "sm",
-                            })}`}
-                        >
-                            Create Invoice
-                        </Link>
-                    </div>
-                )}
-            </div>
-        </div>
-    );
 };
 
 const page = () => {
@@ -246,13 +138,6 @@ const page = () => {
             <Suspense>
                 <UnverifiedRoutes />
             </Suspense>
-
-            {/* <div className="grid mt-5 grid-cols-1 gap-5 lg:grid-cols-2">
-                <Payments />
-                <Invoices />
-            </div> */}
-            {/* <Notifications /> */}
-            {/* <RecentActivities /> */}
         </div>
     );
 };

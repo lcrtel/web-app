@@ -1,55 +1,62 @@
 "use client";
 
 import LineChart from "@/components/charts/LineChart";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
-const data = [
-    { date: "07 Feb, 2024 00:33", rate: 0.00432 },
-    { date: "12 Feb, 2024 15:42", rate: 0.00413 },
-    { date: "12 Feb, 2024 12:47", rate: 0.00443 },
-    { date: "27 Feb, 2024 12:12", rate: 0.00449 },
-    { date: "29 Feb, 2024 06:54", rate: 0.00445 },
-];
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { History } from "lucide-react";
 
 export function PriceChart({ rates }: { rates: any }) {
-    function convertToDaysAgo(data: any, currentDate: any) {
-        return data.map((item: any) => {
-            const itemDate: Date = new Date(item.effective_date);
-            // const diffTime = Math.abs(currentDate - itemDate);
-            // const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            return {
-                ...item,
-                // date: `${diffDays} ${diffDays !== 1 ? "Days" : "Day"} ago`,
-                Date: itemDate.toDateString(),
-                Rate: item.rate,
-            };
-        });
-    }
-    const currentDate = new Date();
+  function convertToDaysAgo(data: any, currentDate: any) {
+    return data.map((item: any) => {
+      const itemDate: Date = new Date(item.effective_date);
+      // const diffTime = Math.abs(currentDate - itemDate);
+      // const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return {
+        ...item,
+        // date: `${diffDays} ${diffDays !== 1 ? "Days" : "Day"} ago`,
+        Date: itemDate.toDateString(),
+        Rate: item.selling_rate,
+      };
+    });
+  }
+  const currentDate = new Date();
 
-    const updatedData = convertToDaysAgo(rates, currentDate);
-    return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Rate History</CardTitle>
-            </CardHeader>
-            {/* <pre>{JSON.stringify(updatedData, null, 2)}</pre> */}
-            <CardContent className="pb-4">
-                {/* <div className="h-[200px]"> */}
-                <LineChart
-                    className="h-[200px]"
-                    data={updatedData}
-                    categories={["Rate"]}
-                    index="Date"
-                    showLegend={false}
-                />
-                {/* </div> */}
+  const updatedData = convertToDaysAgo(rates, currentDate);
+  return (
+    <Drawer>
+      <DrawerTrigger>
+        <div className="flex w-fit items-center gap-1 rounded-full border px-2 py-0.5 text-sm">
+          <History className="size-4" /> Price history
+        </div>
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle className=" text-xl md:text-2xl font-semibold">Rate History</DrawerTitle>
+        </DrawerHeader>
+        <div className="p-4 pt-0">
+          <Card>
+            <CardContent className="pb-2 pt-6">
+              <LineChart
+                className="h-[200px]"
+                data={updatedData}
+                categories={["Rate"]}
+                index="Date"
+                showLegend={false}
+              />
             </CardContent>
-        </Card>
-    );
+          </Card>
+        </div>
+      </DrawerContent>
+    </Drawer>
+  );
 }

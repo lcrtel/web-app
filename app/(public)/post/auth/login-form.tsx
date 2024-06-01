@@ -63,7 +63,7 @@ const LoginForm = () => {
             <p className="text-sm font-light mb-5 text-center text-gray-500">
                 If you have an account
             </p>
-            <div className="grid gap-4 mb-6 text-primary-500">
+            <div className="grid gap-4 mb-6 text-primary-900">
                 <div>
                     <Label htmlFor="email" className="inline-block mb-2">
                         Email

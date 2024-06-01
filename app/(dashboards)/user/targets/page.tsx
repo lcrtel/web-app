@@ -8,7 +8,7 @@ import { TargetsTable } from "./targets-table";
 export default async function Page() {
     return (
         <div className="">
-            <h3 className="text-2xl font-bold text-primary-500 flex items-center tracking-tight">
+            <h3 className="text-2xl font-bold text-primary-900 flex items-center tracking-tight">
                 Target Rates
             </h3>
             <p className="text-sm text-slate-400 mb-4">

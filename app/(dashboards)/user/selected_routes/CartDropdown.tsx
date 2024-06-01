@@ -1,6 +1,6 @@
 "use client";
 
-import { fetchCartItems } from "@/components/navigation/user/actions";
+import { fetchCartItems } from "@/components/navigation/actions";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Popover,
@@ -32,7 +32,7 @@ export function CartDropdown() {
           <ShoppingCart className="size-5" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className=" rounded-2xl text-primary-500">
+      <PopoverContent className=" rounded-2xl text-primary-900">
         <h3 className="mb-2 text-lg font-bold tracking-tight">
           Selected Routes
         </h3>

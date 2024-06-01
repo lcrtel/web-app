@@ -57,10 +57,10 @@ const HeroSection = async () => {
             <div className="mx-auto w-full max-w-8xl">
                 <div className="flex flex-col items-start sm:items-center pt-24 pb-10 px-5 max-w-4xl mx-auto">
                     <div className="flex flex-col items-start sm:items-center bg-white bg-opacity-25 backdrop-blur p-5 md:p-10 rounded-2xl sm:rounded-3xl border-2 border-white">
-                        <h1 className="text-4xl sm:text-center font-bold tracking-tight text-primary-500 sm:text-5xl">
+                        <h1 className="text-4xl sm:text-center font-bold tracking-tight text-primary-900 sm:text-5xl">
                             Streamline Your VoIP Trading Experience
                         </h1>
-                        <p className="mt-6 text-lg sm:text-center leading-8 max-w-2xl text-primary-500">
+                        <p className="mt-6 text-lg sm:text-center leading-8 max-w-2xl text-primary-900">
                             Unlock new possibilities and maximize your VoIP
                             trading potential with LCR Telcom&apos;s
                             cutting-edge platform.
@@ -88,7 +88,7 @@ const HeroSection = async () => {
                         </div>
                     </div>
                     <div className="mt-5 md:mt-10 rounded-2xl sm:rounded-3xl sp-shadow border bg-white w-full p-5">
-                        <h2 className="text-xl sm:text-center font-bold tracking-tight text-primary-500 lg:text-2xl">
+                        <h2 className="text-xl sm:text-center font-bold tracking-tight text-primary-900 lg:text-2xl">
                             Market View
                         </h2>
                         <p className="mb-4 sm:text-center sm:text-md leading-8 text-gray-400">
@@ -107,7 +107,7 @@ const ClientsSection = () => {
         <section id="features" className="bg-white py-14 sm:py-32">
             <div className="mx-auto max-w-7xl px-5 lg:px-8">
                 <div className="mx-auto max-w-3xl lg:text-center">
-                    <h2 className="mt-2 text-3xl font-bold tracking-tight text-primary-500 sm:text-4xl">
+                    <h2 className="mt-2 text-3xl font-bold tracking-tight text-primary-900 sm:text-4xl">
                         Empower Your Trading Experience
                     </h2>
                     <p className="mt-6 text-lg leading-8 text-gray-600">
@@ -118,9 +118,9 @@ const ClientsSection = () => {
                 <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
                     <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
                         <div className="relative pl-16">
-                            <dt className="text-base font-semibold leading-7 text-primary-500">
-                                <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-500 bg-opacity-10">
-                                    <HiCheck className="h-6 w-6 text-primary-500" />
+                            <dt className="text-base font-semibold leading-7 text-primary-900">
+                                <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-900 bg-opacity-10">
+                                    <HiCheck className="h-6 w-6 text-primary-900" />
                                 </div>
                                 Sell VoIP Routes
                             </dt>
@@ -130,9 +130,9 @@ const ClientsSection = () => {
                             </dd>
                         </div>
                         <div className="relative pl-16">
-                            <dt className="text-base font-semibold leading-7 text-primary-500">
-                                <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-500 bg-opacity-10">
-                                    <HiCheck className="h-6 w-6 text-primary-500" />
+                            <dt className="text-base font-semibold leading-7 text-primary-900">
+                                <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-900 bg-opacity-10">
+                                    <HiCheck className="h-6 w-6 text-primary-900" />
                                 </div>
                                 Buy VoIP Routes
                             </dt>
@@ -143,9 +143,9 @@ const ClientsSection = () => {
                         </div>
 
                         <div className="relative pl-16">
-                            <dt className="text-base font-semibold leading-7 text-primary-500">
-                                <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-500 bg-opacity-10">
-                                    <HiCheck className="h-6 w-6 text-primary-500" />
+                            <dt className="text-base font-semibold leading-7 text-primary-900">
+                                <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-900 bg-opacity-10">
+                                    <HiCheck className="h-6 w-6 text-primary-900" />
                                 </div>
                                 Real-time Market View
                             </dt>
@@ -155,9 +155,9 @@ const ClientsSection = () => {
                             </dd>
                         </div>
                         <div className="relative pl-16">
-                            <dt className="text-base font-semibold leading-7 text-primary-500">
-                                <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-500 bg-opacity-10">
-                                    <HiCheck className="h-6 w-6 text-primary-500" />
+                            <dt className="text-base font-semibold leading-7 text-primary-900">
+                                <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-900 bg-opacity-10">
+                                    <HiCheck className="h-6 w-6 text-primary-900" />
                                 </div>
                                 Route Request
                             </dt>
@@ -167,9 +167,9 @@ const ClientsSection = () => {
                             </dd>
                         </div>
                         <div className="relative pl-16">
-                            <dt className="text-base font-semibold leading-7 text-primary-500">
-                                <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-500 bg-opacity-10">
-                                    <HiCheck className="h-6 w-6 text-primary-500" />
+                            <dt className="text-base font-semibold leading-7 text-primary-900">
+                                <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-900 bg-opacity-10">
+                                    <HiCheck className="h-6 w-6 text-primary-900" />
                                 </div>
                                 Route Comparison
                             </dt>
@@ -179,9 +179,9 @@ const ClientsSection = () => {
                             </dd>
                         </div>
                         <div className="relative pl-16">
-                            <dt className="text-base font-semibold leading-7 text-primary-500">
-                                <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-500 bg-opacity-10">
-                                    <HiCheck className="h-6 w-6 text-primary-500" />
+                            <dt className="text-base font-semibold leading-7 text-primary-900">
+                                <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-900 bg-opacity-10">
+                                    <HiCheck className="h-6 w-6 text-primary-900" />
                                 </div>
                                 Route Management
                             </dt>
@@ -192,9 +192,9 @@ const ClientsSection = () => {
                             </dd>
                         </div>
                         <div className="relative pl-16">
-                            <dt className="text-base font-semibold leading-7 text-primary-500">
-                                <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-500 bg-opacity-10">
-                                    <HiCheck className="h-6 w-6 text-primary-500" />
+                            <dt className="text-base font-semibold leading-7 text-primary-900">
+                                <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-900 bg-opacity-10">
+                                    <HiCheck className="h-6 w-6 text-primary-900" />
                                 </div>
                                 Advanced Filtering
                             </dt>
@@ -204,9 +204,9 @@ const ClientsSection = () => {
                             </dd>
                         </div>
                         <div className="relative pl-16">
-                            <dt className="text-base font-semibold leading-7 text-primary-500">
-                                <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-500 bg-opacity-10">
-                                    <HiCheck className="h-6 w-6 text-primary-500" />
+                            <dt className="text-base font-semibold leading-7 text-primary-900">
+                                <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-900 bg-opacity-10">
+                                    <HiCheck className="h-6 w-6 text-primary-900" />
                                 </div>
                                 Notifications
                             </dt>
@@ -219,13 +219,13 @@ const ClientsSection = () => {
                     </dl>
                 </div>
                 <div className="mx-auto mt-16 flex max-w-3xl flex-col items-start justify-between rounded-xl bg-surface px-8 py-10 sm:mt-20 md:flex-row md:items-center md:px-16 md:py-20 lg:mt-24 lg:max-w-5xl">
-                    <h3 className="text-3xl font-bold tracking-tight text-primary-500 sm:text-4xl">
+                    <h3 className="text-3xl font-bold tracking-tight text-primary-900 sm:text-4xl">
                         Ready to dive in? <br />
                         Sign up to start Trading.
                     </h3>
                     <Link
                         href="/auth/signup"
-                        className="mt-8 self-end rounded-xl bg-primary-500 px-3.5 py-2.5 text-base font-medium text-white md:mt-0 md:self-center"
+                        className="mt-8 self-end rounded-xl bg-primary-900 px-3.5 py-2.5 text-base font-medium text-white md:mt-0 md:self-center"
                     >
                         Sign up
                     </Link>
@@ -277,7 +277,7 @@ const FAQ = () => {
     return (
         <section id="faq" className="bg-surface py-16 sm:py-32">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                <h2 className="mx-auto mt-2 max-w-3xl text-center text-3xl font-bold tracking-tight text-primary-500 sm:text-4xl">
+                <h2 className="mx-auto mt-2 max-w-3xl text-center text-3xl font-bold tracking-tight text-primary-900 sm:text-4xl">
                     Frequently asked questions
                 </h2>
                 <dl className="mx-auto mt-8 divide-y divide-gray-300 sm:mt-10 md:max-w-4xl lg:px-0">
@@ -286,7 +286,7 @@ const FAQ = () => {
                             key={index}
                             className="mt-10 grid gap-5 pt-10 text-base lg:grid-cols-5"
                         >
-                            <dt className="col-span-2 font-semibold text-primary-500">
+                            <dt className="col-span-2 font-semibold text-primary-900">
                                 {item.question}
                             </dt>
                             <dd className="col-span-3">
@@ -304,21 +304,21 @@ const Contact = () => {
     return (
         <section id="contact" className="bg-white py-14 sm:py-32">
             <div className="mx-auto max-w-3xl px-5 lg:px-8">
-                <h2 className="mb-10 text-4xl tracking-tight font-extrabold text-center text-primary-500">
+                <h2 className="mb-10 text-4xl tracking-tight font-extrabold text-center text-primary-900">
                     Contact Us
                 </h2>
                 <form action="#" className="space-y-8">
                     <div>
                         <label
                             htmlFor="email"
-                            className="block mb-2 text-sm font-medium text-primary-500"
+                            className="block mb-2 text-sm font-medium text-primary-900"
                         >
                             Your email
                         </label>
                         <input
                             type="email"
                             id="email"
-                            className="shadow-sm bg-gray-50 border border-gray-300 text-primary-500 text-sm rounded-xl focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
+                            className="shadow-sm bg-gray-50 border border-gray-300 text-primary-900 text-sm rounded-xl focus:ring-primary-900 focus:border-primary-900 block w-full p-2.5"
                             placeholder="name@flowbite.com"
                             required
                         />
@@ -326,14 +326,14 @@ const Contact = () => {
                     <div>
                         <label
                             htmlFor="subject"
-                            className="block mb-2 text-sm font-medium text-primary-500 "
+                            className="block mb-2 text-sm font-medium text-primary-900 "
                         >
                             Subject
                         </label>
                         <input
                             type="text"
                             id="subject"
-                            className="block p-3 w-full text-sm text-primary-500 bg-gray-50 rounded-xl border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500"
+                            className="block p-3 w-full text-sm text-primary-900 bg-gray-50 rounded-xl border border-gray-300 shadow-sm focus:ring-primary-900 focus:border-primary-900"
                             placeholder="Let us know how we can help you"
                             required
                         />
@@ -341,20 +341,20 @@ const Contact = () => {
                     <div className="sm:col-span-2">
                         <label
                             htmlFor="message"
-                            className="block mb-2 text-sm font-medium text-primary-500"
+                            className="block mb-2 text-sm font-medium text-primary-900"
                         >
                             Your message
                         </label>
                         <textarea
                             id="message"
                             rows={6}
-                            className="block p-2.5 w-full text-sm text-primary-500 bg-gray-50 rounded-xl shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
+                            className="block p-2.5 w-full text-sm text-primary-900 bg-gray-50 rounded-xl shadow-sm border border-gray-300 focus:ring-primary-900 focus:border-primary-900"
                             placeholder="Leave Link comment..."
                         ></textarea>
                     </div>
                     <button
                         type="submit"
-                        className="py-3 px-5 text-sm font-medium text-center text-white rounded-xl bg-primary-500 sm:w-fit focus:ring-4 focus:outline-none focus:ring-primary-500"
+                        className="py-3 px-5 text-sm font-medium text-center text-white rounded-xl bg-primary-900 sm:w-fit focus:ring-4 focus:outline-none focus:ring-primary-900"
                     >
                         Send message
                     </button>

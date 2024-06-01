@@ -63,13 +63,13 @@ export default function Nav() {
                     <div className="flex md:order-2">
                         <Link
                             href="/auth/login"
-                            className="mr-3 hidden rounded-full px-4 py-2 text-center text-sm font-medium text-primary-500 focus:outline-none focus:ring-4 focus:ring-blue-300 md:block "
+                            className="mr-3 hidden rounded-full px-4 py-2 text-center text-sm font-medium text-primary-900 focus:outline-none focus:ring-4 focus:ring-blue-300 md:block "
                         >
                             Log in
                         </Link>
                         <Link
                             href="/auth/signup"
-                            className="mr-3 rounded-full bg-primary-500 px-4 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-blue-300 "
+                            className="mr-3 rounded-full bg-primary-900 px-4 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-blue-300 "
                         >
                             Sign up
                         </Link>
@@ -81,17 +81,17 @@ export default function Nav() {
                         >
                             <span className="sr-only">Open main menu</span>
                             {isMenuOpen ? (
-                                <HiOutlineX className="h-5 w-5 text-primary-500" />
+                                <HiOutlineX className="h-5 w-5 text-primary-900" />
                             ) : (
-                                <HiOutlineMenuAlt4 className="h-5 w-5 text-primary-500" />
+                                <HiOutlineMenuAlt4 className="h-5 w-5 text-primary-900" />
                             )}
                         </button>
                     </div>
                     {pathname === "/" && (
                         <>
                             <div className="hidden w-full items-center justify-between md:order-1 md:flex md:w-auto">
-                                <ul className="flex w-full flex-col rounded-lg border p-4 font-medium text-primary-500  md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-transparent md:p-0">
-                                    <li>
+                                <ul className="flex w-full flex-col rounded-lg border p-4 font-medium text-primary-900  md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-transparent md:p-0">
+                                    {/* <li>
                                         <ScrollLink
                                             to="home"
                                             spy={true}
@@ -134,7 +134,7 @@ export default function Nav() {
                                         >
                                             Contact
                                         </ScrollLink>
-                                    </li>
+                                    </li> */}
                                 </ul>
                             </div>
                             <MobileNav
@@ -242,7 +242,7 @@ const MobileNav = ({
                         >
                             <Link
                                 href="/auth/login"
-                                className="block rounded py-2 pl-3 pr-4 cursor-pointer text-primary-500 hover:font-semibold"
+                                className="block rounded py-2 pl-3 pr-4 cursor-pointer text-primary-900 hover:font-semibold"
                             >
                                 Log in
                             </Link>

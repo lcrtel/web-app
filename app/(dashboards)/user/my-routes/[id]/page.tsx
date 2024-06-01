@@ -36,7 +36,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 <div>
                     <Link
                         href="/user/my-routes"
-                        className="inline-flex items-center text-gray-400 hover:text-primary-500 transition-all ease-in-out mb-2"
+                        className="inline-flex items-center text-gray-400 hover:text-primary-900 transition-all ease-in-out mb-2"
                     >
                         <HiOutlineArrowCircleLeft className="mr-1.5" />
                         My routes
@@ -50,19 +50,19 @@ export default async function Page({ params }: { params: { id: string } }) {
                         <div className="flex flex-wrap">
                             <p className="  text-gray-500 mr-2">
                                 Destination:{" "}
-                                <span className="font-semibold capitalize text-primary-500">
+                                <span className="font-semibold capitalize text-primary-900">
                                     {route?.destination}
                                 </span>
                             </p>
                             <p className="  text-gray-500 mr-2">
                                 Type:{" "}
-                                <span className="font-semibold uppercase text-primary-500">
+                                <span className="font-semibold uppercase text-primary-900">
                                     {route?.route_type}
                                 </span>
                             </p>
                             <p className="  text-gray-500 mr-2">
                                 Offer Rate:{" "}
-                                <span className="font-semibold uppercase text-primary-500">
+                                <span className="font-semibold uppercase text-primary-900">
                                     ${route?.rate}
                                 </span>
                             </p>

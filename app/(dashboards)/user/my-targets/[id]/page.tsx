@@ -16,7 +16,7 @@ export default function Page({ params }: { params: { id: string } }) {
             <div>
                 <Link
                     href="/user/my-targets"
-                    className="inline-flex items-center text-gray-400 hover:text-primary-500 transition-all ease-in-out mb-2"
+                    className="inline-flex items-center text-gray-400 hover:text-primary-900 transition-all ease-in-out mb-2"
                 >
                     <HiOutlineArrowCircleLeft className="mr-1.5" /> My Targets
                 </Link>
@@ -58,19 +58,19 @@ async function TargetDetails({ id }: { id: string }) {
                 <div className="flex flex-wrap">
                     <p className="text-gray-500 mr-2">
                         Destination:{" "}
-                        <span className="font-semibold capitalize text-primary-500">
+                        <span className="font-semibold capitalize text-primary-900">
                             {target?.destination}
                         </span>
                     </p>
                     <p className="text-gray-500 mr-2">
                         Type:{" "}
-                        <span className="font-semibold uppercase text-primary-500">
+                        <span className="font-semibold uppercase text-primary-900">
                             {target?.route_type}
                         </span>
                     </p>
                     <p className="text-gray-500 mr-2">
                         Requested Rate:{" "}
-                        <span className="font-semibold uppercase text-primary-500">
+                        <span className="font-semibold uppercase text-primary-900">
                             ${target?.rate}
                         </span>
                     </p>

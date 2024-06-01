@@ -10,7 +10,7 @@ import { unstable_noStore } from "next/cache";
 export default function Page() {
     return (
         <div className="">
-            <h3 className="text-2xl  font-bold text-primary-500 flex items-center tracking-tight">
+            <h3 className="text-2xl  font-bold text-primary-900 flex items-center tracking-tight">
                 Route Offers
             </h3>
             <p className="text-sm text-slate-400 mb-4">

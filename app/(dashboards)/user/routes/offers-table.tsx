@@ -8,9 +8,8 @@ import {
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
-    getPaginationRowModel,
     getSortedRowModel,
-    useReactTable,
+    useReactTable
 } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import * as React from "react";
@@ -25,8 +24,9 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import formatTimestamptz from "@/utils/formatTimestamptz";
-import AddToCart from "./AddToCart";
 import Link from "next/link";
+import AddToCart from "./AddToCart";
+import formatDate from "@/utils/formatDate";
 
 export function OffersTable({ data }: any) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -186,22 +186,6 @@ export function OffersTable({ data }: any) {
             },
         },
         {
-            accessorKey: "capacity",
-            header: ({ column }) => {
-                return (
-                    <div
-                        className="flex gap-2 items-center cursor-pointer"
-                        onClick={() =>
-                            column.toggleSorting(column.getIsSorted() === "asc")
-                        }
-                    >
-                        Capacity
-                        <ArrowUpDown className=" h-4 w-4" />
-                    </div>
-                );
-            },
-        },
-        {
             accessorKey: "created_at",
             header: ({ column }) => {
                 return (
@@ -218,7 +202,7 @@ export function OffersTable({ data }: any) {
             },
             cell: ({ row }) => {
                 const Date = row.getValue("created_at");
-                const formattedDate = formatTimestamptz(Date);
+                const formattedDate = formatDate(Date);
                 return (
                     <Link
                         href={`/user/routes/${row.getValue("id")}`}

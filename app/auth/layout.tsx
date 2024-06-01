@@ -32,7 +32,7 @@ export default async function DashboardLayout({
                 <div className="flex items-center justify-center">
                     <span className="text-sm text-gray-400 sm:text-center ">
                         {" "}
-                        <Link href="/" className="hover:text-primary-500">
+                        <Link href="/" className="hover:text-primary-900">
                             &copy; 2023 (1445 AH) LCRTelcom™
                         </Link>
                     </span>

@@ -30,9 +30,9 @@ export function DropDownMenu({ className, items, ...props }: SidebarNavProps) {
             >
                 <span className="sr-only">Open main menu</span>
                 {isMenuOpen ? (
-                    <HiOutlineX className="h-5 w-5 text-primary-500" />
+                    <HiOutlineX className="h-5 w-5 text-primary-900" />
                 ) : (
-                    <HiOutlineMenuAlt3 className="h-5 w-5 text-primary-500" />
+                    <HiOutlineMenuAlt3 className="h-5 w-5 text-primary-900" />
                 )}
             </button>{" "}
             <AnimatePresence>

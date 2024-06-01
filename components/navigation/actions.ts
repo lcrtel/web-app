@@ -8,3 +8,10 @@ export const handleSignOut = async () => {
     await supabase.auth.signOut();
     redirect("/");
 };
+export async function fetchCartItems() {
+    const supabase = supabaseServer();
+     const { data: selectedRoutes } = await supabase
+       .from("selected_routes")
+       .select(`*, routes (*)`)
+    return selectedRoutes;
+}

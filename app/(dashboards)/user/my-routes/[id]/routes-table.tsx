@@ -210,7 +210,7 @@ export const columns: ColumnDef<Route>[] = [
             return (
                 <Link
                     href={`/user/targets/${id}`}
-                    className="font-medium text-sm  bg-primary-50 px-3 py-1.5 rounded-full text-primary-500 whitespace-nowrap"
+                    className="font-medium text-sm  bg-primary-50 px-3 py-1.5 rounded-full text-primary-900 whitespace-nowrap"
                 >
                     Details
                 </Link>

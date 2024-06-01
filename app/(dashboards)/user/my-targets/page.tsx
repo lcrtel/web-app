@@ -13,7 +13,7 @@ export default function MyTargetRates() {
         <section className="">
             <div className="flex mb-5 justify-between items-center flex-wrap gap-2">
                 <div>
-                    <h3 className="text-2xl tracking-tight font-bold text-primary-500 flex items-center">
+                    <h3 className="text-2xl tracking-tight font-bold text-primary-900 flex items-center">
                         My Target Rates
                     </h3>
                     <p className="text-gray-500 text-sm">

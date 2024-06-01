@@ -25,7 +25,7 @@ export function Chat() {
           </Button>
         </PopoverTrigger>
         <PopoverContent
-          className=" w-svw max-w-sm overflow-clip rounded-2xl p-0 text-primary-500 "
+          className=" w-svw max-w-sm overflow-clip rounded-2xl p-0 text-primary-900 "
           align="end"
         >
           <div className="flex h-[60svh] flex-col justify-between">

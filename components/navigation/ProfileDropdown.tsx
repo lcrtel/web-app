@@ -3,9 +3,9 @@
 import { signOut } from "@/app/(dashboards)/user/_actions/userActions";
 import { Button } from "@/components/ui/button";
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
 } from "@/components/ui/popover";
 import { PopoverArrow, PopoverClose } from "@radix-ui/react-popover";
 import { UserRoundIcon } from "lucide-react";
@@ -14,7 +14,13 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { HiOutlineLogout } from "react-icons/hi";
 
-export default function ProfileDropdown({ user }: { user: any }) {
+export default function ProfileDropdown({
+  user,
+  accountPage,
+}: {
+  user: any;
+  accountPage: string;
+}) {
   const router = useRouter();
 
   const handleSignOut = async () => {
@@ -32,11 +38,12 @@ export default function ProfileDropdown({ user }: { user: any }) {
           <UserRoundIcon className="size-5" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="p-0 text-primary-500 rounded-2xl overflow-clip" align="end">
+      <PopoverContent
+        className="overflow-clip rounded-2xl p-0 text-primary-900"
+        avoidCollisions collisionPadding={20}
+      >
         <div className="flex flex-col space-y-1 border-b p-4">
-          <p className=" font-medium leading-none">
-            {user.user_metadata?.name}
-          </p>
+          <p className="font-medium leading-none">{user.user_metadata?.name}</p>
           <p className="text-muted-foreground text-sm leading-none">
             {user.user_metadata?.email}
           </p>
@@ -44,19 +51,20 @@ export default function ProfileDropdown({ user }: { user: any }) {
         <div className="flex flex-col">
           <PopoverClose asChild>
             <Link
-              href="/user/account"
+              href={accountPage}
               className="w-full border-b px-4 py-3 hover:bg-surface"
             >
               Account Settings
             </Link>
           </PopoverClose>
           <div
-            className="flex  w-full cursor-pointer items-center justify-between px-4 py-3 hover:bg-surface"
+            className="flex w-full cursor-pointer items-center justify-between px-4 py-3 hover:bg-surface"
             onClick={handleSignOut}
           >
             <p>Signout</p> <HiOutlineLogout />
           </div>
         </div>
+        <PopoverArrow className="fill-slate-200"/>
       </PopoverContent>
     </Popover>
   );

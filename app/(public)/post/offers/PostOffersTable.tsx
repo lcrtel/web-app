@@ -149,7 +149,7 @@ export function PostRouteTable() {
 
             return (
                 <span
-                    className="text-primary-500 underline whitespace-nowrap cursor-pointer"
+                    className="text-primary-900 underline whitespace-nowrap cursor-pointer"
                     onClick={handleDownload}
                 >
                     Download empty file
@@ -658,7 +658,7 @@ export function PostRouteTable() {
             {/* {JSON.stringify(data)} */}
             <Link
                 href="/"
-                className="inline-flex mt-3 items-center text-gray-400 hover:text-primary-500 transition-all ease-in-out mb-2"
+                className="inline-flex mt-3 items-center text-gray-400 hover:text-primary-900 transition-all ease-in-out mb-2"
             >
                 <HiOutlineArrowCircleLeft className="mr-1.5" /> Go back to home
             </Link>

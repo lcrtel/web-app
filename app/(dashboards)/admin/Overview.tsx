@@ -2,137 +2,117 @@ import MetricsCard from "@/components/MetricsCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
 import { unstable_noStore } from "next/cache";
+import Link from "next/link";
 import { Suspense } from "react";
 
 const Routes = async () => {
-    const supabase = supabaseServer();
+  const supabase = supabaseServer();
 
-    unstable_noStore();
-    let { data: offers, error } = await supabase
-        .from("routes")
-        .select("verification")
-        .eq("verification", "verified");
-    return (
-        <MetricsCard
-            count={offers?.length}
-            label="Routes"
-            link="/admin/routes"
-        />
-    );
+  unstable_noStore();
+  let { data: offers, error } = await supabase
+    .from("routes")
+    .select("verification")
+    .eq("verification", "verified");
+  return (
+    <Link href="/admin/routes/offers">
+      <MetricsCard count={offers?.length} label="Routes" />
+    </Link>
+  );
 };
 
 const Targets = async () => {
-    const supabase = supabaseServer();
+  const supabase = supabaseServer();
 
-    unstable_noStore();
-    let { data: targets, error } = await supabase.from("targets").select("id");
-    return (
-        <MetricsCard
-            count={targets?.length}
-            label="Route Requests"
-            link="/admin/requests"
-        />
-    );
+  unstable_noStore();
+  let { data: targets, error } = await supabase.from("targets").select("id");
+  return (
+    <Link href="/admin/routes/targets">
+      <MetricsCard count={targets?.length} label="Route Requests" />
+    </Link>
+  );
 };
 
-
 const Clients = async () => {
-    const supabase = supabaseServer();
-    unstable_noStore();
+  const supabase = supabaseServer();
+  unstable_noStore();
 
-    let { data: clients, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .or(`role.eq.client,role.eq.vendor`);
-    return (
-        <MetricsCard
-            count={clients?.length}
-            label="Clients"
-            link="/admin/clients"
-        />
-    );
+  let { data: clients, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .or(`role.eq.client,role.eq.vendor`);
+  return (
+    <Link href="/admin/users/clients">
+      <MetricsCard count={clients?.length} label="Clients" />
+    </Link>
+  );
 };
 
 const Vendors = async () => {
-    const supabase = supabaseServer();
-    unstable_noStore();
+  const supabase = supabaseServer();
+  unstable_noStore();
 
-    let { data: vendors, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("role", "vendor");
-    return (
-        <MetricsCard
-            count={vendors?.length}
-            label="Vendors"
-            link="/admin/vendors"
-        />
-    );
+  let { data: vendors, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("role", "vendor");
+  return (
+    <Link href="/admin/users/vendors">
+      <MetricsCard count={vendors?.length} label="Vendors" />
+    </Link>
+  );
 };
 
 const Agents = async () => {
-    const supabase = supabaseServer();
+  const supabase = supabaseServer();
 
-    unstable_noStore();
-    let { data: agents, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("role", "agent");
-        
-    return (
-        <MetricsCard
-            count={agents?.length}
-            label="Agents"
-            link="/admin/agents"
-        />
-    );
+  unstable_noStore();
+  let { data: agents, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("role", "agent");
+
+  return (
+    <Link href="/admin/users/agents">
+      <MetricsCard count={agents?.length} label="Agents" />
+    </Link>
+  );
 };
 
 const Overview = () => {
-    return (
-        <section className="mb-5">
-            <h2 className="font-semibold text-lg mb-3">Overview</h2>
-            <div className="grid  grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5 items-center">
-                <Suspense
-                    fallback={
-                        <Skeleton className="h-[110px] border rounded-xl " />
-                    }
-                >
-                    <Routes />
-                </Suspense>
-                <Suspense
-                    fallback={
-                        <Skeleton className="h-[110px] border rounded-xl " />
-                    }
-                >
-                    <Targets />
-                </Suspense>
-                <Suspense
-                    fallback={
-                        <Skeleton className="h-[110px] border rounded-xl " />
-                    }
-                >
-                    <Clients />
-                </Suspense>
-                <Suspense
-                    fallback={
-                        <Skeleton className="h-[110px] border rounded-xl " />
-                    }
-                >
-                    {" "}
-                    <Vendors />
-                </Suspense>
-                <Suspense
-                    fallback={
-                        <Skeleton className="h-[110px] border rounded-xl " />
-                    }
-                >
-                    {" "}
-                    <Agents />
-                </Suspense>
-            </div>
-        </section>
-    );
+  return (
+    <section className="mb-5">
+      <h2 className="mb-3 text-lg font-semibold">Overview</h2>
+      <div className="grid grid-cols-2 items-center gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-4 xl:grid-cols-5">
+        <Suspense
+          fallback={<Skeleton className="h-[110px] rounded-xl border" />}
+        >
+          <Routes />
+        </Suspense>
+        <Suspense
+          fallback={<Skeleton className="h-[110px] rounded-xl border" />}
+        >
+          <Targets />
+        </Suspense>
+        <Suspense
+          fallback={<Skeleton className="h-[110px] rounded-xl border" />}
+        >
+          <Clients />
+        </Suspense>
+        <Suspense
+          fallback={<Skeleton className="h-[110px] rounded-xl border" />}
+        >
+          {" "}
+          <Vendors />
+        </Suspense>
+        <Suspense
+          fallback={<Skeleton className="h-[110px] rounded-xl border" />}
+        >
+          {" "}
+          <Agents />
+        </Suspense>
+      </div>
+    </section>
+  );
 };
 
 export default Overview;

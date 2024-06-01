@@ -5,7 +5,7 @@ import { HiArrowRight, HiOutlineUserCircle } from "react-icons/hi";
 const RecentActivities = () => {
     const NewUserRegistrations = () => {
         return (
-            <div className=" overflow-x-auto text-primary-500 p-4 bg-slate-50 border border-gray-200 rounded-lg">
+            <div className=" overflow-x-auto text-primary-900 p-4 bg-slate-50 border border-gray-200 rounded-lg">
                 <div className="flex items-start justify-between">
                     <div>
                         <h3 className="font-semibold tracking-tight mb-1">
@@ -52,7 +52,7 @@ const RecentActivities = () => {
     };
     const RecentlyApprovedRoutes = () => {
         return (
-            <div className=" overflow-x-auto text-primary-500 p-4 bg-slate-50 border border-gray-200 rounded-lg">
+            <div className=" overflow-x-auto text-primary-900 p-4 bg-slate-50 border border-gray-200 rounded-lg">
                 <div className="flex items-start justify-between">
                     <div>
                         <h3 className="font-semibold tracking-tight mb-1">
@@ -98,7 +98,7 @@ const RecentActivities = () => {
     };
     const RecentSales = () => {
         return (
-            <div className=" overflow-x-auto text-primary-500 p-4 bg-slate-50 border border-gray-200 rounded-lg">
+            <div className=" overflow-x-auto text-primary-900 p-4 bg-slate-50 border border-gray-200 rounded-lg">
                 <div className="flex items-start justify-between">
                     <div>
                         <h3 className="font-semibold tracking-tight mb-1">

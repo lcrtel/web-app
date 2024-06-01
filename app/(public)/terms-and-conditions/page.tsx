@@ -5,7 +5,7 @@ export default function TermsAndConditions() {
         <section className="bg-white py-14 sm:py-32">
             <div className="mx-auto max-w-7xl px-5 lg:px-8">
                 <div className="mx-auto max-w-3xl lg:text-center">
-                    <h2 className="mt-2 text-3xl font-bold tracking-tight text-primary-500 sm:text-4xl">
+                    <h2 className="mt-2 text-3xl font-bold tracking-tight text-primary-900 sm:text-4xl">
                         Terms of Service
                     </h2>
                     <p className="mt-2 leading-8 text-gray-500">
@@ -20,7 +20,7 @@ export default function TermsAndConditions() {
                         of use. Please read these terms carefully. If you do not
                         agree to these terms, please do not use this website.
                     </p>
-                    <dt className="text-lg font-semibold leading-7 text-primary-500">
+                    <dt className="text-lg font-semibold leading-7 text-primary-900">
                         1. Acceptance of Terms
                     </dt>
                     <dd className=" pl-5 mb-2 text-base leading-7 text-gray-600">
@@ -30,7 +30,7 @@ export default function TermsAndConditions() {
                         without prior notice, and it is your responsibility to
                         review them periodically.
                     </dd>
-                    <dt className="text-lg font-semibold leading-7 text-primary-500">
+                    <dt className="text-lg font-semibold leading-7 text-primary-900">
                         2. Use of the Website
                     </dt>
                     <dd className=" pl-5 mb-2 text-base leading-7 text-gray-600">
@@ -39,7 +39,7 @@ export default function TermsAndConditions() {
                         lawful purposes only and in a manner that does not
                         infringe on the rights of others.
                     </dd>
-                    <dt className="text-lg font-semibold leading-7 text-primary-500">
+                    <dt className="text-lg font-semibold leading-7 text-primary-900">
                         3. User Account
                     </dt>
                     <dd className=" pl-5 mb-2 text-base leading-7 text-gray-600">
@@ -48,7 +48,7 @@ export default function TermsAndConditions() {
                         account and password. You agree to accept responsibility
                         for all activities that occur under your account.
                     </dd>
-                    <dt className="text-lg font-semibold leading-7 text-primary-500">
+                    <dt className="text-lg font-semibold leading-7 text-primary-900">
                         4. Privacy Policy
                     </dt>
                     <dd className=" pl-5 mb-2 text-base leading-7 text-gray-600">
@@ -58,7 +58,7 @@ export default function TermsAndConditions() {
                         understand how we collect, use, and protect your
                         personal information.
                     </dd>
-                    <dt className="text-lg font-semibold leading-7 text-primary-500">
+                    <dt className="text-lg font-semibold leading-7 text-primary-900">
                         5. Intellectual Property
                     </dt>
                     <dd className=" pl-5 mb-2 text-base leading-7 text-gray-600">
@@ -68,7 +68,7 @@ export default function TermsAndConditions() {
                         any content from this website without our express
                         written consent.
                     </dd>
-                    <dt className="text-lg font-semibold leading-7 text-primary-500">
+                    <dt className="text-lg font-semibold leading-7 text-primary-900">
                         6. Limitation of Liability{" "}
                     </dt>
                     <dd className=" pl-5 mb-2 text-base leading-7 text-gray-600">
@@ -77,7 +77,7 @@ export default function TermsAndConditions() {
                         arising out of or in any way connected with the use of
                         this website.
                     </dd>
-                    <dt className="text-lg font-semibold leading-7 text-primary-500">
+                    <dt className="text-lg font-semibold leading-7 text-primary-900">
                         7. Governing Law
                     </dt>
                     <dd className=" pl-5 mb-2 text-base leading-7 text-gray-600">

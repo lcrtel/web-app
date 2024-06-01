@@ -57,7 +57,7 @@ const ResetForm = () => {
             onSubmit={formik.handleSubmit}
             className="md:max-w-[360px] w-full mx-auto"
         >
-            <div className="grid gap-4 mb-6 text-primary-500">
+            <div className="grid gap-4 mb-6 text-primary-900">
                 <div>
                     <Label htmlFor="email" className="inline-block mb-2">
                         Email

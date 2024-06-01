@@ -18,14 +18,14 @@ const page = async () => {
         <section className="">
             <Link
                 href="/user/my-targets"
-                className="inline-flex mt-3 items-center text-gray-400 hover:text-primary-500 transition-all ease-in-out mb-2"
+                className="inline-flex mt-3 items-center text-gray-400 hover:text-primary-900 transition-all ease-in-out mb-2"
             >
                 <HiOutlineArrowCircleLeft className="mr-1.5" /> My Targets
             </Link>
             <PostTargetTable />
             {routes?.length ? (
                 <>
-                    <h3 className="border-t mt-4 text-xl pt-4 mb-2 font-bold text-primary-500 flex items-center tracking-tight">
+                    <h3 className="border-t mt-4 text-xl pt-4 mb-2 font-bold text-primary-900 flex items-center tracking-tight">
                         Our Route Offers
                     </h3>
                     <OffersTable data={routes} />

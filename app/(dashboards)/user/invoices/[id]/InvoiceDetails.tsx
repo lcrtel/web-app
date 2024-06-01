@@ -113,19 +113,19 @@ const InvoiceDetails = ({
                         <div className="mt-2 flex flex-wrap text-slate-500">
                             <p>
                                 Area Code:{" "}
-                                <span className="text-primary-500 mr-4 font-semibold">
+                                <span className="text-primary-900 mr-4 font-semibold">
                                     {connection?.routes?.destination_code}
                                 </span>
                             </p>
                             <p>
                                 Destination:{" "}
-                                <span className="text-primary-500 mr-4 font-semibold capitalize">
+                                <span className="text-primary-900 mr-4 font-semibold capitalize">
                                     {connection?.routes?.destination}
                                 </span>
                             </p>
                             <p>
                                 Route Type:{" "}
-                                <span className="text-primary-500 mr-4 font-semibold uppercase">
+                                <span className="text-primary-900 mr-4 font-semibold uppercase">
                                     {connection?.routes?.route_type}
                                 </span>
                             </p>
@@ -133,7 +133,7 @@ const InvoiceDetails = ({
                     </div>
 
                     <div className="flex-1 space-y-2">
-                        <p className=" font-semibold tracking-tight text-primary-500">
+                        <p className=" font-semibold tracking-tight text-primary-900">
                             Date Range
                         </p>
                         <p className=" text-slate-500">
@@ -141,7 +141,7 @@ const InvoiceDetails = ({
                         </p>
                     </div>
                     <div className="w-[84px] space-y-2">
-                        <p className=" font-semibold tracking-tight text-primary-500">
+                        <p className=" font-semibold tracking-tight text-primary-900">
                             Rate
                         </p>
                         <p className=" text-slate-500">
@@ -149,7 +149,7 @@ const InvoiceDetails = ({
                         </p>
                     </div>
                     <div className="space-y-2 w-[100px]">
-                        <p className=" font-semibold tracking-tight text-primary-500">
+                        <p className=" font-semibold tracking-tight text-primary-900">
                             Total Calls
                         </p>
                         <p className=" text-slate-500 text-left">

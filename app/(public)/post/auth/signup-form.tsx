@@ -109,7 +109,7 @@ const SignupForm = () => {
                     <p className="text-sm font-light mb-5 text-center text-gray-500">
                         If you don’t have an account
                     </p>
-                    <div className="grid gap-4 mb-6 sm:grid-cols-2 text-primary-500">
+                    <div className="grid gap-4 mb-6 sm:grid-cols-2 text-primary-900">
                         <div>
                             <Label
                                 htmlFor="name"

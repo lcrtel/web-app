@@ -16,7 +16,7 @@ export default function Page({ params }: { params: { id: string } }) {
         <div>
             <Link
                 href="/user/my-targets"
-                className="inline-flex items-center text-gray-400 hover:text-primary-500 transition-all ease-in-out mb-2"
+                className="inline-flex items-center text-gray-400 hover:text-primary-900 transition-all ease-in-out mb-2"
             >
                 <HiOutlineArrowCircleLeft className="mr-1.5" /> My Targets
             </Link>

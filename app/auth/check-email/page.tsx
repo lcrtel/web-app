@@ -31,7 +31,7 @@ const page = () => {
                     </p>
                     <Link
                         href="/auth/login"
-                        className="font-medium text-sm pt-2 text-primary-500 hover:underline"
+                        className="font-medium text-sm pt-2 text-primary-900 hover:underline"
                     >
                         Log In
                     </Link>

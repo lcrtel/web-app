@@ -36,6 +36,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import formatTimestamptz from "@/utils/formatTimestamptz";
+import formatDate from "@/utils/formatDate";
 
 export const columns: ColumnDef<Route>[] = [
     {
@@ -134,11 +135,13 @@ export const columns: ColumnDef<Route>[] = [
                 <ArrowUpDown className=" h-4 w-4" />
             </div>
         ),
-        cell: ({ row }) => (
+        cell: ({ row }) => {
+            const date:any = row.getValue("created_at");
+            return (
             <div className="lowercase">
-                {formatTimestamptz(row.getValue("created_at"))}
+                {formatDate(date)}
             </div>
-        ),
+        )},
     },
 ];
 

@@ -28,7 +28,7 @@ const page = ({ searchParams }: { searchParams: { message: string } }) => {
                     </p>
                 </div>
                 {searchParams?.message && (
-                    <p className="md:max-w-[400px] w-full my-4 p-4 mx-auto bg-surface text-primary-500 text-center rounded-md">
+                    <p className="md:max-w-[400px] w-full my-4 p-4 mx-auto bg-surface text-primary-900 text-center rounded-md">
                         {searchParams.message}
                     </p>
                 )}

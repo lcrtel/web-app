@@ -632,7 +632,7 @@ export const ImportDropdown = ({ setData }: { setData: Dispatch<any> }) => {
 
         return (
             <span
-                className="text-primary-500 underline whitespace-nowrap cursor-pointer"
+                className="text-primary-900 underline whitespace-nowrap cursor-pointer"
                 onClick={handleDownload}
             >
                 Download empty file

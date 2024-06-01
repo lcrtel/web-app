@@ -5,7 +5,7 @@ import SignupForm from "./signup-form";
 const page = async () => {
     return (
         <>
-            <h2 className="py-5 bg-primary-500 text-white text-lg text-center font-medium">
+            <h2 className="py-5 bg-primary-900 text-white text-lg text-center font-medium">
                 You need an account to post
             </h2>
             <div className="flex max-w-8xl flex-col md:flex-row mx-auto w-full justify-between mt-10 gap-10 px-5">

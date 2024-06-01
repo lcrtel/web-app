@@ -71,7 +71,7 @@ const SignupForm = () => {
             onSubmit={formik.handleSubmit}
             className="md:max-w-[400px] w-full mx-auto"
         >
-            <div className="grid gap-4 mb-6 sm:grid-cols-2 text-primary-500">
+            <div className="grid gap-4 mb-6 sm:grid-cols-2 text-primary-900">
                 <div>
                     <Label htmlFor="name" className="inline-block mb-2">
                         Name

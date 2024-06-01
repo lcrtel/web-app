@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/table";
 import formatTimestamptz from "@/utils/formatTimestamptz";
 import Link from "next/link";
+import formatDate from "@/utils/formatDate";
 
 export const columns: ColumnDef<Target>[] = [
     {
@@ -199,7 +200,7 @@ export const columns: ColumnDef<Target>[] = [
         },
         cell: ({ row }) => {
             const Date = row.getValue("created_at");
-            const formattedDate = formatTimestamptz(Date);
+            const formattedDate = formatDate(Date);
             return <div className="font-medium">{formattedDate}</div>;
         },
     },

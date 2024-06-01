@@ -12,7 +12,7 @@ interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
 export function VendorNav({ className, items, ...props }: SidebarNavProps) {
     const pathname = usePathname();
     return (
-        <nav className="hidden md:flex mb-4 overflow-x-auto bg-surface max-w-fit items-center p-1 rounded-full space-x-1 text-sm text-primary-500 w-full">
+        <nav className="hidden md:flex mb-4 overflow-x-auto bg-surface max-w-fit items-center p-1 rounded-full space-x-1 text-sm text-primary-900 w-full">
             {items.map((item: any) => (
                 <div
                     key={item.title}

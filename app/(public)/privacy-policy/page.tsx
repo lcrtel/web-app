@@ -3,7 +3,7 @@ export default function PrivacyPolicy() {
         <section className="bg-white py-14 sm:py-32">
             <div className="mx-auto max-w-7xl px-5 lg:px-8">
                 <div className="mx-auto max-w-3xl lg:text-center">
-                    <h2 className="mt-2 text-3xl font-bold tracking-tight text-primary-500 sm:text-4xl">
+                    <h2 className="mt-2 text-3xl font-bold tracking-tight text-primary-900 sm:text-4xl">
                         Privacy Policy
                     </h2>
                     <p className="mt-2 leading-8 text-gray-500">
@@ -11,7 +11,7 @@ export default function PrivacyPolicy() {
                     </p>
                 </div>
                 <dl className="mx-auto mt-10 max-w-7xl lg:mt-20 ">
-                    <dt className="text-lg font-semibold leading-7 text-primary-500">
+                    <dt className="text-lg font-semibold leading-7 text-primary-900">
                         1. Introduction
                     </dt>
                     <dd className="pl-5 mb-2 text-base leading-7 text-gray-600">
@@ -23,11 +23,11 @@ export default function PrivacyPolicy() {
                         personal information. By using our services, you consent
                         to the practices described in this policy.
                     </dd>
-                    <dt className="text-lg font-semibold leading-7 text-primary-500">
+                    <dt className="text-lg font-semibold leading-7 text-primary-900">
                         2. Information We Collect
                     </dt>
                     <dd className=" pl-5 mb-2 text-base leading-7 text-gray-600">
-                        <dt className="font-semibold leading-7 text-primary-500">
+                        <dt className="font-semibold leading-7 text-primary-900">
                             2.1 Personal Information:
                         </dt>{" "}
                         <dd className="text-base leading-7 text-gray-600">
@@ -37,7 +37,7 @@ export default function PrivacyPolicy() {
                             details. We collect this information to provide our
                             services effectively and for communication purposes.
                         </dd>
-                        <dt className="font-semibold leading-7 text-primary-500">
+                        <dt className="font-semibold leading-7 text-primary-900">
                             2.2 Usage Information:
                         </dt>{" "}
                         <dd className="text-base leading-7 text-gray-600">
@@ -48,14 +48,14 @@ export default function PrivacyPolicy() {
                             provide a better user experience.
                         </dd>
                     </dd>
-                    <dt className="text-lg font-semibold leading-7 text-primary-500">
+                    <dt className="text-lg font-semibold leading-7 text-primary-900">
                         3. How We Use Your Information
                     </dt>
                     <dd
                         className=" pl-5
  mb-2 text-base leading-7 text-gray-600"
                     >
-                        <dt className="font-semibold leading-7 text-primary-500">
+                        <dt className="font-semibold leading-7 text-primary-900">
                             3.1 Service Provision:
                         </dt>{" "}
                         <dd className="text-base leading-7 text-gray-600">
@@ -64,7 +64,7 @@ export default function PrivacyPolicy() {
                             clients and vendors, processing transactions, and
                             facilitating communication.
                         </dd>
-                        <dt className="font-semibold leading-7 text-primary-500">
+                        <dt className="font-semibold leading-7 text-primary-900">
                             3.2 Communication:
                         </dt>{" "}
                         <dd className="text-base leading-7 text-gray-600">
@@ -72,7 +72,7 @@ export default function PrivacyPolicy() {
                             with you, respond to inquiries, and send important
                             updates related to our services.
                         </dd>
-                        <dt className="font-semibold leading-7 text-primary-500">
+                        <dt className="font-semibold leading-7 text-primary-900">
                             3.3 Analytics:
                         </dt>{" "}
                         <dd className="text-base leading-7 text-gray-600">
@@ -81,7 +81,7 @@ export default function PrivacyPolicy() {
                             information for research and data analysis.
                         </dd>
                     </dd>
-                    <dt className="text-lg font-semibold leading-7 text-primary-500">
+                    <dt className="text-lg font-semibold leading-7 text-primary-900">
                         4. Data Security
                     </dt>
                     <dd
@@ -93,7 +93,7 @@ export default function PrivacyPolicy() {
                         personal information from unauthorized access,
                         disclosure, or alteration.
                     </dd>
-                    <dt className="text-lg font-semibold leading-7 text-primary-500">
+                    <dt className="text-lg font-semibold leading-7 text-primary-900">
                         5. Information Sharing
                     </dt>
                     <dd className=" pl-5 mb-2 text-base leading-7 text-gray-600">
@@ -111,7 +111,7 @@ export default function PrivacyPolicy() {
                             when required by law.
                         </dt>
                     </dd>
-                    <dt className="text-lg font-semibold leading-7 text-primary-500">
+                    <dt className="text-lg font-semibold leading-7 text-primary-900">
                         6. Your Choices
                     </dt>
                     <dd
@@ -122,7 +122,7 @@ export default function PrivacyPolicy() {
                         personal information. You can also opt-out of
                         promotional communications by contacting us.
                     </dd>
-                    <dt className="text-lg font-semibold leading-7 text-primary-500">
+                    <dt className="text-lg font-semibold leading-7 text-primary-900">
                         7. Cookies and Tracking
                     </dt>
                     <dd
@@ -133,7 +133,7 @@ export default function PrivacyPolicy() {
                         enhance your experience on our website. You can manage
                         your cookie preferences through your browser settings.
                     </dd>
-                    <dt className="text-lg font-semibold leading-7 text-primary-500">
+                    <dt className="text-lg font-semibold leading-7 text-primary-900">
                         8. Changes to this Policy
                     </dt>
                     <dd

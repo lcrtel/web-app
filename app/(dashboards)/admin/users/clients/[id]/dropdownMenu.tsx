@@ -31,7 +31,7 @@ export function DropDownMenu({ className, items, ...props }: SidebarNavProps) {
                 <p className="h-5">{items.find((item) => item.href === pathname)?.title}</p>
                 <span className="sr-only">Open main menu</span>
               
-                    <HiChevronDown className={`h-5 w-5 text-primary-500 duration-150 ease-in ${isMenuOpen ? " rotate-180" : ""}`} />
+                    <HiChevronDown className={`h-5 w-5 text-primary-900 duration-150 ease-in ${isMenuOpen ? " rotate-180" : ""}`} />
                 
             </button>{" "}
             <AnimatePresence>

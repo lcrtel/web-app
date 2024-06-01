@@ -46,7 +46,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     <div>
       <Link
         href="/user/routes"
-        className="inline-flex items-center text-gray-400 transition-all ease-in-out hover:text-primary-500"
+        className="inline-flex items-center text-gray-400 transition-all ease-in-out hover:text-primary-900"
       >
         <HiOutlineArrowCircleLeft className="mr-1.5" /> Routes
       </Link>
@@ -64,7 +64,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 <Heart className="size-4 text-red-500" />
               </Button>
               <Button variant="outline" size="icon">
-                <Share2 className="size-4 text-primary-500" />
+                <Share2 className="size-4 text-primary-900" />
               </Button>
             </div>
           </div>
@@ -77,8 +77,8 @@ export default async function Page({ params }: { params: { id: string } }) {
             </p>
           </div>
 
-          <div className="overflow-clip rounded-lg border border-primary-500 bg-primary-50">
-            <div className=" bg-primary-500 py-4 text-center text-white">
+          <div className="overflow-clip rounded-lg border border-primary-900 bg-primary-50">
+            <div className=" bg-primary-900 py-4 text-center text-white">
               <h3 className=" text-xl font-medium">Specifications</h3>
               <p className=" text-sm ">
                 Verified on:{" "}
@@ -94,7 +94,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                   className="rounded-md border border-primary-100/50 bg-white p-3 shadow"
                 >
                   <h4 className="text-slate-500 ">{item.title}: </h4>
-                  <p className="font-semibold text-primary-500">{item.value}</p>
+                  <p className="font-semibold text-primary-900">{item.value}</p>
                 </div>
               ))}
             </div>
@@ -102,7 +102,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         </div>
         <div className="space-y-4 md:col-span-1">
           <div className="fixed bottom-0 left-0 flex h-fit w-full flex-col overflow-clip rounded-2xl border border-slate-100 bg-white drop-shadow-sm md:relative">
-            <div className="flex items-center justify-between gap-2 bg-surface p-4 text-primary-500">
+            <div className="flex items-center justify-between gap-2 bg-surface p-4 text-primary-900">
               <h3 className="text-2xl font-semibold">
                 $ {route?.selling_rate}{" "}
                 <span className="text-base font-normal text-slate-400">
@@ -188,7 +188,7 @@ const RouteCard = ({ route }: { route: any }) => {
     <Link href={`/user/routes/${route.id}`} className="rounded-lg border border-primary-100/50 bg-gradient-to-br from-surface to-white p-4  pt-3">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="mb-2 flex flex-col">
-          <h4 className="flex items-center gap-2 text-xl font-semibold text-primary-500">
+          <h4 className="flex items-center gap-2 text-xl font-semibold text-primary-900">
             <Router className=" size-4" />
             {route.destination}
             <span className=" text-sm font-normal text-slate-400">

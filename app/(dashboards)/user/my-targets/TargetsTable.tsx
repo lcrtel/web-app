@@ -27,6 +27,7 @@ import formatTimestamptz from "@/utils/formatTimestamptz";
 import Link from "next/link";
 import { HiOutlineExternalLink, HiOutlinePencilAlt } from "react-icons/hi";
 import DeleteRoute from "./DeleteRoute";
+import formatDate from "@/utils/formatDate";
 
 export const columns: ColumnDef<Route>[] = [
     {
@@ -188,7 +189,7 @@ export const columns: ColumnDef<Route>[] = [
                 href={`/user/my-targets/${row.getValue("id")}`}
                 className="capitalize"
             >
-                {formatTimestamptz(row.getValue("created_at"))}
+                {formatDate(row.getValue("created_at"))}
             </Link>
         ),
     },

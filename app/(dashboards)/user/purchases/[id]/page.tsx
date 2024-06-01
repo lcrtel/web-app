@@ -14,7 +14,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             <div>
                 <Link
                     href="/user/purchases"
-                    className="inline-flex items-center text-gray-400 hover:text-primary-500 transition-all ease-in-out mb-2"
+                    className="inline-flex items-center text-gray-400 hover:text-primary-900 transition-all ease-in-out mb-2"
                 >
                     <HiOutlineArrowCircleLeft className="mr-1.5" /> Purchase
                     Requests
@@ -28,19 +28,19 @@ export default async function Page({ params }: { params: { id: string } }) {
                     <div className="flex flex-wrap gap-4 items-center">
                         <p className="  text-gray-500 ">
                             Destination:{" "}
-                            <span className="font-semibold capitalize text-primary-500">
+                            <span className="font-semibold capitalize text-primary-900">
                                 {requests?.routes?.destination}
                             </span>
                         </p>
                         <p className="  text-gray-500 ">
                             Type:{" "}
-                            <span className="font-semibold uppercase text-primary-500">
+                            <span className="font-semibold uppercase text-primary-900">
                                 {requests?.routes?.route_type}
                             </span>
                         </p>{" "}
                         <p className="  text-gray-500 flex items-center gap-2">
                             Status:{" "}
-                            <span className="font-medium capitalize text-primary-500">
+                            <span className="font-medium capitalize text-primary-900">
                                 {requests?.status}
                             </span>
                         </p>

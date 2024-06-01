@@ -126,7 +126,7 @@ const ImportDropdown = ({ setData }: { setData: any }) => {
 
     return (
       <span
-        className="cursor-pointer whitespace-nowrap text-primary-500 underline"
+        className="cursor-pointer whitespace-nowrap text-primary-900 underline"
         onClick={handleDownload}
       >
         Download empty file

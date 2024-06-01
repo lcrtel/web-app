@@ -5,40 +5,39 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { HiOutlinePlusCircle } from "react-icons/hi";
 import { fetchVerfiedRoutes } from "./actions";
-import { RoutesTable } from "./routes-table";
+import { columns, RoutesTable } from "./RoutesTable";
 
 const Routes = async () => {
-    unstable_noStore();
-    const verified_routes = await fetchVerfiedRoutes();
+  unstable_noStore();
+  const verified_routes = await fetchVerfiedRoutes();
+  if (verified_routes)
     return (
-            <div className="w-full my-3">
-                <RoutesTable data={verified_routes} />
-            </div>
+      <div className="my-2 w-full">
+        <RoutesTable data={verified_routes} />
+      </div>
     );
 };
 
 export default function Page() {
-    return (
-        <div className="h-full">
-            <div className="flex  gap-2  flex-wrap md:items-center mb-4 justify-between ">
-                <h1 className="text-2xl font-bold text-primary">
-                    Route Offers
-                </h1>
-                <Link
-                    passHref
-                    href="/admin/routes/post"
-                    className={buttonVariants({
-                        variant: "default",
-                        size: "sm",
-                    })}
-                >
-                    <HiOutlinePlusCircle className="mr-2 h-5 w-5" />
-                    Add
-                </Link>
-            </div>
-            <Suspense fallback={<Loader />}>
-                <Routes />
-            </Suspense>
-        </div>
-    );
+  return (
+    <div className="h-full">
+      <div className="flex flex-wrap justify-between gap-2 md:items-center">
+        <h1 className="text-primary text-2xl font-bold">Route Offers</h1>
+        <Link
+          passHref
+          href="/admin/routes/post"
+          className={buttonVariants({
+            variant: "default",
+            size: "sm",
+          })}
+        >
+          <HiOutlinePlusCircle className="mr-2 h-5 w-5" />
+          Add
+        </Link>
+      </div>
+      <Suspense fallback={<Loader />}>
+        <Routes />
+      </Suspense>
+    </div>
+  );
 }

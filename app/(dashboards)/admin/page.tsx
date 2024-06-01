@@ -17,8 +17,8 @@ import { HiOutlineExternalLink } from "react-icons/hi";
 import Overview from "./Overview";
 import QuickActions from "./QuickActions";
 import { fetchUnVerfiedRoutes } from "./routes/offers/actions";
-import { RoutesTable } from "./routes/offers/routes-table";
 import { EditPurchaseRequest } from "./routes/targets/EditPurchaseRequest";
+import { RoutesTable } from "./routes/offers/RoutesTable";
 
 export const metadata: Metadata = {
     title: "Dashboard - Admin",

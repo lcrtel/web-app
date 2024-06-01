@@ -1,6 +1,7 @@
 "use server";
 
 import { supabaseServer } from "@/lib/supabase-server";
+import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 
 export async function fetchUnVerfiedRoutes() {
     const supabase = supabaseServer();
@@ -30,4 +31,10 @@ export async function fetchVerfiedRoutes() {
         route.vendor_company = company_name;
     });
     return routes;
+}
+
+export async function deleteRoutes(ids: string[]) {
+    const supabase = supabaseAdminServer();
+    console.log(ids)
+    return await supabase.from("routes").delete().in("id", ids);
 }

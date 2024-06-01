@@ -30,7 +30,7 @@ export default function MailForm({ clientDetails }: { clientDetails: any }) {
             <Accordion
                 type="single"
                 collapsible
-                className="w-full max-w-2xl  border rounded-lg"
+                className="w-full  border rounded-lg"
                 defaultValue="low-balance"
             >
                 <AccordionItem value="low-balance">

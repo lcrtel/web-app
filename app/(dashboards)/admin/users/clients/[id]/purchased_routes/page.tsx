@@ -39,7 +39,7 @@ export default function PurchasedRoutesPage({
                 </Suspense>
             </div>
 
-            <div className="">
+            {/* <div className="">
                 <div className="flex justify-between">
                     <h3 className="text-lg font-semibold mb-2">
                         Purchased Routes{" "}
@@ -51,7 +51,7 @@ export default function PurchasedRoutesPage({
                 <Suspense fallback={<Skeleton className="w-full h-32" />}>
                     <PurchasedRoutes userID={params.id} supabase={supabase} />
                 </Suspense>
-            </div>
+            </div> */}
         </section>
     );
 }

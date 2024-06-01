@@ -113,19 +113,7 @@ LCRTel`;
 
     return (
         <div>
-            <div className=" bg-surface items-center p-4 grid sm:grid-cols-3 gap-2">
-                <h2 className=" font-semibold text-lg">Wallet</h2>
-                <div className="  col-span-2 flex items-center gap-1 flex-wrap justify-between">
-                    <p className="font-medium">
-                        Balance: ${balance.toFixed(2)}
-                    </p>
-                    {!isBalanceBelowThreshold && (
-                        <span className=" text-slate-400 text-xs bg-white px-2 py-1 rounded-full">
-                            The balance is not low
-                        </span>
-                    )}
-                </div>
-            </div>
+            
             <div className="grid gap-2 sm:grid-cols-3 pt-4 pb-2 px-4 items-center">
                 <Label>To</Label>
                 <Input
@@ -942,7 +930,7 @@ const MailForm = ({ clientDetails }: { clientDetails: any }) => {
             <Accordion
                 type="single"
                 collapsible
-                className="w-full max-w-2xl  border rounded-lg"
+                className="w-full  border rounded-lg"
                 defaultValue="low-balance"
             >
                 <AccordionItem value="low-balance">

@@ -22,7 +22,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import formatDate from "@/utils/formatDate";
+import { format } from "date-fns";
 
 export const columns: ColumnDef<Route>[] = [
   {
@@ -36,7 +36,7 @@ export const columns: ColumnDef<Route>[] = [
   },
   {
     accessorKey: "destination_code",
-    header: "Code",
+    header: "Prefix",
     cell: ({ row }) => (
       <div className="lowercase">{row.getValue("destination_code")}</div>
     ),
@@ -56,7 +56,7 @@ export const columns: ColumnDef<Route>[] = [
         className="flex cursor-pointer items-center gap-2"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Rate
+        Rate $
         <ArrowUpDown className="h-4 w-4" />
       </div>
     ),
@@ -110,8 +110,12 @@ export const columns: ColumnDef<Route>[] = [
       </div>
     ),
     cell: ({ row }) => {
-      const date: any = row.getValue("created_at");
-      return <div className="lowercase">{formatDate(date)}</div>;
+      return (
+        <div className="lowercase">
+          {" "}
+          {format(new Date(row.getValue("created_at")), "dd/MM/yyyy")}
+        </div>
+      );
     },
   },
 ];

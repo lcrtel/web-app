@@ -233,10 +233,10 @@ export function EditRoute({ route }: { route: Route }) {
                                 name="destination_code"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Destination Code</FormLabel>
+                                        <FormLabel>Prefix</FormLabel>
                                         <FormControl>
                                             <Input
-                                                placeholder="Destination Code"
+                                                placeholder="Prefix"
                                                 {...field}
                                             />
                                         </FormControl>

@@ -47,7 +47,7 @@ export const columns: ColumnDef<Route>[] = [
     },
     {
         accessorKey: "destination_code",
-        header: "Code",
+        header: "Prefix",
         cell: ({ row }) => (
             <Link
                 href={`/user/routes/${row.getValue("id")}`}

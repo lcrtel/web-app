@@ -5,7 +5,6 @@ import { fetchUserMetadata } from "@/utils/user";
 import Link from "next/link";
 import { Suspense } from "react";
 import { HiArrowRight, HiOutlineExternalLink } from "react-icons/hi";
-import { IoWallet } from "react-icons/io5";
 
 export const revalidate = 0;
 
@@ -19,7 +18,6 @@ export default async function Dashboard() {
         Welcome, {userData?.name}👋
       </h3>
       <div className="flex flex-col justify-between gap-4 sm:flex-row-reverse">
-       
         <div className="w-full">
           <Links />
           <Suspense fallback={<Skeleton className="mt-4 h-32 w-full" />}>
@@ -57,7 +55,7 @@ const PurchaseRequests = async ({
             className={`flex cursor-pointer flex-wrap items-center justify-between gap-2 rounded-lg border p-3 transition-all duration-500 ease-in-out active:translate-x-1`}
           >
             <div className="flex gap-4">
-              <p>Area Code: {item.routes?.destination_code} </p>
+              <p>Prefix: {item.routes?.destination_code} </p>
               <p className="capitalize">
                 Destination: {item.routes?.destination} -{" "}
                 <span className="font-medium uppercase">

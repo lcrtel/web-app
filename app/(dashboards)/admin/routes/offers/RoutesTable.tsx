@@ -20,14 +20,14 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { DataTable } from "@/components/ui/data-table";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import formatDate from "@/utils/formatDate";
+import { format } from "date-fns";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import DeleteRoute from "./[id]/DeleteRoute";
 import { deleteRoutes } from "./actions";
-import { format } from "date-fns";
+
 export const columns: ColumnDef<Route>[] = [
   {
     id: "select",
@@ -297,14 +297,15 @@ const DeleteAlert = ({
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
         <Button variant="destructiveOutline" size="sm">
-          Delete Selected Routes
+          Delete selected routes
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete Selected Route(s)</AlertDialogTitle>
+          <AlertDialogTitle>Delete selected route(s)</AlertDialogTitle>
           <AlertDialogDescription className="text-md">
-            These routes will be deleted, along with all of its related items.
+            The selected routes will be deleted, along with all of its related
+            items.
           </AlertDialogDescription>
 
           <Alert

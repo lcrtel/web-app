@@ -19,14 +19,7 @@ export default async function Dashboard() {
         Welcome, {userData?.name}👋
       </h3>
       <div className="flex flex-col justify-between gap-4 sm:flex-row-reverse">
-        <div className="sm:w-[300px]">
-          <div className="space-y-2 rounded-xl border bg-slate-50 p-3">
-            <div className="flex items-center gap-2">
-              <IoWallet className="h-5 w-5" />
-              <h2 className="text-lg font-bold tracking-tight">Wallet</h2>
-            </div>
-          </div>
-        </div>
+       
         <div className="w-full">
           <Links />
           <Suspense fallback={<Skeleton className="mt-4 h-32 w-full" />}>

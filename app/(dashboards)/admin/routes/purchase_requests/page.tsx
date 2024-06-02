@@ -38,6 +38,7 @@ export default async function Page() {
                                 <TableHead>Route Offer</TableHead>
                                 <TableHead>Client</TableHead>
                                 <TableHead>Communication Status</TableHead>
+                                <TableHead>VOS Status</TableHead>
                                 <TableHead>Request Status</TableHead>
                                 <TableHead>IP Address</TableHead>
                                 <TableHead className="text-right"></TableHead>

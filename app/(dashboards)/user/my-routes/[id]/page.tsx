@@ -78,7 +78,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           </div>
           <div className="flex w-full items-center justify-between rounded-md bg-white px-2 py-1">
             <p className="text-sm text-gray-500">ASR</p>
-            <p className="font-semibold">{route?.asr}</p>
+            <p className="font-semibold">{route?.asr}%</p>
           </div>
           <div className="flex w-full items-center justify-between rounded-md bg-white px-2 py-1">
             <p className="text-sm text-gray-500">ACD</p>

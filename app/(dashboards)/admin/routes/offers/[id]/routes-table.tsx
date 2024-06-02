@@ -128,7 +128,7 @@ export const columns: ColumnDef<Route>[] = [
                         column.toggleSorting(column.getIsSorted() === "asc")
                     }
                 >
-                    ASR
+                    ASR %
                     <ArrowUpDown className=" h-4 w-4" />
                 </div>
             );

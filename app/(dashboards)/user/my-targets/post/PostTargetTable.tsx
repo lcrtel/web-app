@@ -308,7 +308,7 @@ export function PostTargetTable() {
               value={value}
               onChange={(e) => setValue(e.target.value)}
               onBlur={onBlur}
-              placeholder="ASR%"
+              placeholder="ASR %"
             />
           );
         },

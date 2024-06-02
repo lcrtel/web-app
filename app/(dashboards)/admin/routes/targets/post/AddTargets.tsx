@@ -305,7 +305,7 @@ export function AddRouteTable({ users }: { users: any }) {
       {
         accessorKey: "asr",
         header: ({ column }) => {
-          return <div className="min-w-[80px]">ASR</div>;
+          return <div className="min-w-[80px]">ASR %</div>;
         },
         cell: function Cell({
           getValue,
@@ -333,7 +333,7 @@ export function AddRouteTable({ users }: { users: any }) {
               value={value}
               onChange={(e) => setValue(e.target.value)}
               onBlur={onBlur}
-              placeholder="ASR"
+              placeholder="ASR %"
             />
           );
         },

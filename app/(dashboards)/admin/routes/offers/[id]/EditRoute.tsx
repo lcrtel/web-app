@@ -148,9 +148,9 @@ export function EditRoute({ route }: { route: Route }) {
                 name="asr"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>ASR</FormLabel>
+                    <FormLabel> %</FormLabel>
                     <FormControl>
-                      <Input placeholder="ASR" {...field} />
+                      <Input placeholder="ASR %" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

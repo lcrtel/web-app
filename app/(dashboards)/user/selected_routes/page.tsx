@@ -122,7 +122,7 @@ const PurchaserequestCard = ({
             </div>
             <div className="flex">
               <div className="flex-1">
-                <p className="text-[10px] text-gray-400">ASR %</p>
+                <p className="text-[10px] text-gray-400">ASR</p>
                 <h4 className="text-primary text-sm font-semibold">
                   {request.routes.asr}%
                 </h4>

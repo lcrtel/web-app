@@ -124,9 +124,9 @@ export function RouteForm({ route }: { route: Route }) {
             name="asr"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>ASR</FormLabel>
+                <FormLabel>ASR %</FormLabel>
                 <FormControl>
-                  <Input placeholder="ASR" {...field} />
+                  <Input placeholder="ASR %" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

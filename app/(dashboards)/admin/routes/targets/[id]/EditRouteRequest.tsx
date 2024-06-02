@@ -135,6 +135,8 @@ export function EditRouteRequest({ route_request }: { route_request: Target }) {
                         <SelectItem value="tdm">TDM</SelectItem>
                         <SelectItem value="pri">PRI</SelectItem>
                         <SelectItem value="did">DID</SelectItem>
+                        <SelectItem value="cc">CC</SelectItem>
+                        <SelectItem value="lgw">LGW</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -147,9 +149,9 @@ export function EditRouteRequest({ route_request }: { route_request: Target }) {
                 name="asr"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>ASR</FormLabel>
+                    <FormLabel>ASR %</FormLabel>
                     <FormControl>
-                      <Input placeholder="ASR" {...field} />
+                      <Input placeholder="ASR %" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

@@ -9,41 +9,6 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      agents: {
-        Row: {
-          clients: number | null
-          created_at: string
-          id: string
-          routes: number | null
-          targets: number | null
-          vendors: number | null
-        }
-        Insert: {
-          clients?: number | null
-          created_at?: string
-          id: string
-          routes?: number | null
-          targets?: number | null
-          vendors?: number | null
-        }
-        Update: {
-          clients?: number | null
-          created_at?: string
-          id?: string
-          routes?: number | null
-          targets?: number | null
-          vendors?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "agents_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
       config: {
         Row: {
           created_at: string | null
@@ -119,7 +84,7 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "routes"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       invoices: {
@@ -169,29 +134,35 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
-      "notifications ": {
+      notifications: {
         Row: {
-          date_sent: string
+          is_read: boolean | null
           message: string | null
           notification_id: number
+          notification_type: string | null
           status: string
+          timestamp: string
           user_id: string
         }
         Insert: {
-          date_sent?: string
+          is_read?: boolean | null
           message?: string | null
           notification_id?: number
+          notification_type?: string | null
           status?: string
+          timestamp?: string
           user_id: string
         }
         Update: {
-          date_sent?: string
+          is_read?: boolean | null
           message?: string | null
           notification_id?: number
+          notification_type?: string | null
           status?: string
+          timestamp?: string
           user_id?: string
         }
         Relationships: [
@@ -201,7 +172,7 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       payments: {
@@ -259,7 +230,7 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       profiles: {
@@ -327,7 +298,7 @@ export type Database = {
             isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       purchase_requests: {
@@ -381,18 +352,37 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "routes"
             referencedColumns: ["id"]
-          }
+          },
         ]
+      }
+      roles: {
+        Row: {
+          description: string | null
+          role_id: number
+          role_name: string
+        }
+        Insert: {
+          description?: string | null
+          role_id?: number
+          role_name: string
+        }
+        Update: {
+          description?: string | null
+          role_id?: number
+          role_name?: string
+        }
+        Relationships: []
       }
       routes: {
         Row: {
           acd: string
           asr: string
-          capacity: string
+          capacity: string | null
           created_at: string | null
           destination: string
           destination_code: string
           id: string
+          new_id: number | null
           pdd: string
           ports: string
           rate: string
@@ -407,11 +397,12 @@ export type Database = {
         Insert: {
           acd: string
           asr: string
-          capacity: string
+          capacity?: string | null
           created_at?: string | null
           destination: string
           destination_code: string
           id?: string
+          new_id?: number | null
           pdd: string
           ports: string
           rate: string
@@ -426,11 +417,12 @@ export type Database = {
         Update: {
           acd?: string
           asr?: string
-          capacity?: string
+          capacity?: string | null
           created_at?: string | null
           destination?: string
           destination_code?: string
           id?: string
+          new_id?: number | null
           pdd?: string
           ports?: string
           rate?: string
@@ -449,14 +441,14 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       routes_history: {
         Row: {
           acd: string
           asr: string
-          capacity: string
+          capacity: string | null
           destination: string
           destination_code: string
           effective_date: string | null
@@ -471,7 +463,7 @@ export type Database = {
         Insert: {
           acd: string
           asr: string
-          capacity: string
+          capacity?: string | null
           destination: string
           destination_code: string
           effective_date?: string | null
@@ -486,7 +478,7 @@ export type Database = {
         Update: {
           acd?: string
           asr?: string
-          capacity?: string
+          capacity?: string | null
           destination?: string
           destination_code?: string
           effective_date?: string | null
@@ -500,12 +492,12 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "public_routes_history_route_id_fkey"
+            foreignKeyName: "routes_history_route_id_fkey"
             columns: ["route_id"]
             isOneToOne: false
             referencedRelation: "routes"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       selected_routes: {
@@ -538,7 +530,49 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
+        ]
+      }
+      support_chat: {
+        Row: {
+          agent_id: string | null
+          chat_id: number
+          is_agent_message: boolean | null
+          message: string | null
+          timestamp: string | null
+          user_id: string
+        }
+        Insert: {
+          agent_id?: string | null
+          chat_id?: number
+          is_agent_message?: boolean | null
+          message?: string | null
+          timestamp?: string | null
+          user_id: string
+        }
+        Update: {
+          agent_id?: string | null
+          chat_id?: number
+          is_agent_message?: boolean | null
+          message?: string | null
+          timestamp?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_support_chat_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_support_chat_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
         ]
       }
       targets: {
@@ -546,7 +580,7 @@ export type Database = {
           acd: string
           asr: string
           buying_rate: number
-          capacity: string
+          capacity: string | null
           client_id: string
           created_at: string | null
           destination: string
@@ -562,7 +596,7 @@ export type Database = {
           acd: string
           asr: string
           buying_rate?: number
-          capacity: string
+          capacity?: string | null
           client_id?: string
           created_at?: string | null
           destination: string
@@ -578,7 +612,7 @@ export type Database = {
           acd?: string
           asr?: string
           buying_rate?: number
-          capacity?: string
+          capacity?: string | null
           client_id?: string
           created_at?: string | null
           destination?: string
@@ -597,7 +631,7 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       targets_history: {
@@ -605,7 +639,7 @@ export type Database = {
           acd: string
           asr: string
           buying_rate: number
-          capacity: string
+          capacity: string | null
           destination: string
           destination_code: string
           effective_date: string | null
@@ -620,7 +654,7 @@ export type Database = {
           acd: string
           asr: string
           buying_rate?: number
-          capacity: string
+          capacity?: string | null
           destination: string
           destination_code: string
           effective_date?: string | null
@@ -635,7 +669,7 @@ export type Database = {
           acd?: string
           asr?: string
           buying_rate?: number
-          capacity?: string
+          capacity?: string | null
           destination?: string
           destination_code?: string
           effective_date?: string | null
@@ -653,7 +687,37 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "targets"
             referencedColumns: ["id"]
-          }
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          role_id: number
+          user_id: string
+        }
+        Insert: {
+          role_id: number
+          user_id: string
+        }
+        Update: {
+          role_id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_user_roles_role_id_fkey"
+            columns: ["role_id"]
+            isOneToOne: false
+            referencedRelation: "roles"
+            referencedColumns: ["role_id"]
+          },
+          {
+            foreignKeyName: "public_user_roles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
         ]
       }
       wallet: {
@@ -685,7 +749,7 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       watchlist: {
@@ -718,7 +782,7 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
     }
@@ -737,14 +801,16 @@ export type Database = {
   }
 }
 
+type PublicSchema = Database[Extract<keyof Database, "public">]
+
 export type Tables<
   PublicTableNameOrOptions extends
-    | keyof (Database["public"]["Tables"] & Database["public"]["Views"])
+    | keyof (PublicSchema["Tables"] & PublicSchema["Views"])
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
         Database[PublicTableNameOrOptions["schema"]]["Views"])
-    : never = never
+    : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
       Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
@@ -752,67 +818,67 @@ export type Tables<
     }
     ? R
     : never
-  : PublicTableNameOrOptions extends keyof (Database["public"]["Tables"] &
-      Database["public"]["Views"])
-  ? (Database["public"]["Tables"] &
-      Database["public"]["Views"])[PublicTableNameOrOptions] extends {
-      Row: infer R
-    }
-    ? R
+  : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
+        PublicSchema["Views"])
+    ? (PublicSchema["Tables"] &
+        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
+        Row: infer R
+      }
+      ? R
+      : never
     : never
-  : never
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
-    | keyof Database["public"]["Tables"]
+    | keyof PublicSchema["Tables"]
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never
+    : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
-  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
-  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
-      Insert: infer I
-    }
-    ? I
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Insert: infer I
+      }
+      ? I
+      : never
     : never
-  : never
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
-    | keyof Database["public"]["Tables"]
+    | keyof PublicSchema["Tables"]
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never
+    : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
     }
     ? U
     : never
-  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
-  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
-      Update: infer U
-    }
-    ? U
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Update: infer U
+      }
+      ? U
+      : never
     : never
-  : never
 
 export type Enums<
   PublicEnumNameOrOptions extends
-    | keyof Database["public"]["Enums"]
+    | keyof PublicSchema["Enums"]
     | { schema: keyof Database },
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
-    : never = never
+    : never = never,
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
-  : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]
-  ? Database["public"]["Enums"][PublicEnumNameOrOptions]
-  : never
+  : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
+    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never

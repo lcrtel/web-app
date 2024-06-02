@@ -32,7 +32,6 @@ export function PostOffersTable() {
       acd: "",
       ports: "",
       pdd: "",
-      capacity: "",
     },
   ]);
 
@@ -92,7 +91,6 @@ const ImportDropdown = ({ setData }: { setData: any }) => {
         "acd",
         "ports",
         "pdd",
-        "capacity",
       ],
     ]);
 

@@ -22,7 +22,6 @@ export async function insertRoutesInDb(newRoutes: Route[], vendor: string) {
                 asr: route.asr,
                 acd: route.acd,
                 ports: route.ports,
-                capacity: route.capacity,
                 pdd: route.pdd,
                 verification: "verified",
             }))

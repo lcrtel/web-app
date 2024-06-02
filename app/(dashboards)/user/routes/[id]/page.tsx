@@ -35,10 +35,9 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   const spec = [
     { title: "Prefix", value: route.destination_code },
-    { title: "Capacity", value: route.capacity },
     { title: "Route type", value: route.route_type },
     { title: "ACD", value: route.acd },
-    { title: "ASR", value: route.asr },
+    { title: "ASR %", value: route.asr },
     { title: "PDD", value: route.pdd },
     { title: "Ports", value: route.ports },
   ];

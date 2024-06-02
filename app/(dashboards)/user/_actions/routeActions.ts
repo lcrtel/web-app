@@ -20,7 +20,6 @@ export async function insertRoutesInDb(newRoutes: Route[]) {
                 asr: newRoute.asr,
                 acd: newRoute.acd,
                 ports: newRoute.ports,
-                capacity: newRoute.capacity,
                 pdd: newRoute.pdd,
                 created_at: new Date().toISOString(),
             }))

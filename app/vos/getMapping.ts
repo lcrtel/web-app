@@ -35,7 +35,7 @@ export default async function getMapping() {
                 const rowObject = {
                     client: rowData[0],
                     name: rowData[1],
-                    capacity: rowData[2],
+                    ports: rowData[2],
                     ip: rowData[6].replace(" ", ", "),
                 };
                 // Add the object to the array

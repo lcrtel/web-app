@@ -124,7 +124,7 @@ const PurchaserequestCard = ({
               <div className="flex-1">
                 <p className="text-[10px] text-gray-400">ASR %</p>
                 <h4 className="text-primary text-sm font-semibold">
-                  {request.routes.asr}
+                  {request.routes.asr}%
                 </h4>
               </div>
               <div className="flex-1">
@@ -139,12 +139,6 @@ const PurchaserequestCard = ({
                 <p className="text-[10px] text-gray-400">Ports</p>
                 <h4 className="text-primary text-sm font-semibold">
                   {request.routes.ports}
-                </h4>
-              </div>
-              <div className="flex-1">
-                <p className="text-[10px] text-gray-400">Capacity</p>
-                <h4 className="text-primary text-sm font-semibold">
-                  {request.routes.capacity}
                 </h4>
               </div>
             </div>

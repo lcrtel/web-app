@@ -95,10 +95,10 @@ export default function MatchingOffers({
                                 </Column>
                                 <Column className="p-3">
                                     <Text className="font-medium text-xs m-0 text-gray-500">
-                                        Offered Capacity:
+                                        Offered Ports:
                                     </Text>
                                     <Text className="font-semibold text-base m-0 text-primary">
-                                        {route.capacity}
+                                        {route.ports}
                                     </Text>
                                 </Column>
                             </Row>

@@ -1,12 +1,12 @@
 import CopyButton from "@/components/ui/copy-button";
 import { Separator } from "@/components/ui/separator";
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import formatString from "@/utils/formatString";
@@ -70,11 +70,11 @@ export default async function Page({ params }: { params: { id: string } }) {
             </div>
 
             <div>
-              <p className="text-sm text-gray-500">Rate</p>
+              <p className="text-sm text-gray-500">Rate $</p>
               <p className="font-semibold">$ {route?.rate}</p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Selling Rate</p>
+              <p className="text-sm text-gray-500">Selling Rate $</p>
               <p className="font-semibold">$ {route?.selling_rate}</p>
             </div>
           </div>{" "}
@@ -111,10 +111,6 @@ export default async function Page({ params }: { params: { id: string } }) {
           <div className="flex w-full items-center justify-between rounded-md bg-white px-2 py-1">
             <p className="text-sm text-gray-500">Ports</p>
             <p className="font-semibold">{route?.ports}</p>
-          </div>
-          <div className="flex w-full items-center justify-between rounded-md bg-white px-2 py-1">
-            <p className="text-sm text-gray-500">Capacity</p>
-            <p className="font-semibold">{route?.capacity}</p>
           </div>
           <div className="flex w-full items-center justify-between rounded-md bg-white px-2 py-1">
             <p className="text-sm text-gray-500">Verification Status</p>

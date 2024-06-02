@@ -6,20 +6,20 @@ import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 
 import { toast } from "react-hot-toast";
@@ -31,10 +31,9 @@ const routeFormSchema = z.object({
     message: "Cannot leave this field blank",
   }),
   route_type: z.string(),
-  asr: z.string(),
-  acd: z.string(),
-  ports: z.string(),
-  capacity: z.string(),
+  asr: z.string().optional(),
+  acd: z.string().optional(),
+  ports: z.string().optional(),
   destination_code: z.string(),
   pdd: z.string(),
 });
@@ -165,19 +164,6 @@ export function TargetForm({ route }: { route: Target }) {
                 <FormLabel>Ports</FormLabel>
                 <FormControl>
                   <Input placeholder="Ports" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="capacity"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Capacity</FormLabel>
-                <FormControl>
-                  <Input placeholder="Capacity" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

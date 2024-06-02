@@ -34,7 +34,6 @@ export async function postTargets(data: any) {
             asr: route.asr,
             acd: route.acd,
             ports: route.ports,
-            capacity: route.capacity,
             pdd: route.pdd,
         }))
     );
@@ -101,7 +100,6 @@ export async function updateTarget(oldTarget: Target, newTarget: any) {
                 effective_date: oldTarget.created_at,
                 acd: oldTarget.acd,
                 asr: oldTarget.asr,
-                capacity: oldTarget.capacity,
                 destination: oldTarget.destination,
                 destination_code: oldTarget.destination_code,
                 rate: oldTarget.rate,

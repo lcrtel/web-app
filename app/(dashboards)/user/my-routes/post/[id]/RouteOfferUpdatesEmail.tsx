@@ -84,16 +84,13 @@ export default function RouteOfferUpdatesEmail({
                 <b>Route Type:</b> {oldRoute.route_type}
               </Text>
               <Text className="m-0 font-medium text-gray-500">
-                <b>ASR:</b> {oldRoute.asr}
+                <b>ASR:</b> {oldRoute.asr}%
               </Text>
               <Text className="m-0 font-medium text-gray-500">
                 <b>ACD:</b> {oldRoute.acd}
               </Text>
               <Text className="m-0 font-medium text-gray-500">
                 <b>Ports:</b> {oldRoute.ports}
-              </Text>
-              <Text className="m-0 font-medium text-gray-500">
-                <b>Capacity:</b> {oldRoute.capacity}
               </Text>
               <Text className="m-0 font-medium text-gray-500">
                 <b>PDD:</b> {oldRoute.pdd}
@@ -115,16 +112,13 @@ export default function RouteOfferUpdatesEmail({
                 <b>Route Type:</b> {newRoute.route_type}
               </Text>
               <Text className="m-0 font-medium text-gray-500">
-                <b>ASR:</b> {newRoute.asr}
+                <b>ASR:</b> {newRoute.asr}%
               </Text>
               <Text className="m-0 font-medium text-gray-500">
                 <b>ACD:</b> {newRoute.acd}
               </Text>
               <Text className="m-0 font-medium text-gray-500">
                 <b>Ports:</b> {newRoute.ports}
-              </Text>
-              <Text className="m-0 font-medium text-gray-500">
-                <b>Capacity:</b> {newRoute.capacity}
               </Text>
               <Text className="m-0 font-medium text-gray-500">
                 <b>PDD:</b> {newRoute.pdd}

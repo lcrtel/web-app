@@ -82,7 +82,7 @@ export default function PurchaseRequestEmailTemplate({
                                         Rate
                                     </th>
                                     <th className="py-2 px-3 rounded-md bg-surface text-left">
-                                        Capacity
+                                        Ports
                                     </th>
                                 </tr>
                             </thead>
@@ -102,7 +102,7 @@ export default function PurchaseRequestEmailTemplate({
                                             ${route.routes.rate}
                                         </td>
                                         <td className="py-2  rounded-md px-3 bg-slate-100">
-                                            {route.routes.capacity}
+                                            {route.routes.ports}
                                         </td>
                                     </tr>
                                 ))}

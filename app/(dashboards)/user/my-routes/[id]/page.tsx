@@ -93,10 +93,6 @@ export default async function Page({ params }: { params: { id: string } }) {
             <p className="font-semibold">{route?.ports}</p>
           </div>
           <div className="flex w-full items-center justify-between rounded-md bg-white px-2 py-1">
-            <p className="text-sm text-gray-500">Capacity</p>
-            <p className="font-semibold">{route?.capacity}</p>
-          </div>
-          <div className="flex w-full items-center justify-between rounded-md bg-white px-2 py-1">
             <p className="text-sm text-gray-500">Status</p>
             <p className="font-semibold">{formatString(route?.verification)}</p>
           </div>

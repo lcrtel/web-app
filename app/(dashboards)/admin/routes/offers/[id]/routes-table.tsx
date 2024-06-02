@@ -67,7 +67,7 @@ export const columns: ColumnDef<Route>[] = [
                         column.toggleSorting(column.getIsSorted() === "asc")
                     }
                 >
-                    Rate
+                    Rate $
                     <ArrowUpDown className=" h-4 w-4" />
                 </div>
             );
@@ -161,22 +161,6 @@ export const columns: ColumnDef<Route>[] = [
                     }
                 >
                     Ports
-                    <ArrowUpDown className=" h-4 w-4" />
-                </div>
-            );
-        },
-    },
-    {
-        accessorKey: "capacity",
-        header: ({ column }) => {
-            return (
-                <div
-                    className="flex gap-2 items-center cursor-pointer"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Capacity
                     <ArrowUpDown className=" h-4 w-4" />
                 </div>
             );

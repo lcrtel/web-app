@@ -97,12 +97,6 @@ async function Routes({ userId }: { userId: any }) {
                   {route.ports}
                 </h4>
               </div>
-              <div className="flex-1">
-                <p className="text-[10px] text-gray-400">Capacity</p>
-                <h4 className="text-primary text-sm font-semibold">
-                  {route.capacity}
-                </h4>
-              </div>
             </div>
           </div>
           <div className="mt-2.5 flex justify-end gap-2.5">

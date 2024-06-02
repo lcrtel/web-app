@@ -75,7 +75,7 @@ export default function SubmitRoutes({
                                         Rate
                                     </th>
                                     <th className="py-2 px-3 rounded-md bg-surface text-left">
-                                        Capacity
+                                        Ports
                                     </th>
                                 </tr>
                             </thead>
@@ -95,7 +95,7 @@ export default function SubmitRoutes({
                                             ${route.rate}
                                         </td>
                                         <td className="py-2  rounded-md px-3 bg-slate-100">
-                                            {route.capacity}
+                                            {route.ports}
                                         </td>
                                     </tr>
                                 ))}

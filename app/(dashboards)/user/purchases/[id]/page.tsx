@@ -54,7 +54,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         </div>
         <div className="flex w-full items-center justify-between rounded-md bg-white px-2 py-1">
           <p className="text-sm text-gray-500">ASR</p>
-          <p className="font-semibold">{requests?.routes?.asr}</p>
+          <p className="font-semibold">{requests?.routes?.asr}%</p>
         </div>
         <div className="flex w-full items-center justify-between rounded-md bg-white px-2 py-1">
           <p className="text-sm text-gray-500">ACD</p>
@@ -67,10 +67,6 @@ export default async function Page({ params }: { params: { id: string } }) {
         <div className="flex w-full items-center justify-between rounded-md bg-white px-2 py-1">
           <p className="text-sm text-gray-500">Ports</p>
           <p className="font-semibold">{requests?.routes?.ports}</p>
-        </div>
-        <div className="flex w-full items-center justify-between rounded-md bg-white px-2 py-1">
-          <p className="text-sm text-gray-500">Capacity</p>
-          <p className="font-semibold">{requests?.routes?.capacity}</p>
         </div>
       </div>
     </div>

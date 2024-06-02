@@ -1,28 +1,28 @@
 "use client";
 
 import {
-    ColumnDef,
-    ColumnFiltersState,
-    SortingState,
-    VisibilityState,
-    flexRender,
-    getCoreRowModel,
-    getFilteredRowModel,
-    getSortedRowModel,
-    useReactTable
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getSortedRowModel,
+  useReactTable,
 } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import * as React from "react";
 
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
-import formatDate from "@/utils/formatDate";
+import { format } from "date-fns";
 import Link from "next/link";
 
 export const columns: ColumnDef<Route>[] = [
@@ -56,7 +56,7 @@ export const columns: ColumnDef<Route>[] = [
           className="flex cursor-pointer items-center gap-2"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Rate
+          Rate $
           <ArrowUpDown className="h-4 w-4" />
         </div>
       );
@@ -143,20 +143,6 @@ export const columns: ColumnDef<Route>[] = [
     },
   },
   {
-    accessorKey: "capacity",
-    header: ({ column }) => {
-      return (
-        <div
-          className="flex cursor-pointer items-center gap-2"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Capacity
-          <ArrowUpDown className="h-4 w-4" />
-        </div>
-      );
-    },
-  },
-  {
     accessorKey: "created_at",
     header: ({ column }) => {
       return (
@@ -170,9 +156,11 @@ export const columns: ColumnDef<Route>[] = [
       );
     },
     cell: ({ row }) => {
-      const Date = row.getValue("created_at");
-      const formattedDate = formatDate(Date);
-      return <div className="font-medium">{formattedDate}</div>;
+      return (
+        <div className="font-medium">
+          {format(new Date(row.getValue("created_at")), "dd/MM/yyyy")}
+        </div>
+      );
     },
   },
   {

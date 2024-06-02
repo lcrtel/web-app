@@ -104,6 +104,13 @@ const columns: ColumnDef<Route>[] = [
         </div>
       );
     },
+    cell: ({ row }) => {
+      return (
+        <div className="">
+          {row.getValue("asr")}%
+        </div>
+      )
+    }
   },
   {
     accessorKey: "acd",

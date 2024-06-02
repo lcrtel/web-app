@@ -71,7 +71,6 @@ export function PostRouteTable() {
         acd: "",
         ports: "",
         pdd: "",
-        capacity: "",
       },
     ]);
   };
@@ -111,7 +110,6 @@ export function PostRouteTable() {
           "acd",
           "ports",
           "pdd",
-          "capacity",
         ],
       ]);
 
@@ -367,6 +365,8 @@ export function PostRouteTable() {
                     <SelectItem value="tdm">TDM</SelectItem>
                     <SelectItem value="pri">PRI</SelectItem>
                     <SelectItem value="did">DID</SelectItem>
+                    <SelectItem value="cc">CC</SelectItem>
+                    <SelectItem value="lgw">LGW</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -377,7 +377,7 @@ export function PostRouteTable() {
       {
         accessorKey: "rate",
         header: function Cell({ column }) {
-          return <div className="min-w-[80px]">Rate</div>;
+          return <div className="min-w-[80px]">Rate $</div>;
         },
         cell: function Cell({
           getValue,
@@ -406,7 +406,7 @@ export function PostRouteTable() {
               onChange={(e) => setValue(e.target.value)}
               onBlur={onBlur}
               required
-              placeholder="Rate"
+              placeholder="Rate $"
             />
           );
         },
@@ -414,7 +414,7 @@ export function PostRouteTable() {
       {
         accessorKey: "asr",
         header: ({ column }) => {
-          return <div className="min-w-[80px]">ASR</div>;
+          return <div className="min-w-[80px]">ASR %</div>;
         },
         cell: function Cell({
           getValue,
@@ -442,8 +442,7 @@ export function PostRouteTable() {
               value={value}
               onChange={(e) => setValue(e.target.value)}
               onBlur={onBlur}
-              required
-              placeholder="ASR"
+              placeholder="ASR %"
             />
           );
         },
@@ -479,7 +478,6 @@ export function PostRouteTable() {
               value={value}
               onChange={(e) => setValue(e.target.value)}
               onBlur={onBlur}
-              required
               placeholder="ACD"
             />
           );
@@ -553,47 +551,7 @@ export function PostRouteTable() {
               value={value}
               onChange={(e) => setValue(e.target.value)}
               onBlur={onBlur}
-              required
               placeholder="Ports"
-            />
-          );
-        },
-      },
-      {
-        accessorKey: "capacity",
-        header: ({ column }) => {
-          return <div className="min-w-[80px]">Capacity</div>;
-        },
-        cell: function Cell({
-          getValue,
-          row: { index },
-          column: { id },
-          table,
-        }) {
-          const initialValue = getValue();
-          // We need to keep and update the state of the cell normally
-          const [value, setValue] = useState<any>(initialValue);
-
-          // When the input is blurred, we'll call our table meta's updateData function
-          const onBlur = () => {
-            table.options.meta?.updateData(index, id, value);
-          };
-
-          // If the initialValue is changed external, sync it up with our state
-          useEffect(() => {
-            setValue(initialValue);
-          }, [initialValue]);
-
-          return (
-            <Input
-              type="number"
-              value={value}
-              onChange={(e) =>
-                table.options.meta?.updateData(index, id, e.target.value)
-              }
-              onBlur={onBlur}
-              required
-              placeholder="Capacity"
             />
           );
         },

@@ -143,7 +143,7 @@ export function PurchaseRequestForm({
               </div>
               <div className="flex w-full items-center justify-between rounded-md border border-slate-100 bg-white px-2 py-1">
                 <p className="text-sm text-gray-500">ASR</p>
-                <p className="font-semibold">{route.routes?.asr}</p>
+                <p className="font-semibold">{route.routes?.asr}%</p>
               </div>
               <div className="flex w-full items-center justify-between rounded-md border border-slate-100 bg-white px-2 py-1">
                 <p className="text-sm text-gray-500">ACD</p>
@@ -157,10 +157,7 @@ export function PurchaseRequestForm({
                 <p className="text-sm text-gray-500">Ports</p>
                 <p className="font-semibold">{route.routes?.ports}</p>
               </div>
-              <div className="flex w-full items-center justify-between rounded-md border border-slate-100 bg-white px-2 py-1">
-                <p className="text-sm text-gray-500">Capacity</p>
-                <p className="font-semibold">{route.routes?.capacity}</p>
-              </div>
+             
               <DeleteButton id={route.id} />
             </div>
           </div>

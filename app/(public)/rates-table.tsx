@@ -83,7 +83,7 @@ export const columns: ColumnDef<Route>[] = [
         <ArrowUpDown className="h-4 w-4" />
       </div>
     ),
-    cell: ({ row }) => <div className="lowercase">{row.getValue("asr")}</div>,
+    cell: ({ row }) => <div className="lowercase">{row.getValue("asr")}%</div>,
   },
   {
     accessorKey: "pdd",

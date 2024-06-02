@@ -3,12 +3,12 @@
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-    Sheet,
-    SheetClose,
-    SheetContent,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
 } from "@/components/ui/sheet";
 import { supabaseClient } from "@/lib/supabase-client";
 import * as z from "zod";
@@ -17,19 +17,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 
 import { useRouter } from "next/navigation";
@@ -37,14 +37,13 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { HiX } from "react-icons/hi";
 const routeFormSchema = z.object({
-  acd: z.string(),
-  asr: z.string(),
+  acd: z.string().optional(),
+  asr: z.string().optional(),
   buying_rate: z.string(),
-  capacity: z.string(),
   destination: z.string(),
   destination_code: z.string(),
   pdd: z.string(),
-  ports: z.string(),
+  ports: z.string().optional(),
   rate: z.string(),
   route_type: z.string(),
 });
@@ -184,19 +183,6 @@ export function EditRouteRequest({ route_request }: { route_request: Target }) {
               />
               <FormField
                 control={form.control}
-                name="capacity"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Capacity</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Capacity" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
                 name="destination_code"
                 render={({ field }) => (
                   <FormItem>
@@ -226,9 +212,9 @@ export function EditRouteRequest({ route_request }: { route_request: Target }) {
                 name="rate"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Rate</FormLabel>
+                    <FormLabel>Rate $</FormLabel>
                     <FormControl>
-                      <Input placeholder="Rate" {...field} />
+                      <Input placeholder="Rate $" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -239,9 +225,9 @@ export function EditRouteRequest({ route_request }: { route_request: Target }) {
                 name="buying_rate"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Selling Rate</FormLabel>
+                    <FormLabel>Selling Rate $</FormLabel>
                     <FormControl>
-                      <Input placeholder="buying_rate" {...field} />
+                      <Input placeholder="Buying rate $" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

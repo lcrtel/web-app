@@ -34,7 +34,7 @@ export default async function getRouting() {
             const rowObject = {
                 vendor: rowData[0],
                 name: rowData[1],
-                capacity: rowData[3],
+                ports: rowData[3],
                 ip: rowData[6],
             };
             // Add the object to the array

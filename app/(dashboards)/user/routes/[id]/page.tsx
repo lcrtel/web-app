@@ -42,7 +42,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     { title: "Ports", value: route.ports },
   ];
   return (
-    <div>
+    <div className="pb-5">
       <Link
         href="/user/routes"
         className="inline-flex items-center text-gray-400 transition-all ease-in-out hover:text-primary-900"
@@ -172,7 +172,7 @@ const SimilarRoutes = async ({ route }: { route: any }) => {
         <h2 className="text-xl font-semibold">
           Similar routes in the same destination
         </h2>
-        <div className="grid grid-cols-4">
+        <div className="grid grid-cols-4 gap-4">
           {similarRoutes.map((route: any) => (
             <RouteCard key={route.id} route={route} />
           ))}

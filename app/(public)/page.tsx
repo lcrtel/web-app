@@ -7,6 +7,8 @@ import MarketSearch from "./MarketSearch";
 import { supabaseServer } from "@/lib/supabase-server";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { fetchUserRole } from "@/utils/user";
+import { BackgroundCellCore } from "@/components/BackgroundRippleEffect";
 
 export const dynamic = "force-dynamic";
 
@@ -15,15 +17,8 @@ export const metadata: Metadata = {
 };
 
 const HomePage = async () => {
-  const supabase = supabaseServer();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (user) {
-    redirect("/auth/login");
-  }
   return (
-    <main>
+    <>
       <Link
         href="https://wa.me/13024262298"
         className="fixed bottom-5 right-0 inline-flex animate-pulse items-center gap-2 whitespace-nowrap rounded-l-full bg-[rgb(38,211,103)] px-4 py-3 font-semibold text-white shadow-[0px_8px_24px_0px_rgba(38,211,103,.2)] md:bottom-20"
@@ -31,11 +26,7 @@ const HomePage = async () => {
         <FaWhatsapp className="h-6 w-6" />
       </Link>
       <HeroSection />
-      {/* <MarketView /> */}
-      <ClientsSection />
-      {/* <FAQ /> */}
-      {/* <Contact /> */}
-    </main>
+    </>
   );
 };
 
@@ -45,53 +36,47 @@ const HeroSection = async () => {
   return (
     <section
       id="home"
-      className="mx-auto flex min-h-screen items-center justify-between bg-local"
-      style={{
-        backgroundImage: `url("/blue_wave_bg.webp")`,
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-      }}
+      className="relative mx-auto flex min-h-svh overflow-hidden bg-gradient-to-t from-primary-900 via-primary-100 via-70% to-surface pt-20"
     >
-      <div className="mx-auto w-full max-w-8xl">
-        <div className="mx-auto flex max-w-4xl flex-col items-start px-5 pb-10 pt-24 sm:items-center">
-          <div className="flex flex-col items-start rounded-2xl border-2 border-white bg-white bg-opacity-25 p-5 backdrop-blur sm:items-center sm:rounded-3xl md:p-10">
-            <h1 className="text-4xl font-bold tracking-tight text-primary-900 sm:text-center sm:text-5xl">
+      <div className="absolute bottom-0 left-0 right-0 top-0 z-20 bg-[linear-gradient(to_right,#a8a8a82d_1px,transparent_1px),linear-gradient(to_bottom,#a8a8a82d_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]"></div>
+      {/* <div className="absolute inset-0 z-10 h-full w-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#EEF5FB_10%,#0038a7_100%)]"></div> */}
+
+      <div className="relative z-20 mx-auto w-full max-w-8xl py-10 md:py-20">
+        <div className="mx-auto flex max-w-5xl flex-col items-start gap-5 px-5 sm:items-center md:gap-10 md:gap-20">
+          <div className="flex flex-col items-center gap-5">
+            <h1 className="text-balance text-4xl font-bold tracking-tight text-primary-900 sm:text-center sm:text-5xl">
               Streamline Your VoIP Trading Experience
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-primary-900 sm:text-center">
+            <p className="max-w-2xl text-base sm:text-lg sm:leading-8 text-primary-900 sm:text-center">
               Unlock new possibilities and maximize your VoIP trading potential
-              with LCR Telcom&apos;s cutting-edge platform.
+              with LCRTel&apos;s cutting-edge platform.
             </p>
-            <div className="mt-10 flex flex-col items-start justify-center gap-4 sm:flex-row sm:items-center">
+            <div className="flex w-full flex-wrap items-start gap-4 sm:items-center sm:justify-center">
               <Link
-                href="/post/offers"
+                href="/user/post-offers"
                 className={`${buttonVariants({
                   variant: "default",
                 })}`}
               >
-                Post your route offers
+                Sell VoIP routes
                 <HiOutlineArrowSmRight className="ml-2 h-5 w-5" />
               </Link>
               <Link
                 passHref
-                href="/post/targets"
+                href="/user/post-targets"
                 className={`${buttonVariants({
                   variant: "secondary",
                 })}`}
               >
-                Post your buying targets
+                Buy VoIP routes
                 <HiOutlineArrowSmRight className="ml-2 h-5 w-5" />
               </Link>
             </div>
           </div>
-          <div className="sp-shadow mt-5 w-full rounded-2xl border bg-white p-5 sm:rounded-3xl md:mt-10">
+          <div className="w-full space-y-4 rounded-2xl border bg-white p-5 sm:rounded-3xl">
             <h2 className="text-xl font-bold tracking-tight text-primary-900 sm:text-center lg:text-2xl">
               Market View
             </h2>
-            <p className="sm:text-md mb-4 leading-8 text-gray-400 sm:text-center">
-              Real-time Routes at Your Fingertips
-            </p>
             <MarketSearch />
           </div>
         </div>

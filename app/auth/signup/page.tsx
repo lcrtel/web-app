@@ -1,50 +1,50 @@
+import { AlertTriangle } from "lucide-react";
 import { Metadata } from "next";
-import SignupForm from "./signup-form";
-import Image from "next/image";
 import Link from "next/link";
+import SignupForm from "./signup-form";
 
 export const metadata: Metadata = {
-    title: "Signup",
+  title: "Signup",
 };
 
-const page = ({ searchParams }: { searchParams: { message: string } }) => {
-    return (
-        <div className="w-full md:w-2/3 p-8  flex items-center justify-center">
-            <section className="w-full">
-                <div className="flex w-full flex-col space-y-1 mb-5 text-center items-center">
-                    <Link href="/" passHref className="mb-4 md:hidden">
-                        <Image
-                            src="/lcr-icon.svg"
-                            alt="LCRTelcom"
-                            width={80}
-                            height={30}
-                        />
-                    </Link>
-                    <h1 className="text-2xl font-semibold tracking-tight">
-                        Create an account
-                    </h1>
-                    <p className="text-sm text-gray-400 ">
-                        Enter your details below to create your account
-                    </p>
-                </div>
-                {searchParams?.message && (
-                    <p className="md:max-w-[400px] w-full my-4 p-4 mx-auto bg-surface text-primary-900 text-center rounded-md">
-                        {searchParams.message}
-                    </p>
-                )}
-                <SignupForm />
-                <p className="text-sm font-light text-center text-gray-500">
-                    Already have an account?{" "}
-                    <Link
-                        href="/auth/login"
-                        className="font-medium text-primary-600 hover:underline"
-                    >
-                        Log In
-                    </Link>
-                </p>
-            </section>
+const page = ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) => {
+  return (
+    <div className="space-y-2">
+      <section className="rounded-2xl bg-white p-6">
+        <div className="mb-5 flex w-full flex-col items-center space-y-1 text-center">
+          <h1 className="text-2xl font-bold tracking-tight">
+            Create an account
+          </h1>
+          <p className="text-sm text-gray-400">
+            Enter your details below to create your account
+          </p>
         </div>
-    );
+        {searchParams?.error && (
+          <div className="mx-auto my-4 flex w-full flex-col items-center justify-center gap-2 rounded-xl bg-red-50 p-4 text-center text-red-500 md:max-w-[400px]">
+            <AlertTriangle />
+            {searchParams.error}
+          </div>
+        )}
+        {searchParams?.message && (
+          <div className="my-4 flex w-full flex-col items-center justify-center gap-2 rounded-xl bg-surface p-4 text-center text-primary-900">
+            <AlertTriangle />
+            {searchParams.message}
+          </div>
+        )}
+        <SignupForm />
+      </section>
+      <p className="text-center text-sm font-light text-white">
+        Already have an account?{" "}
+        <Link href="/auth/login" className="font-medium hover:underline">
+          Log In
+        </Link>
+      </p>
+    </div>
+  );
 };
 
 export default page;

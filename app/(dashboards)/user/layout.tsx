@@ -1,14 +1,20 @@
+import CompleteProfileModal from "@/components/auth/CompleteProfileModal";
 import { Chat } from "@/components/chat";
 import DashboardNav, { NavProps } from "@/components/navigation/DashboardNav";
-import { fetchUserData } from "@/utils/user";
+import { getUser } from "@/utils/user";
+import { headers } from "next/headers";
 
 export default async function DashboardLayout({
   children, // will be a page or nested layout
+  params,
 }: {
   children: React.ReactNode;
+  params: {
+    tag: string;
+    item: string;
+  };
 }) {
-  const user = await fetchUserData();
-
+  const user = await getUser();
   let publicNavItems = [
     {
       title: "Routes",
@@ -53,12 +59,17 @@ export default async function DashboardLayout({
   } else {
     NAV_ITEMS.pages = [...publicNavItems];
   }
-
+  const isAccountPage = headers().get("referer")?.includes("/user/account");
   return (
     <main className="px-2 md:px-4">
       <DashboardNav navItems={NAV_ITEMS} user={user} />
-      <div className="p-4">
-        {children}
+
+      <div className={`relative p-4`}>
+        {!isAccountPage && user && !user?.name ? (
+          <CompleteProfileModal user={user} />
+        ) : (
+          children
+        )}
         <Chat />
       </div>
     </main>

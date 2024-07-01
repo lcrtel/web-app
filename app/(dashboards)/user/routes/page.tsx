@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { supabaseServer } from "@/lib/supabase-server";
-import { fetchUserData } from "@/utils/user";
+import { fetchUser } from "@/utils/user";
 import { HiArrowRight } from "react-icons/hi";
 import { OffersTable } from "./offers-table";
 import { Suspense } from "react";
@@ -46,7 +46,7 @@ export default function Page() {
 
 async function Routes() {
     unstable_noStore();
-    const user = await fetchUserData();
+    const user = await fetchUser();
     const supabase = supabaseServer();
     let { data: routes, error } = await supabase
         .from("routes")

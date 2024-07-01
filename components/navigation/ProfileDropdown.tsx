@@ -40,12 +40,13 @@ export default function ProfileDropdown({
       </PopoverTrigger>
       <PopoverContent
         className="overflow-clip rounded-2xl p-0 text-primary-900"
-        avoidCollisions collisionPadding={20}
+        avoidCollisions
+        collisionPadding={20}
       >
         <div className="flex flex-col space-y-1 border-b p-4">
-          <p className="font-medium leading-none">{user.user_metadata?.name}</p>
+          <p className="font-medium leading-none">{user.name}</p>
           <p className="text-muted-foreground text-sm leading-none">
-            {user.user_metadata?.email}
+            {user.email}
           </p>
         </div>
         <div className="flex flex-col">
@@ -64,7 +65,7 @@ export default function ProfileDropdown({
             <p>Signout</p> <HiOutlineLogout />
           </div>
         </div>
-        <PopoverArrow className="fill-slate-200"/>
+        <PopoverArrow className="fill-slate-200" />
       </PopoverContent>
     </Popover>
   );

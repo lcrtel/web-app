@@ -1,238 +1,210 @@
 "use client";
-import { useFormik } from "formik";
 import { Loader2 } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
-import * as yup from "yup";
 
 import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { supabaseClient } from "@/lib/supabase-client";
-import { toast } from "react-hot-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import { signUp } from "./action";
 
+export const signupFormSchema = z
+  .object({
+    name: z.string(),
+    company_name: z.string().optional(),
+    email: z.string().email("Invalid email address"),
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters long" })
+      .refine(
+        (value) =>
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/.test(
+            value,
+          ),
+        {
+          message:
+            "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 digit, and 1 special character",
+        },
+      ),
+    confirmPassword: z.string(),
+    phone: z.string(),
+    skype_id: z.string().optional(),
+  })
+  .refine(
+    (values) => {
+      return values.password === values.confirmPassword;
+    },
+    {
+      message: "Passwords must match!",
+      path: ["confirmPassword"],
+    },
+  );
+
 const SignupForm = () => {
-    const supabase = supabaseClient();
-    const router = useRouter();
-    const [loading, setLoading] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-    const validationSchema = yup.object().shape({
-        name: yup.string().required("First Name is required"),
-        company_name: yup.string(),
-        email: yup
-            .string()
-            .email("Invalid email address")
-            .required("Email is required"),
-        password: yup
-            .string()
-            .required("Password is required")
-            .min(8, "Password must be at least 8 characters long")
-            .matches(
-                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
-                "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character"
-            ),
-        confirmPassword: yup
-            .string()
-            .required("Confirm Password is required")
-            .oneOf([yup.ref("password")], "Passwords must match")
-            .nullable(),
-        phone: yup
-            .string()
-            .required("WhatsApp No is required")
-            .matches(/^\+?[0-9]*$/, "Invalid phone number"),
-        skype_id: yup.string(),
-    });
+  const form = useForm<z.infer<typeof signupFormSchema>>({
+    resolver: zodResolver(signupFormSchema),
+    mode: "onChange",
+  });
+  async function onSubmit(data: any) {
+    await signUp(data);
+    router.refresh();
+  }
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-4 w-full md:w-[420px]"
+      >
+        <div className="grid gap-2 text-primary-900 sm:grid-cols-2">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Name" autoFocus {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="company_name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Company Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Company name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem className="sm:col-span-2">
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Enter your email"
+                    type="email"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="flex gap-2">
+                  <span>Password</span>
+                  <div
+                    className="cursor-pointer text-gray-400"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <HiEyeOff /> : <HiEye />}
+                  </div>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="8+ characters"
+                    type={showPassword ? "text" : "password"}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="flex gap-2">
+                  <span>Confirm password</span>
+                  <div
+                    className="cursor-pointer text-gray-400"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <HiEyeOff /> : <HiEye />}
+                  </div>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Retype password"
+                    type={showPassword ? "text" : "password"}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>WhatsApp No</FormLabel>
+                <FormControl>
+                  <Input placeholder="WhatsApp" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="skype_id"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Skype Id</FormLabel>
+                <FormControl>
+                  <Input placeholder="Skype Id" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
-    const formik = useFormik({
-        initialValues: {
-            name: "",
-            company_name: "",
-            email: "",
-            password: "",
-            confirmPassword: "",
-            phone: "",
-            skype_id: "",
-        },
-        validationSchema,
-
-        onSubmit: async (values) => {
-            setLoading(true);
-
-            await signUp(values);
-        },
-    });
-
-    return (
-        <form
-            onSubmit={formik.handleSubmit}
-            className="md:max-w-[400px] w-full mx-auto"
-        >
-            <div className="grid gap-4 mb-6 sm:grid-cols-2 text-primary-900">
-                <div>
-                    <Label htmlFor="name" className="inline-block mb-2">
-                        Name
-                    </Label>
-                    <Input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formik.values.name}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.name && formik.errors.name ? (
-                        <div className="text-sm mt-1.5 text-red-500">
-                            {formik.errors.name}
-                        </div>
-                    ) : null}
-                </div>
-                <div>
-                    <Label htmlFor="company_name" className="inline-block mb-2">
-                        Company Name
-                    </Label>
-                    <Input
-                        type="text"
-                        id="company_name"
-                        name="company_name"
-                        value={formik.values.company_name}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.company_name &&
-                    formik.errors.company_name ? (
-                        <div className="text-sm mt-1.5 text-red-500">
-                            {formik.errors.company_name}
-                        </div>
-                    ) : null}
-                </div>
-                <div className="sm:col-span-2">
-                    <Label htmlFor="email" className="inline-block mb-2">
-                        Email
-                    </Label>
-                    <Input
-                        type="text"
-                        id="email"
-                        name="email"
-                        value={formik.values.email}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.email && formik.errors.email ? (
-                        <div className="text-sm mt-1.5 text-red-500">
-                            {formik.errors.email}
-                        </div>
-                    ) : null}
-                </div>
-                <div>
-                    <div className="flex gap-2 mb-2">
-                        <Label htmlFor="password">Password</Label>{" "}
-                        <div
-                            className="text-gray-400 cursor-pointer"
-                            onClick={() => setShowPassword(!showPassword)}
-                        >
-                            {showPassword ? <HiEyeOff /> : <HiEye />}
-                        </div>
-                    </div>
-                    <Input
-                        type={showPassword ? "text" : "password"}
-                        id="password"
-                        name="password"
-                        placeholder="8+ characters"
-                        value={formik.values.password}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.password && formik.errors.password ? (
-                        <div className="text-sm mt-1.5 text-red-500">
-                            {formik.errors.password}
-                        </div>
-                    ) : null}
-                </div>
-                <div>
-                    <div className="flex gap-2 mb-2">
-                        <Label htmlFor="confirmPassword">
-                            Confirm Password
-                        </Label>{" "}
-                        <div
-                            className="text-gray-400 cursor-pointer"
-                            onClick={() => setShowPassword(!showPassword)}
-                        >
-                            {showPassword ? <HiEyeOff /> : <HiEye />}
-                        </div>
-                    </div>
-                    <Input
-                        type={showPassword ? "text" : "password"}
-                        id="confirmPassword"
-                        name="confirmPassword"
-                        value={formik.values.confirmPassword}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.confirmPassword &&
-                    formik.errors.confirmPassword ? (
-                        <div className="text-sm mt-1.5 text-red-500">
-                            {formik.errors.confirmPassword}
-                        </div>
-                    ) : null}
-                </div>
-                <div>
-                    <Label htmlFor="phone" className="inline-block mb-2">
-                        WhatsApp No
-                    </Label>
-                    <Input
-                        type="text"
-                        id="phone"
-                        name="phone"
-                        value={formik.values.phone}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.phone && formik.errors.phone ? (
-                        <div className="text-sm mt-1.5 text-red-500">
-                            {formik.errors.phone}
-                        </div>
-                    ) : null}
-                </div>
-                <div>
-                    <Label htmlFor="skype_id" className="inline-block mb-2">
-                        Skype ID
-                    </Label>
-                    <Input
-                        type="text"
-                        id="skype_id"
-                        name="skype_id"
-                        value={formik.values.skype_id}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.skype_id && formik.errors.skype_id ? (
-                        <div className="text-sm mt-1.5 text-red-500">
-                            {formik.errors.skype_id}
-                        </div>
-                    ) : null}
-                </div>
-            </div>
-
-            <Button
-                className="w-full mb-5 gap-2"
-                type="submit"
-                disabled={loading}
-            >
-                {loading ? (
-                    <>
-                        Signup
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    </>
-                ) : (
-                    "Signup"
-                )}
-            </Button>
-        </form>
-    );
+        <Button className="w-full gap-2" type="submit" disabled={loading}>
+          {loading ? (
+            <>
+              Signup
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            </>
+          ) : (
+            "Signup"
+          )}
+        </Button>
+      </form>
+    </Form>
+  );
 };
 
 export default SignupForm;

@@ -4,6 +4,7 @@ declare global {
     type Database = DB;
     type Route = DB["public"]["Tables"]["routes"]["Row"];
     type RouteHistory = DB["public"]["Tables"]["routes_history"]["Row"];
+    type Destination = DB["public"]["Tables"]["phone_codes"]["Row"];
     type Target = DB["public"]["Tables"]["targets"]["Row"];
     type SelectedRoute = DB["public"]["Tables"]["selected_routes"]["Row"];
     type PurchaseRequest = DB["public"]["Tables"]["purchase_requests"]["Row"];

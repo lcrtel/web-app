@@ -7037,14 +7037,6 @@ INSERT INTO "public"."invoices" ("invoice_id", "date_issued", "total_amount", "s
 -- Data for Name: roles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO "public"."roles" ("role_id", "role_name", "description") VALUES
-	(1, 'Admin', 'Administrator with full access'),
-	(2, 'Manager', 'Manager with specific privileges'),
-	(3, 'Accountant', 'Accountant with financial access'),
-	(4, 'Salesman', 'Salesperson with sales access'),
-	(5, 'NOC', 'Network Operations Center staff'),
-	(6, 'Technical', 'Technical staff with system access');
-
 
 --
 -- Data for Name: routes_history; Type: TABLE DATA; Schema: public; Owner: postgres
@@ -7195,7 +7187,6 @@ SELECT pg_catalog.setval('"public"."payments_payment_id_seq"', 30, true);
 -- Name: roles_role_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."roles_role_id_seq"', 6, true);
 
 
 --

@@ -32,25 +32,32 @@ import {
   SearchX,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import updatePhoneCodes from "./actions";
+import updatePhoneCodes, { marketSearch } from "./actions";
 import { RatesTable } from "./rates-table";
+import toast from "react-hot-toast";
 
-const FormSchema = z.object({
-  prefix: z.string(),
-  route_type: z.string().optional(),
-});
-
-/**
- * Renders an input form for searching for phone codes and destinations.
- * Returns JSX.Element.
- */
-export default function InputForm(): JSX.Element {
-  const [routeOffers, setRouteOffers] = useState<Route[]>([]);
+export default function InputForm({
+  initialRoutes,
+}: {
+  initialRoutes: Route[];
+}): JSX.Element {
+  const [routeOffers, setRouteOffers] = useState<any[]>(initialRoutes);
   const [prefix, setPrefix] = useState<string>("");
   const [isOpen, setIsOpen] = useState(false);
   const [routeType, setRouteType] = useState<string | "">("");
   const [destination, setDestination] = useState<Destination>();
-
+  useEffect(() => {
+    async function getRoutes() {
+      const res = await marketSearch(prefix, routeType);
+      if (res?.data) {
+        setRouteOffers(res.data);
+      } else if (res?.error) {
+        toast.error(res.error);
+      }
+    }
+    getRoutes();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [destination, routeType]);
   /**
    * Handles form submission. Logs the form data to the console.
    *
@@ -58,8 +65,12 @@ export default function InputForm(): JSX.Element {
    */
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log(prefix);
-    console.log(routeType);
+    const res = await marketSearch(prefix, routeType);
+    if (res?.data) {
+      setRouteOffers(res.data);
+    } else if (res?.error) {
+      toast.error(res.error);
+    }
   }
   function clearFilters() {
     setPrefix("");
@@ -81,7 +92,10 @@ export default function InputForm(): JSX.Element {
         />
         <Popover open={isOpen} onOpenChange={setIsOpen}>
           <PopoverTrigger asChild>
-            <Button variant="outline" className="flex-1 sm:max-w-32 justify-between">
+            <Button
+              variant="outline"
+              className="flex-1 justify-between sm:max-w-32"
+            >
               {routeType ? routeType.toUpperCase() : "Route type"}
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
@@ -121,7 +135,7 @@ export default function InputForm(): JSX.Element {
         <Button type="submit" variant="outline" size="icon">
           <SearchIcon className="size-4" />
         </Button>
-        {(prefix || routeType) && (
+        {(prefix || routeType || destination) && (
           <Button
             type="button"
             size="icon"
@@ -136,7 +150,7 @@ export default function InputForm(): JSX.Element {
       {routeOffers.length > 0 ? (
         <RatesTable data={routeOffers} />
       ) : (
-        <div className="flex h-[180px] text-center flex-col items-center justify-center gap-5 text-slate-400">
+        <div className="flex h-[180px] flex-col items-center justify-center gap-5 text-center text-slate-400">
           <SearchX className="size-10" />
           <p>Sorry, we did not find any routes for your search</p>
         </div>
@@ -189,7 +203,7 @@ const Destination = ({
             <input
               placeholder="Search destinations..."
               className="flex-1 appearance-none focus-visible:outline-none"
-              onChange={(e) => setPrefix(e.target.value)}
+              onChange={(e) => setPrefix(e.target.value.toUpperCase())}
               value={prefix}
             />
             {loading && <Loader2 className="size-4 animate-spin" />}

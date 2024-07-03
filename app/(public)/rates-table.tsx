@@ -50,7 +50,7 @@ export const columns: ColumnDef<Route>[] = [
     ),
   },
   {
-    accessorKey: "rate",
+    accessorKey: "selling_rate",
     header: ({ column }) => (
       <div
         className="flex cursor-pointer items-center gap-2"
@@ -61,7 +61,7 @@ export const columns: ColumnDef<Route>[] = [
       </div>
     ),
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("rate"));
+      const amount = parseFloat(row.getValue("selling_rate"));
 
       // Format the amount as a dollar amount
       const formatted = new Intl.NumberFormat("en-US", {
@@ -69,7 +69,7 @@ export const columns: ColumnDef<Route>[] = [
         currency: "USD",
       }).format(amount);
 
-      return <div className="font-medium">$ {row.getValue("rate")}</div>;
+      return <div className="font-medium">$ {row.getValue("selling_rate")}</div>;
     },
   },
   {

@@ -9,7 +9,7 @@ export default async function updatePhoneCodes(code: string) {
     .select("*");
 
   const destinations = phoneCodes?.filter((destination) =>
-    destination.value?.includes(code.toUpperCase()),
+    destination.value?.includes(code),
   );
   try {
     const response = await fetch(
@@ -25,4 +25,25 @@ export default async function updatePhoneCodes(code: string) {
     return destinations;
   }
   return destinations;
+}
+
+export async function marketSearch(prefix: string, type: string) {
+  const supabase = supabaseServer();
+  let filter: any = {};
+  if (type) {
+    filter.route_type = type;
+  }
+  if (prefix) {
+    filter.destination_code = prefix;
+  }
+  const { data: routes, error } = await supabase
+    .from("routes")
+    .select(
+      "destination, destination_code, route_type, selling_rate, asr , pdd, created_at",
+    )
+    .match(filter).range(0, 10);
+  if (error) {
+    return { error: error.message };
+  }
+  return { data: routes };
 }

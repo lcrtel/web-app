@@ -39,9 +39,9 @@ export default function DashboardNav({
   navItems: NavProps;
 }) {
   return (
-    <header className="sticky top-0 z-10 mt-2 flex w-full items-center justify-between rounded-full border bg-white p-3 pl-4">
+    <header className="sticky top-2 z-10 mt-2 flex w-full items-center justify-between rounded-full border bg-white py-2 pl-3 pr-2 shadow-2xl shadow-primary-900/20">
       <div className="flex items-center gap-4">
-        <Link href={user ? navItems.root.path : "/"} passHref>
+        <Link href={user ? navItems.root.path : "/"} passHref className="-mt-1">
           <Image
             src="/lcrtelcom_logo.svg"
             className=""

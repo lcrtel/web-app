@@ -21,7 +21,5 @@ export async function verifyOtp(email: string, otp: string) {
   });
   if (error) {
     return { error: error.message };
-  } else {
-    return redirect("/");
-  }
+  } 
 }

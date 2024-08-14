@@ -60,15 +60,15 @@ export default function OtpModal({
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     if (!email) return;
-    const { error } = await verifyOtp(email, data.otp);
-    if (!error) {
+    const res = await verifyOtp(email, data.otp);
+    if (!res?.error) {
       toast.success("OTP verified");
       setOtpModalOpen(false);
       setDialogOpen(false);
       router.refresh();
       await postFunction();
     } else {
-      toast.error(error);
+      toast.error(res?.error);
     }
   }
 

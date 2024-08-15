@@ -1,7 +1,6 @@
-import getCustomerInfo from "@/app/vos/getCustomerInfo";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
-import { fetchUserMetadata } from "@/utils/user";
+import { getUser } from "@/utils/user";
 import Link from "next/link";
 import { Suspense } from "react";
 import { HiArrowRight, HiOutlineExternalLink } from "react-icons/hi";
@@ -9,19 +8,19 @@ import { HiArrowRight, HiOutlineExternalLink } from "react-icons/hi";
 export const revalidate = 0;
 
 export default async function Dashboard() {
-  const userData = await fetchUserMetadata();
+  const user = await getUser();
   const supabase = supabaseServer();
 
   return (
     <main className="flex flex-col gap-5">
       <h3 className="text-primary text-2xl font-bold tracking-tight">
-        Welcome, {userData?.name}👋
+        Welcome, {user?.name}👋
       </h3>
       <div className="flex flex-col justify-between gap-4 sm:flex-row-reverse">
         <div className="w-full">
           <Links />
           <Suspense fallback={<Skeleton className="mt-4 h-32 w-full" />}>
-            <PurchaseRequests supabase={supabase} user={userData} />
+            <PurchaseRequests supabase={supabase} user={user} />
           </Suspense>
         </div>
       </div>
@@ -93,7 +92,7 @@ const Links = () => {
         </div>
       </Link>
       <Link
-        href="/user/my-targets/post"
+        href="/user/post-targets"
         passHref
         className="rounded-xl border bg-slate-50 p-5 transition-all ease-in hover:shadow-lg active:scale-[99%]"
       >
@@ -106,33 +105,4 @@ const Links = () => {
       </Link>
     </div>
   );
-};
-
-const UpdateWallet = async ({
-  supabase,
-  userId,
-  userName,
-}: {
-  supabase: any;
-  userId: any;
-  userName: any;
-}) => {
-  try {
-    const VOSCustomer = await getCustomerInfo({
-      name: userName.toLocaleUpperCase(),
-    });
-
-    if (VOSCustomer?.data) {
-      await supabase
-        .from("profiles")
-        .update({
-          balance: VOSCustomer?.data?.balance?.replace(/\$/g, ""),
-          over_draft: VOSCustomer?.data?.over_draft,
-        })
-        .eq("id", userId);
-    }
-  } catch (error) {
-    console.error("Error updating wallet:", error);
-  }
-  return <></>;
 };

@@ -39,9 +39,9 @@ export default function DashboardNav({
   navItems: NavProps;
 }) {
   return (
-    <header className="sticky top-0 mt-2 flex w-full items-center justify-between rounded-full border bg-white p-3 pl-4">
+    <header className="sticky top-2 z-10 mt-2 flex w-full items-center justify-between rounded-full border bg-white py-2 pl-3 pr-2 shadow-2xl shadow-primary-900/20">
       <div className="flex items-center gap-4">
-        <Link href={navItems.root.path} passHref>
+        <Link href={user ? navItems.root.path : "/"} passHref className="-mt-1">
           <Image
             src="/lcrtelcom_logo.svg"
             className=""
@@ -53,9 +53,26 @@ export default function DashboardNav({
         <Nav navItems={navItems} />
       </div>
       <div className="flex items-center gap-2">
-        <NotificationsPopover />
-        {user && (
-          <ProfileDropdown accountPage={navItems.accountPage} user={user} />
+        {user ? (
+          <>
+            <NotificationsPopover />
+            <ProfileDropdown accountPage={navItems.accountPage} user={user} />
+          </>
+        ) : (
+          <div className="flex">
+            <Link
+              href="/auth/login"
+              className="mr-3 hidden rounded-full px-4 py-2 text-center text-sm font-medium text-primary-900 focus:outline-none focus:ring-4 focus:ring-blue-300 md:block"
+            >
+              Log in
+            </Link>
+            <Link
+              href="/auth/signup"
+              className="mr-3 rounded-full bg-primary-900 px-4 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-blue-300"
+            >
+              Sign up
+            </Link>
+          </div>
         )}
         <MobileNav navItems={navItems} />
       </div>

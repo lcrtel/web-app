@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Confirm Change of Email</title>
+    <style>
+      body {
+        background-color: #f6f9fc;
+        font-family: PlusJakartaSans, Inter, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Ubuntu, sans-serif;
+      }
+      .container {
+        width: 100%;
+        max-width: 37.5em;
+        background-color: #ffffff;
+        margin: 0 auto;
+        padding: 48px 0;
+        margin-bottom: 64px;
+      }
+      .content {
+        padding: 0 48px;
+      }
+      .logo {
+        display: block;
+        height: 30px;
+        outline: none;
+        border: none;
+        text-decoration: none;
+      }
+      .divider {
+        width: 100%;
+        border: none;
+        border-top: 1px solid #e6ebf1;
+        margin: 20px 0;
+      }
+      .heading {
+        font-size: 24px;
+        color: #525f7f;
+        text-align: left;
+        margin: 16px 0;
+      }
+      .text {
+        font-size: 16px;
+        line-height: 24px;
+        margin: 16px 0;
+        color: #525f7f;
+        text-align: left;
+      }
+      .button {
+        background-color: #0038a7;
+        border-radius: 25px;
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        text-decoration: none;
+        text-align: center;
+        display: inline-block;
+        width: 100%;
+        padding: 10px 10px;
+      }
+      .footer {
+        font-size: 12px;
+        line-height: 16px;
+        margin: 16px 0;
+        color: #8898aa;
+      }
+    </style>
+  </head>
+  <body>
+    <table class="container" role="presentation">
+      <tr>
+        <td>
+          <table class="content" role="presentation">
+            <tr>
+              <td>
+                 <img
+                  class="logo"
+                  src="https://www.lcrtel.com/lcrtelcom_logo.svg"
+                  alt="LCRTel"
+                />
+                <hr class="divider" />
+                <h2 class="heading">Confirm Change of Email</h2>
+                <p class="text">
+                  Follow this link to confirm the update of your email from {{
+                  .Email }} to {{ .NewEmail }}:
+                </p>
+                <a
+                  href="{{ .SiteURL }}/api/auth/callback?token_hash={{ .TokenHash }}&type=email_change"
+                  target="_blank"
+                  class="button"
+                  >Change Email</a
+                >
+                <hr class="divider" />
+                <p class="text">
+                  If you didn't request this change, please ignore this email.
+                </p>
+                <p class="text">
+                  If you have any questions or need assistance, please don't
+                  hesitate to contact our support team at
+                  <a
+                    href="mailto:lcrtelweb@gmail.com"
+                    target="_blank"
+                    style="color: #0038a7; text-decoration: none"
+                    >lcrtelweb@gmail.com</a
+                  >
+                </p>
+                <p class="text">Thank you,</p>
+                <p class="text">— The LCRTel team</p>
+                <hr class="divider" />
+                <p class="footer">LCRTel, United Arab Emirates</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

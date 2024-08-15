@@ -1,41 +1,46 @@
-import Image from "next/image";
-import Link from "next/link";
-
+import { AlertTriangle } from "lucide-react";
 import { Metadata } from "next";
+import Link from "next/link";
 import LoginForm from "./login-form";
 
 export const metadata: Metadata = {
-    title: "Login",
+  title: "Login",
 };
 const page = ({ searchParams }: { searchParams: { message: string } }) => {
-    return (
-        <div className="w-full md:w-2/3 p-8  flex items-center justify-center">
-            <section className="w-full">
-                <div className="flex w-full flex-col space-y-1 mb-5 text-center items-center">
-                    <Link href="/" passHref className="mb-4 md:hidden">
-                        <Image
-                            src="/lcr-icon.svg"
-                            alt="LCRTelcom"
-                            width={80}
-                            height={30}
-                        />
-                    </Link>
-                    <h1 className="text-2xl font-bold tracking-tight">
-                        Welcome back
-                    </h1>
-                    <p className="text-sm text-gray-400 ">
-                        Please enter your details.
-                    </p>
-                </div>
-                {searchParams?.message && (
-                    <p className="md:max-w-[360px] w-full my-4 p-4 mx-auto bg-surface text-primary-900 text-center rounded-md">
-                        {searchParams.message}
-                    </p>
-                )}
-                <LoginForm />
-            </section>
+  return (
+    <div className="w-full max-w-[360px] space-y-2">
+      <section className="rounded-2xl bg-white p-6">
+        <div className="mb-5 flex w-full flex-col items-center space-y-1 text-center">
+          <h1 className="text-2xl font-bold tracking-tight">Welcome back</h1>
+          <p className="text-sm text-gray-400">Login with your password.</p>
         </div>
-    );
+        {searchParams?.message && (
+          <div className="my-4 flex w-full flex-col items-center justify-center gap-2 rounded-xl bg-surface p-4 text-center text-sm text-primary-900">
+            <AlertTriangle className="size-5" />
+            {searchParams.message}
+          </div>
+        )}
+        <LoginForm />
+      </section>
+      <div className="space-y-1">
+        <p className="text-center text-sm font-light text-white">
+          Don’t have an account yet?{" "}
+          <Link href="/auth/signup" className="font-medium hover:underline">
+            Sign up
+          </Link>
+        </p>
+        <p className="text-center text-sm font-light text-white">
+          Forgot password?{" "}
+          <Link
+            href="/auth/reset-password"
+            className="font-medium hover:underline"
+          >
+            Reset
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
 };
 
 export default page;

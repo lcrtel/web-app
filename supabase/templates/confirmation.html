@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verify email</title>
+    <style>
+      body {
+        background-color: #f6f9fc;
+        font-family: PlusJakartaSans, Inter, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Ubuntu, sans-serif;
+      }
+      .container {
+        width: 100%;
+        max-width: 37.5em;
+        background-color: #ffffff;
+        margin: 0 auto;
+        padding: 48px 0;
+        margin-bottom: 64px;
+      }
+      .content {
+        padding: 0 48px;
+      }
+      .logo {
+        display: block;
+        height: 30px;
+        outline: none;
+        border: none;
+        text-decoration: none;
+      }
+      .divider {
+        width: 100%;
+        border: none;
+        border-top: 1px solid #e6ebf1;
+        margin: 20px 0;
+      }
+      .text {
+        font-size: 16px;
+        line-height: 24px;
+        margin: 16px 0;
+        color: #525f7f;
+        text-align: left;
+      }
+      .button {
+        background-color: #0038a7;
+        border-radius: 25px;
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        text-decoration: none;
+        text-align: center;
+        display: inline-block;
+        width: 100%;
+        padding: 10px 10px;
+      }
+      .otp {
+        background: #f5f5f5;
+        border-radius: 10px;
+        padding: 20px 24px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        letter-spacing: 0.5em;
+        line-height: 24px;
+        margin: 20px 0;
+        color: #525f7f;
+      }
+      .footer {
+        font-size: 12px;
+        line-height: 16px;
+        margin: 16px 0;
+        color: #8898aa;
+      }
+    </style>
+  </head>
+  <body>
+    <table class="container" role="presentation">
+      <tr>
+        <td>
+          <table class="content" role="presentation">
+            <tr>
+              <td>
+                 <img
+                  class="logo"
+                  src="https://www.lcrtel.com/lcrtelcom_logo.svg"
+                  alt="LCRTel"
+                />
+                <hr class="divider" />
+                <p class="text">Dear {{ .Data.first_name }},</p>
+                <p class="text">
+                  Thank you for signing up with LCRTel! We're thrilled to have
+                  you on board.
+                </p>
+                <p class="text">
+                  To confirm your account and start using our platform, please
+                  complete one of the following steps:
+                </p>
+                <p class="text">
+                  Verify Your Email: Click the link below to verify your email
+                  address:
+                </p>
+                <a href="{{ .ConfirmationURL }}" target="_blank" class="button"
+                  >Verify Email</a
+                >
+                <p class="text">or</p>
+                <p class="text">
+                  Enter Your OTP: Use the following One-Time Password (OTP) to
+                  complete the verification process:
+                </p>
+                <p class="otp" style="text-align: center;">{{ .Token }}</p>
+                <hr class="divider" />
+                <p class="text">
+                  Once you either click the link or enter the OTP, your account
+                  will be confirmed, and you can log in to access all our
+                  features. If you didn't sign up for LCRTel, please ignore this
+                  email.
+                </p>
+                <p class="text">
+                  If you have any questions or need assistance, please don't
+                  hesitate to contact our support team at
+                  <a
+                    href="mailto:lcrtelweb@gmail.com"
+                    target="_blank"
+                    style="color: #0038a7; text-decoration: none"
+                    >lcrtelweb@gmail.com</a
+                  >
+                </p>
+                <p class="text">Thank you,</p>
+                <p class="text">— The LCRTel team</p>
+                <hr class="divider" />
+                <p class="footer">LCRTel, United Arab Emirates</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

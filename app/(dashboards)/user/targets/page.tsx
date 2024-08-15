@@ -1,9 +1,9 @@
-import fetchUser from "@/app/(public)/post/fetchUser";
 import Loader from "@/components/Loader";
 import { supabaseServer } from "@/lib/supabase-server";
 import { unstable_noStore } from "next/cache";
 import { Suspense } from "react";
 import { TargetsTable } from "./targets-table";
+import { fetchUser } from "@/utils/user";
 
 export default async function Page() {
     return (

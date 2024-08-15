@@ -50,7 +50,7 @@ export const columns: ColumnDef<Route>[] = [
     ),
   },
   {
-    accessorKey: "rate",
+    accessorKey: "selling_rate",
     header: ({ column }) => (
       <div
         className="flex cursor-pointer items-center gap-2"
@@ -61,7 +61,7 @@ export const columns: ColumnDef<Route>[] = [
       </div>
     ),
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("rate"));
+      const amount = parseFloat(row.getValue("selling_rate"));
 
       // Format the amount as a dollar amount
       const formatted = new Intl.NumberFormat("en-US", {
@@ -69,7 +69,7 @@ export const columns: ColumnDef<Route>[] = [
         currency: "USD",
       }).format(amount);
 
-      return <div className="font-medium">$ {row.getValue("rate")}</div>;
+      return <div className="font-medium">$ {row.getValue("selling_rate")}</div>;
     },
   },
   {
@@ -149,56 +149,54 @@ export function RatesTable({ data }: any) {
   });
 
   return (
-    <div className="">
-      {data && (
-        <div className="mt-4 max-h-[266px] overflow-y-auto rounded-xl border">
-          <Table className="relative">
-            <TableHeader className="sticky top-0">
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <TableHead key={header.id}>
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext(),
-                            )}
-                      </TableHead>
-                    );
-                  })}
+    data && (
+      <div className="h-[180px] overflow-y-auto rounded-xl border">
+        <Table className="relative">
+          <TableHeader className="sticky top-0">
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table?.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
                 </TableRow>
-              ))}
-            </TableHeader>
-            <TableBody>
-              {table?.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={columns.length} className="h-8">
-                    No results.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
-      )}
-    </div>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-8">
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+    )
   );
 }

@@ -1,35 +1,29 @@
 "use server";
 import { supabaseServer } from "@/lib/supabase-server";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { z } from "zod";
+import { signupFormSchema } from "./signup-form";
 
-export const signUp = async (formData: any) => {
-    const origin = headers().get("origin");
-    const supabase = supabaseServer();
-    const { data, error } = await supabase.auth.signUp({
-        email: formData.email,
-        password: formData.password,
-        options: {
-            data: {
-                name: formData.name,
-                company_name: formData.company_name,
-                email: formData.email,
-                phone: formData.phone,
-                skype_id: formData.skype_id,
-                role: "client",
-                agent_id: "",
-                finance_department: {},
-                noc_department: {},
-                sales_department: {},
-            },
-            emailRedirectTo: `${origin}/api/auth/callback`,
-        },
-    });
+type signUpInputs = z.infer<typeof signupFormSchema>;
 
-    if (error) {
-        return redirect(`/auth/signup?message=${error.message}`);
-    }
-    return redirect(
-        "/auth/login?message=Check email to continue sign in process"
-    );
+export const signUp = async (formData: signUpInputs) => {
+  const supabase = supabaseServer();
+  const { error } = await supabase.auth.signUp({
+    email: formData.email,
+    password: formData.password,
+    options: {
+      data: {
+        name: formData.name,
+        company_name: formData.company_name,
+        phone: formData.phone,
+        skype_id: formData.skype_id,
+      },
+    },
+  });
+  if (error) {
+    return redirect(`/auth/signup?error=${error.message}`);
+  }
+  return redirect(
+    "/auth/login?message=Check email to continue sign in process",
+  );
 };

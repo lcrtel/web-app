@@ -1,165 +1,106 @@
 "use client";
-import { useFormik } from "formik";
-import { Loader2 } from "lucide-react";
+import { Button, buttonVariants } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import * as yup from "yup";
-import * as z from "zod";
-
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { supabaseClient } from "@/lib/supabase-client";
-import Link from "next/link";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { HiEye, HiEyeOff } from "react-icons/hi";
+import * as z from "zod";
+import { signInWithPassword } from "./action";
 
-const formSchema = z.object({
-    username: z.string().min(2, {
-        message: "Username must be at least 2 characters.",
-    }),
+export const loginFormSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string(),
 });
 
 const LoginForm = () => {
-    const supabase = supabaseClient()
-    const router = useRouter();
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    const [loading, setLoading] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const form = useForm<z.infer<typeof loginFormSchema>>({
+    resolver: zodResolver(loginFormSchema),
+    mode: "onChange",
+  });
+  async function onSubmit(data: z.infer<typeof loginFormSchema>) {
+    const res = await signInWithPassword(data);
+    if (res?.error) {
+      toast.error(res.error);
+    }
+    router.refresh();
+  }
 
-    const validationSchema = yup.object().shape({
-        email: yup
-            .string()
-            .email("Invalid email address")
-            .required("Email is required"),
-        password: yup.string().required("Password is required"),
-    });
-
-    const formik = useFormik({
-        initialValues: {
-            email: "",
-            password: "",
-        },
-        validationSchema,
-        
-        onSubmit: async (values) => {
-            setErrorMessage(null);
-            setLoading(true);
-            const { data, error } = await supabase.auth.signInWithPassword({
-                email: values.email,
-                password: values.password,
-            });
-
-            if (error) {
-                setLoading(false);
-                setErrorMessage(error.message);
-                return;
-            }
-
-            const userRole = data.user.user_metadata.role;
-
-            if (userRole === "admin") {
-                router.push("/admin");
-            } else if (userRole === "manager") {
-                router.push("/manager");
-            } else if (userRole === "agent") {
-                router.push("/manager");
-            } else if (userRole === "vendor") {
-                router.push("/user");
-            } else if (userRole === "client") {
-                router.push("/user");
-            }
-        },
-    });
-
-    return (
-        <form
-            onSubmit={formik.handleSubmit}
-            className="md:max-w-[360px] w-full mx-auto"
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="mx-auto grid w-full gap-2 text-primary-900"
+      >
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem className="">
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter your email" type="email" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="flex gap-2">
+                <span>Password</span>
+                <div
+                  className="cursor-pointer text-gray-400"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <HiEyeOff /> : <HiEye />}
+                </div>
+              </FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="••••••••"
+                  type={showPassword ? "text" : "password"}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button className="w-full gap-2" type="submit">
+          Login
+        </Button>
+        <div className="flex items-center justify-between gap-2">
+          <span className="h-px w-full bg-gradient-to-r from-transparent to-slate-200" />
+          <p className="text-slate-400">or</p>
+          <span className="h-px w-full bg-gradient-to-l from-transparent to-slate-200" />
+        </div>
+        <Link
+          href="/auth/otp-login"
+          className={`w-full gap-2 ${buttonVariants({ variant: "outline" })}`}
         >
-            <div className="grid gap-4 mb-6 text-primary-900">
-                <div>
-                    <Label htmlFor="email" className="inline-block mb-2">
-                        Email
-                    </Label>
-                    <Input
-                        type="text"
-                        id="email"
-                        name="email"
-                        value={formik.values.email}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.email && formik.errors.email ? (
-                        <div className="text-sm mt-1.5 text-red-500">
-                            {formik.errors.email}
-                        </div>
-                    ) : null}
-                </div>
-                <div>
-                    <div className="flex gap-2 mb-2">
-                        <Label htmlFor="password">Password</Label>{" "}
-                        <div
-                            className="text-gray-400 cursor-pointer"
-                            onClick={() => setShowPassword(!showPassword)}
-                        >
-                            {showPassword ? <HiEyeOff /> : <HiEye />}
-                        </div>
-                    </div>
-
-                    <Input
-                        type={showPassword ? "text" : "password"}
-                        id="password"
-                        name="password"
-                        value={formik.values.password}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.password && formik.errors.password ? (
-                        <div className="text-sm mt-1.5 text-red-500">
-                            {formik.errors.password}
-                        </div>
-                    ) : null}
-                    {errorMessage && (
-                        <div className="text-base mt-1.5 text-red-500">
-                            {errorMessage}
-                        </div>
-                    )}
-                </div>
-            </div>
-            <Button
-                className="w-full mb-5 gap-2"
-                type="submit"
-                disabled={loading}
-            >
-                {loading ? (
-                    <>
-                        Loging in
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    </>
-                ) : (
-                    "Login"
-                )}
-            </Button>
-            <p className="text-sm font-light text-center text-gray-500">
-                Don’t have an account yet?{" "}
-                <Link
-                    href="/auth/signup"
-                    className="font-medium text-primary-600 hover:underline"
-                >
-                    Sign up
-                </Link>
-            </p>
-            <p className="text-sm font-light text-center text-gray-500">
-                Forgot password?{" "}
-                <Link
-                    href="/auth/reset-password"
-                    className="font-medium text-primary-600 hover:underline"
-                >
-                    Reset
-                </Link>
-            </p>
-        </form>
-    );
+          Login with OTP <ArrowRight className="size-4" />
+        </Link>
+      </form>
+    </Form>
+  );
 };
 
 export default LoginForm;

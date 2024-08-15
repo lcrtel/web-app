@@ -31,10 +31,11 @@ import { Loader2 } from "lucide-react";
 import { Dispatch, useEffect, useMemo, useState } from "react";
 import {
   HiOutlineCloudUpload,
+  HiOutlineDuplicate,
+  HiOutlineTrash,
   HiOutlineUpload,
   HiOutlineX,
   HiPlusCircle,
-  HiX,
 } from "react-icons/hi";
 import { v4 as uuidv4 } from "uuid";
 import * as XLSX from "xlsx";
@@ -83,315 +84,168 @@ export function PostRoutesTable({
       prevData.filter((route: any) => route.id !== row.original.id),
     );
   };
+  const handleDuplicateRow = (row: any) => {
+    setData((prevData: any) => {
+      const newRow = { ...row.original, id: uuidv4() };
+      return [...prevData, newRow];
+    });
+  };
+  interface EditableCellProps {
+    getValue: () => any;
+    row: { index: number };
+    column: { id: string };
+    table: any;
+    type?: string;
+    placeholder?: string;
+    required?: boolean;
+  }
+  const EditableCell: React.FC<EditableCellProps> = ({
+    getValue,
+    row: { index },
+    column: { id },
+    table,
+    type = "text",
+    placeholder,
+    required = true,
+  }) => {
+    const initialValue = getValue();
+    const [value, setValue] = useState<any>(initialValue);
+
+    const onBlur = () => {
+      table.options.meta?.updateData(index, id, value);
+    };
+
+    useEffect(() => {
+      setValue(initialValue);
+    }, [initialValue]);
+
+    return (
+      <Input
+        type={type}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onBlur={onBlur}
+        required={required}
+        placeholder={placeholder}
+      />
+    );
+  };
 
   const columns = useMemo<ColumnDef<any>[]>(
     () => [
       {
         accessorKey: "destination",
-        header: ({ column }) => {
-          return <div className="w-[200px]">Destination</div>;
-        },
-        cell: function Cell({
-          getValue,
-          row: { index },
-          column: { id },
-          table,
-        }) {
-          const initialValue = getValue();
-          // We need to keep and update the state of the cell normally
-          const [value, setValue] = useState<any>(initialValue);
-
-          // When the input is blurred, we'll call our table meta's updateData function
-          const onBlur = () => {
-            table.options.meta?.updateData(index, id, value);
-          };
-
-          // If the initialValue is changed external, sync it up with our state
-          useEffect(() => {
-            setValue(initialValue);
-          }, [initialValue]);
-
-          return (
-            <Input
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              onBlur={onBlur}
-              required
-              placeholder="eg: United Arab Emirates"
-            />
-          );
-        },
+        header: () => <div className="min-w-[80px]">Destination</div>,
+        cell: (props) => (
+          <EditableCell {...props} placeholder="eg: United Arab Emirates" />
+        ),
       },
       {
         accessorKey: "destination_code",
-        header: ({ column }) => {
-          return <div className="min-w-[80px]">Prefix</div>;
-        },
-        cell: function Cell({
-          getValue,
-          row: { index },
-          column: { id },
-          table,
-        }) {
-          const initialValue = getValue();
-          // We need to keep and update the state of the cell normally
-          const [value, setValue] = useState<any>(initialValue);
-
-          // When the input is blurred, we'll call our table meta's updateData function
-          const onBlur = () => {
-            table.options.meta?.updateData(index, id, value);
-          };
-
-          // If the initialValue is changed external, sync it up with our state
-          useEffect(() => {
-            setValue(initialValue);
-          }, [initialValue]);
-
-          return (
-            <Input
-              type="number"
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              onBlur={onBlur}
-              required
-              className=""
-              placeholder="eg: +971"
-            />
-          );
-        },
+        header: () => <div className="min-w-[80px]">Prefix</div>,
+        cell: (props) => (
+          <EditableCell {...props} type="number" placeholder="eg: +971" />
+        ),
       },
       {
         accessorKey: "route_type",
-        header: ({ column }) => {
-          return <div className="min-w-[120px]">Type</div>;
-        },
-        cell: function Cell({
-          getValue,
-          row: { index },
-          column: { id },
-          table,
-        }) {
+        header: () => <div className="min-w-[120px]">Type</div>,
+        cell: ({ getValue, row: { index }, column: { id }, table }) => {
           const initialValue = getValue();
           const onBlur = (val: any) => {
             table.options.meta?.updateData(index, id, val);
           };
 
           return (
-            <>
-              <Select
-                defaultValue={initialValue as string}
-                onValueChange={(val) => {
-                  onBlur(val);
-                }}
-              >
-                <SelectTrigger className="">
-                  <SelectValue placeholder="Route Type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="cli">CLI</SelectItem>
-                    <SelectItem value="non-cli">Non-CLI</SelectItem>
-                    <SelectItem value="sms">SMS</SelectItem>
-                    <SelectItem value="tdm">TDM</SelectItem>
-                    <SelectItem value="pri">PRI</SelectItem>
-                    <SelectItem value="did">DID</SelectItem>
-                    <SelectItem value="cc">CC</SelectItem>
-                    <SelectItem value="lgw">LGW</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </>
+            <Select
+              defaultValue={initialValue as string}
+              onValueChange={onBlur}
+            >
+              <SelectTrigger className="">
+                <SelectValue placeholder="Route Type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="cli">CLI</SelectItem>
+                  <SelectItem value="non-cli">Non-CLI</SelectItem>
+                  <SelectItem value="sms">SMS</SelectItem>
+                  <SelectItem value="tdm">TDM</SelectItem>
+                  <SelectItem value="pri">PRI</SelectItem>
+                  <SelectItem value="did">DID</SelectItem>
+                  <SelectItem value="cc">CC</SelectItem>
+                  <SelectItem value="lgw">LGW</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           );
         },
       },
       {
         accessorKey: "rate",
-        header: function Cell({ column }) {
-          return <div className="min-w-[80px]">Rate</div>;
-        },
-        cell: function Cell({
-          getValue,
-          row: { index },
-          column: { id },
-          table,
-        }) {
-          const initialValue = getValue();
-          // We need to keep and update the state of the cell normally
-          const [value, setValue] = useState<any>(initialValue);
-
-          // When the input is blurred, we'll call our table meta's updateData function
-          const onBlur = () => {
-            table.options.meta?.updateData(index, id, value);
-          };
-
-          // If the initialValue is changed external, sync it up with our state
-          useEffect(() => {
-            setValue(initialValue);
-          }, [initialValue]);
-
-          return (
-            <Input
-              type="number"
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              onBlur={onBlur}
-              required
-              placeholder="Rate"
-            />
-          );
-        },
+        header: () => <div className="min-w-[80px]">Rate</div>,
+        cell: (props) => (
+          <EditableCell {...props} type="number" placeholder="Rate" />
+        ),
       },
       {
         accessorKey: "asr",
-        header: ({ column }) => {
-          return <div className="min-w-[80px]">ASR %</div>;
-        },
-        cell: function Cell({
-          getValue,
-          row: { index },
-          column: { id },
-          table,
-        }) {
-          const initialValue = getValue();
-          // We need to keep and update the state of the cell normally
-          const [value, setValue] = useState<any>(initialValue);
-
-          // When the input is blurred, we'll call our table meta's updateData function
-          const onBlur = () => {
-            table.options.meta?.updateData(index, id, value);
-          };
-
-          // If the initialValue is changed external, sync it up with our state
-          useEffect(() => {
-            setValue(initialValue);
-          }, [initialValue]);
-
-          return (
-            <Input
-              type="number"
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              onBlur={onBlur}
-              placeholder="ASR %"
-            />
-          );
-        },
+        header: () => <div className="min-w-[80px]">ASR %</div>,
+        cell: (props) => (
+          <EditableCell
+            {...props}
+            type="number"
+            placeholder="ASR %"
+            required={false}
+          />
+        ),
       },
       {
         accessorKey: "acd",
-        header: ({ column }) => {
-          return <div className="min-w-[80px]">ACD</div>;
-        },
-        cell: function Cell({
-          getValue,
-          row: { index },
-          column: { id },
-          table,
-        }) {
-          const initialValue = getValue();
-          // We need to keep and update the state of the cell normally
-          const [value, setValue] = useState<any>(initialValue);
-
-          // When the input is blurred, we'll call our table meta's updateData function
-          const onBlur = () => {
-            table.options.meta?.updateData(index, id, value);
-          };
-
-          // If the initialValue is changed external, sync it up with our state
-          useEffect(() => {
-            setValue(initialValue);
-          }, [initialValue]);
-
-          return (
-            <Input
-              type="number"
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              onBlur={onBlur}
-              placeholder="ACD"
-            />
-          );
-        },
+        header: () => <div className="min-w-[80px]">ACD</div>,
+        cell: (props) => (
+          <EditableCell
+            {...props}
+            type="number"
+            placeholder="ACD"
+            required={false}
+          />
+        ),
       },
       {
         accessorKey: "pdd",
-        header: ({ column }) => {
-          return <div className="min-w-[80px]">PDD</div>;
-        },
-        cell: function Cell({
-          getValue,
-          row: { index },
-          column: { id },
-          table,
-        }) {
-          const initialValue = getValue();
-          // We need to keep and update the state of the cell normally
-          const [value, setValue] = useState<any>(initialValue);
-
-          // When the input is blurred, we'll call our table meta's updateData function
-          const onBlur = () => {
-            table.options.meta?.updateData(index, id, value);
-          };
-
-          // If the initialValue is changed external, sync it up with our state
-          useEffect(() => {
-            setValue(initialValue);
-          }, [initialValue]);
-
-          return (
-            <Input
-              type="number"
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              onBlur={onBlur}
-              required
-              placeholder="PDD"
-            />
-          );
-        },
+        header: () => <div className="min-w-[80px]">PDD</div>,
+        cell: (props) => (
+          <EditableCell
+            {...props}
+            type="number"
+            placeholder="PDD"
+            required={false}
+          />
+        ),
       },
       {
         accessorKey: "ports",
-        header: ({ column }) => {
-          return <div className="min-w-[80px]">Ports</div>;
-        },
-        cell: function Cell({
-          getValue,
-          row: { index },
-          column: { id },
-          table,
-        }) {
-          const initialValue = getValue();
-          // We need to keep and update the state of the cell normally
-          const [value, setValue] = useState<any>(initialValue);
-
-          // When the input is blurred, we'll call our table meta's updateData function
-          const onBlur = () => {
-            table.options.meta?.updateData(index, id, value);
-          };
-
-          // If the initialValue is changed external, sync it up with our state
-          useEffect(() => {
-            setValue(initialValue);
-          }, [initialValue]);
-
-          return (
-            <Input
-              type="number"
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              onBlur={onBlur}
-              placeholder="Ports"
-            />
-          );
-        },
+        header: () => <div className="min-w-[80px]">Ports</div>,
+        cell: (props) => (
+          <EditableCell
+            {...props}
+            type="number"
+            placeholder="Ports"
+            required={false}
+          />
+        ),
       },
       {
-        id: "delete",
+        id: "actions",
         header: "",
         cell: ({ row }) => (
-          <div onClick={() => handleRemoveRoute(row)}>
-            <HiX className="mx-2 h-5 w-5 cursor-pointer text-red-500" />
+          <div className="flex items-center gap-2 px-2">
+            <button type="button" onClick={() => handleDuplicateRow(row)}>
+              <HiOutlineDuplicate className="h-5 w-5 cursor-pointer text-primary-900" />
+            </button>
+            <button type="button" onClick={() => handleRemoveRoute(row)}>
+              <HiOutlineTrash className="h-5 w-5 cursor-pointer text-red-500" />
+            </button>
           </div>
         ),
       },
@@ -434,59 +288,61 @@ export function PostRoutesTable({
         onSubmit={handleSubmit}
       >
         <Table>
-          {table.getRowModel().rows?.length !== 0 && (
-            <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <TableHead key={header.id}>
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext(),
-                            )}
-                      </TableHead>
-                    );
-                  })}
-                </TableRow>
-              ))}
-            </TableHeader>
-          )}
+          {/* {table.getRowModel().rows?.length !== 0 && ( */}
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          {/* )} */}
 
           <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="px-1">
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="flex h-[120px] cursor-pointer items-center justify-center rounded-lg bg-surface"
-                  onClick={handleAddRoute}
-                >
-                  <HiPlusCircle className="h-5 w-5" />
-                </TableCell>
-              </TableRow>
-            )}
+            {table.getRowModel().rows?.length
+              ? table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id} className="p-2 pr-0">
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              : null}
           </TableBody>
         </Table>
+        {table.getRowModel().rows?.length ? null : (
+          <div className="p-2">
+            <button
+              type="button"
+              className="flex h-[112px] w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-surface"
+              onClick={handleAddRoute}
+            >
+              Add
+              <HiPlusCircle className="h-5 w-5" />
+            </button>
+          </div>
+        )}
         {table.getRowModel().rows?.length > 0 && (
-          <div className="flex items-center justify-between gap-2 border-t p-2">
+          <div className="grid grid-cols-3 gap-2 border-t p-2">
             <Button
               variant="outline"
               type="button"

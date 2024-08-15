@@ -10,10 +10,6 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-CREATE SCHEMA IF NOT EXISTS "audit";
-
-ALTER SCHEMA "audit" OWNER TO "postgres";
-
 CREATE EXTENSION IF NOT EXISTS "pg_net" WITH SCHEMA "extensions";
 
 CREATE EXTENSION IF NOT EXISTS "pgsodium" WITH SCHEMA "pgsodium";
@@ -32,145 +28,28 @@ CREATE EXTENSION IF NOT EXISTS "supabase_vault" WITH SCHEMA "vault";
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
 
-CREATE OR REPLACE FUNCTION "audit"."disable_tracking"("regclass") RETURNS "void"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $_$
-declare
-    statement_row text = format(
-        'drop trigger if exists audit_i_u_d on %I;',
-        $1
-    );
-begin
-    execute statement_row;
-end;
-$_$;
+CREATE OR REPLACE FUNCTION "public"."assign_role_to_new_users"() RETURNS "trigger"
+    LANGUAGE "plpgsql"
+    AS $$begin
+  insert into public.user_roles (user_id)
+  values (new.id);
+  return new;
+end;$$;
 
-ALTER FUNCTION "audit"."disable_tracking"("regclass") OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "audit"."enable_tracking"("regclass") RETURNS "void"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $_$
-declare
-    statement_row text = format('
-        create trigger audit_i_u_d
-            before insert or update or delete
-            on %I
-            for each row
-            execute procedure audit.insert_update_delete_trigger();',
-        $1
-    );
-
-    pkey_cols text[] = audit.primary_key_columns($1);
-begin
-    if pkey_cols = array[]::text[] then
-        raise exception 'Table % can not be audited because it has no primary key', $1;
-    end if;
-
-    if not exists(select 1 from pg_trigger where tgrelid = $1 and tgname = 'audit_i_u_d') then
-        execute statement_row;
-    end if;
-end;
-$_$;
-
-ALTER FUNCTION "audit"."enable_tracking"("regclass") OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "audit"."insert_update_delete_trigger"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$
-declare
-    pkey_cols text[] = audit.primary_key_columns(TG_RELID);
-    record_jsonb jsonb = to_jsonb(new);
-    record_id uuid = audit.to_record_id(TG_RELID, pkey_cols, record_jsonb);
-    old_record_jsonb jsonb = to_jsonb(old);
-    old_record_id uuid = audit.to_record_id(TG_RELID, pkey_cols, old_record_jsonb);
-begin
-
-    insert into audit.record_version(
-        record_id,
-        old_record_id,
-        op,
-        table_oid,
-        table_schema,
-        table_name,
-        record,
-        old_record
-    )
-    select
-        record_id,
-        old_record_id,
-        TG_OP,
-        TG_RELID,
-        TG_TABLE_SCHEMA,
-        TG_TABLE_NAME,
-        record_jsonb,
-        old_record_jsonb;
-
-    return coalesce(new, old);
-end;
-$$;
-
-ALTER FUNCTION "audit"."insert_update_delete_trigger"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "audit"."primary_key_columns"("entity_oid" "oid") RETURNS "text"[]
-    LANGUAGE "sql" STABLE SECURITY DEFINER
-    AS $_$
-    -- Looks up the names of a table's primary key columns
-    select
-        coalesce(
-            array_agg(pa.attname::text order by pa.attnum),
-            array[]::text[]
-        ) column_names
-    from
-        pg_index pi
-        join pg_attribute pa
-            on pi.indrelid = pa.attrelid
-            and pa.attnum = any(pi.indkey)
-    where
-        indrelid = $1
-        and indisprimary
-$_$;
-
-ALTER FUNCTION "audit"."primary_key_columns"("entity_oid" "oid") OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "audit"."to_record_id"("entity_oid" "oid", "pkey_cols" "text"[], "rec" "jsonb") RETURNS "uuid"
-    LANGUAGE "sql" STABLE
-    AS $_$
-    select
-        case
-            when rec is null then null
-						-- if no primary key exists, use a random uuid
-            when pkey_cols = array[]::text[] then gen_random_uuid()
-            else (
-                select
-                    uuid_generate_v5(
-                        'fd62bc3d-8d6e-43c2-919c-802ba3762271',
-                        (
-													jsonb_build_array(to_jsonb($1))
-													|| jsonb_agg($3 ->> key_)
-												)::text
-                    )
-                from
-                    unnest($2) x(key_)
-            )
-        end
-$_$;
-
-ALTER FUNCTION "audit"."to_record_id"("entity_oid" "oid", "pkey_cols" "text"[], "rec" "jsonb") OWNER TO "postgres";
+ALTER FUNCTION "public"."assign_role_to_new_users"() OWNER TO "postgres";
 
 CREATE OR REPLACE FUNCTION "public"."handle_new_user"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$begin
-  insert into public.profiles (id, name, company_name, email, phone, skype_id, role, agent_id)
-  values (new.id, new.raw_user_meta_data->>'name', new.raw_user_meta_data->>'company_name', new.raw_user_meta_data->>'email', new.raw_user_meta_data->>'phone', new.raw_user_meta_data->>'skype_id', new.raw_user_meta_data->>'role', new.raw_user_meta_data->>'agent_id')
+  insert into public.profiles (id, name, company_name, email, phone, skype_id)
+  values (new.id, new.raw_user_meta_data->>'name', new.raw_user_meta_data->>'company_name', new.email, new.raw_user_meta_data->>'phone', new.raw_user_meta_data->>'skype_id')
   on conflict (id)
   do update set
     name = excluded.name,
     company_name = excluded.company_name,
     email = excluded.email,
     phone = excluded.phone,
-    skype_id = excluded.skype_id,
-    role = excluded.role,
-    agent_id = excluded.agent_id;
+    skype_id = excluded.skype_id;
   return new;
 end;$$;
 
@@ -178,32 +57,31 @@ ALTER FUNCTION "public"."handle_new_user"() OWNER TO "postgres";
 
 CREATE OR REPLACE FUNCTION "public"."route_insert_update_trigger"() RETURNS "trigger"
     LANGUAGE "plpgsql"
-    AS $$
-BEGIN
+    AS $$BEGIN
     IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN
-        INSERT INTO routes_history(route_id, asr, acd, capacity, destination, destination_code,rate, selling_rate,route_type,ports,pdd)
-        VALUES(NEW.id, NEW.asr, NEW.acd, NEW.capacity, NEW.destination, NEW.destination_code, NEW.rate, NEW.selling_rate, NEW.route_type, NEW.ports, NEW.pdd);
+        INSERT INTO routes_history(route_id, asr, acd, destination, destination_code,rate, selling_rate,route_type,ports,pdd)
+        VALUES(NEW.id, NEW.asr, NEW.acd, NEW.destination, NEW.destination_code, NEW.rate, NEW.selling_rate, NEW.route_type, NEW.ports, NEW.pdd);
     END IF;
     RETURN NEW;
-END;
-$$;
+END;$$;
 
 ALTER FUNCTION "public"."route_insert_update_trigger"() OWNER TO "postgres";
+
+CREATE OR REPLACE FUNCTION "public"."target_insert_update_trigger"() RETURNS "trigger"
+    LANGUAGE "plpgsql"
+    AS $$BEGIN
+    IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN
+        INSERT INTO targets_history(route_id, asr, acd, destination, destination_code,rate, buying_rate,route_type,ports,pdd)
+        VALUES(NEW.id, NEW.asr, NEW.acd, NEW.destination, NEW.destination_code, NEW.rate, NEW.buying_rate, NEW.route_type, NEW.ports, NEW.pdd);
+    END IF;
+    RETURN NEW;
+END;$$;
+
+ALTER FUNCTION "public"."target_insert_update_trigger"() OWNER TO "postgres";
 
 SET default_tablespace = '';
 
 SET default_table_access_method = "heap";
-
-CREATE TABLE IF NOT EXISTS "public"."agents" (
-    "id" "uuid" NOT NULL,
-    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
-    "clients" numeric,
-    "vendors" numeric,
-    "routes" numeric,
-    "targets" numeric
-);
-
-ALTER TABLE "public"."agents" OWNER TO "postgres";
 
 CREATE TABLE IF NOT EXISTS "public"."config" (
     "id" bigint NOT NULL,
@@ -239,6 +117,15 @@ CREATE TABLE IF NOT EXISTS "public"."gateways" (
 
 ALTER TABLE "public"."gateways" OWNER TO "postgres";
 
+CREATE SEQUENCE IF NOT EXISTS "public"."id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER TABLE "public"."id_seq" OWNER TO "postgres";
+
 CREATE TABLE IF NOT EXISTS "public"."invoices" (
     "invoice_id" smallint NOT NULL,
     "date_issued" timestamp with time zone DEFAULT "now"(),
@@ -266,20 +153,20 @@ ALTER TABLE "public"."invoices" ALTER COLUMN "invoice_id" ADD GENERATED BY DEFAU
     CACHE 1
 );
 
-CREATE TABLE IF NOT EXISTS "public"."notifications " (
+CREATE TABLE IF NOT EXISTS "public"."notifications" (
     "notification_id" bigint NOT NULL,
-    "date_sent" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "timestamp" timestamp with time zone DEFAULT "now"() NOT NULL,
     "user_id" "uuid" NOT NULL,
     "message" "text",
-    "status" character varying DEFAULT 'unread'::character varying NOT NULL
+    "status" character varying DEFAULT 'unread'::character varying NOT NULL,
+    "notification_type" character varying,
+    "is_read" boolean DEFAULT false
 );
 
-ALTER TABLE "public"."notifications " OWNER TO "postgres";
+ALTER TABLE "public"."notifications" OWNER TO "postgres";
 
-COMMENT ON TABLE "public"."notifications " IS 'This table stores notifications related to various events.';
-
-ALTER TABLE "public"."notifications " ALTER COLUMN "notification_id" ADD GENERATED BY DEFAULT AS IDENTITY (
-    SEQUENCE NAME "public"."notifications _notification_id_seq"
+ALTER TABLE "public"."notifications" ALTER COLUMN "notification_id" ADD GENERATED BY DEFAULT AS IDENTITY (
+    SEQUENCE NAME "public"."notifications_notification_id_seq"
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -311,6 +198,14 @@ ALTER TABLE "public"."payments" ALTER COLUMN "payment_id" ADD GENERATED BY DEFAU
     NO MAXVALUE
     CACHE 1
 );
+
+CREATE TABLE IF NOT EXISTS "public"."phone_codes" (
+    "code" bigint NOT NULL,
+    "name" "text",
+    "value" "text"
+);
+
+ALTER TABLE "public"."phone_codes" OWNER TO "postgres";
 
 CREATE TABLE IF NOT EXISTS "public"."profiles" (
     "id" "uuid" NOT NULL,
@@ -351,6 +246,23 @@ ALTER TABLE "public"."purchase_requests" OWNER TO "postgres";
 
 COMMENT ON TABLE "public"."purchase_requests" IS 'Purchase requestd initiated by buyers';
 
+CREATE TABLE IF NOT EXISTS "public"."roles" (
+    "id" bigint NOT NULL,
+    "name" "text" NOT NULL,
+    "slug" "text" NOT NULL
+);
+
+ALTER TABLE "public"."roles" OWNER TO "postgres";
+
+ALTER TABLE "public"."roles" ALTER COLUMN "id" ADD GENERATED BY DEFAULT AS IDENTITY (
+    SEQUENCE NAME "public"."roles_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
 CREATE TABLE IF NOT EXISTS "public"."routes" (
     "id" "uuid" DEFAULT "extensions"."uuid_generate_v4"() NOT NULL,
     "vendor_id" "uuid" DEFAULT "auth"."uid"(),
@@ -360,7 +272,6 @@ CREATE TABLE IF NOT EXISTS "public"."routes" (
     "asr" character varying NOT NULL,
     "acd" character varying NOT NULL,
     "ports" character varying NOT NULL,
-    "capacity" character varying NOT NULL,
     "verification" "text" DEFAULT 'pending'::"text" NOT NULL,
     "verification_by" "uuid",
     "verified_at" timestamp without time zone,
@@ -368,7 +279,8 @@ CREATE TABLE IF NOT EXISTS "public"."routes" (
     "updated_at" timestamp with time zone,
     "destination_code" character varying NOT NULL,
     "pdd" character varying NOT NULL,
-    "selling_rate" "text" DEFAULT '0'::"text" NOT NULL
+    "selling_rate" "text" DEFAULT '0'::"text" NOT NULL,
+    "new_id" bigint
 );
 
 ALTER TABLE "public"."routes" OWNER TO "postgres";
@@ -381,7 +293,6 @@ CREATE TABLE IF NOT EXISTS "public"."routes_history" (
     "asr" character varying NOT NULL,
     "acd" character varying NOT NULL,
     "ports" character varying NOT NULL,
-    "capacity" character varying NOT NULL,
     "destination_code" character varying NOT NULL,
     "pdd" character varying NOT NULL,
     "selling_rate" "text" DEFAULT '0'::"text" NOT NULL,
@@ -401,6 +312,26 @@ CREATE TABLE IF NOT EXISTS "public"."selected_routes" (
 
 ALTER TABLE "public"."selected_routes" OWNER TO "postgres";
 
+CREATE TABLE IF NOT EXISTS "public"."support_chat" (
+    "chat_id" bigint NOT NULL,
+    "user_id" "uuid" NOT NULL,
+    "agent_id" "uuid",
+    "message" "text",
+    "timestamp" timestamp with time zone,
+    "is_agent_message" boolean
+);
+
+ALTER TABLE "public"."support_chat" OWNER TO "postgres";
+
+ALTER TABLE "public"."support_chat" ALTER COLUMN "chat_id" ADD GENERATED BY DEFAULT AS IDENTITY (
+    SEQUENCE NAME "public"."support_chat_chat_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
 CREATE TABLE IF NOT EXISTS "public"."targets" (
     "id" "uuid" DEFAULT "extensions"."uuid_generate_v4"() NOT NULL,
     "client_id" "uuid" DEFAULT "auth"."uid"() NOT NULL,
@@ -410,7 +341,6 @@ CREATE TABLE IF NOT EXISTS "public"."targets" (
     "asr" character varying NOT NULL,
     "acd" character varying NOT NULL,
     "ports" character varying NOT NULL,
-    "capacity" character varying NOT NULL,
     "created_at" timestamp with time zone DEFAULT ("now"() AT TIME ZONE 'utc'::"text"),
     "updated_at" timestamp with time zone,
     "destination_code" character varying NOT NULL,
@@ -428,7 +358,6 @@ CREATE TABLE IF NOT EXISTS "public"."targets_history" (
     "asr" character varying NOT NULL,
     "acd" character varying NOT NULL,
     "ports" character varying NOT NULL,
-    "capacity" character varying NOT NULL,
     "destination_code" character varying NOT NULL,
     "pdd" character varying NOT NULL,
     "buying_rate" numeric DEFAULT '0'::numeric NOT NULL,
@@ -439,6 +368,13 @@ CREATE TABLE IF NOT EXISTS "public"."targets_history" (
 ALTER TABLE "public"."targets_history" OWNER TO "postgres";
 
 COMMENT ON TABLE "public"."targets_history" IS 'This is a history of targets';
+
+CREATE TABLE IF NOT EXISTS "public"."user_roles" (
+    "user_id" "uuid" NOT NULL,
+    "role" "text" DEFAULT 'user'::"text"
+);
+
+ALTER TABLE "public"."user_roles" OWNER TO "postgres";
 
 CREATE TABLE IF NOT EXISTS "public"."wallet" (
     "wallet_id" bigint NOT NULL,
@@ -476,9 +412,6 @@ ALTER TABLE "public"."watchlist" ALTER COLUMN "id" ADD GENERATED BY DEFAULT AS I
     CACHE 1
 );
 
-ALTER TABLE ONLY "public"."agents"
-    ADD CONSTRAINT "agents_pkey" PRIMARY KEY ("id");
-
 ALTER TABLE ONLY "public"."config"
     ADD CONSTRAINT "bank_accounts_pkey" PRIMARY KEY ("id");
 
@@ -488,17 +421,32 @@ ALTER TABLE ONLY "public"."targets"
 ALTER TABLE ONLY "public"."invoices"
     ADD CONSTRAINT "invoices_pkey" PRIMARY KEY ("invoice_id");
 
-ALTER TABLE ONLY "public"."notifications "
+ALTER TABLE ONLY "public"."notifications"
     ADD CONSTRAINT "notifications _pkey" PRIMARY KEY ("notification_id");
 
 ALTER TABLE ONLY "public"."payments"
     ADD CONSTRAINT "payments_pkey" PRIMARY KEY ("payment_id");
+
+ALTER TABLE ONLY "public"."phone_codes"
+    ADD CONSTRAINT "phone_codes_code_key" UNIQUE ("code");
+
+ALTER TABLE ONLY "public"."phone_codes"
+    ADD CONSTRAINT "phone_codes_pkey" PRIMARY KEY ("code");
 
 ALTER TABLE ONLY "public"."profiles"
     ADD CONSTRAINT "profiles_pkey" PRIMARY KEY ("id");
 
 ALTER TABLE ONLY "public"."purchase_requests"
     ADD CONSTRAINT "purchase_requests_pkey" PRIMARY KEY ("id");
+
+ALTER TABLE ONLY "public"."roles"
+    ADD CONSTRAINT "roles_name_key" UNIQUE ("name");
+
+ALTER TABLE ONLY "public"."roles"
+    ADD CONSTRAINT "roles_pkey" PRIMARY KEY ("id");
+
+ALTER TABLE ONLY "public"."roles"
+    ADD CONSTRAINT "roles_slug_key" UNIQUE ("slug");
 
 ALTER TABLE ONLY "public"."gateways"
     ADD CONSTRAINT "route_conncetions_pkey" PRIMARY KEY ("id");
@@ -512,8 +460,14 @@ ALTER TABLE ONLY "public"."routes_history"
 ALTER TABLE ONLY "public"."selected_routes"
     ADD CONSTRAINT "selected_routes_pkey" PRIMARY KEY ("id");
 
+ALTER TABLE ONLY "public"."support_chat"
+    ADD CONSTRAINT "support_chat_pkey" PRIMARY KEY ("chat_id");
+
 ALTER TABLE ONLY "public"."targets_history"
     ADD CONSTRAINT "targets_history_pkey" PRIMARY KEY ("id");
+
+ALTER TABLE ONLY "public"."user_roles"
+    ADD CONSTRAINT "user_roles_pkey" PRIMARY KEY ("user_id");
 
 ALTER TABLE ONLY "public"."wallet"
     ADD CONSTRAINT "wallet_pkey" PRIMARY KEY ("wallet_id");
@@ -526,8 +480,9 @@ ALTER TABLE ONLY "public"."watchlist"
 
 CREATE OR REPLACE TRIGGER "route_insert_update" AFTER INSERT OR UPDATE ON "public"."routes" FOR EACH ROW EXECUTE FUNCTION "public"."route_insert_update_trigger"();
 
-ALTER TABLE ONLY "public"."agents"
-    ADD CONSTRAINT "agents_id_fkey" FOREIGN KEY ("id") REFERENCES "auth"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+CREATE OR REPLACE TRIGGER "target_insert_update" AFTER INSERT OR UPDATE ON "public"."targets" FOR EACH ROW EXECUTE FUNCTION "public"."target_insert_update_trigger"();
+
+CREATE OR REPLACE TRIGGER "trigger_new_user" AFTER INSERT ON "public"."profiles" FOR EACH ROW EXECUTE FUNCTION "public"."assign_role_to_new_users"();
 
 ALTER TABLE ONLY "public"."gateways"
     ADD CONSTRAINT "gateways_client_id_fkey" FOREIGN KEY ("client_id") REFERENCES "public"."profiles"("id") ON DELETE SET NULL;
@@ -538,7 +493,7 @@ ALTER TABLE ONLY "public"."gateways"
 ALTER TABLE ONLY "public"."invoices"
     ADD CONSTRAINT "invoices_invoice_to_fkey" FOREIGN KEY ("invoice_to") REFERENCES "public"."profiles"("id") ON DELETE SET NULL;
 
-ALTER TABLE ONLY "public"."notifications "
+ALTER TABLE ONLY "public"."notifications"
     ADD CONSTRAINT "notifications _user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id") ON DELETE CASCADE;
 
 ALTER TABLE ONLY "public"."payments"
@@ -553,8 +508,20 @@ ALTER TABLE ONLY "public"."payments"
 ALTER TABLE ONLY "public"."profiles"
     ADD CONSTRAINT "profiles_id_fkey" FOREIGN KEY ("id") REFERENCES "auth"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
+ALTER TABLE ONLY "public"."support_chat"
+    ADD CONSTRAINT "public_support_chat_agent_id_fkey" FOREIGN KEY ("agent_id") REFERENCES "auth"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE ONLY "public"."support_chat"
+    ADD CONSTRAINT "public_support_chat_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
 ALTER TABLE ONLY "public"."targets_history"
     ADD CONSTRAINT "public_targets_history_target_id_fkey" FOREIGN KEY ("target_id") REFERENCES "public"."targets"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE ONLY "public"."user_roles"
+    ADD CONSTRAINT "public_user_roles_role_fkey" FOREIGN KEY ("role") REFERENCES "public"."roles"("slug") ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE ONLY "public"."user_roles"
+    ADD CONSTRAINT "public_user_roles_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."profiles"("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE ONLY "public"."purchase_requests"
     ADD CONSTRAINT "purchase_requests_client_id_fkey" FOREIGN KEY ("client_id") REFERENCES "public"."profiles"("id") ON UPDATE CASCADE ON DELETE CASCADE;
@@ -588,13 +555,19 @@ ALTER TABLE ONLY "public"."watchlist"
 
 CREATE POLICY "Allow all operations to authenticated users" ON "public"."selected_routes" TO "authenticated" USING (("user_id" = "auth"."uid"())) WITH CHECK (("user_id" = "auth"."uid"()));
 
-CREATE POLICY "Public profiles are viewable by everyone." ON "public"."profiles" FOR SELECT USING (true);
+CREATE POLICY "Enable insert for all users" ON "public"."phone_codes" FOR INSERT WITH CHECK (true);
 
-CREATE POLICY "Users can insert their own profile." ON "public"."profiles" FOR INSERT WITH CHECK (("auth"."uid"() = "id"));
+CREATE POLICY "Enable read access for all users" ON "public"."phone_codes" FOR SELECT USING (true);
 
-CREATE POLICY "Users can update own profile." ON "public"."profiles" FOR UPDATE TO "authenticated" USING (true) WITH CHECK (true);
+CREATE POLICY "Enable read access for all users" ON "public"."roles" FOR SELECT USING (true);
 
-ALTER TABLE "public"."agents" ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Enable read access for all users" ON "public"."user_roles" FOR SELECT USING (("user_id" = "auth"."uid"()));
+
+CREATE POLICY "Enable read for users based on user_id" ON "public"."notifications" FOR SELECT TO "authenticated" USING (("auth"."uid"() = "user_id"));
+
+CREATE POLICY "Public profiles are viewable by everyone." ON "public"."profiles" FOR SELECT USING (("id" = "auth"."uid"()));
+
+CREATE POLICY "Users can update own profile." ON "public"."profiles" FOR UPDATE TO "authenticated" USING (("id" = "auth"."uid"())) WITH CHECK (("id" = "auth"."uid"()));
 
 CREATE POLICY "all operation for authenticated users" ON "public"."payments" TO "authenticated" USING (true) WITH CHECK (true);
 
@@ -620,8 +593,6 @@ CREATE POLICY "allow sellers to delete their own routes" ON "public"."routes" FO
 
 CREATE POLICY "allow sellers to edit their routes" ON "public"."routes" FOR UPDATE TO "authenticated" USING (true) WITH CHECK (true);
 
-CREATE POLICY "allow unathemticated users to select" ON "public"."routes" FOR SELECT TO "authenticated", "anon" USING (true);
-
 CREATE POLICY "allow user to read only" ON "public"."invoices" FOR SELECT TO "authenticated" USING (true);
 
 CREATE POLICY "allow user to select" ON "public"."gateways" FOR SELECT TO "authenticated" USING (("client_id" = "auth"."uid"()));
@@ -638,13 +609,17 @@ ALTER TABLE "public"."gateways" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "public"."invoices" ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE "public"."notifications " ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "public"."notifications" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "public"."payments" ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE "public"."phone_codes" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "public"."profiles" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "public"."purchase_requests" ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE "public"."roles" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "public"."routes" ENABLE ROW LEVEL SECURITY;
 
@@ -655,6 +630,8 @@ ALTER TABLE "public"."selected_routes" ENABLE ROW LEVEL SECURITY;
 ALTER TABLE "public"."targets" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "public"."targets_history" ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE "public"."user_roles" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "public"."wallet" ENABLE ROW LEVEL SECURITY;
 
@@ -679,6 +656,10 @@ GRANT USAGE ON SCHEMA "public" TO "anon";
 GRANT USAGE ON SCHEMA "public" TO "authenticated";
 GRANT USAGE ON SCHEMA "public" TO "service_role";
 
+GRANT ALL ON FUNCTION "public"."assign_role_to_new_users"() TO "anon";
+GRANT ALL ON FUNCTION "public"."assign_role_to_new_users"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."assign_role_to_new_users"() TO "service_role";
+
 GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "anon";
 GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "service_role";
@@ -687,9 +668,9 @@ GRANT ALL ON FUNCTION "public"."route_insert_update_trigger"() TO "anon";
 GRANT ALL ON FUNCTION "public"."route_insert_update_trigger"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."route_insert_update_trigger"() TO "service_role";
 
-GRANT ALL ON TABLE "public"."agents" TO "anon";
-GRANT ALL ON TABLE "public"."agents" TO "authenticated";
-GRANT ALL ON TABLE "public"."agents" TO "service_role";
+GRANT ALL ON FUNCTION "public"."target_insert_update_trigger"() TO "anon";
+GRANT ALL ON FUNCTION "public"."target_insert_update_trigger"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."target_insert_update_trigger"() TO "service_role";
 
 GRANT ALL ON TABLE "public"."config" TO "anon";
 GRANT ALL ON TABLE "public"."config" TO "authenticated";
@@ -703,6 +684,10 @@ GRANT ALL ON TABLE "public"."gateways" TO "anon";
 GRANT ALL ON TABLE "public"."gateways" TO "authenticated";
 GRANT ALL ON TABLE "public"."gateways" TO "service_role";
 
+GRANT ALL ON SEQUENCE "public"."id_seq" TO "anon";
+GRANT ALL ON SEQUENCE "public"."id_seq" TO "authenticated";
+GRANT ALL ON SEQUENCE "public"."id_seq" TO "service_role";
+
 GRANT ALL ON TABLE "public"."invoices" TO "anon";
 GRANT ALL ON TABLE "public"."invoices" TO "authenticated";
 GRANT ALL ON TABLE "public"."invoices" TO "service_role";
@@ -711,13 +696,13 @@ GRANT ALL ON SEQUENCE "public"."invoices_invoice_id_seq" TO "anon";
 GRANT ALL ON SEQUENCE "public"."invoices_invoice_id_seq" TO "authenticated";
 GRANT ALL ON SEQUENCE "public"."invoices_invoice_id_seq" TO "service_role";
 
-GRANT ALL ON TABLE "public"."notifications " TO "anon";
-GRANT ALL ON TABLE "public"."notifications " TO "authenticated";
-GRANT ALL ON TABLE "public"."notifications " TO "service_role";
+GRANT ALL ON TABLE "public"."notifications" TO "anon";
+GRANT ALL ON TABLE "public"."notifications" TO "authenticated";
+GRANT ALL ON TABLE "public"."notifications" TO "service_role";
 
-GRANT ALL ON SEQUENCE "public"."notifications _notification_id_seq" TO "anon";
-GRANT ALL ON SEQUENCE "public"."notifications _notification_id_seq" TO "authenticated";
-GRANT ALL ON SEQUENCE "public"."notifications _notification_id_seq" TO "service_role";
+GRANT ALL ON SEQUENCE "public"."notifications_notification_id_seq" TO "anon";
+GRANT ALL ON SEQUENCE "public"."notifications_notification_id_seq" TO "authenticated";
+GRANT ALL ON SEQUENCE "public"."notifications_notification_id_seq" TO "service_role";
 
 GRANT ALL ON TABLE "public"."payments" TO "anon";
 GRANT ALL ON TABLE "public"."payments" TO "authenticated";
@@ -727,6 +712,10 @@ GRANT ALL ON SEQUENCE "public"."payments_payment_id_seq" TO "anon";
 GRANT ALL ON SEQUENCE "public"."payments_payment_id_seq" TO "authenticated";
 GRANT ALL ON SEQUENCE "public"."payments_payment_id_seq" TO "service_role";
 
+GRANT ALL ON TABLE "public"."phone_codes" TO "anon";
+GRANT ALL ON TABLE "public"."phone_codes" TO "authenticated";
+GRANT ALL ON TABLE "public"."phone_codes" TO "service_role";
+
 GRANT ALL ON TABLE "public"."profiles" TO "anon";
 GRANT ALL ON TABLE "public"."profiles" TO "authenticated";
 GRANT ALL ON TABLE "public"."profiles" TO "service_role";
@@ -734,6 +723,14 @@ GRANT ALL ON TABLE "public"."profiles" TO "service_role";
 GRANT ALL ON TABLE "public"."purchase_requests" TO "anon";
 GRANT ALL ON TABLE "public"."purchase_requests" TO "authenticated";
 GRANT ALL ON TABLE "public"."purchase_requests" TO "service_role";
+
+GRANT ALL ON TABLE "public"."roles" TO "anon";
+GRANT ALL ON TABLE "public"."roles" TO "authenticated";
+GRANT ALL ON TABLE "public"."roles" TO "service_role";
+
+GRANT ALL ON SEQUENCE "public"."roles_id_seq" TO "anon";
+GRANT ALL ON SEQUENCE "public"."roles_id_seq" TO "authenticated";
+GRANT ALL ON SEQUENCE "public"."roles_id_seq" TO "service_role";
 
 GRANT ALL ON TABLE "public"."routes" TO "anon";
 GRANT ALL ON TABLE "public"."routes" TO "authenticated";
@@ -747,6 +744,14 @@ GRANT ALL ON TABLE "public"."selected_routes" TO "anon";
 GRANT ALL ON TABLE "public"."selected_routes" TO "authenticated";
 GRANT ALL ON TABLE "public"."selected_routes" TO "service_role";
 
+GRANT ALL ON TABLE "public"."support_chat" TO "anon";
+GRANT ALL ON TABLE "public"."support_chat" TO "authenticated";
+GRANT ALL ON TABLE "public"."support_chat" TO "service_role";
+
+GRANT ALL ON SEQUENCE "public"."support_chat_chat_id_seq" TO "anon";
+GRANT ALL ON SEQUENCE "public"."support_chat_chat_id_seq" TO "authenticated";
+GRANT ALL ON SEQUENCE "public"."support_chat_chat_id_seq" TO "service_role";
+
 GRANT ALL ON TABLE "public"."targets" TO "anon";
 GRANT ALL ON TABLE "public"."targets" TO "authenticated";
 GRANT ALL ON TABLE "public"."targets" TO "service_role";
@@ -754,6 +759,10 @@ GRANT ALL ON TABLE "public"."targets" TO "service_role";
 GRANT ALL ON TABLE "public"."targets_history" TO "anon";
 GRANT ALL ON TABLE "public"."targets_history" TO "authenticated";
 GRANT ALL ON TABLE "public"."targets_history" TO "service_role";
+
+GRANT ALL ON TABLE "public"."user_roles" TO "anon";
+GRANT ALL ON TABLE "public"."user_roles" TO "authenticated";
+GRANT ALL ON TABLE "public"."user_roles" TO "service_role";
 
 GRANT ALL ON TABLE "public"."wallet" TO "anon";
 GRANT ALL ON TABLE "public"."wallet" TO "authenticated";
@@ -787,3 +796,12 @@ ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TAB
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES  TO "service_role";
 
 RESET ALL;
+
+--
+-- Dumped schema changes for auth and storage
+--
+
+CREATE OR REPLACE TRIGGER "on_auth_user_created" AFTER INSERT ON "auth"."users" FOR EACH ROW EXECUTE FUNCTION "public"."handle_new_user"();
+
+CREATE OR REPLACE TRIGGER "on_auth_user_updated" AFTER UPDATE ON "auth"."users" FOR EACH ROW EXECUTE FUNCTION "public"."handle_new_user"();
+

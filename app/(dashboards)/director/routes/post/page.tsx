@@ -9,7 +9,7 @@ const page = async () => {
     const {
         data: { users },
         error,
-    } = await supabase.auth.director.listUsers();
+    } = await supabase.auth.admin.listUsers();
     return (
         <section className="">
             <div className="flex items-center gap-4 justify-between mb-4">

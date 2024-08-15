@@ -45,12 +45,12 @@ export function PostTargetTable({
     setIsPosting(true);
     const postingToast = toast.loading("Posting...");
     const res = await postTargets(data);
-    if (res?.error) {
-      setIsPosting(false);
-      toast.dismiss(postingToast);
-      toast.error(res.error);
-      return;
-    }
+    // if (res?.error) {
+    //   setIsPosting(false);
+    //   toast.dismiss(postingToast);
+    //   toast.error(res.error);
+    //   return;
+    // }
     router.refresh();
     router.push("/user/my-targets");
     toast.dismiss(postingToast);

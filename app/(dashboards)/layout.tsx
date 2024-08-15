@@ -12,7 +12,8 @@ export default async function DashboardLayout({
 
   return (
     <>
-      <PasswordResetModal role={role} />
+      {role && <PasswordResetModal role={role} />}
+
       {children}
     </>
   );

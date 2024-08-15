@@ -7,7 +7,7 @@ import { renderAsync } from "@react-email/render";
 
 export async function addManager(tech: any) {
     const supabase = supabaseAdminServer();
-    const { error } = await supabase.auth.director.createUser({
+    const { error } = await supabase.auth.admin.createUser({
         email: tech.email,
         password: tech.password,
         email_confirm: true,

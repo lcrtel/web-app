@@ -20,7 +20,7 @@ const transporter = nodemailer.createTransport({
 
 export async function deleteAccount(user: any) {
     const supabase = supabaseAdminServer();
-    const { error } = await supabase.auth.director.deleteUser(user.id);
+    const { error } = await supabase.auth.admin.deleteUser(user.id);
 
     if (error) {
         return { error: error.message };
@@ -35,7 +35,7 @@ export async function deleteAccount(user: any) {
 
 export async function updateCredentials(user: any) {
     const supabase = supabaseAdminServer();
-    const { error } = await supabase.auth.director.updateUserById(user.id, {
+    const { error } = await supabase.auth.admin.updateUserById(user.id, {
         email: user.email,
         password: user.password,
     });
@@ -72,7 +72,7 @@ export async function updateAccountDetails(user: any) {
 
 export async function addAccount(user: any, role: AccountRole) {
       const supabase = supabaseAdminServer();
-    const { error } = await supabase.auth.director.createUser({
+    const { error } = await supabase.auth.admin.createUser({
         email: user.email,
         password: user.password,
         email_confirm: true,

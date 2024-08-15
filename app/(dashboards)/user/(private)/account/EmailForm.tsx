@@ -43,15 +43,14 @@ export function EmailForm({ user }: { user: User | undefined }) {
     mode: "onChange",
   });
   async function onSubmit(data: z.infer<typeof emailFormSchema>) {
-    const { error } = await updateUser({
-      email: data.newEmail,
-    });
-    if (error) {
-      toast.error(error);
-      return;
-    }
-    toast.success("Your email has been updated");
-    router.refresh();
+    if (!user) return;
+    // const { error } = await updateUser(user?.id, data);
+    // if (error) {
+    //   toast.error(error);
+    //   return;
+    // }
+    // toast.success("Your email has been updated");
+    // router.refresh();
   }
 
   return (

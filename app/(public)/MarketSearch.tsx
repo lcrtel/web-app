@@ -79,11 +79,8 @@ export default function InputForm({
   }
 
   return (
-    <div className="">
-      <form
-        onSubmit={onSubmit}
-        className="flex flex-wrap items-center gap-2 border-b pb-2"
-      >
+    <div className="space-y-2">
+      <form onSubmit={onSubmit} className="flex flex-wrap items-center gap-2">
         <Destination
           prefix={prefix}
           setPrefix={setPrefix}
@@ -191,6 +188,7 @@ const Destination = ({
         className="w-28"
         placeholder="Prefix"
         value={prefix}
+        onChange={() => setIsOpen(true)}
         onFocus={() => setIsOpen(true)}
         onClick={() => setIsOpen(true)}
       />

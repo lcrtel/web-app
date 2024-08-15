@@ -150,7 +150,7 @@ export function RatesTable({ data }: any) {
 
   return (
     data && (
-      <div className="mt-4 h-[200px] overflow-y-auto rounded-xl border">
+      <div className="h-[180px] overflow-y-auto rounded-xl border">
         <Table className="relative">
           <TableHeader className="sticky top-0">
             {table.getHeaderGroups().map((headerGroup) => (

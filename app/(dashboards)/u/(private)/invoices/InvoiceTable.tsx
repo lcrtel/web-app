@@ -23,151 +23,38 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import formatDate from "@/utils/formatDate";
+import formatTimestamptz from "@/utils/formatTimestamptz";
 import Link from "next/link";
 
-export const columns: ColumnDef<Route>[] = [
+interface InvoiceDetails {
+    balance: string;
+    date_due: string;
+    date_issued: string;
+    deal_id: number;
+    invoice_id: number;
+    invoice_to: string;
+    profiles: {
+        user_id: string;
+        email: string;
+        name: string;
+        company_name: string;
+    };
+    paid_at: string;
+    status: string;
+    total_amount: number;
+}
+export const columns: ColumnDef<InvoiceDetails>[] = [
     {
-        accessorKey: "destination",
+        accessorKey: "invoice_id",
         header: ({ column }) => {
-            return (
-                <div className=" min-w-[100px] whitespace-nowrap">
-                    Destination Name
-                </div>
-            );
+            return <div className=" ">#</div>;
         },
         cell: ({ row }) => (
-            <Link
-                href={`/u/routes/${row.getValue("id")}`}
-                className="capitalize"
-            >
-                {row.getValue("destination")}
-            </Link>
+            <div className="capitalize">{row.getValue("invoice_id")}</div>
         ),
     },
     {
-        accessorKey: "destination_code",
-        header: "Prefix",
-        cell: ({ row }) => (
-            <Link
-                href={`/u/routes/${row.getValue("id")}`}
-                className="capitalize"
-            >
-                {row.getValue("destination_code")}
-            </Link>
-        ),
-    },
-    {
-        accessorKey: "selling_rate",
-        header: ({ column }) => {
-            return (
-                <div
-                    className="flex gap-2 items-center cursor-pointer"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Rate $
-                    <ArrowUpDown className=" h-4 w-4" />
-                </div>
-            );
-        },
-        cell: ({ row }) => {
-            const Rate = parseFloat(row.getValue("selling_rate"));
-            const formatted = new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-            }).format(Rate);
-
-            return (
-                <div className="font-medium">
-                   ${" "}{row.getValue("selling_rate")}
-                </div>
-            );
-        },
-        // cell: ({ row }) => (
-        //     <Link
-        //         href={`/u/routes/offers/${row.getValue("id")}`}
-        //         className="uppercase"
-        //     >
-        //         {row.getValue("rate")}
-        //     </Link>
-        // ),
-    },
-    {
-        accessorKey: "route_type",
-        header: ({ column }) => {
-            return (
-                <div
-                    className="flex gap-2 items-center cursor-pointer"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Type
-                    <ArrowUpDown className=" h-4 w-4" />
-                </div>
-            );
-        },
-        cell: ({ row }) => (
-            <Link
-                href={`/u/routes/${row.getValue("id")}`}
-                className="uppercase"
-            >
-                {row.getValue("route_type")}
-            </Link>
-        ),
-    },
-    {
-        accessorKey: "asr",
-        header: ({ column }) => {
-            return (
-                <div
-                    className="flex gap-2 items-center cursor-pointer"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    ASR %
-                    <ArrowUpDown className=" h-4 w-4" />
-                </div>
-            );
-        },
-    },
-    {
-        accessorKey: "acd",
-        header: ({ column }) => {
-            return (
-                <div
-                    className="flex gap-2 items-center cursor-pointer"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    ACD
-                    <ArrowUpDown className=" h-4 w-4" />
-                </div>
-            );
-        },
-    },
-    {
-        accessorKey: "ports",
-        header: ({ column }) => {
-            return (
-                <div
-                    className="flex gap-2 items-center cursor-pointer"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Ports
-                    <ArrowUpDown className=" h-4 w-4" />
-                </div>
-            );
-        },
-    },
-    {
-        accessorKey: "created_at",
+        accessorKey: "date_issued",
         header: ({ column }) => {
             return (
                 <div
@@ -176,26 +63,72 @@ export const columns: ColumnDef<Route>[] = [
                         column.toggleSorting(column.getIsSorted() === "asc")
                     }
                 >
-                    Posted on
+                    Issued Date
                     <ArrowUpDown className=" h-4 w-4" />
                 </div>
             );
         },
         cell: ({ row }) => {
-            const Date = row.getValue("created_at");
-            const formattedDate = formatDate(Date);
+            const Date: Date = row.getValue("date_issued");
+            const formattedDate = formatTimestamptz(Date);
             return <div className="font-medium">{formattedDate}</div>;
         },
     },
     {
-        accessorKey: "id",
-        header: "",
+        accessorKey: "date_due",
+        header: ({ column }) => {
+            return (
+                <div
+                    className="flex gap-2 items-center cursor-pointer whitespace-nowrap"
+                    onClick={() =>
+                        column.toggleSorting(column.getIsSorted() === "asc")
+                    }
+                >
+                    Due Date
+                    <ArrowUpDown className=" h-4 w-4" />
+                </div>
+            );
+        },
         cell: ({ row }) => {
-            const id = row.getValue("id");
+            const Date: Date = row.getValue("date_due");
+            const formattedDate = formatTimestamptz(Date);
+            return <div className="font-medium">{formattedDate}</div>;
+        },
+    },
+    {
+        accessorKey: "total_amount",
+        header: "Total Amount",
+        cell: ({ row }) => (
+            <div className="capitalize">
+                {new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                }).format(row.getValue("total_amount"))}
+            </div>
+        ),
+    },
+
+    {
+        accessorKey: "balance",
+        header: "Balance",
+        cell: ({ row }) => (
+            <div className="capitalize">
+                {new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                }).format(row.getValue("balance"))}
+            </div>
+        ),
+    },
+    {
+        accessorKey: "invoice_id",
+        header: "Actions",
+        cell: ({ row }) => {
+            const id = row.getValue("invoice_id");
             return (
                 <Link
-                    href={`/u/routes/${id}`}
-                    className="font-medium text-sm  bg-primary-50 px-3 py-1.5 rounded-full text-primary-900 whitespace-nowrap"
+                    href={`/u/invoices/${id}`}
+                    className="font-medium  bg-blue-100 px-3 py-1.5 rounded-full text-blue-500"
                 >
                     Details
                 </Link>
@@ -204,7 +137,7 @@ export const columns: ColumnDef<Route>[] = [
     },
 ];
 
-export function RoutesTable({ data }: any) {
+export function InvoiceTable({ data }: any) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
@@ -232,14 +165,25 @@ export function RoutesTable({ data }: any) {
     });
 
     return (
-        <div>
-            <div className="flex items-center pb-4">
-                <h3 className="tracking-tight text-lg font-semibold">
-                    Matching Route Requests
-                </h3>
-               
-            </div>
-            <div className="rounded-lg border">
+        <div className="">
+            {/* <div className="flex items-center pb-4">
+                <Input
+                    type="text"
+                    placeholder="Search by clietn email"
+                    value={
+                        (table
+                            .getColumn("email")
+                            ?.getFilterValue() as string) ?? ""
+                    }
+                    onChange={(event) =>
+                        table
+                            .getColumn("email")
+                            ?.setFilterValue(event.target.value)
+                    }
+                    className="w-full"
+                />
+            </div> */}
+            <div className="rounded-xl border max-h-[500px] overflow-y-auto">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
@@ -261,7 +205,7 @@ export function RoutesTable({ data }: any) {
                         ))}
                     </TableHeader>
                     <TableBody>
-                        {table.getRowModel().rows?.length ? (
+                        {table?.getRowModel().rows?.length ? (
                             table.getRowModel().rows.map((row) => (
                                 <TableRow
                                     key={row.id}
@@ -283,9 +227,9 @@ export function RoutesTable({ data }: any) {
                             <TableRow>
                                 <TableCell
                                     colSpan={columns.length}
-                                    className="gap-2  h-12 text-center"
+                                    className="h-8 text-center"
                                 >
-                                    No matching route requests found
+                                    No managers found.
                                 </TableCell>
                             </TableRow>
                         )}

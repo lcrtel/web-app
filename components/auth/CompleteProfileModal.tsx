@@ -1,5 +1,5 @@
 "use client";
-import { updateUser } from "@/app/(dashboards)/user/_actions/userActions";
+import { updateUser } from "@/app/(dashboards)/u/_actions/userActions";
 import {
   AlertDialog,
   AlertDialogContent,

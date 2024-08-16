@@ -1,6 +1,6 @@
 "use client";
 
-import { signOut } from "@/app/(dashboards)/user/_actions/userActions";
+import { signOut } from "@/app/(dashboards)/u/_actions/userActions";
 import { Button } from "@/components/ui/button";
 import {
   Popover,

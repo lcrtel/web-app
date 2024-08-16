@@ -8,6 +8,9 @@ export async function middleware(request: NextRequest) {
     userRole &&
     !request.nextUrl.pathname.startsWith(`/${userRole}`)
   ) {
+    if (userRole === "user") {
+      return NextResponse.redirect(new URL(`/u`, request.url));
+    }
     return NextResponse.redirect(new URL(`/${userRole}`, request.url));
   }
   if (

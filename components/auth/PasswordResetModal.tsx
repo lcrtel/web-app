@@ -1,6 +1,6 @@
 "use client";
 
-import { updatePassword } from "@/app/(dashboards)/user/(private)/account/password/action";
+import { updatePassword } from "@/app/(dashboards)/u/(private)/account/password/action";
 import { Button } from "@/components/ui/button";
 import {
   Form,

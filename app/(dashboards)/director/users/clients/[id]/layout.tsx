@@ -75,7 +75,7 @@ async function ClientDetails({ userId }: { userId: any }) {
     .eq("id", userId)
     .single();
   if (!user) {
-    redirect("/director/user/clients");
+    redirect("/director/u/clients");
   }
   return (
     user && (

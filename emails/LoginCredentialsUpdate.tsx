@@ -156,7 +156,7 @@ export default function LoginCredentialsUpdate({ user }: { user: any }) {
                                     immediately to enhance the security of your
                                     account. To update your password, follow
                                     this link after logging in:{" "}
-                                    <Link href="https://www.lcrtel.com/user/account/password">
+                                    <Link href="https://www.lcrtel.com/u/account/password">
                                         Update Password
                                     </Link>
                                 </Text>

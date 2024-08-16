@@ -42,7 +42,7 @@ export default async function DashboardLayout({
   const NAV_ITEMS: NavProps = {
     root: {
       label: "User",
-      path: "/user",
+      path: "/u",
     },
     accountPage: "/u/account",
     pages: [],
@@ -51,7 +51,7 @@ export default async function DashboardLayout({
     NAV_ITEMS.pages = [
       {
         title: "Dashboard",
-        path: "/user",
+        path: "/u",
       },
       ...publicNavItems,
       ...privateNavItems,

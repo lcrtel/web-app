@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 
-import * as z from "zod";
 
 import {
   Command,
@@ -32,9 +31,9 @@ import {
   SearchX,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import updatePhoneCodes, { marketSearch } from "./actions";
 import { RatesTable } from "./rates-table";
-import toast from "react-hot-toast";
 
 export default function InputForm({
   initialRoutes,
@@ -213,7 +212,7 @@ const Destination = ({
                   key={destination.code}
                   onClick={() => {
                     setDestination(destination);
-                    setPrefix(destination.code);
+                    setPrefix(destination.code.toString());
                     setIsOpen(false);
                   }}
                   className="cursor-pointer rounded-md bg-surface px-2 py-1 capitalize tracking-wide"

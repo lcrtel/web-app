@@ -17,8 +17,8 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { updateUser } from "../../_actions/userActions";
 import { User } from "@supabase/supabase-js";
+import { changeEmail, updateUser } from "@/components/auth/userActions";
 
 const emailFormSchema = z
   .object({
@@ -44,13 +44,13 @@ export function EmailForm({ user }: { user: User | undefined }) {
   });
   async function onSubmit(data: z.infer<typeof emailFormSchema>) {
     if (!user) return;
-    // const { error } = await updateUser(user?.id, data);
-    // if (error) {
-    //   toast.error(error);
-    //   return;
-    // }
-    // toast.success("Your email has been updated");
-    // router.refresh();
+    const res = await changeEmail(data.newEmail);
+    if (res?.error) {
+      toast.error(res.error);
+      return;
+    }
+    toast.success("Your email has been updated");
+    router.refresh();
   }
 
   return (

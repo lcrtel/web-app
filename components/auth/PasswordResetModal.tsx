@@ -11,6 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { supabaseClient } from "@/lib/supabase-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -53,6 +54,13 @@ const passwordFormSchema = z
   );
 
 export function PasswordResetModal({ role }: { role: string }) {
+  const supabase = supabaseClient();
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (event === "PASSWORD_RECOVERY") {
+      console.log("PASSWORD_RECOVERY", session);
+      // show screen to update user's password
+    }
+  });
   const searchParams = useSearchParams();
   const password_reset = searchParams.get("update_password");
   const [showPassword, setShowPassword] = useState(false);
@@ -130,7 +138,7 @@ export function PasswordResetModal({ role }: { role: string }) {
                   <FormControl>
                     <Input
                       type={showPassword ? "text" : "password"}
-                      placeholder="New Password"
+                      placeholder="Confirm New Password"
                       {...field}
                     />
                   </FormControl>

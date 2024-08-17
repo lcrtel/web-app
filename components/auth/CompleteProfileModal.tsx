@@ -1,5 +1,4 @@
 "use client";
-import { updateUser } from "@/app/(dashboards)/u/_actions/userActions";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -26,6 +25,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
+import { updateUser } from "./userActions";
 interface ProfileModalProps {
   user: any;
 }

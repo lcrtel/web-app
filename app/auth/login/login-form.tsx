@@ -84,8 +84,12 @@ const LoginForm = () => {
             </FormItem>
           )}
         />
-        <Button className="w-full gap-2" type="submit">
-          Login
+        <Button
+          className="w-full gap-2"
+          disabled={form.formState.isSubmitting}
+          type="submit"
+        >
+          {form.formState.isSubmitting ? "Logging in..." : "Login"}
         </Button>
         <div className="flex items-center justify-between gap-2">
           <span className="h-px w-full bg-gradient-to-r from-transparent to-slate-200" />

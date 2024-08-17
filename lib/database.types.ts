@@ -260,17 +260,17 @@ export type Database = {
       }
       phone_codes: {
         Row: {
-          code: string
+          code: number
           name: string | null
           value: string | null
         }
         Insert: {
-          code: string
+          code: number
           name?: string | null
           value?: string | null
         }
         Update: {
-          code?: string
+          code?: number
           name?: string | null
           value?: string | null
         }
@@ -290,7 +290,6 @@ export type Database = {
           over_draft: string | null
           payment_method: Json | null
           phone: string | null
-          role: string | null
           sales_department: Json | null
           skype_id: string | null
           vos_client_id: string | null
@@ -309,7 +308,6 @@ export type Database = {
           over_draft?: string | null
           payment_method?: Json | null
           phone?: string | null
-          role?: string | null
           sales_department?: Json | null
           skype_id?: string | null
           vos_client_id?: string | null
@@ -328,7 +326,6 @@ export type Database = {
           over_draft?: string | null
           payment_method?: Json | null
           phone?: string | null
-          role?: string | null
           sales_department?: Json | null
           skype_id?: string | null
           vos_client_id?: string | null
@@ -397,18 +394,6 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
-      }
-      result: {
-        Row: {
-          content: Json | null
-        }
-        Insert: {
-          content?: Json | null
-        }
-        Update: {
-          content?: Json | null
-        }
-        Relationships: []
       }
       roles: {
         Row: {
@@ -833,12 +818,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      fetch_phone_codes: {
-        Args: {
-          code: number
-        }
-        Returns: Json
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never

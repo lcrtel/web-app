@@ -127,15 +127,23 @@ export default function OTPForm() {
                 </FormControl>
                 {isOTPSent && (
                   <FormDescription className="text-sm">
-                    Please enter the OTP sent to <span className="font-medium text-primary-900">{email}</span>.
+                    Please enter the OTP sent to{" "}
+                    <span className="font-medium text-primary-900">
+                      {email}
+                    </span>
+                    .
                   </FormDescription>
                 )}
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit" disabled={!isOTPSent} className="w-full">
-            Login
+          <Button
+            type="submit"
+            disabled={!isOTPSent || otpForm.formState.isSubmitting}
+            className="w-full"
+          >
+            {otpForm.formState.isSubmitting ? "Verifying..." : "Verify"}
           </Button>
           <div className="flex items-center justify-between gap-2">
             <span className="h-px w-full bg-gradient-to-r from-transparent to-slate-200" />

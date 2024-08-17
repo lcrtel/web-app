@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
-import { updateUser, updateUserProfile } from "../../_actions/userActions";
+import { updateUser } from "@/components/auth/userActions";
 
 const profileFormSchema = z.object({
   name: z.string(),
@@ -38,9 +38,9 @@ export function AccountForm({ user }: { user: any }) {
   });
 
   async function onSubmit(data: any) {
-    const { error } = await updateUserProfile(data, userID);
-    if (error) {
-      toast.error(error.message);
+    const res = await updateUser(userID, data);
+    if (res?.error) {
+      toast.error(res.error);
       return;
     }
     toast.success("Your details updated");

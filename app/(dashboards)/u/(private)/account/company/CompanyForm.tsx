@@ -15,9 +15,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+import { updateUser } from "@/components/auth/userActions";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
-import { updateUserProfile } from "../../../_actions/userActions";
 
 const departmentSchema = z.object({
   name: z
@@ -39,30 +39,18 @@ export function CompanyForm({ user }: { user: any }) {
   const router = useRouter();
   const FinanceDipartment = () => {
     const defaultValues = user.finance_department;
-    const form = useForm<any>({
+    const form = useForm<z.infer<typeof departmentSchema>>({
       resolver: zodResolver(departmentSchema),
       defaultValues,
       mode: "onChange",
     });
-    async function onSubmit(data: any) {
-      const { error: updateError } = await updateUserProfile(
-        { finance_department: data },
-        userID,
-      );
-      if (updateError) {
-        toast.error(updateError.message);
-        return;
-      }
-      const { error } = await updateUserProfile(
-        { finance_department: data },
-        userID,
-      );
-      if (error) {
-        toast.error(error.message);
+    async function onSubmit(data: z.infer<typeof departmentSchema>) {
+      const res = await updateUser(userID, { finance_department: data });
+      if (res?.error) {
+        toast.error(res.error);
         return;
       }
       toast.success("Finance department details saved");
-
       router.refresh();
     }
     return (
@@ -131,27 +119,16 @@ export function CompanyForm({ user }: { user: any }) {
   };
   const NOCDipartment = () => {
     const defaultValues = user.noc_department;
-    const form = useForm<any>({
+    const form = useForm<z.infer<typeof departmentSchema>>({
       resolver: zodResolver(departmentSchema),
       defaultValues,
       mode: "onChange",
     });
 
-    async function onSubmit(data: any) {
-      const { error: updateError } = await updateUserProfile(
-        { noc_department: data },
-        userID,
-      );
-      if (updateError) {
-        toast.error(updateError.message);
-        return;
-      }
-      const { error } = await updateUserProfile(
-        { noc_department: data },
-        userID,
-      );
-      if (error) {
-        toast.error(error.message);
+    async function onSubmit(data: z.infer<typeof departmentSchema>) {
+      const res = await updateUser(userID, { noc_department: data });
+      if (res?.error) {
+        toast.error(res.error);
         return;
       }
       toast.success("NOC department details saved");
@@ -214,33 +191,24 @@ export function CompanyForm({ user }: { user: any }) {
               )}
             />
           </div>
-          <Button type="submit" className="flex ml-auto">Save</Button>
+          <Button type="submit" className="ml-auto flex">
+            Save
+          </Button>
         </form>
       </Form>
     );
   };
   const SalesDipartment = () => {
     const defaultValues = user.sales_department;
-    const form = useForm<any>({
+    const form = useForm<z.infer<typeof departmentSchema>>({
       resolver: zodResolver(departmentSchema),
       defaultValues,
       mode: "onChange",
     });
-    async function onSubmit(data: any) {
-      const { error: updateError } = await updateUserProfile(
-        { sales_department: data },
-        userID,
-      );
-      if (updateError) {
-        toast.error(updateError.message);
-        return;
-      }
-      const { error } = await updateUserProfile(
-        { sales_department: data },
-        userID,
-      );
-      if (error) {
-        toast.error(error.message);
+    async function onSubmit(data: z.infer<typeof departmentSchema>) {
+      const res = await updateUser(userID, { sales_department: data });
+      if (res?.error) {
+        toast.error(res.error);
         return;
       }
       toast.success("Sales department details saved");

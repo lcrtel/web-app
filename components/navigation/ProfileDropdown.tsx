@@ -1,6 +1,5 @@
 "use client";
 
-import { signOut } from "@/app/(dashboards)/u/_actions/userActions";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -13,6 +12,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { HiOutlineLogout } from "react-icons/hi";
+import { signOut } from "../auth/userActions";
 
 export default function ProfileDropdown({
   user,
@@ -24,9 +24,9 @@ export default function ProfileDropdown({
   const router = useRouter();
 
   const handleSignOut = async () => {
-    const { error } = await signOut();
-    if (error) {
-      toast.error(error.message);
+    const res = await signOut();
+    if (res?.error) {
+      toast.error(res.error);
       return;
     }
     router.push("/");

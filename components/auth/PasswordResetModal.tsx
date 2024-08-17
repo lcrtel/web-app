@@ -153,7 +153,7 @@ export function PasswordResetModal() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="ml-auto gap-2">
+            <Button type="submit" className="ml-auto flex gap-2">
              {loading ? <Loader2 className="size-4 animate-spin" /> : "Change Password"}
             </Button>
           </form>

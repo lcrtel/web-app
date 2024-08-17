@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import { changeEmail } from "@/components/auth/userActions";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,11 +15,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { User } from "@supabase/supabase-js";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { User } from "@supabase/supabase-js";
-import { changeEmail, updateUser } from "@/components/auth/userActions";
 
 const emailFormSchema = z
   .object({
@@ -37,6 +38,7 @@ const emailFormSchema = z
 
 export function EmailForm({ user }: { user: User | undefined }) {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof emailFormSchema>>({
     resolver: zodResolver(emailFormSchema),
     defaultValues: { currentEmail: user?.email, newEmail: user?.new_email },
@@ -44,11 +46,15 @@ export function EmailForm({ user }: { user: User | undefined }) {
   });
   async function onSubmit(data: z.infer<typeof emailFormSchema>) {
     if (!user) return;
+    setLoading(true);
     const res = await changeEmail(data.newEmail);
     if (res?.error) {
       toast.error(res.error);
+      setLoading(false);
       return;
     }
+    window.location.reload();
+    setLoading(false);
     toast.success("Your email has been updated");
     router.refresh();
   }
@@ -76,14 +82,14 @@ export function EmailForm({ user }: { user: User | undefined }) {
             <FormItem>
               <FormLabel>New email</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="new email" {...field} />
+                <Input type="email" placeholder="New email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" className="ml-auto flex">
-          Save
+        <Button type="submit" className="ml-auto flex gap-2">
+          {loading ? <Loader2 className="size-4 animate-spin" /> : "Save"}
         </Button>
       </form>
     </Form>

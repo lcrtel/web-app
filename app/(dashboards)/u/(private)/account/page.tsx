@@ -12,8 +12,8 @@ export default async function Page() {
         <h2 className="mb-4 text-xl font-bold tracking-tight">Personal info</h2>
         <AccountForm user={userProfile} />
       </div>
-      <div className="rounded-lg border p-5">
-        <h2 className="mb-4 text-xl font-bold tracking-tight">Email address</h2>
+      <div className="rounded-lg border p-5 space-y-2">
+        <h2 className=" text-xl font-bold tracking-tight">Email address</h2>
         {user?.new_email && (
           <div className="flex items-start gap-2 rounded-lg bg-slate-50 p-4 text-slate-500">
             <AlertCircle className="size-5" />

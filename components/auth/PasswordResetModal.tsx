@@ -54,15 +54,24 @@ const passwordFormSchema = z
   );
 
 export function PasswordResetModal() {
+  const supabase = supabaseClient();
   const searchParams = useSearchParams();
   const password_reset = searchParams.get("update_password");
   const [showPassword, setShowPassword] = useState(false);
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
   useEffect(() => {
-    if (password_reset) {
-      setPasswordModalOpen(true);
-    }
-  }, [password_reset]);
+    const checkSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (password_reset && session) {
+        router.refresh()
+        setPasswordModalOpen(true);
+      }
+    };
+
+    checkSession();
+  }, [supabase, password_reset]);
   const router = useRouter();
   const form = useForm<z.infer<typeof passwordFormSchema>>({
     resolver: zodResolver(passwordFormSchema),

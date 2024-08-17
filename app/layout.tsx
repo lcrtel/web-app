@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import { Suspense } from "react";
 import Toast from "./Toast";
 import "./globals.css";
 // export const dynamic = "force-dynamic";
@@ -32,7 +33,9 @@ export default function RootLayout({
         <Toaster />
         <main className="relative">
           <RefreshOnFocus />
-          <PasswordResetModal />
+          <Suspense>
+            <PasswordResetModal />
+          </Suspense>
           {children}{" "}
         </main>
         <Analytics />

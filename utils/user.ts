@@ -2,9 +2,17 @@
 import { supabaseServer } from "@/lib/supabase-server";
 export async function fetchUserRole() {
   const supabase = supabaseServer();
-  const { data } = await supabase.from("user_roles").select("role").single();
-  if (data?.role) {
-    return data.role;
+  const { data: {user} } = await supabase.auth.getUser();
+  if (user) {
+    const { data, error } = await supabase
+      .from("user_roles")
+      .select("role")
+      .single();
+    if (error) {
+      return { error: "Error fetching user role, " + error.message };
+    } else {
+      return { role: data?.role };
+    }
   }
 }
 
@@ -42,4 +50,3 @@ export async function checkIsUserAnonymous() {
     return false;
   }
 }
-

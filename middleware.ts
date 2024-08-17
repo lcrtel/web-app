@@ -3,18 +3,15 @@ import { updateSession } from "./lib/supabase-middleware";
 import { fetchUserRole } from "./utils/user";
 
 export async function middleware(request: NextRequest) {
-  const userRole = await fetchUserRole();
-  if (
-    userRole &&
-    !request.nextUrl.pathname.startsWith(`/${userRole}`)
-  ) {
-    if (userRole === "user") {
+  const res = await fetchUserRole();
+  if (res?.role && !request.nextUrl.pathname.startsWith(`/${res.role}`)) {
+    if (res.role === "user") {
       return NextResponse.redirect(new URL(`/u`, request.url));
     }
-    return NextResponse.redirect(new URL(`/${userRole}`, request.url));
+    return NextResponse.redirect(new URL(`/${res.role}`, request.url));
   }
   if (
-    !userRole &&
+    !res?.role &&
     request.nextUrl.pathname !== "/" &&
     !request.nextUrl.pathname.startsWith("/auth")
   ) {

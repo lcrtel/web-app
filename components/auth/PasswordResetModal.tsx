@@ -53,14 +53,7 @@ const passwordFormSchema = z
     },
   );
 
-export function PasswordResetModal({ role }: { role: string }) {
-  const supabase = supabaseClient();
-  supabase.auth.onAuthStateChange((event, session) => {
-    if (event === "PASSWORD_RECOVERY") {
-      console.log("PASSWORD_RECOVERY", session);
-      // show screen to update user's password
-    }
-  });
+export function PasswordResetModal() {
   const searchParams = useSearchParams();
   const password_reset = searchParams.get("update_password");
   const [showPassword, setShowPassword] = useState(false);

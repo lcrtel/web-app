@@ -18,6 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { signUp } from "./action";
+import toast from "react-hot-toast";
 
 export const signupFormSchema = z
   .object({
@@ -61,7 +62,13 @@ const SignupForm = () => {
     mode: "onChange",
   });
   async function onSubmit(data: any) {
-    await signUp(data);
+    setLoading(true);
+    const res = await signUp(data);
+    if (res?.error) {
+      toast.error(res.error);
+      setLoading(false);
+      return;
+    }
     router.refresh();
   }
   return (

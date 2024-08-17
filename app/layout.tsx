@@ -1,3 +1,4 @@
+import { PasswordResetModal } from "@/components/auth/PasswordResetModal";
 import { RefreshOnFocus } from "@/components/refresh-on-focus";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/react";
@@ -31,6 +32,7 @@ export default function RootLayout({
         <Toaster />
         <main className="relative">
           <RefreshOnFocus />
+          <PasswordResetModal />
           {children}{" "}
         </main>
         <Analytics />

@@ -25,6 +25,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "../ui/alert-dialog";
+import { Loader2 } from "lucide-react";
 
 const passwordFormSchema = z
   .object({
@@ -56,8 +57,10 @@ const passwordFormSchema = z
 export function PasswordResetModal() {
   const supabase = supabaseClient();
   const searchParams = useSearchParams();
+  const router = useRouter();
   const password_reset = searchParams.get("update_password");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
   useEffect(() => {
     const checkSession = async () => {
@@ -71,22 +74,24 @@ export function PasswordResetModal() {
     };
 
     checkSession();
-  }, [supabase, password_reset]);
-  const router = useRouter();
+  }, [supabase, password_reset, router]);
   const form = useForm<z.infer<typeof passwordFormSchema>>({
     resolver: zodResolver(passwordFormSchema),
     mode: "onChange",
   });
   async function onSubmit(data: any) {
+    setLoading(true);
     const res = await updatePassword({
       password: data.password,
     });
     if (res?.error) {
+      setLoading(false);
       toast.error(res.error);
       return;
     }
     setPasswordModalOpen(false);
     toast.success("Your password updated");
+    setLoading(false);
     router.push("/");
   }
 
@@ -148,8 +153,8 @@ export function PasswordResetModal() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="ml-auto flex">
-              Change Password
+            <Button type="submit" className="ml-auto gap-2">
+             {loading ? <Loader2 className="size-4 animate-spin" /> : "Change Password"}
             </Button>
           </form>
         </Form>

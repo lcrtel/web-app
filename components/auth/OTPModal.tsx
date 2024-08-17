@@ -1,5 +1,6 @@
 "use client";
 
+import { verifyOtp } from "@/app/auth/otp-login/actions";
 import {
   Form,
   FormControl,
@@ -15,8 +16,9 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
@@ -28,7 +30,6 @@ import {
   AlertDialogTitle,
 } from "../ui/alert-dialog";
 import { Button } from "../ui/button";
-import { verifyOtp } from "@/app/auth/otp-login/actions";
 
 interface OtpModalProps {
   setOtpModalOpen: Dispatch<SetStateAction<boolean>>;
@@ -51,6 +52,7 @@ export default function OtpModal({
   postFunction,
 }: OtpModalProps) {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -60,15 +62,18 @@ export default function OtpModal({
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     if (!email) return;
+    setLoading(true);
     const res = await verifyOtp(email, data.otp);
     if (!res?.error) {
       toast.success("OTP verified");
       setOtpModalOpen(false);
       setDialogOpen(false);
+      setLoading(false);
       router.refresh();
       await postFunction();
     } else {
       toast.error(res?.error);
+      setLoading(false);
     }
   }
 
@@ -107,7 +112,13 @@ export default function OtpModal({
               )}
             />
             <AlertDialogFooter className="!justify-center">
-              <Button type="submit">Submit</Button>
+              <Button type="submit">
+                {loading ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : (
+                  "Submit"
+                )}
+              </Button>
             </AlertDialogFooter>
           </form>
         </Form>

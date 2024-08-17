@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRightCircle } from "lucide-react";
+import { ArrowRightCircle, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -39,6 +39,7 @@ export default function CompleteProfileModal({ user }: ProfileModalProps) {
   const defaultValues = user;
   const router = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [isProfileComplete, setIsProfileComplete] = useState(false);
   useEffect(() => {
     if (user) {
@@ -53,12 +54,15 @@ export default function CompleteProfileModal({ user }: ProfileModalProps) {
     mode: "onChange",
   });
   async function onSubmit(formData: z.infer<typeof profileFormSchema>) {
+    setLoading(true);
     const { error } = await updateUser(user.id, formData);
     if (error) {
+      setLoading(false);
       toast.error(error);
       return;
     }
     toast.success("Your details updated");
+    setLoading(false);
     router.refresh();
     setIsDialogOpen(false);
   }
@@ -138,7 +142,11 @@ export default function CompleteProfileModal({ user }: ProfileModalProps) {
             </div>
             <AlertDialogFooter>
               <Button type="submit" className="w-full">
-                Submit
+                {loading ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : (
+                  "Submit"
+                )}
               </Button>
             </AlertDialogFooter>
           </form>

@@ -10,7 +10,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Dispatch, SetStateAction } from "react";
+import { Loader2 } from "lucide-react";
+import { Dispatch, SetStateAction, useState } from "react";
 import toast from "react-hot-toast";
 interface LoginModalProps {
   email: string | undefined;
@@ -26,15 +27,19 @@ export default function LoginModal({
   setOtpModalOpen,
   setEmail,
 }: LoginModalProps) {
+  const [loading, setLoading] = useState(false);
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (email) {
+      setLoading(true);
       const res = await signInWithOtp(email);
       if (!res?.error) {
         toast.success("OTP sent to your email");
+        setLoading(false);
         setOtpModalOpen(true);
       } else {
         toast.error(res.error);
+        setLoading(false);
       }
     }
   };
@@ -57,7 +62,9 @@ export default function LoginModal({
             required
           />
           <AlertDialogFooter>
-            <Button type="submit">Submit</Button>
+            <Button type="submit">
+              {loading ? <Loader2 className="size-4 animate-spin" /> : "Submit"}
+            </Button>
           </AlertDialogFooter>
         </form>
       </AlertDialogContent>

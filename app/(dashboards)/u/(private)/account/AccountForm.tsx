@@ -15,9 +15,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
 import { updateUser } from "@/components/auth/userActions";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "react-hot-toast";
 
 const profileFormSchema = z.object({
   name: z.string(),
@@ -29,7 +31,7 @@ const profileFormSchema = z.object({
 export function AccountForm({ user }: { user: any }) {
   const defaultValues = user;
   const userID = user?.id;
-
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof profileFormSchema>>({
     resolver: zodResolver(profileFormSchema),
@@ -38,12 +40,15 @@ export function AccountForm({ user }: { user: any }) {
   });
 
   async function onSubmit(data: any) {
+    setLoading(true);
     const res = await updateUser(userID, data);
     if (res?.error) {
       toast.error(res.error);
+      setLoading(false);
       return;
     }
     toast.success("Your details updated");
+    setLoading(false);
     router.refresh();
   }
 
@@ -104,8 +109,9 @@ export function AccountForm({ user }: { user: any }) {
             )}
           />
         </div>
-        <Button type="submit" className="ml-auto flex">
-          Update profile
+        <Button type="submit" className="ml-auto flex gap-2" disabled={loading}>
+          {loading && <Loader2 className="size-4 animate-spin" />} Update
+          profile
         </Button>
       </form>
     </Form>

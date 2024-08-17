@@ -10,7 +10,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
@@ -22,16 +24,22 @@ export const resetPasswordFormSchema = z.object({
 
 export default function ResetForm() {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof resetPasswordFormSchema>>({
     resolver: zodResolver(resetPasswordFormSchema),
     mode: "onChange",
   });
   async function onSubmit(data: z.infer<typeof resetPasswordFormSchema>) {
+    setLoading(true);
     const res = await resetPassword(data.email);
     if (res?.error) {
       toast.error(res.error);
+      setLoading(false);
+      return;
     }
+    toast.success("Password reset link sent to your email");
     router.refresh();
+    setLoading(false);
   }
 
   return (
@@ -54,7 +62,11 @@ export default function ResetForm() {
           )}
         />
         <Button className="w-full gap-2" type="submit">
-          Send password reset link
+          {loading ? (
+            <Loader2 className="size-4 animate-spin" />
+          ) : (
+            "Send password reset link"
+          )}
         </Button>
       </form>
     </Form>

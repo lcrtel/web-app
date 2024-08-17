@@ -17,7 +17,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -38,6 +38,7 @@ export default function OTPForm() {
   const [email, setEmail] = useState<string | undefined>("");
   const [isOTPSent, setIsOTPSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [OTPloading, setOTPLoading] = useState(false);
   const router = useRouter();
   const otpForm = useForm<z.infer<typeof otpSchema>>({
     resolver: zodResolver(otpSchema),
@@ -47,11 +48,14 @@ export default function OTPForm() {
   });
   async function onSubmit(data: z.infer<typeof otpSchema>) {
     if (!email) return;
+    setLoading(true);
     const res = await verifyOtp(email, data.otp);
     if (!res?.error) {
       toast.success("OTP verified");
+      setLoading(false);
       router.refresh();
     } else {
+      setLoading(false);
       toast.error(res.error);
     }
   }
@@ -59,7 +63,7 @@ export default function OTPForm() {
     const handleSubmit = async (data: z.infer<typeof emailSchema>) => {
       if (data.email) {
         setEmail(data.email);
-        setLoading(true);
+        setOTPLoading(true);
         const res = await signInWithOtp(data.email);
         if (!res?.error) {
           setIsOTPSent(true);
@@ -67,7 +71,7 @@ export default function OTPForm() {
         } else {
           toast.error(res.error);
         }
-        setLoading(false);
+        setOTPLoading(false);
       }
     };
     const form = useForm<z.infer<typeof emailSchema>>({
@@ -95,8 +99,15 @@ export default function OTPForm() {
               </FormItem>
             )}
           />
-          <button type="submit" className="text-xs underline">
-            {loading ? "Sending OTP" : "Send OTP"}
+          <button type="submit" className="text-xs flex items-center gap-2 underline">
+            {OTPloading ? (
+              <>
+                <Loader2 className="size-4 animate-spin" />
+                Sending OTP
+              </>
+            ) : (
+              "Send OTP"
+            )}
           </button>
         </form>
       </Form>
@@ -140,10 +151,16 @@ export default function OTPForm() {
           />
           <Button
             type="submit"
-            disabled={!isOTPSent || otpForm.formState.isSubmitting}
+            disabled={!isOTPSent || loading}
             className="w-full"
           >
-            {otpForm.formState.isSubmitting ? "Verifying..." : "Verify"}
+            {loading ? (
+              <>
+                Verifying <Loader2 className="size-4 animate-spin" />
+              </>
+            ) : (
+              "Verify"
+            )}
           </Button>
           <div className="flex items-center justify-between gap-2">
             <span className="h-px w-full bg-gradient-to-r from-transparent to-slate-200" />

@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -28,14 +28,18 @@ export const loginFormSchema = z.object({
 const LoginForm = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     mode: "onChange",
   });
   async function onSubmit(data: z.infer<typeof loginFormSchema>) {
+    setLoading(true);
     const res = await signInWithPassword(data);
     if (res?.error) {
+      setLoading(false);
       toast.error(res.error);
+      return;
     }
     router.refresh();
   }
@@ -84,12 +88,14 @@ const LoginForm = () => {
             </FormItem>
           )}
         />
-        <Button
-          className="w-full gap-2"
-          disabled={form.formState.isSubmitting}
-          type="submit"
-        >
-          {form.formState.isSubmitting ? "Logging in..." : "Login"}
+        <Button className="w-full gap-2" disabled={loading} type="submit">
+          {loading ? (
+            <>
+              Logging in <Loader2 className="size-4 animate-spin" />
+            </>
+          ) : (
+            "Login"
+          )}
         </Button>
         <div className="flex items-center justify-between gap-2">
           <span className="h-px w-full bg-gradient-to-r from-transparent to-slate-200" />

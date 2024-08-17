@@ -16,9 +16,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { z } from "zod";
 import { signUp } from "./action";
-import toast from "react-hot-toast";
 
 export const signupFormSchema = z
   .object({
@@ -75,7 +75,7 @@ const SignupForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4 w-full md:w-[420px]"
+        className="w-full space-y-4 md:w-[420px]"
       >
         <div className="grid gap-2 text-primary-900 sm:grid-cols-2">
           <FormField
@@ -203,7 +203,7 @@ const SignupForm = () => {
           {loading ? (
             <>
               Signup
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <Loader2 className="size-4 animate-spin" />
             </>
           ) : (
             "Signup"

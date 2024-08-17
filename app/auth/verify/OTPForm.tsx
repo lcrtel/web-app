@@ -15,12 +15,13 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import { verifyOtp } from "./actions";
-import { useState } from "react";
 const otpSchema = z.object({
   otp: z
     .string()
@@ -76,8 +77,14 @@ export default function OTPForm({ email }: { email: string }) {
               </FormItem>
             )}
           />
-          <Button type="submit" disabled={loading} className="w-full">
-            {loading ? "Verifying..." : "Verify"}
+          <Button type="submit" disabled={loading} className="w-full gap-2">
+            {loading ? (
+              <>
+                Verifying <Loader2 className="size-4 animate-spin" />
+              </>
+            ) : (
+              "Verify"
+            )}
           </Button>
         </form>
       </Form>

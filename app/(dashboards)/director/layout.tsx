@@ -6,7 +6,7 @@ import {
   TrendingUp,
   Users,
   UsersRound,
-  Waypoints
+  Waypoints,
 } from "lucide-react";
 import { unstable_noStore } from "next/cache";
 
@@ -72,30 +72,31 @@ export default async function DashboardLayout({
         ],
       },
       {
-        title: "Team",
-        path: "/director/team",
+        title: "Departments",
+        path: "/director/departments",
         icon: <Users width="18" height="18" />,
         submenu: true,
         subMenuItems: [
           {
-            title: "Managers",
-            path: "/director/team/managers",
-          },
-          {
-            title: "Accounts",
-            path: "/director/team/accounts",
-          },
-          {
             title: "Sales",
-            path: "/director/team/sales",
+            path: "/director/departments/sales",
           },
+          {
+            title: "Purchases",
+            path: "/director/departments/purchases",
+          },
+          {
+            title: "Finance",
+            path: "/director/departments/finance",
+          },
+
           {
             title: "NOC",
-            path: "/director/team/noc",
+            path: "/director/departments/noc",
           },
           {
             title: "Tech",
-            path: "/director/team/tech",
+            path: "/director/departments/tech",
           },
         ],
       },

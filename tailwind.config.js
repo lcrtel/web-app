@@ -1,12 +1,10 @@
 /** @type {import('tailwindcss').Config} */
-import { white as _white, blue, gray } from "tailwindcss/colors";
 export const darkMode = ["class"];
 export const content = [
   "./pages/**/*.{ts,tsx}",
   "./components/**/*.{ts,tsx}",
   "./app/**/*.{ts,tsx}",
   "./src/**/*.{ts,tsx}",
-  "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}",
 ];
 export const theme = {
   container: {
@@ -39,90 +37,8 @@ export const theme = {
       white: "#fff",
       black: "#000",
       "surface-600": "E4F0F6",
-      tremor: {
-        brand: {
-          faint: blue[50],
-          muted: blue[200],
-          subtle: blue[400],
-          DEFAULT: blue[500],
-          emphasis: blue[700],
-          inverted: _white,
-        },
-        background: {
-          muted: gray[50],
-          subtle: gray[100],
-          DEFAULT: _white,
-          emphasis: gray[700],
-        },
-        border: {
-          DEFAULT: gray[200],
-        },
-        ring: {
-          DEFAULT: gray[200],
-        },
-        content: {
-          subtle: gray[400],
-          DEFAULT: gray[500],
-          emphasis: gray[700],
-          strong: gray[900],
-          inverted: _white,
-        },
-        "dark-tremor": {
-          brand: {
-            faint: "#0B1229",
-            muted: blue[950],
-            subtle: blue[800],
-            DEFAULT: blue[500],
-            emphasis: blue[400],
-            inverted: blue[950],
-          },
-          background: {
-            muted: "#131A2B",
-            subtle: gray[800],
-            DEFAULT: gray[900],
-            emphasis: gray[300],
-          },
-          border: {
-            DEFAULT: gray[700],
-          },
-          ring: {
-            DEFAULT: gray[800],
-          },
-          content: {
-            subtle: gray[600],
-            DEFAULT: gray[500],
-            emphasis: gray[200],
-            strong: gray[50],
-            inverted: gray[950],
-          },
-        },
-      },
     },
-    borderRadius: {
-      "tremor-small": "0.375rem",
-      "tremor-default": "1rem",
-      "tremor-full": "9999px",
-    },
-    fontSize: {
-      "tremor-label": ["0.75rem"],
-      "tremor-default": ["0.875rem", { lineHeight: "1.25rem" }],
-      "tremor-title": ["1.125rem", { lineHeight: "1.75rem" }],
-      "tremor-metric": ["1.875rem", { lineHeight: "2.25rem" }],
-    },
-    boxShadow: {
-      // light
-      "tremor-input": "0 1px 2px 0 rgb(0 0 0 / 0.05)",
-      "tremor-card":
-        "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
-      "tremor-dropdown":
-        "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
-      // dark
-      "dark-tremor-input": "0 1px 2px 0 rgb(0 0 0 / 0.05)",
-      "dark-tremor-card":
-        "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
-      "dark-tremor-dropdown":
-        "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
-    },
+
     keyframes: {
       "accordion-down": {
         from: { height: 0 },

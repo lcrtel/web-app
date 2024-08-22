@@ -6,12 +6,12 @@ export async function fetchUserRole() {
   if (user) {
     const { data, error } = await supabase
       .from("user_roles")
-      .select("role")
+      .select("role_slug")
       .single();
     if (error) {
       return { error: "Error fetching user role, " + error.message };
     } else {
-      return { role: data?.role };
+      return { role: data?.role_slug };
     }
   }
 }

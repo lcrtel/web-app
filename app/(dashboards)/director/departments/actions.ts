@@ -30,24 +30,24 @@ export async function createDepartmentManager(
       skype_id: manager.skype_id,
     },
   });
-  let role = "";
+  let role_slug = "";
   if (department === "sales") {
-    role = "sales_manager";
+    role_slug = "sales_manager";
   } else if (department === "purchases") {
-    role = "purchases_manager";
+    role_slug = "purchases_manager";
   } else if (department === "finance") {
-    role = "finance_manager";
+    role_slug = "finance_manager";
   } else if (department === "noc") {
-    role = "noc_manager";
+    role_slug = "noc_manager";
   } else if (department === "tech") {
-    role = "tech_manager";
+    role_slug = "tech_manager";
   }
   if (error) {
     return { error: error.message };
   } else if (user) {
     const { error } = await supabase
       .from("user_roles")
-      .update({ role })
+      .update({ role_slug })
       .eq("user_id", user.id);
     if (error) {
       return { error: error.message };
@@ -81,24 +81,24 @@ export async function createDepartmentExecutive(
       skype_id: executive.skype_id,
     },
   });
-  let role = "";
+  let role_slug = "";
   if (department === "sales") {
-    role = "sales_executive";
+    role_slug = "sales_executive";
   } else if (department === "purchases") {
-    role = "purchases_executive";
+    role_slug = "purchases_executive";
   } else if (department === "finance") {
-    role = "finance_executive";
+    role_slug = "finance_executive";
   } else if (department === "noc") {
-    role = "noc_executive";
+    role_slug = "noc_executive";
   } else if (department === "tech") {
-    role = "tech_executive";
+    role_slug = "tech_executive";
   }
   if (error) {
     return { error: error.message };
   } else if (user) {
     const { error } = await supabase
       .from("user_roles")
-      .update({ role })
+      .update({ role_slug })
       .eq("user_id", user.id);
     if (error) {
       return { error: error.message };

@@ -278,58 +278,37 @@ export type Database = {
       }
       profiles: {
         Row: {
-          agent_id: string | null
-          balance: string | null
           company_name: string | null
-          departments: Json | null
           email: string | null
           finance_department: Json | null
           id: string
           name: string | null
           noc_department: Json | null
-          over_draft: string | null
-          payment_method: Json | null
           phone: string | null
           sales_department: Json | null
           skype_id: string | null
-          vos_client_id: string | null
-          vos_vendor_id: string | null
         }
         Insert: {
-          agent_id?: string | null
-          balance?: string | null
           company_name?: string | null
-          departments?: Json | null
           email?: string | null
           finance_department?: Json | null
           id: string
           name?: string | null
           noc_department?: Json | null
-          over_draft?: string | null
-          payment_method?: Json | null
           phone?: string | null
           sales_department?: Json | null
           skype_id?: string | null
-          vos_client_id?: string | null
-          vos_vendor_id?: string | null
         }
         Update: {
-          agent_id?: string | null
-          balance?: string | null
           company_name?: string | null
-          departments?: Json | null
           email?: string | null
           finance_department?: Json | null
           id?: string
           name?: string | null
           noc_department?: Json | null
-          over_draft?: string | null
-          payment_method?: Json | null
           phone?: string | null
           sales_department?: Json | null
           skype_id?: string | null
-          vos_client_id?: string | null
-          vos_vendor_id?: string | null
         }
         Relationships: [
           {
@@ -720,21 +699,21 @@ export type Database = {
       }
       user_roles: {
         Row: {
-          role: string | null
+          role_slug: string
           user_id: string
         }
         Insert: {
-          role?: string | null
+          role_slug?: string
           user_id: string
         }
         Update: {
-          role?: string | null
+          role_slug?: string
           user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "public_user_roles_role_fkey"
-            columns: ["role"]
+            foreignKeyName: "public_user_roles_role_slug_fkey"
+            columns: ["role_slug"]
             isOneToOne: false
             referencedRelation: "roles"
             referencedColumns: ["slug"]
@@ -743,38 +722,6 @@ export type Database = {
             foreignKeyName: "public_user_roles_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: true
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      wallet: {
-        Row: {
-          ballence: number | null
-          created_at: string
-          updated_at: string | null
-          user_id: string | null
-          wallet_id: number
-        }
-        Insert: {
-          ballence?: number | null
-          created_at?: string
-          updated_at?: string | null
-          user_id?: string | null
-          wallet_id?: number
-        }
-        Update: {
-          ballence?: number | null
-          created_at?: string
-          updated_at?: string | null
-          user_id?: string | null
-          wallet_id?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "wallet_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -901,6 +848,7 @@ export type Database = {
           owner_id: string | null
           path_tokens: string[] | null
           updated_at: string | null
+          user_metadata: Json | null
           version: string | null
         }
         Insert: {
@@ -914,6 +862,7 @@ export type Database = {
           owner_id?: string | null
           path_tokens?: string[] | null
           updated_at?: string | null
+          user_metadata?: Json | null
           version?: string | null
         }
         Update: {
@@ -927,6 +876,7 @@ export type Database = {
           owner_id?: string | null
           path_tokens?: string[] | null
           updated_at?: string | null
+          user_metadata?: Json | null
           version?: string | null
         }
         Relationships: [
@@ -948,6 +898,7 @@ export type Database = {
           key: string
           owner_id: string | null
           upload_signature: string
+          user_metadata: Json | null
           version: string
         }
         Insert: {
@@ -958,6 +909,7 @@ export type Database = {
           key: string
           owner_id?: string | null
           upload_signature: string
+          user_metadata?: Json | null
           version: string
         }
         Update: {
@@ -968,6 +920,7 @@ export type Database = {
           key?: string
           owner_id?: string | null
           upload_signature?: string
+          user_metadata?: Json | null
           version?: string
         }
         Relationships: [

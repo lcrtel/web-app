@@ -100,8 +100,11 @@ export async function createDepartmentExecutive(
       .from("user_roles")
       .update({ role_slug })
       .eq("user_id", user.id);
-    if (error) {
-      return { error: error.message };
+    const { error: error2 } = await supabase
+      .from("executives")
+      .insert({ user_id: user.id });
+    if (error && error2) {
+      return { error: error.message || error2.message };
     } else {
       //   transporter.sendMail({
       //     from: process.env.SMTP_USER,

@@ -55,6 +55,32 @@ export type Database = {
         }
         Relationships: []
       }
+      executives: {
+        Row: {
+          created_at: string
+          id: number
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "executives_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       gateways: {
         Row: {
           client_id: string
@@ -156,6 +182,32 @@ export type Database = {
           {
             foreignKeyName: "invoices_invoice_to_fkey"
             columns: ["invoice_to"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      managers: {
+        Row: {
+          created_at: string
+          id: number
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "managers_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]

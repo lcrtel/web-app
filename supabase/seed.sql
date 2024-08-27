@@ -4586,6 +4586,13 @@ INSERT INTO "auth"."audit_log_entries" ("instance_id", "id", "payload", "created
 	('00000000-0000-0000-0000-000000000000', 'ea09d132-3491-4563-a011-9eedd2b8de1e', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-14 11:14:44.546822+00', ''),
 	('00000000-0000-0000-0000-000000000000', 'afef8cf9-dfc4-4337-a2e5-c3595c050118', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-14 11:14:45.064737+00', ''),
 	('00000000-0000-0000-0000-000000000000', 'ecdbb549-09af-4213-9594-2de69663d454', '{"action":"logout","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-14 11:14:48.559453+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'e2b60adf-ab04-444f-8689-ce8ee7635f98', '{"action":"user_signedup","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"team"}', '2024-08-17 07:14:32.831453+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'eaa66fab-815d-42cc-b78f-9945d37de98d', '{"action":"logout","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-17 07:14:43.584522+00', ''),
+	('00000000-0000-0000-0000-000000000000', '3c252561-e63d-4076-843d-b5530f867077', '{"action":"login","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-08-17 07:14:51.473446+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'ffc6d195-baab-4dad-a867-563db30b859d', '{"action":"logout","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-17 07:14:57.37693+00', ''),
+	('00000000-0000-0000-0000-000000000000', '532da47f-df9c-4ebe-b537-c9488930a772', '{"action":"user_recovery_requested","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user"}', '2024-08-17 07:15:07.032868+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'd714c7db-99c9-4f39-a3cd-d85c85f17061', '{"action":"login","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-17 07:15:24.637309+00', ''),
+	('00000000-0000-0000-0000-000000000000', '69953d84-9bef-4e44-8231-6160027449d3', '{"action":"login","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider_type":"recovery"}}', '2024-08-17 07:15:26.188767+00', ''),
 	('00000000-0000-0000-0000-000000000000', '3050a9f5-1f24-49d8-aa11-7608d2cb52a6', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-01-28 17:03:57.343138+00', ''),
 	('00000000-0000-0000-0000-000000000000', 'dbaf4e67-1b39-45c7-8924-c669bee8d2c9', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-01-28 17:03:57.429487+00', ''),
 	('00000000-0000-0000-0000-000000000000', '6cb1c5cc-afa3-43e1-ac31-0d1df62952a7', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-01-28 17:03:57.528588+00', ''),
@@ -4628,6 +4635,19 @@ INSERT INTO "auth"."audit_log_entries" ("instance_id", "id", "payload", "created
 	('00000000-0000-0000-0000-000000000000', '63118599-69bd-4144-9314-677d685fc60a', '{"action":"token_refreshed","actor_id":"6419bd2b-5ff3-4b4d-a678-eb8393280b86","actor_username":"anmarofficial@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-07-05 09:57:32.624206+00', ''),
 	('00000000-0000-0000-0000-000000000000', 'a15489a2-733c-4516-81e0-48514c77c596', '{"action":"login","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-08-15 15:31:29.111131+00', ''),
 	('00000000-0000-0000-0000-000000000000', '71a76b62-0948-43c1-9ffa-1405d008a21b', '{"action":"logout","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-15 15:31:34.953095+00', ''),
+	('00000000-0000-0000-0000-000000000000', '9653f38b-fbf2-4870-91bd-e5432a100a1e', '{"action":"user_updated_password","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user"}', '2024-08-17 07:16:00.670795+00', ''),
+	('00000000-0000-0000-0000-000000000000', '8d69f0dd-9960-428d-9f63-e78c5c102ea8', '{"action":"user_modified","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user"}', '2024-08-17 07:16:00.676049+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'd6921e2f-4261-46e7-ab8c-ffe091b454dc', '{"action":"logout","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-17 07:16:08.394591+00', ''),
+	('00000000-0000-0000-0000-000000000000', '2b10fc62-40d6-4997-8556-edc6018d8b02', '{"action":"login","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-08-17 07:16:21.518972+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'b0990e3f-e74b-4361-922f-527fe6918534', '{"action":"logout","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-17 07:16:26.519396+00', ''),
+	('00000000-0000-0000-0000-000000000000', '140bb63d-2da0-4034-a445-b7dcf51604df', '{"action":"user_recovery_requested","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user"}', '2024-08-17 07:16:37.557643+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'fc84fe93-98fd-42c9-9b09-61d3615c2d3f', '{"action":"login","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-17 07:16:51.612609+00', ''),
+	('00000000-0000-0000-0000-000000000000', '75f952cd-db02-4e88-97db-a40d3c1b51de', '{"action":"logout","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-17 07:16:56.105549+00', ''),
+	('00000000-0000-0000-0000-000000000000', '0a25b67e-69ee-4d92-9bb5-15cdee480c2c', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-18 06:25:31.956102+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'e31a0a22-a474-4cd4-b02e-7ddf10484aa8', '{"action":"token_revoked","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-18 06:25:31.966159+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'f1d2bb11-38b8-4f17-9f2a-07bf0b3464c0', '{"action":"logout","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-18 06:27:22.913737+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'd52bc3da-178a-49dd-a513-7bffc78629f5', '{"action":"user_recovery_requested","actor_id":"8e518fc5-f963-400e-b4cc-e8af108077bf","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user"}', '2024-08-18 06:27:34.965357+00', ''),
+	('00000000-0000-0000-0000-000000000000', '3515eda5-8aef-466d-9cc5-b741986986a8', '{"action":"user_recovery_requested","actor_id":"8e518fc5-f963-400e-b4cc-e8af108077bf","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user"}', '2024-08-18 06:28:02.29773+00', ''),
 	('00000000-0000-0000-0000-000000000000', 'ec0bddeb-3c90-4fad-bdc2-7d6c42661b3b', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-01-29 02:41:05.430986+00', ''),
 	('00000000-0000-0000-0000-000000000000', '4a76f133-fe6d-4289-9f2d-7e8b98662b2f', '{"action":"token_revoked","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-01-29 02:41:05.43315+00', ''),
 	('00000000-0000-0000-0000-000000000000', 'd1cdb376-a7e2-4735-af92-4337b422fd9e', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-01-29 02:41:05.817632+00', ''),
@@ -5203,6 +5223,13 @@ INSERT INTO "auth"."audit_log_entries" ("instance_id", "id", "payload", "created
 	('00000000-0000-0000-0000-000000000000', '45a062bc-7ce6-4fc6-90f5-503785e7faaa', '{"action":"token_refreshed","actor_id":"6419bd2b-5ff3-4b4d-a678-eb8393280b86","actor_username":"anmarofficial@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-07-18 05:28:03.125728+00', ''),
 	('00000000-0000-0000-0000-000000000000', '9be8b91a-bae7-48e0-85b6-d173e0236be1', '{"action":"token_refreshed","actor_id":"6419bd2b-5ff3-4b4d-a678-eb8393280b86","actor_username":"anmarofficial@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-07-18 05:28:03.277102+00', ''),
 	('00000000-0000-0000-0000-000000000000', 'ca9e45f9-bbf9-4958-b40b-c3b019059174', '{"action":"login","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-08-16 04:03:04.114498+00', ''),
+	('00000000-0000-0000-0000-000000000000', '91264258-1eea-4651-b92f-705ee1641121', '{"action":"user_recovery_requested","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user"}', '2024-08-17 08:48:11.294888+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'a9d9071d-249f-4bbe-8976-47a38e3b27fe', '{"action":"user_recovery_requested","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user"}', '2024-08-17 08:48:16.512912+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'd7604c8b-64e7-46ea-b4cc-96307eb433f1', '{"action":"login","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-17 08:48:29.497625+00', ''),
+	('00000000-0000-0000-0000-000000000000', '417b0c83-5cc9-4d84-b310-5230cf9d3406', '{"action":"login","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider_type":"recovery"}}', '2024-08-17 08:48:31.514701+00', ''),
+	('00000000-0000-0000-0000-000000000000', '2eb01d97-cd26-4dd7-80ed-d7de9e3aee79', '{"action":"user_confirmation_requested","actor_id":"8e518fc5-f963-400e-b4cc-e8af108077bf","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user","traits":{"provider":"email"}}', '2024-08-17 14:29:19.655863+00', ''),
+	('00000000-0000-0000-0000-000000000000', '9ec92bd5-cf39-4368-a8fc-0923a9f7e040', '{"action":"user_confirmation_requested","actor_id":"8e518fc5-f963-400e-b4cc-e8af108077bf","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user","traits":{"provider":"email"}}', '2024-08-17 14:29:24.49461+00', ''),
+	('00000000-0000-0000-0000-000000000000', '9ff178e0-6afd-4f67-befb-6623451d9e7e', '{"action":"login","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-08-27 16:38:36.047892+00', ''),
 	('00000000-0000-0000-0000-000000000000', '207db4e2-184a-4b28-8086-98d46ef1d83c', '{"action":"token_refreshed","actor_id":"b466057a-b048-484d-8479-5f2246e5b84e","actor_username":"rartelecom.com@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-02-05 13:36:50.052913+00', ''),
 	('00000000-0000-0000-0000-000000000000', '1e2415d4-72f6-445c-bf25-2497df7fb36c', '{"action":"token_refreshed","actor_id":"b466057a-b048-484d-8479-5f2246e5b84e","actor_username":"rartelecom.com@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-02-05 13:36:50.070274+00', ''),
 	('00000000-0000-0000-0000-000000000000', '70175e57-5320-4847-ae38-72857614060d', '{"action":"token_refreshed","actor_id":"b466057a-b048-484d-8479-5f2246e5b84e","actor_username":"rartelecom.com@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-02-05 13:36:50.596546+00', ''),
@@ -5350,6 +5377,20 @@ INSERT INTO "auth"."audit_log_entries" ("instance_id", "id", "payload", "created
 	('00000000-0000-0000-0000-000000000000', '1d041891-7099-4891-b290-9f4bd76d91eb', '{"action":"login","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-08-01 04:01:02.429441+00', ''),
 	('00000000-0000-0000-0000-000000000000', '9c179404-b7f3-458d-9350-39cc6d59fbd3', '{"action":"logout","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-16 04:12:49.373928+00', ''),
 	('00000000-0000-0000-0000-000000000000', 'a93c2d80-10b5-4b8d-b9a3-a6c00968813a', '{"action":"user_confirmation_requested","actor_id":"19f71f20-a5e4-401a-956a-4a80688c6dad","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user","traits":{"provider":"email"}}', '2024-08-16 04:13:31.845995+00', ''),
+	('00000000-0000-0000-0000-000000000000', '6b91e56c-98b6-4c9b-ab90-150cea04b2d0', '{"action":"token_refreshed","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-17 09:57:51.417711+00', ''),
+	('00000000-0000-0000-0000-000000000000', '9a895207-b140-4516-8eb8-27ee64f5dc58', '{"action":"token_revoked","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-17 09:57:51.421503+00', ''),
+	('00000000-0000-0000-0000-000000000000', '8b40b5b0-f6d7-4e79-9e4f-de2e54b36481', '{"action":"token_refreshed","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-17 09:57:51.89075+00', ''),
+	('00000000-0000-0000-0000-000000000000', '083ec633-84b5-4125-918b-e7a40a352d5d', '{"action":"token_refreshed","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-17 09:57:52.132204+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'f43685b6-23f2-401d-b695-b52b49ee0777', '{"action":"token_refreshed","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-17 09:57:52.156372+00', ''),
+	('00000000-0000-0000-0000-000000000000', '830ba6ea-a6e3-4995-89ea-cf2d00cb5315', '{"action":"token_refreshed","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-17 09:57:52.259592+00', ''),
+	('00000000-0000-0000-0000-000000000000', '568c78f7-a1f4-4c2f-b35b-7ca5d98841c8', '{"action":"token_refreshed","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-17 09:57:53.127691+00', ''),
+	('00000000-0000-0000-0000-000000000000', '31b9b620-a692-4b0f-a920-a4c724e6ce37', '{"action":"token_refreshed","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-17 09:57:53.166283+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'ac100274-8882-4d60-a726-0fc894116676', '{"action":"token_refreshed","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-17 09:57:53.214337+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'bb9f9803-f100-4c82-af61-fcd0c22fc545', '{"action":"token_refreshed","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-17 09:57:53.233569+00', ''),
+	('00000000-0000-0000-0000-000000000000', '94fb3163-6b96-44f5-9ee9-5e412334fb73', '{"action":"token_refreshed","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-17 09:57:53.594756+00', ''),
+	('00000000-0000-0000-0000-000000000000', '9aae19a7-0692-44ed-94ad-83c679bcde65', '{"action":"logout","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-17 09:57:56.937383+00', ''),
+	('00000000-0000-0000-0000-000000000000', '5df51299-18b4-4835-9b61-440ca51e79e7', '{"action":"user_confirmation_requested","actor_id":"8e518fc5-f963-400e-b4cc-e8af108077bf","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user","traits":{"provider":"email"}}', '2024-08-17 14:31:47.292415+00', ''),
+	('00000000-0000-0000-0000-000000000000', '0b40d6da-ab1f-4a78-b1b5-5e27ee3e54f7', '{"action":"user_signedup","actor_id":"8e518fc5-f963-400e-b4cc-e8af108077bf","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"team"}', '2024-08-17 14:32:07.982317+00', ''),
 	('00000000-0000-0000-0000-000000000000', '542b214e-e3a7-404c-9a01-54ba423078fe', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-02-09 02:16:51.192275+00', ''),
 	('00000000-0000-0000-0000-000000000000', 'e4008557-1e67-4e01-8e28-7ee8720335c0', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-02-09 02:16:51.578051+00', ''),
 	('00000000-0000-0000-0000-000000000000', '32f6631f-2dcd-46dc-8d0d-32a8a96c370e', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-02-09 02:16:51.794405+00', ''),
@@ -5439,6 +5480,14 @@ INSERT INTO "auth"."audit_log_entries" ("instance_id", "id", "payload", "created
 	('00000000-0000-0000-0000-000000000000', '84475a8c-ac2f-46dc-bdda-9260f0c5d102', '{"action":"token_refreshed","actor_id":"6419bd2b-5ff3-4b4d-a678-eb8393280b86","actor_username":"anmarofficial@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-12 05:32:05.846671+00', ''),
 	('00000000-0000-0000-0000-000000000000', '069d2986-5747-4084-a65f-d37a636ae478', '{"action":"user_confirmation_requested","actor_id":"19f71f20-a5e4-401a-956a-4a80688c6dad","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user","traits":{"provider":"email"}}', '2024-08-16 04:16:51.086891+00', ''),
 	('00000000-0000-0000-0000-000000000000', 'b06eece1-6f39-4ec0-b5b9-300650d42f65', '{"action":"user_signedup","actor_id":"19f71f20-a5e4-401a-956a-4a80688c6dad","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"team"}', '2024-08-16 04:17:14.419797+00', ''),
+	('00000000-0000-0000-0000-000000000000', '2aa2f2f9-137d-49c3-a3a0-e090705e29f1', '{"action":"login","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-08-17 14:09:21.229276+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'ad232ddf-efb4-4ded-8706-ff113823c300', '{"action":"logout","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-17 14:09:35.329856+00', ''),
+	('00000000-0000-0000-0000-000000000000', '97d0a530-93b4-44be-a998-2301a5ca2c36', '{"action":"user_recovery_requested","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user"}', '2024-08-17 14:10:07.566127+00', ''),
+	('00000000-0000-0000-0000-000000000000', '9ba28f4e-8407-45b2-8ed0-0ef2284eaafb', '{"action":"login","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-17 14:10:28.809766+00', ''),
+	('00000000-0000-0000-0000-000000000000', '63232028-d7af-44c2-a564-d68980a9fce9', '{"action":"logout","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-17 14:10:44.56931+00', ''),
+	('00000000-0000-0000-0000-000000000000', '399a760d-8a37-4695-9ccb-48fa89ab3795', '{"action":"user_recovery_requested","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user"}', '2024-08-17 14:10:55.007109+00', ''),
+	('00000000-0000-0000-0000-000000000000', '8e948cb6-9f11-402f-bc04-3c9d66ae1fa9', '{"action":"login","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-17 14:11:11.192091+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'a3376d6b-0a3d-4d40-87c5-3f1a82ed4f60', '{"action":"login","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider_type":"recovery"}}', '2024-08-17 14:11:12.694819+00', ''),
 	('00000000-0000-0000-0000-000000000000', '718ec910-4772-4c1a-a041-573222f467a9', '{"action":"token_refreshed","actor_id":"18730a17-293e-45ea-a7e3-08863f9d2623","actor_username":"mai1bustan.aj@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-02-21 07:32:09.855673+00', ''),
 	('00000000-0000-0000-0000-000000000000', '904cdf61-4dbb-4378-a65f-2058d6643884', '{"action":"token_refreshed","actor_id":"18730a17-293e-45ea-a7e3-08863f9d2623","actor_username":"mai1bustan.aj@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-02-21 07:32:09.880845+00', ''),
 	('00000000-0000-0000-0000-000000000000', '37b88bb0-f38a-446a-8337-a8df44b5f699', '{"action":"token_refreshed","actor_id":"18730a17-293e-45ea-a7e3-08863f9d2623","actor_username":"mai1bustan.aj@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-02-21 07:32:10.328453+00', ''),
@@ -5855,6 +5904,13 @@ INSERT INTO "auth"."audit_log_entries" ("instance_id", "id", "payload", "created
 	('00000000-0000-0000-0000-000000000000', 'c80b7c74-4028-4db2-80db-a5b28523bbff', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-12 06:58:55.464956+00', ''),
 	('00000000-0000-0000-0000-000000000000', '9ba2d5ea-f3a8-4ebb-ad32-280e333ffd56', '{"action":"user_recovery_requested","actor_id":"19f71f20-a5e4-401a-956a-4a80688c6dad","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user"}', '2024-08-16 05:11:06.793831+00', ''),
 	('00000000-0000-0000-0000-000000000000', '5edad981-ba9b-49ba-9509-50547fddcfef', '{"action":"login","actor_id":"19f71f20-a5e4-401a-956a-4a80688c6dad","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-16 05:11:33.46893+00', ''),
+	('00000000-0000-0000-0000-000000000000', '83d93815-d3be-442f-a635-aa0e2ac84902', '{"action":"user_updated_password","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user"}', '2024-08-17 14:11:24.72004+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'c0c18d62-5376-430c-9aa1-c83a2bfe0b27', '{"action":"user_modified","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user"}', '2024-08-17 14:11:24.721949+00', ''),
+	('00000000-0000-0000-0000-000000000000', '7636fba6-ab39-4dbd-9066-651c006b0908', '{"action":"logout","actor_id":"8e518fc5-f963-400e-b4cc-e8af108077bf","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-17 14:41:23.632604+00', ''),
+	('00000000-0000-0000-0000-000000000000', '1cb60205-6d6b-4a9b-a158-8ddfda09ef28', '{"action":"user_recovery_requested","actor_id":"8e518fc5-f963-400e-b4cc-e8af108077bf","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user"}', '2024-08-17 14:41:45.580247+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'f1f459dd-bdfc-4b7a-9590-b151b83eabb0', '{"action":"user_recovery_requested","actor_id":"8e518fc5-f963-400e-b4cc-e8af108077bf","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user"}', '2024-08-17 14:41:48.980265+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'e88dd1de-21d8-417c-bc25-85be8732c5e6', '{"action":"login","actor_id":"8e518fc5-f963-400e-b4cc-e8af108077bf","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-17 14:42:12.492018+00', ''),
+	('00000000-0000-0000-0000-000000000000', '0208a6c5-e1da-40df-9256-5ee31aaba8de', '{"action":"logout","actor_id":"8e518fc5-f963-400e-b4cc-e8af108077bf","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-17 14:42:20.053636+00', ''),
 	('00000000-0000-0000-0000-000000000000', 'd9b35f54-3552-4e06-bc9d-ae7ebd3e8110', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-03-08 22:14:49.512355+00', ''),
 	('00000000-0000-0000-0000-000000000000', '9dd17110-ed02-4f24-b411-5a2d1936f3db', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-03-08 22:14:49.534841+00', ''),
 	('00000000-0000-0000-0000-000000000000', 'd989f992-70b6-4c54-83db-b5aa5895c700', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-03-08 22:14:49.561744+00', ''),
@@ -5973,6 +6029,12 @@ INSERT INTO "auth"."audit_log_entries" ("instance_id", "id", "payload", "created
 	('00000000-0000-0000-0000-000000000000', '97419a19-4272-42bc-8d69-2ad47e8eea36', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-12 06:58:55.483981+00', ''),
 	('00000000-0000-0000-0000-000000000000', '590b9330-ac91-4ea3-9fca-3df0618b42f6', '{"action":"logout","actor_id":"19f71f20-a5e4-401a-956a-4a80688c6dad","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-16 05:16:17.266932+00', ''),
 	('00000000-0000-0000-0000-000000000000', '11e9103f-0ba7-4154-8ba2-9edd4af7cfdd', '{"action":"user_recovery_requested","actor_id":"19f71f20-a5e4-401a-956a-4a80688c6dad","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user"}', '2024-08-16 05:16:36.108033+00', ''),
+	('00000000-0000-0000-0000-000000000000', '5be2fe2e-1939-41da-ba15-36b72ddd64e3', '{"action":"logout","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-17 14:13:19.782367+00', ''),
+	('00000000-0000-0000-0000-000000000000', '3529b042-a313-42c9-8c1f-d2e58c1d32e4', '{"action":"login","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-08-17 14:13:26.234039+00', ''),
+	('00000000-0000-0000-0000-000000000000', '70edbba6-330e-4ed2-86a6-82c1444abe93', '{"action":"user_modified","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user"}', '2024-08-17 14:14:32.673559+00', ''),
+	('00000000-0000-0000-0000-000000000000', '4e76975b-1aac-463f-85fe-a4668a6c47d3', '{"action":"user_modified","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user"}', '2024-08-17 14:14:37.595994+00', ''),
+	('00000000-0000-0000-0000-000000000000', '9b2a6e6e-a688-4a9a-a197-5ac4bd31bf33', '{"action":"user_recovery_requested","actor_id":"8e518fc5-f963-400e-b4cc-e8af108077bf","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user"}', '2024-08-17 15:33:52.184106+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'a3a21a90-bd30-47f5-b9f5-c8f2fb49004d', '{"action":"login","actor_id":"8e518fc5-f963-400e-b4cc-e8af108077bf","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-17 15:34:16.147462+00', ''),
 	('00000000-0000-0000-0000-000000000000', '1242848a-24df-4d89-9432-8ac1b437e050', '{"action":"user_recovery_requested","actor_id":"0c147006-6370-4cb6-b3c8-2edfb59ab302","actor_username":"ameenahsanav76@gmail.com","actor_via_sso":false,"log_type":"user"}', '2024-04-15 23:00:45.307043+00', ''),
 	('00000000-0000-0000-0000-000000000000', '0e0dbe9f-456a-4459-afce-7f52f35c8b2a', '{"action":"logout","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-04-16 00:30:21.02483+00', ''),
 	('00000000-0000-0000-0000-000000000000', 'af108278-3590-41b7-8080-949cd30c372d', '{"action":"login","actor_id":"0c147006-6370-4cb6-b3c8-2edfb59ab302","actor_username":"ameenahsanav76@gmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-04-16 00:30:59.814825+00', ''),
@@ -6299,6 +6361,9 @@ INSERT INTO "auth"."audit_log_entries" ("instance_id", "id", "payload", "created
 	('00000000-0000-0000-0000-000000000000', '85a8eb95-2484-4261-988d-e0311eb3d2bc', '{"action":"login","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-07-04 05:32:23.466355+00', ''),
 	('00000000-0000-0000-0000-000000000000', '3d47a189-e7db-4cd2-b82f-662d8ff69070', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-14 11:14:42.148408+00', ''),
 	('00000000-0000-0000-0000-000000000000', 'ded0a5b4-9210-4919-905c-35bf5c7b131f', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-14 11:14:42.197984+00', ''),
+	('00000000-0000-0000-0000-000000000000', '4fdb443a-7794-4330-8a22-180d3eea3d95', '{"action":"login","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-08-17 07:08:39.550707+00', ''),
+	('00000000-0000-0000-0000-000000000000', '5cc97ce1-a159-4162-a2dc-d583a3345d10', '{"action":"user_modified","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user"}', '2024-08-17 14:22:10.023188+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'fe5009ac-0aad-42e4-bb0c-a6e983438f5d', '{"action":"user_modified","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user"}', '2024-08-17 14:22:27.479688+00', ''),
 	('00000000-0000-0000-0000-000000000000', '2b46bddf-cc6b-4555-9d09-123138e2ab27', '{"action":"token_refreshed","actor_id":"c05c014e-121a-42db-b532-85ea3219b472","actor_username":"jklmn5065@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-05-07 00:47:23.916402+00', ''),
 	('00000000-0000-0000-0000-000000000000', '66ef076d-d49e-405e-aaa9-260f9c7ba4e1', '{"action":"token_refreshed","actor_id":"c05c014e-121a-42db-b532-85ea3219b472","actor_username":"jklmn5065@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-05-07 00:47:24.09064+00', ''),
 	('00000000-0000-0000-0000-000000000000', '637ce189-2cbe-4d12-b797-28065ae0b3b1', '{"action":"token_refreshed","actor_id":"c05c014e-121a-42db-b532-85ea3219b472","actor_username":"jklmn5065@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-05-07 00:47:24.263558+00', ''),
@@ -6629,6 +6694,11 @@ INSERT INTO "auth"."audit_log_entries" ("instance_id", "id", "payload", "created
 	('00000000-0000-0000-0000-000000000000', '8d047cd5-58e4-403b-8033-b5de9edb7117', '{"action":"logout","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-07-04 05:34:01.210666+00', ''),
 	('00000000-0000-0000-0000-000000000000', 'a6eb1cd1-b1a8-4d60-98e1-04c73b1cd13e', '{"action":"login","actor_id":"6419bd2b-5ff3-4b4d-a678-eb8393280b86","actor_username":"anmarofficial@gmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-07-04 05:34:20.102288+00', ''),
 	('00000000-0000-0000-0000-000000000000', 'e40253d0-7891-4809-ab6b-b6114520e391', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-14 11:14:42.237155+00', ''),
+	('00000000-0000-0000-0000-000000000000', '1aac764b-2b4b-4ad4-999d-a794018476b6', '{"action":"logout","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-17 07:08:46.249674+00', ''),
+	('00000000-0000-0000-0000-000000000000', '520991ff-c7ea-453d-84aa-662ee8f85fc2', '{"action":"user_repeated_signup","actor_id":"19f71f20-a5e4-401a-956a-4a80688c6dad","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user","traits":{"provider":"email"}}', '2024-08-17 07:09:27.480401+00', ''),
+	('00000000-0000-0000-0000-000000000000', '0c87843d-c8bd-471a-8caa-488eaefe4ae7', '{"action":"user_modified","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user"}', '2024-08-17 14:23:42.700411+00', ''),
+	('00000000-0000-0000-0000-000000000000', '8810c445-8f86-403d-b5be-bc05e7e3fb2c', '{"action":"logout","actor_id":"8e518fc5-f963-400e-b4cc-e8af108077bf","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-17 15:54:21.744485+00', ''),
+	('00000000-0000-0000-0000-000000000000', '7595492a-f602-43ad-950f-45c09458b353', '{"action":"login","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2024-08-17 15:55:09.560931+00', ''),
 	('00000000-0000-0000-0000-000000000000', 'bf02e632-6002-401b-bb20-669e228350e1', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-06-02 10:27:35.38732+00', ''),
 	('00000000-0000-0000-0000-000000000000', '8aa2434b-27ea-4a26-8c3e-5361184212cd', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-06-02 10:27:35.395834+00', ''),
 	('00000000-0000-0000-0000-000000000000', 'be7f2754-c33b-4773-b1f7-98022acbb10e', '{"action":"token_refreshed","actor_id":"6419bd2b-5ff3-4b4d-a678-eb8393280b86","actor_username":"anmarofficial@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-06-02 16:43:51.545974+00', ''),
@@ -6721,7 +6791,12 @@ INSERT INTO "auth"."audit_log_entries" ("instance_id", "id", "payload", "created
 	('00000000-0000-0000-0000-000000000000', '4b4366e4-73bb-476d-8a35-67e3ef833ea0', '{"action":"token_refreshed","actor_id":"6419bd2b-5ff3-4b4d-a678-eb8393280b86","actor_username":"anmarofficial@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-07-04 09:31:13.497073+00', ''),
 	('00000000-0000-0000-0000-000000000000', '8e26cc00-b342-4c4f-bb84-d3566e381758', '{"action":"token_refreshed","actor_id":"6419bd2b-5ff3-4b4d-a678-eb8393280b86","actor_username":"anmarofficial@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-07-04 09:31:14.020496+00', ''),
 	('00000000-0000-0000-0000-000000000000', '5daf90b7-364c-4846-9680-16188a2cd57f', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-14 11:14:42.255598+00', ''),
-	('00000000-0000-0000-0000-000000000000', '89745678-27e7-416f-b915-49d041d03859', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-14 11:14:42.289733+00', '');
+	('00000000-0000-0000-0000-000000000000', '89745678-27e7-416f-b915-49d041d03859', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-14 11:14:42.289733+00', ''),
+	('00000000-0000-0000-0000-000000000000', '2b1ad8e3-935b-40dc-944a-efcd35d1bc34', '{"action":"user_deleted","actor_id":"00000000-0000-0000-0000-000000000000","actor_username":"service_role","actor_via_sso":false,"log_type":"team","traits":{"user_email":"pkmymoonpk@gmail.com","user_id":"19f71f20-a5e4-401a-956a-4a80688c6dad","user_phone":""}}', '2024-08-17 07:12:08.749283+00', ''),
+	('00000000-0000-0000-0000-000000000000', '551f6314-1d64-4bec-b1bf-8292c4151294', '{"action":"user_confirmation_requested","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoonpk@gmail.com","actor_via_sso":false,"log_type":"user","traits":{"provider":"email"}}', '2024-08-17 07:12:38.106273+00', ''),
+	('00000000-0000-0000-0000-000000000000', '29cac691-8151-4b2b-add7-f682e42d7127', '{"action":"logout","actor_id":"8a777b71-e825-4754-9f06-21b2ad83d9af","actor_username":"pkmymoongd@gmail.com","actor_via_sso":false,"log_type":"account"}', '2024-08-17 14:27:37.516024+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'c34a6b01-c40d-40c7-803e-6bc610cfce59', '{"action":"token_refreshed","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-18 03:41:11.869542+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'a7ba7bad-c42d-4462-9d9f-6cba900767d4', '{"action":"token_revoked","actor_id":"63f8e39e-edee-4884-b7af-c772cea5fcbf","actor_username":"lcrtelweb@gmail.com","actor_via_sso":false,"log_type":"token"}', '2024-08-18 03:41:11.879578+00', '');
 
 
 --
@@ -6808,6 +6883,7 @@ INSERT INTO "auth"."flow_state" ("id", "user_id", "auth_code", "code_challenge_m
 	('b5e3d36c-6921-4750-8858-973f763d72da', '426ddfa8-5bbf-4249-a7de-0c07ab6c17a0', '38aa691b-cbbd-41c1-9be3-5397866c8016', 's256', 'MbM7F0GfQztI5gPl-LYYD_-LO8QI9YgWPLU88C7Mxfw', 'email', '', '', '2024-01-28 08:17:01.469903+00', '2024-01-28 08:17:01.469903+00', 'email/signup', NULL),
 	('69040907-0300-423d-afb8-5e88998d7dbe', 'd4c6c86d-7ffc-49aa-841f-8202ff9478a1', '1d62808f-b5a9-47cd-a7e4-509acc857fe5', 's256', 'tIlXvvgPsquEsL533GV64hOclX9AP4WxYwBEbPzT8Fg', 'email', '', '', '2024-02-06 06:01:45.517381+00', '2024-02-06 06:01:45.517381+00', 'email/signup', NULL),
 	('997552cf-00ea-47c0-81df-034ff95019e1', '77423768-f3cf-44c9-b83c-f72da1cb9a0b', '0e5a1372-68bf-4cd8-8fb4-7ef5771d9810', 's256', 'xEG0A0hPDggXaJZNQIlhknYNPkg0gAYbIjCotRJsrg4', 'recovery', '', '', '2024-03-08 22:15:08.013127+00', '2024-03-08 22:15:08.013127+00', 'recovery', NULL),
+	('f774ff47-0859-4ef0-b3e1-049bce17e636', '8a777b71-e825-4754-9f06-21b2ad83d9af', '7cf5b0c4-87f9-4f11-a11b-550eba8d508e', 's256', 'A0fRMn4BIQp3M1yQD2QuUr4gv--CDu_dz_dRiMuw8m0', 'email', '', '', '2024-08-17 07:12:38.108686+00', '2024-08-17 07:12:38.108686+00', 'email/signup', NULL),
 	('812ccc0a-4a99-4e91-b682-a33f69e7fbf9', '0c147006-6370-4cb6-b3c8-2edfb59ab302', '1dceee07-2b71-4a11-aa28-650ea50788a5', 's256', 'DTDnteCU8DkIitMGb95KYrELhrlCaPf6_FGBK6tirrY', 'recovery', '', '', '2024-04-15 23:00:45.302401+00', '2024-04-15 23:00:45.302401+00', 'recovery', NULL),
 	('5ee89b86-05c5-4eb4-8fe5-b8758b1a67a5', '0c147006-6370-4cb6-b3c8-2edfb59ab302', '74ce6e55-e919-48f2-a243-9772e1337893', 's256', 'nrQk2WQqERHdIWGIrGmVaIYifqFV_LeWeCfDrF5_V44', 'recovery', '', '', '2024-04-15 23:02:43.898808+00', '2024-04-15 23:41:52.605895+00', 'recovery', '2024-04-15 23:41:52.605851+00'),
 	('f39d521a-7afc-496e-b3ef-c79fb056f601', 'c05c014e-121a-42db-b532-85ea3219b472', '311cfd9d-0092-43b2-a382-a6376f629c42', 's256', 'FXqXpnDZg4ATHXpDPnYpXr55N2VY1OHdpSxH4LJOD5I', 'recovery', '', '', '2024-05-07 00:49:19.390596+00', '2024-05-07 00:49:34.299297+00', 'recovery', '2024-05-07 00:49:34.299262+00'),
@@ -6816,7 +6892,22 @@ INSERT INTO "auth"."flow_state" ("id", "user_id", "auth_code", "code_challenge_m
 	('c4205f96-46fa-4cf1-9270-1bbcf406d518', '19f71f20-a5e4-401a-956a-4a80688c6dad', '33d1d2f8-c08f-4220-9078-8a976a74f0a3', 's256', '38Dir6Mg9JPVON66TWwxlCs2HOr775vUExPjvArM72Y', 'email', '', '', '2024-08-16 04:16:51.09142+00', '2024-08-16 04:16:51.09142+00', 'email/signup', NULL),
 	('3f80bfa2-a5cb-4bc6-9328-3f04050109ca', '19f71f20-a5e4-401a-956a-4a80688c6dad', '936629c2-56c6-4f4a-ade8-8c6d2d6e0e6f', 's256', '4g8JuN0LpxWHTkl-BpnA0kZ_dkm3tsQsUgsotijq21M', 'magiclink', '', '', '2024-08-16 05:10:10.513926+00', '2024-08-16 05:10:10.513926+00', 'magiclink', NULL),
 	('1e4939f6-08c5-4fd6-b3e7-87c9e29b8161', '19f71f20-a5e4-401a-956a-4a80688c6dad', '4aab88a6-42c1-4bf2-a108-54ba9bfd3e1e', 's256', 'XUq18gXiBRkDIYy-_Ajob3IGi5wKSeLnMvFlVgZ4L2A', 'magiclink', '', '', '2024-08-16 05:11:06.788612+00', '2024-08-16 05:11:06.788612+00', 'magiclink', NULL),
-	('80ab3db1-fe25-4364-8076-25844c1f40a7', '19f71f20-a5e4-401a-956a-4a80688c6dad', '0e693b3d-e53e-4a42-a304-c9df24d9557e', 's256', 'KsZqhu3YndOnmvaGjIC-nojgGKNRsa4yx3ZCLnbXgss', 'magiclink', '', '', '2024-08-16 05:16:36.09941+00', '2024-08-16 05:16:36.09941+00', 'magiclink', NULL);
+	('80ab3db1-fe25-4364-8076-25844c1f40a7', '19f71f20-a5e4-401a-956a-4a80688c6dad', '0e693b3d-e53e-4a42-a304-c9df24d9557e', 's256', 'KsZqhu3YndOnmvaGjIC-nojgGKNRsa4yx3ZCLnbXgss', 'magiclink', '', '', '2024-08-16 05:16:36.09941+00', '2024-08-16 05:16:36.09941+00', 'magiclink', NULL),
+	('916f1731-4d7b-455a-9bc8-a2c75cf9f0ee', '8a777b71-e825-4754-9f06-21b2ad83d9af', '31c5cfab-b43a-4b4a-b3e5-3e27345141f5', 's256', '-ZIOL9slbR0UUKA9NgYGWGBb8zkqjIBU5LH-KyNKuZs', 'magiclink', '', '', '2024-08-17 07:16:37.552013+00', '2024-08-17 07:16:37.552013+00', 'magiclink', NULL),
+	('46c34162-ac28-4fcc-89a3-be6de043294a', '8a777b71-e825-4754-9f06-21b2ad83d9af', '8c326718-4c9e-44c9-b261-21abc1cb2984', 's256', '-TqxYH4Cn5uMSGBheLi-Orb3U-SY1GWpHsvGs0URMZs', 'recovery', '', '', '2024-08-17 08:48:11.288383+00', '2024-08-17 08:48:11.288383+00', 'recovery', NULL),
+	('3fcd71b5-6b37-4512-b945-356701a6a1bb', '8a777b71-e825-4754-9f06-21b2ad83d9af', 'e64558c7-61a3-46a4-995f-0f76ca134b89', 's256', 'DSFvaByLyuKQlLigTLkO2LdD7FMPQu-HwpUrWV-wc6c', 'magiclink', '', '', '2024-08-17 14:10:07.561855+00', '2024-08-17 14:10:07.561855+00', 'magiclink', NULL),
+	('d46ac241-a378-4130-abdc-03306d58e154', '8a777b71-e825-4754-9f06-21b2ad83d9af', '4959d4d8-cc0d-4734-9c9e-a4b0e6ae6396', 's256', '3Ml91See8IC_k_P6LAkoDwUrX8ujUk0-qXAfBf7f4uU', 'email_change', '', '', '2024-08-17 14:14:28.894094+00', '2024-08-17 14:14:28.894094+00', 'email_change', NULL),
+	('2f25bf99-3972-4e1f-a8cf-e2331d3d14ea', '8a777b71-e825-4754-9f06-21b2ad83d9af', '37643ca8-7e29-4169-ae9c-e8c379e6c3c2', 's256', 'yFnlBSfATQAhbUtKE6IjrH8BPJGzNAWYHmpA5Cbhar4', 'email_change', '', '', '2024-08-17 14:14:33.274661+00', '2024-08-17 14:14:33.274661+00', 'email_change', NULL),
+	('45e66c69-766d-4eea-9511-673d29f3d4ed', '8a777b71-e825-4754-9f06-21b2ad83d9af', '0af8d602-818d-40dc-b8ad-45199976c376', 's256', 'CHII_pJPS708lHURHB88nHZaZpUeRwaZjMKziNcGYfg', 'email_change', '', '', '2024-08-17 14:22:06.756946+00', '2024-08-17 14:22:06.756946+00', 'email_change', NULL),
+	('3eb6f02b-810a-46c9-861f-30f03746b41f', '8a777b71-e825-4754-9f06-21b2ad83d9af', '76ac1dd4-0871-4a53-be95-0d7f879b1087', 's256', 'fab5-rXj5AekAc2VocsaeeaV5Fdj5KgrAdJyXNqMOQk', 'email_change', '', '', '2024-08-17 14:22:23.656068+00', '2024-08-17 14:22:23.656068+00', 'email_change', NULL),
+	('d2e0b5d9-e315-4b54-a63a-770697408fb9', '8e518fc5-f963-400e-b4cc-e8af108077bf', '00529c5f-745c-402c-a218-8906a519e212', 's256', 'VWYgzeUAtdtbZ_ou-nJfdMNSfOUhiy8hicQ690mhqus', 'email', '', '', '2024-08-17 14:29:19.65776+00', '2024-08-17 14:29:19.65776+00', 'email/signup', NULL),
+	('b0cfdff2-c6fb-42a3-9608-8ecb0da3711c', '8e518fc5-f963-400e-b4cc-e8af108077bf', 'fa94923a-031d-495b-a9a1-65d3b46530cf', 's256', '3qJO6UVw7i7EwC87VKZ9eh48d6EgJoJczwvqBhv-rs8', 'email', '', '', '2024-08-17 14:29:24.495334+00', '2024-08-17 14:29:24.495334+00', 'email/signup', NULL),
+	('e426cdb9-1db9-485e-a6e3-4bef8758223f', '8e518fc5-f963-400e-b4cc-e8af108077bf', '4d7e0d67-8e40-4e75-86d5-dd46964bef89', 's256', 'npsgY_T6jV6g-HqLJPw8AYCwQbfFJWgdscmjUTndvHI', 'email', '', '', '2024-08-17 14:31:47.295025+00', '2024-08-17 14:31:47.295025+00', 'email/signup', NULL),
+	('04f2289a-ee06-4b9d-8f21-ff6f4f27f6e0', '8e518fc5-f963-400e-b4cc-e8af108077bf', 'f4788de4-1fe0-4b8c-98cd-fa506c5910d1', 's256', 'YTvF3kYJ1HmT4sFWRZGcMNrC77rHWk0rZQyyMZZYGS8', 'magiclink', '', '', '2024-08-17 14:41:45.573348+00', '2024-08-17 14:41:45.573348+00', 'magiclink', NULL),
+	('aad3f4ad-aaf6-4cd4-b69e-191c87022661', '8e518fc5-f963-400e-b4cc-e8af108077bf', '34309b21-d5ef-4c35-a5cc-dd049548befb', 's256', 'JgL07OB-48FceP9IFuOGey9YDrR0iWCfVOFP0Wvq5WE', 'magiclink', '', '', '2024-08-17 14:41:48.978807+00', '2024-08-17 14:41:48.978807+00', 'magiclink', NULL),
+	('753462c4-0df9-4c13-8f9a-4c8e213757a9', '8e518fc5-f963-400e-b4cc-e8af108077bf', '943c2351-badf-480c-a85a-7833a1146c88', 's256', 'j__q0d6tHFBdvehofKXMkdfHXrFGdtjSfQsNa7O7-uA', 'magiclink', '', '', '2024-08-17 15:33:52.178487+00', '2024-08-17 15:33:52.178487+00', 'magiclink', NULL),
+	('21c759d3-2e2b-44e2-adb5-50e907ed1b7b', '8e518fc5-f963-400e-b4cc-e8af108077bf', '93076298-b289-4519-b10f-206463cf8f12', 's256', 'l1_KhiD2TFIAHs_8N_-7QH9kAoOt0eRPZ--qhRSrBiw', 'magiclink', '', '', '2024-08-18 06:27:34.951779+00', '2024-08-18 06:27:34.951779+00', 'magiclink', NULL),
+	('c124f21e-39ff-4a6c-8340-9a146ab5e153', '8e518fc5-f963-400e-b4cc-e8af108077bf', 'd5ad12ee-000e-4ad3-8d80-92312e43f16c', 's256', 'oP8G25SNywAwltBRMpMmzvId4Ziv3U10x8bx7uhmEi8', 'magiclink', '', '', '2024-08-18 06:28:02.295934+00', '2024-08-18 06:28:02.295934+00', 'magiclink', NULL);
 
 
 --
@@ -6826,6 +6917,7 @@ INSERT INTO "auth"."flow_state" ("id", "user_id", "auth_code", "code_challenge_m
 INSERT INTO "auth"."users" ("instance_id", "id", "aud", "role", "email", "encrypted_password", "email_confirmed_at", "invited_at", "confirmation_token", "confirmation_sent_at", "recovery_token", "recovery_sent_at", "email_change_token_new", "email_change", "email_change_sent_at", "last_sign_in_at", "raw_app_meta_data", "raw_user_meta_data", "is_super_admin", "created_at", "updated_at", "phone", "phone_confirmed_at", "phone_change", "phone_change_token", "phone_change_sent_at", "email_change_token_current", "email_change_confirm_status", "banned_until", "reauthentication_token", "reauthentication_sent_at", "is_sso_user", "deleted_at", "is_anonymous") VALUES
 	('00000000-0000-0000-0000-000000000000', 'e12a0b91-9c05-4747-af29-f247125edc07', 'authenticated', 'authenticated', 'wavenettel@gmail.com', '$2a$10$TkFKjR0P9jXw5bcRnqW7lu.hCbJLCfg1TlYf.2xSjxtna0GqOaOtS', '2024-02-04 11:15:33.042285+00', NULL, '', NULL, '', NULL, '', '', NULL, NULL, '{"provider": "email", "providers": ["email"]}', '{"name": "WAVENET", "role": "vendor", "email": "wavenettel@gmail.com", "phone": "+12027736948", "company_name": "WAVENET TEL"}', NULL, '2024-02-04 11:15:33.035987+00', '2024-02-04 11:15:33.042525+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
 	('00000000-0000-0000-0000-000000000000', 'f44035f8-16dc-4ce0-9c41-7dbba15402a1', 'authenticated', 'authenticated', 'sales@nexttechltd.net', '$2a$10$lXOjc1MMQLGjJezeuo1CQe.EhPEpAyuoKG7I.bmzwx371GhSRWogW', '2024-02-04 10:20:42.152778+00', NULL, '', NULL, '', NULL, '', '', NULL, NULL, '{"provider": "email", "providers": ["email"]}', '{"name": "NEXT TECH", "role": "vendor", "email": "sales@nexttechltd.net", "phone": "+15103702526", "company_name": "NEXT TECH"}', NULL, '2024-02-04 10:20:42.14784+00', '2024-02-04 10:20:42.152982+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
+	('00000000-0000-0000-0000-000000000000', '63f8e39e-edee-4884-b7af-c772cea5fcbf', 'authenticated', 'authenticated', 'lcrtelweb@gmail.com', '$2a$10$NIF1mnCr5Z0zywFwiQLziOYo2PAJIW5ib.uIQ454gNXXVIv5URMv2', '2023-11-06 09:12:56.600872+00', NULL, '', '2023-11-06 09:11:55.615147+00', '', '2023-11-06 10:11:06.315338+00', '', '', NULL, '2024-08-27 16:38:36.072671+00', '{"provider": "email", "providers": ["email"]}', '{"name": "LCRTel", "role": "admin", "email": "lcrtelweb@gmail.com", "phone": "9539941964", "agent_id": "", "skype_id": "", "company_name": "LCRTel", "noc_department": {"name": "Mymoon", "email": "nihalshafi09@gmail.com"}, "noc_dipartment": {"name": "NICETALK NOC", "email": "noc@nicetalk.com"}, "sales_dipartment": {"name": "NICETALK Sales", "email": "sales@nicetalk.com"}, "finance_department": {"name": "aman", "email": "finance@aa.com", "phone": "9539941964", "skype_id": "asdfadsfds"}}', NULL, '2023-11-06 09:11:55.610867+00', '2024-08-27 16:38:36.111431+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
 	('00000000-0000-0000-0000-000000000000', '6adf7496-fdd2-451f-bc9b-ff387ae1ce6c', 'authenticated', 'authenticated', 'sales@enigmaimcorp.in', '$2a$10$9L9GEijgWqQbHZEVkTKk/OSJFFJY/4cVOMdNParM5y5rymuwN4vqq', '2024-02-04 10:23:33.883371+00', NULL, '', NULL, '', NULL, '', '', NULL, NULL, '{"provider": "email", "providers": ["email"]}', '{"name": "ENIGMA", "role": "vendor", "email": "sales@enigmaimcorp.in", "phone": "+17862336377", "company_name": "ENIGMA"}', NULL, '2024-02-04 10:23:33.880599+00', '2024-02-04 10:23:33.88356+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
 	('00000000-0000-0000-0000-000000000000', 'bde6f9dc-e9be-4f17-a0fd-5f667ca8e527', 'authenticated', 'authenticated', 'elvish@clickonetelecom.com', '$2a$10$IQlA4bwIMs2hJ.d9ETEyt.lvCUsZGBLFfnJagmRhVr7Flucsw9Ua2', '2024-02-04 14:45:17.478668+00', NULL, '', NULL, '', NULL, '', '', NULL, NULL, '{"provider": "email", "providers": ["email"]}', '{"name": "ELVISH", "role": "client", "email": "elvish@clickonetelecom.com", "phone": "+447441440447", "company_name": "CLICK ONE TELECOM"}', NULL, '2024-02-04 14:45:17.472657+00', '2024-02-04 14:45:17.478896+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
 	('00000000-0000-0000-0000-000000000000', '07028b03-b0cc-4243-99f0-5d3decb0d971', 'authenticated', 'authenticated', 'noc@fiamanillah.com', '$2a$10$NxVNbyLJBEC85Xo3v4pnm.Z0Dn0gu7yjA0ZIHw1kk1jKWRlF/0iIS', '2024-02-04 10:24:59.226476+00', NULL, '', NULL, '', NULL, '', '', NULL, NULL, '{"provider": "email", "providers": ["email"]}', '{"name": "FIAMANILLAH", "role": "vendor", "email": "noc@fiamanillah.com", "phone": "+447418349162", "company_name": "FIAMANILLAH"}', NULL, '2024-02-04 10:24:59.222294+00', '2024-02-04 10:24:59.226699+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
@@ -6836,7 +6928,6 @@ INSERT INTO "auth"."users" ("instance_id", "id", "aud", "role", "email", "encryp
 	('00000000-0000-0000-0000-000000000000', '60ea457a-1bc4-41c5-955c-a5eadfe47480', 'authenticated', 'authenticated', 'commercials@haimicloud.net', '$2a$10$Nx/7RpdAZxdi12Y5Rix4teNOBQlsRNsfURRixKvDCE90.OZaP8mU2', '2024-02-07 11:20:50.359464+00', NULL, '', NULL, '', NULL, '', '', NULL, '2024-02-11 07:53:46.99514+00', '{"provider": "email", "providers": ["email"]}', '{"name": "Sagar", "role": "vendor", "email": "commercials@haimicloud.net", "phone": "9650127433", "company_name": "Hcc"}', NULL, '2024-02-07 11:20:50.354125+00', '2024-02-11 07:53:46.999403+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
 	('00000000-0000-0000-0000-000000000000', '77423768-f3cf-44c9-b83c-f72da1cb9a0b', 'authenticated', 'authenticated', 'amanhisham345@gmail.com', '$2a$10$cxKecwT4sKeCvGW8JS75eOJjM3N9JdCgXxtjhr4q4zXoCFApggiim', '2024-02-21 05:42:16.569739+00', NULL, '', '2024-02-21 05:41:55.241109+00', 'pkce_7dcd9aa89f2702c03b5f9e08b26887c670df3b0ec7a51df7cb7bffcd', '2024-03-08 22:15:08.015855+00', '', '', NULL, '2024-02-21 05:42:18.775443+00', '{"provider": "email", "providers": ["email"]}', '{"name": "Aman", "role": "client", "email": "amanhisham345@gmail.com", "phone": "9778258846", "agent_id": "", "skype_id": "J", "company_name": "Lcr", "noc_department": {}, "sales_department": {}, "finance_department": {}}', NULL, '2024-02-21 05:41:55.225139+00', '2024-03-08 22:15:11.399512+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
 	('00000000-0000-0000-0000-000000000000', '18730a17-293e-45ea-a7e3-08863f9d2623', 'authenticated', 'authenticated', 'mai1bustan.aj@gmail.com', '$2a$10$mwuFwEFDOnUEVoohni.yweDwN5Cz2XsDwGv.mCBAcZXrGfmKda1PK', '2024-02-21 04:13:08.504324+00', NULL, '', NULL, '', NULL, '', '', NULL, '2024-02-21 04:14:13.528664+00', '{"provider": "email", "providers": ["email"]}', '{"name": "Mohammed N", "role": "agent", "email": "mai1bustan.aj@gmail.com", "phone": "00971567469166"}', NULL, '2024-02-21 04:13:08.491884+00', '2024-02-21 07:32:08.602899+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
-	('00000000-0000-0000-0000-000000000000', '63f8e39e-edee-4884-b7af-c772cea5fcbf', 'authenticated', 'authenticated', 'lcrtelweb@gmail.com', '$2a$10$NIF1mnCr5Z0zywFwiQLziOYo2PAJIW5ib.uIQ454gNXXVIv5URMv2', '2023-11-06 09:12:56.600872+00', NULL, '', '2023-11-06 09:11:55.615147+00', '', '2023-11-06 10:11:06.315338+00', '', '', NULL, '2024-08-16 04:03:04.133367+00', '{"provider": "email", "providers": ["email"]}', '{"name": "LCRTel", "role": "admin", "email": "lcrtelweb@gmail.com", "phone": "9539941964", "agent_id": "", "skype_id": "", "company_name": "LCRTel", "noc_department": {"name": "Mymoon", "email": "nihalshafi09@gmail.com"}, "noc_dipartment": {"name": "NICETALK NOC", "email": "noc@nicetalk.com"}, "sales_dipartment": {"name": "NICETALK Sales", "email": "sales@nicetalk.com"}, "finance_department": {"name": "aman", "email": "finance@aa.com", "phone": "9539941964", "skype_id": "asdfadsfds"}}', NULL, '2023-11-06 09:11:55.610867+00', '2024-08-16 04:03:04.144866+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
 	('00000000-0000-0000-0000-000000000000', 'd4c6c86d-7ffc-49aa-841f-8202ff9478a1', 'authenticated', 'authenticated', 'yousuf@zonextel.com', '$2a$10$MFfmWSi8bezfGvsoQotITuAZkewgKNmuIJ10FlY4ZVRM7wEIrNVzS', '2024-02-06 06:06:11.600412+00', NULL, '', '2024-02-06 06:01:45.518421+00', '', NULL, '', '', NULL, '2024-02-06 06:13:21.575428+00', '{"provider": "email", "providers": ["email"]}', '{"name": "Muhammad Yousuf", "role": "client", "email": "yousuf@zonextel.com", "phone": "+971564849631", "agent_id": "", "skype_id": "muhammadyousuf89", "company_name": "ZonexTel Limited", "noc_department": {}, "sales_department": {}, "finance_department": {}}', NULL, '2024-02-06 06:01:45.511681+00', '2024-02-06 06:13:21.578284+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
 	('00000000-0000-0000-0000-000000000000', 'c63da6ec-e43a-4d76-9c5d-a9c1f75d3387', 'authenticated', 'authenticated', 'gitanjali@magiktelcom.com', '$2a$10$lJDzRqGoWQ9s/bJ8w7F1L.qOqv3VaPXY7h7Qvc1/FC4ihTK896mN6', '2024-02-04 10:50:40.898955+00', NULL, '', NULL, '', NULL, '', '', NULL, NULL, '{"provider": "email", "providers": ["email"]}', '{"name": "MAGIK", "role": "vendor", "email": "gitanjali@magiktelcom.com", "phone": "+919999007034", "company_name": "MAGIC VOICE"}', NULL, '2024-02-04 10:50:40.89367+00', '2024-02-04 10:50:40.899158+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
 	('00000000-0000-0000-0000-000000000000', 'a9521b61-52ff-434e-9912-b1d158010cdb', 'authenticated', 'authenticated', 'annie.sales@alraheemtechnologiesltd.com', '$2a$10$JQg2DYT8gpxWOpzzViY.H.FcMVqezXm2VygVDBy1v0wbknGwcYBbS', '2024-02-04 10:28:35.968603+00', NULL, '', NULL, '', NULL, '', '', NULL, NULL, '{"provider": "email", "providers": ["email"]}', '{"name": "AL RAHEEM", "role": "vendor", "email": "annie.sales@alraheemtechnologiesltd.com", "phone": "+923246601194", "company_name": "AL RAHEEM TECHNOLOGY"}', NULL, '2024-02-04 10:28:35.96534+00', '2024-02-04 10:28:35.968796+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
@@ -6862,7 +6953,8 @@ INSERT INTO "auth"."users" ("instance_id", "id", "aud", "role", "email", "encryp
 	('00000000-0000-0000-0000-000000000000', '6419bd2b-5ff3-4b4d-a678-eb8393280b86', 'authenticated', 'authenticated', 'anmarofficial@gmail.com', '$2a$10$ALtopx1B9YvgkN3FDOd3beof/0j0/nDwa3tZW/A4K1gy/QxQJUMQC', '2024-05-29 05:56:02.445563+00', NULL, '', NULL, '', NULL, '', '', NULL, '2024-07-04 05:34:20.10375+00', '{"provider": "email", "providers": ["email"]}', '{"name": "anmar", "role": "client", "email": "anmarofficial@gmail.com", "phone": "83783", "company_name": "hamdan"}', NULL, '2024-05-29 05:56:02.416921+00', '2024-07-04 09:31:13.453916+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
 	('00000000-0000-0000-0000-000000000000', '3262c9ad-80df-40c2-ac53-0277bb27f9e3', 'authenticated', 'authenticated', 'evainternationalltd21@gmail.com', '$2a$10$KLA6ph6CRROq9aURfE.pi.i1YdQD9jvwEIzeI01ARDMJV2QkyMj3.', '2024-06-03 14:42:34.249065+00', NULL, '', NULL, '', NULL, '', '', NULL, NULL, '{"provider": "email", "providers": ["email"]}', '{"name": "eva", "role": "vendor", "email": "evainternationalltd21@gmail.com", "phone": "+880 1845-753148", "company_name": "eva  international ltd"}', NULL, '2024-06-03 14:42:34.232867+00', '2024-06-03 14:42:34.249271+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
 	('00000000-0000-0000-0000-000000000000', '756fe4cb-12c4-4390-80cc-82b90a2d7f87', 'authenticated', 'authenticated', 'zak@gmail.com', '$2a$10$5sJ8486GVEM00whRcxOz1eSX10RbP/o/z81SEXZ9S6pqWeRfPZ9WW', '2024-06-01 14:44:29.238973+00', NULL, '', NULL, '', NULL, '', '', NULL, NULL, '{"provider": "email", "providers": ["email"]}', '{"name": "ZAKARIA", "role": "vendor", "email": "zak@gmail.com", "phone": "91 84804 82136", "company_name": "ZAKARIA"}', NULL, '2024-06-01 14:44:29.215771+00', '2024-06-01 14:44:29.239188+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
-	('00000000-0000-0000-0000-000000000000', '19f71f20-a5e4-401a-956a-4a80688c6dad', 'authenticated', 'authenticated', 'pkmymoonpk@gmail.com', '$2a$10$lmu2vg31snXEqjeBEsq16.3OCXD9aLyYeX6L3E2pYUWDMINSP4lty', '2024-08-16 04:17:14.421569+00', NULL, '', '2024-08-16 04:16:51.097544+00', 'pkce_62ad34b5bcb591e1f75f4f38c5ff0ab636b1907430eb5c73370db727', '2024-08-16 05:16:36.110082+00', '', '', NULL, '2024-08-16 05:11:33.473168+00', '{"provider": "email", "providers": ["email"]}', '{"sub": "19f71f20-a5e4-401a-956a-4a80688c6dad", "email": "pkmymoonpk@gmail.com", "email_verified": false, "phone_verified": false}', NULL, '2024-08-16 04:13:31.819592+00', '2024-08-16 05:16:39.332233+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false);
+	('00000000-0000-0000-0000-000000000000', '8a777b71-e825-4754-9f06-21b2ad83d9af', 'authenticated', 'authenticated', 'pkmymoongd@gmail.com', '$2a$10$CfmCkOn3qM7M/hVkIlQWGuBk8bZ85p.8XZjakFzYpqE0NSPMu5U.2', '2024-08-17 07:14:32.835474+00', NULL, '', NULL, '', NULL, '', '', '2024-08-17 14:22:23.656695+00', '2024-08-17 14:23:42.709496+00', '{"provider": "email", "providers": ["email"]}', '{"sub": "8a777b71-e825-4754-9f06-21b2ad83d9af", "name": "Mymoon P K Muhammad", "email": "pkmymoonpk@gmail.com", "phone": "9539941964", "skype_id": "mymoonpk", "company_name": "PKM", "email_verified": false, "phone_verified": false}', NULL, '2024-08-17 07:12:38.064415+00', '2024-08-17 14:23:42.713761+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
+	('00000000-0000-0000-0000-000000000000', '8e518fc5-f963-400e-b4cc-e8af108077bf', 'authenticated', 'authenticated', 'pkmymoonpk@gmail.com', '$2a$10$A23L/EJ45Cg7N40L5VY9.uPFIw30zwb2dUcFqS8IR2IjT8cg9Z1sy', '2024-08-17 14:32:07.983644+00', NULL, '', '2024-08-17 14:31:47.300211+00', 'pkce_9458da9fa614713794df18c0714b15f07c6186b2ced3730fb0d86c34', '2024-08-18 06:28:02.298938+00', '', '', NULL, '2024-08-17 15:34:16.151507+00', '{"provider": "email", "providers": ["email"]}', '{"sub": "8e518fc5-f963-400e-b4cc-e8af108077bf", "email": "pkmymoonpk@gmail.com", "email_verified": false, "phone_verified": false}', NULL, '2024-08-17 14:29:19.645681+00', '2024-08-18 06:28:05.990565+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false);
 
 
 --
@@ -6908,7 +7000,8 @@ INSERT INTO "auth"."identities" ("provider_id", "user_id", "identity_data", "pro
 	('6419bd2b-5ff3-4b4d-a678-eb8393280b86', '6419bd2b-5ff3-4b4d-a678-eb8393280b86', '{"sub": "6419bd2b-5ff3-4b4d-a678-eb8393280b86", "email": "anmarofficial@gmail.com", "email_verified": false, "phone_verified": false}', 'email', '2024-05-29 05:56:02.432325+00', '2024-05-29 05:56:02.4324+00', '2024-05-29 05:56:02.4324+00', '4ef0c0f4-4715-4c0e-9d25-a0e76426c5ed'),
 	('bfacd8ad-05d0-479c-a33c-3a1c690a8302', 'bfacd8ad-05d0-479c-a33c-3a1c690a8302', '{"sub": "bfacd8ad-05d0-479c-a33c-3a1c690a8302", "email": "noc@d2call.com", "email_verified": false, "phone_verified": false}', 'email', '2024-06-02 10:02:09.750751+00', '2024-06-02 10:02:09.750832+00', '2024-06-02 10:02:09.750832+00', '6a7d3ea5-26ad-480a-87f6-8952c54cc7b9'),
 	('3262c9ad-80df-40c2-ac53-0277bb27f9e3', '3262c9ad-80df-40c2-ac53-0277bb27f9e3', '{"sub": "3262c9ad-80df-40c2-ac53-0277bb27f9e3", "email": "evainternationalltd21@gmail.com", "email_verified": false, "phone_verified": false}', 'email', '2024-06-03 14:42:34.240453+00', '2024-06-03 14:42:34.240509+00', '2024-06-03 14:42:34.240509+00', '35bb53de-8e57-44d4-a304-6672956cd8d9'),
-	('19f71f20-a5e4-401a-956a-4a80688c6dad', '19f71f20-a5e4-401a-956a-4a80688c6dad', '{"sub": "19f71f20-a5e4-401a-956a-4a80688c6dad", "email": "pkmymoonpk@gmail.com", "email_verified": false, "phone_verified": false}', 'email', '2024-08-16 04:13:31.839224+00', '2024-08-16 04:13:31.839282+00', '2024-08-16 04:13:31.839282+00', '6d7dfa71-6c99-41e9-879e-c3103292b336');
+	('8a777b71-e825-4754-9f06-21b2ad83d9af', '8a777b71-e825-4754-9f06-21b2ad83d9af', '{"sub": "8a777b71-e825-4754-9f06-21b2ad83d9af", "name": "Mymoon P K Muhammad", "email": "pkmymoongd@gmail.com", "phone": "9539941964", "skype_id": "mymoonpk", "company_name": "PKM", "email_verified": true, "phone_verified": false}', 'email', '2024-08-17 07:12:38.091242+00', '2024-08-17 07:12:38.091313+00', '2024-08-17 14:23:42.706241+00', '33e55130-43b0-4364-8b04-de7cc8608c9b'),
+	('8e518fc5-f963-400e-b4cc-e8af108077bf', '8e518fc5-f963-400e-b4cc-e8af108077bf', '{"sub": "8e518fc5-f963-400e-b4cc-e8af108077bf", "email": "pkmymoonpk@gmail.com", "email_verified": false, "phone_verified": false}', 'email', '2024-08-17 14:29:19.652195+00', '2024-08-17 14:29:19.652245+00', '2024-08-17 14:29:19.652245+00', '71be3c14-9f3c-4574-9541-1bef0953b6b8');
 
 
 --
@@ -6923,6 +7016,7 @@ INSERT INTO "auth"."identities" ("provider_id", "user_id", "identity_data", "pro
 
 INSERT INTO "auth"."sessions" ("id", "user_id", "created_at", "updated_at", "factor_id", "aal", "not_after", "refreshed_at", "user_agent", "ip", "tag") VALUES
 	('aa48fb21-d9ec-40dd-9287-426900e86b4b', '60ea457a-1bc4-41c5-955c-a5eadfe47480', '2024-02-11 07:53:46.995237+00', '2024-02-11 07:53:46.995237+00', NULL, 'aal1', NULL, NULL, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36', '223.233.70.90', NULL),
+	('8c8781a0-a172-4537-9bd5-56a0c0411951', '63f8e39e-edee-4884-b7af-c772cea5fcbf', '2024-08-27 16:38:36.073875+00', '2024-08-27 16:38:36.073875+00', NULL, 'aal1', NULL, NULL, 'node', '54.169.118.97', NULL),
 	('94892454-9103-4536-a91b-380758c2d4f9', '18730a17-293e-45ea-a7e3-08863f9d2623', '2024-02-21 04:14:13.528744+00', '2024-02-21 07:32:13.216471+00', NULL, 'aal1', NULL, '2024-02-21 07:32:13.216396', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Mobile Safari/537.36', '2.48.68.101', NULL),
 	('2e5cde5f-374e-4ef4-9352-777b7910e4ed', '108d34df-fb4f-483d-9fcf-b63b24fae944', '2024-03-08 05:26:16.736641+00', '2024-03-08 05:26:16.736641+00', NULL, 'aal1', NULL, NULL, 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36', '49.43.91.7', NULL),
 	('e229a28b-6bfc-46f4-a4d7-149adc307b59', 'b466057a-b048-484d-8479-5f2246e5b84e', '2024-02-05 07:15:44.156313+00', '2024-02-05 13:36:54.533636+00', NULL, 'aal1', NULL, '2024-02-05 13:36:54.533561', 'node', '13.214.122.233', NULL),
@@ -6941,6 +7035,7 @@ INSERT INTO "auth"."mfa_amr_claims" ("session_id", "created_at", "updated_at", "
 	('aa48fb21-d9ec-40dd-9287-426900e86b4b', '2024-02-11 07:53:47.001861+00', '2024-02-11 07:53:47.001861+00', 'password', 'dd01610c-5343-4131-9f44-d13b3a4afaa4'),
 	('27d04bd4-990e-406a-a4b3-569b46dbd827', '2024-02-21 04:13:41.547362+00', '2024-02-21 04:13:41.547362+00', 'password', '999a5595-f040-405f-8d2d-97b13ea9e05b'),
 	('94892454-9103-4536-a91b-380758c2d4f9', '2024-02-21 04:14:13.530864+00', '2024-02-21 04:14:13.530864+00', 'password', 'ba1b18da-718b-4548-aa65-a06cfd677c59'),
+	('8c8781a0-a172-4537-9bd5-56a0c0411951', '2024-08-27 16:38:36.117118+00', '2024-08-27 16:38:36.117118+00', 'password', '5c7c4059-4a83-4e38-9a0a-f7b461842483'),
 	('2e5cde5f-374e-4ef4-9352-777b7910e4ed', '2024-03-08 05:26:16.739135+00', '2024-03-08 05:26:16.739135+00', 'email/signup', '39c3af87-7e0c-43b9-8f0b-a67ac3b1500b'),
 	('03a55ae4-e8b2-425b-b123-51b96c92d99e', '2024-03-08 05:26:22.128296+00', '2024-03-08 05:26:22.128296+00', 'password', 'ffa7590e-4606-4c68-8c3b-897f0bd788cf');
 
@@ -6962,7 +7057,7 @@ INSERT INTO "auth"."mfa_amr_claims" ("session_id", "created_at", "updated_at", "
 --
 
 INSERT INTO "auth"."one_time_tokens" ("id", "user_id", "token_type", "token_hash", "relates_to", "created_at", "updated_at") VALUES
-	('c59bd911-373f-4e0e-a98b-89f7f20f5c6a', '19f71f20-a5e4-401a-956a-4a80688c6dad', 'recovery_token', 'pkce_62ad34b5bcb591e1f75f4f38c5ff0ab636b1907430eb5c73370db727', 'pkmymoonpk@gmail.com', '2024-08-16 05:16:39.337186', '2024-08-16 05:16:39.337186');
+	('6e8116fa-c84c-4ae4-ae3b-9679417f6b79', '8e518fc5-f963-400e-b4cc-e8af108077bf', 'recovery_token', 'pkce_9458da9fa614713794df18c0714b15f07c6186b2ced3730fb0d86c34', 'pkmymoonpk@gmail.com', '2024-08-18 06:28:05.991535', '2024-08-18 06:28:05.991535');
 
 
 --
@@ -6979,6 +7074,7 @@ INSERT INTO "auth"."refresh_tokens" ("instance_id", "id", "token", "user_id", "r
 	('00000000-0000-0000-0000-000000000000', 1661, '0DTUez-sTJYMjBzng7TYsQ', '18730a17-293e-45ea-a7e3-08863f9d2623', false, '2024-02-21 04:13:41.54584+00', '2024-02-21 04:13:41.54584+00', NULL, '27d04bd4-990e-406a-a4b3-569b46dbd827'),
 	('00000000-0000-0000-0000-000000000000', 1662, 'tJ23tA2ya51Tz_5cAgGtQQ', '18730a17-293e-45ea-a7e3-08863f9d2623', true, '2024-02-21 04:14:13.529467+00', '2024-02-21 07:32:08.599899+00', NULL, '94892454-9103-4536-a91b-380758c2d4f9'),
 	('00000000-0000-0000-0000-000000000000', 1644, 'Cj4yA90K5YLq-siXIJVawA', '60ea457a-1bc4-41c5-955c-a5eadfe47480', false, '2024-02-11 07:53:46.997214+00', '2024-02-11 07:53:46.997214+00', NULL, 'aa48fb21-d9ec-40dd-9287-426900e86b4b'),
+	('00000000-0000-0000-0000-000000000000', 1862, '6xjYVYqc0deU8zgtePvWkQ', '63f8e39e-edee-4884-b7af-c772cea5fcbf', false, '2024-08-27 16:38:36.090076+00', '2024-08-27 16:38:36.090076+00', NULL, '8c8781a0-a172-4537-9bd5-56a0c0411951'),
 	('00000000-0000-0000-0000-000000000000', 1665, 'KBCuMbhatjZogykIavrntA', '18730a17-293e-45ea-a7e3-08863f9d2623', false, '2024-02-21 07:32:08.601394+00', '2024-02-21 07:32:08.601394+00', 'tJ23tA2ya51Tz_5cAgGtQQ', '94892454-9103-4536-a91b-380758c2d4f9'),
 	('00000000-0000-0000-0000-000000000000', 1691, 'MZ926jIN9pxlJ5yy1twgnw', '108d34df-fb4f-483d-9fcf-b63b24fae944', false, '2024-03-08 05:26:16.737355+00', '2024-03-08 05:26:16.737355+00', NULL, '2e5cde5f-374e-4ef4-9352-777b7910e4ed'),
 	('00000000-0000-0000-0000-000000000000', 1692, 'LgQC8hk378hADk6EN38HJQ', '108d34df-fb4f-483d-9fcf-b63b24fae944', true, '2024-03-08 05:26:22.127091+00', '2024-03-08 06:48:24.811148+00', NULL, '03a55ae4-e8b2-425b-b123-51b96c92d99e');
@@ -7024,49 +7120,68 @@ INSERT INTO "public"."config" ("id", "created_at", "details", "type") VALUES
 
 
 --
+-- Data for Name: departments; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."departments" ("id", "created_at", "name", "slug") VALUES
+	(1, '2024-08-27 17:15:24.066911+00', 'Sales', 'sales'),
+	(2, '2024-08-27 17:15:41.014924+00', 'Purchases', 'purchases'),
+	(3, '2024-08-27 17:15:52.914888+00', 'Tech', 'tech'),
+	(4, '2024-08-27 17:16:13.894834+00', 'NOC', 'noc'),
+	(5, '2024-08-27 17:16:25.636409+00', 'Finance', 'finance');
+
+
+--
 -- Data for Name: profiles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO "public"."profiles" ("id", "name", "company_name", "email", "phone", "skype_id", "finance_department", "noc_department", "sales_department", "payment_method", "agent_id", "vos_vendor_id", "vos_client_id", "balance", "over_draft", "departments") VALUES
-	('55c51783-5a10-457e-8812-79f4f1dea314', 'NOOR', 'NICE TALK', 'noor@nicetalk.biz', '+447441440544', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '0', '0', NULL),
-	('c63da6ec-e43a-4d76-9c5d-a9c1f75d3387', 'MAGIK', 'MAGIC VOICE', 'gitanjali@magiktelcom.com', '+919999007034', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '-2.13', '0', NULL),
-	('f3299cbd-6d23-44ff-8a73-d6f0c2e4af6e', 'TELCO', 'TELCO EARTH', 'sales@telcoearth.co.uk', '+918299830068', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '0', '0', NULL),
-	('0c147006-6370-4cb6-b3c8-2edfb59ab302', 'Ameen ', 'Ahsan', 'ameenahsanav76@gmail.com', '978811', 'Ikd', '{}', '{}', '{}', NULL, '', '', '', '0', '0', NULL),
-	('108d34df-fb4f-483d-9fcf-b63b24fae944', 'Aarif', 'Server fix ', 'animefarooqi1@gmail.com', '06284957785', '', '{}', '{}', '{}', NULL, '', '', '', '0', '0', NULL),
-	('6adf7496-fdd2-451f-bc9b-ff387ae1ce6c', 'ENIGMA', 'ENIGMA', 'sales@enigmaimcorp.in', '+17862336377', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '0', '0', NULL),
-	('d3b482f7-a277-4afd-9c68-a033fa733bc1', 'Ankit', 'Voip tech', 'Ankit.rath@voiptechsolutions.in', '00917358737843', 'Ankit.rath', '{}', '{}', '{}', NULL, NULL, '', '', '0', '0', NULL),
-	('07028b03-b0cc-4243-99f0-5d3decb0d971', 'FIAMANILLAH', 'FIAMANILLAH', 'noc@fiamanillah.com', '+447418349162', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '0', '0', NULL),
-	('17f325f0-6311-4842-b3a9-b7311067d59a', 'NOWSHAD SUBAIR', 'GLOBAL VOIP', 'nowshad@globalvoip.ca', '+971554405442', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '0', '0', NULL),
-	('a9521b61-52ff-434e-9912-b1d158010cdb', 'AL RAHEEM', 'AL RAHEEM TECHNOLOGY', 'annie.sales@alraheemtechnologiesltd.com', '+923246601194', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '0', '0', NULL),
-	('c32ac86a-ff4f-4893-ac80-0c93377560c1', 'Yousuf', 'Tapvox', 'Yusuf@tapvox.net', '+15642123295', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '0', '0', NULL),
-	('a03d3373-401f-4699-a8ea-73d86a7a3d40', 'FAHAD', 'SYNC SOUND', 'jigz@sync-sound.com', '+971586327792', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '0', '0', NULL),
-	('3820c7f3-09ae-4b7f-a1ac-e54dc0cfa3f8', 'SHABBIR', 'VOXPACE', 'shabbir@voxpace.com', '+971552400345', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '0', '0', NULL),
-	('60ea457a-1bc4-41c5-955c-a5eadfe47480', 'Sagar', 'Hcc', 'commercials@haimicloud.net', '9650127433', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '0', '2', NULL),
-	('3d9c5855-0731-4d04-90cc-43abf5248ef4', 'ALADIN', 'ALADIN COMMUNICATION', 'sumaiya@aladincomm.com', '+12136410047', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '0', '0', NULL),
-	('334d24bb-410b-4589-9423-75b5d558466f', 'ARIES', 'ARIES', 'aailamughal2008@gmail.com', '+12342559692', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '0', '0', NULL),
-	('7523ee44-8435-427d-9cb0-2328f669e1f3', 'AL MATEEN', 'AL MATEEN TECH', 'almteentech2@gmail.com', '+15513077461', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '0', '0', NULL),
-	('592f9ba0-de12-4c1d-b077-56b1675a0e9d', 'ARIA', 'AXISTEL', 'aria@axistel.biz', '+989123729079', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '0', '0', NULL),
-	('ab338984-a13c-4370-a894-d086f46bacbf', 'RISE', 'RISE SOLUTION', 'Mark@rise-sol.com', '+447868497028', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '0', '0', NULL),
-	('6c68f7fe-188f-482c-8aba-abcedec9e392', 'Aaa', 'Nahal', 'shahal.vc13@gmail.com', '9567729413', 'anush.m@voxmaster.com', '{}', '{}', '{}', NULL, '', '', '', '0', '0', NULL),
-	('18730a17-293e-45ea-a7e3-08863f9d2623', 'Mohammed N', NULL, 'mai1bustan.aj@gmail.com', '00971567469166', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '0', '0', NULL),
-	('77423768-f3cf-44c9-b83c-f72da1cb9a0b', 'Aman', 'Lcr', 'amanhisham345@gmail.com', '9778258846', 'J', '{}', '{}', '{}', NULL, '', '', '', '0', '100', NULL),
-	('bde6f9dc-e9be-4f17-a0fd-5f667ca8e527', 'ELVISH', 'CLICK ONE TELECOM', 'elvish@clickonetelecom.com', '+447441440447', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '0', '0', NULL),
-	('cc4bc477-a253-4969-a08e-c2d7893fc6fe', 'Gaurav', 'Maximo tech', 'gaurav@maximotech.co', '9560856095', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '0', '0', NULL),
-	('feeb856e-a7bd-41de-a13d-6bdc7f0d5867', 'SHAZIA', 'MALAKTEL', 'shazia@malaktel.com', '+923002661123', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '0', '0', NULL),
-	('b466057a-b048-484d-8479-5f2246e5b84e', 'MD NAZMUL HOSSAIN', 'RAR TELECOM', 'rartelecom.com@gmail.com', '01813794274', 'vpn4voice_net', '{}', '{}', '{}', NULL, '', '', '', '0', '0', NULL),
-	('c05c014e-121a-42db-b532-85ea3219b472', 'Aman', 'Lcr', 'jklmn5065@gmail.com', '978811', 'Ikd', '{}', '{}', '{}', NULL, '', '', '', '0', '0', NULL),
-	('3262c9ad-80df-40c2-ac53-0277bb27f9e3', 'eva', 'eva  international ltd', 'evainternationalltd21@gmail.com', '+880 1845-753148', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '0', '0', NULL),
-	('d4c6c86d-7ffc-49aa-841f-8202ff9478a1', 'Muhammad Yousuf', 'ZonexTel Limited', 'yousuf@zonextel.com', '+971564849631', 'muhammadyousuf89', '{}', '{}', '{}', NULL, '', '', '', '0', '0', NULL),
-	('dd94fd4f-9a18-496b-941e-df92c3e49a86', 'Abhishek', 'Excelsior bird', 'akhurana@excelsiorbird.com', '+919971430370', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '0', '0', NULL),
-	('64efe034-fc05-4730-bc40-43d3cb7a9f81', 'Anush', 'vox master', 'anush.m@voxmaster.com', '+37443881919', 'anush.m@voxmaster.com', '{}', '{}', '{}', NULL, NULL, '', '', '0', '0', NULL),
-	('f44035f8-16dc-4ce0-9c41-7dbba15402a1', 'NEXT TECH', 'NEXT TECH', 'sales@nexttechltd.net', '+15103702526', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '-1238.79', '2000', NULL),
-	('e12a0b91-9c05-4747-af29-f247125edc07', 'WAVENET', 'WAVENET TEL', 'wavenettel@gmail.com', '+12027736948', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '-13.45', '100', NULL),
-	('0df63b80-d350-4eef-9bce-64ed3942c554', 'Test', 'Test', 'blackclover5065@gmail.com', '82002021', 'Ulss', '{}', '{}', '{}', NULL, '', '', '', '0', '0', NULL),
-	('6419bd2b-5ff3-4b4d-a678-eb8393280b86', 'anmar', 'hamdan', 'anmarofficial@gmail.com', '83783', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '0', '0', NULL),
-	('756fe4cb-12c4-4390-80cc-82b90a2d7f87', 'ZAKARIA', 'ZAKARIA', 'zak@gmail.com', '91 84804 82136', NULL, '{}', '{}', '{}', NULL, NULL, '', '', '0', '0', NULL),
-	('bfacd8ad-05d0-479c-a33c-3a1c690a8302', 'shahal', 'LCRTel', 'noc@d2call.com', '+1 (302) 426-2298', NULL, '{}', '{}', '{}', NULL, '', '', '', '0', '0', NULL),
-	('63f8e39e-edee-4884-b7af-c772cea5fcbf', 'LCRTel', 'LCRTel', 'lcrtelweb@gmail.com', '9539941964', '', NULL, NULL, NULL, NULL, '', NULL, NULL, '0', '0', NULL),
-	('19f71f20-a5e4-401a-956a-4a80688c6dad', NULL, NULL, 'pkmymoonpk@gmail.com', NULL, NULL, '{}', '{}', '{}', NULL, '', '', '', '0', '0', NULL);
+INSERT INTO "public"."profiles" ("id", "name", "company_name", "email", "phone", "skype_id", "finance_department", "noc_department", "sales_department") VALUES
+	('55c51783-5a10-457e-8812-79f4f1dea314', 'NOOR', 'NICE TALK', 'noor@nicetalk.biz', '+447441440544', NULL, '{}', '{}', '{}'),
+	('c63da6ec-e43a-4d76-9c5d-a9c1f75d3387', 'MAGIK', 'MAGIC VOICE', 'gitanjali@magiktelcom.com', '+919999007034', NULL, '{}', '{}', '{}'),
+	('f3299cbd-6d23-44ff-8a73-d6f0c2e4af6e', 'TELCO', 'TELCO EARTH', 'sales@telcoearth.co.uk', '+918299830068', NULL, '{}', '{}', '{}'),
+	('0c147006-6370-4cb6-b3c8-2edfb59ab302', 'Ameen ', 'Ahsan', 'ameenahsanav76@gmail.com', '978811', 'Ikd', '{}', '{}', '{}'),
+	('108d34df-fb4f-483d-9fcf-b63b24fae944', 'Aarif', 'Server fix ', 'animefarooqi1@gmail.com', '06284957785', '', '{}', '{}', '{}'),
+	('6adf7496-fdd2-451f-bc9b-ff387ae1ce6c', 'ENIGMA', 'ENIGMA', 'sales@enigmaimcorp.in', '+17862336377', NULL, '{}', '{}', '{}'),
+	('d3b482f7-a277-4afd-9c68-a033fa733bc1', 'Ankit', 'Voip tech', 'Ankit.rath@voiptechsolutions.in', '00917358737843', 'Ankit.rath', '{}', '{}', '{}'),
+	('07028b03-b0cc-4243-99f0-5d3decb0d971', 'FIAMANILLAH', 'FIAMANILLAH', 'noc@fiamanillah.com', '+447418349162', NULL, '{}', '{}', '{}'),
+	('17f325f0-6311-4842-b3a9-b7311067d59a', 'NOWSHAD SUBAIR', 'GLOBAL VOIP', 'nowshad@globalvoip.ca', '+971554405442', NULL, '{}', '{}', '{}'),
+	('8e518fc5-f963-400e-b4cc-e8af108077bf', 'Mymoon P K Muhammad', 'PKM', 'pkmymoonpk@gmail.com', '9539941964', 'mymoonpk', '{}', '{}', '{}'),
+	('a9521b61-52ff-434e-9912-b1d158010cdb', 'AL RAHEEM', 'AL RAHEEM TECHNOLOGY', 'annie.sales@alraheemtechnologiesltd.com', '+923246601194', NULL, '{}', '{}', '{}'),
+	('c32ac86a-ff4f-4893-ac80-0c93377560c1', 'Yousuf', 'Tapvox', 'Yusuf@tapvox.net', '+15642123295', NULL, '{}', '{}', '{}'),
+	('a03d3373-401f-4699-a8ea-73d86a7a3d40', 'FAHAD', 'SYNC SOUND', 'jigz@sync-sound.com', '+971586327792', NULL, '{}', '{}', '{}'),
+	('3820c7f3-09ae-4b7f-a1ac-e54dc0cfa3f8', 'SHABBIR', 'VOXPACE', 'shabbir@voxpace.com', '+971552400345', NULL, '{}', '{}', '{}'),
+	('60ea457a-1bc4-41c5-955c-a5eadfe47480', 'Sagar', 'Hcc', 'commercials@haimicloud.net', '9650127433', NULL, '{}', '{}', '{}'),
+	('3d9c5855-0731-4d04-90cc-43abf5248ef4', 'ALADIN', 'ALADIN COMMUNICATION', 'sumaiya@aladincomm.com', '+12136410047', NULL, '{}', '{}', '{}'),
+	('334d24bb-410b-4589-9423-75b5d558466f', 'ARIES', 'ARIES', 'aailamughal2008@gmail.com', '+12342559692', NULL, '{}', '{}', '{}'),
+	('7523ee44-8435-427d-9cb0-2328f669e1f3', 'AL MATEEN', 'AL MATEEN TECH', 'almteentech2@gmail.com', '+15513077461', NULL, '{}', '{}', '{}'),
+	('592f9ba0-de12-4c1d-b077-56b1675a0e9d', 'ARIA', 'AXISTEL', 'aria@axistel.biz', '+989123729079', NULL, '{}', '{}', '{}'),
+	('ab338984-a13c-4370-a894-d086f46bacbf', 'RISE', 'RISE SOLUTION', 'Mark@rise-sol.com', '+447868497028', NULL, '{}', '{}', '{}'),
+	('6c68f7fe-188f-482c-8aba-abcedec9e392', 'Aaa', 'Nahal', 'shahal.vc13@gmail.com', '9567729413', 'anush.m@voxmaster.com', '{}', '{}', '{}'),
+	('18730a17-293e-45ea-a7e3-08863f9d2623', 'Mohammed N', NULL, 'mai1bustan.aj@gmail.com', '00971567469166', NULL, '{}', '{}', '{}'),
+	('77423768-f3cf-44c9-b83c-f72da1cb9a0b', 'Aman', 'Lcr', 'amanhisham345@gmail.com', '9778258846', 'J', '{}', '{}', '{}'),
+	('bde6f9dc-e9be-4f17-a0fd-5f667ca8e527', 'ELVISH', 'CLICK ONE TELECOM', 'elvish@clickonetelecom.com', '+447441440447', NULL, '{}', '{}', '{}'),
+	('cc4bc477-a253-4969-a08e-c2d7893fc6fe', 'Gaurav', 'Maximo tech', 'gaurav@maximotech.co', '9560856095', NULL, '{}', '{}', '{}'),
+	('feeb856e-a7bd-41de-a13d-6bdc7f0d5867', 'SHAZIA', 'MALAKTEL', 'shazia@malaktel.com', '+923002661123', NULL, '{}', '{}', '{}'),
+	('b466057a-b048-484d-8479-5f2246e5b84e', 'MD NAZMUL HOSSAIN', 'RAR TELECOM', 'rartelecom.com@gmail.com', '01813794274', 'vpn4voice_net', '{}', '{}', '{}'),
+	('c05c014e-121a-42db-b532-85ea3219b472', 'Aman', 'Lcr', 'jklmn5065@gmail.com', '978811', 'Ikd', '{}', '{}', '{}'),
+	('3262c9ad-80df-40c2-ac53-0277bb27f9e3', 'eva', 'eva  international ltd', 'evainternationalltd21@gmail.com', '+880 1845-753148', NULL, '{}', '{}', '{}'),
+	('d4c6c86d-7ffc-49aa-841f-8202ff9478a1', 'Muhammad Yousuf', 'ZonexTel Limited', 'yousuf@zonextel.com', '+971564849631', 'muhammadyousuf89', '{}', '{}', '{}'),
+	('dd94fd4f-9a18-496b-941e-df92c3e49a86', 'Abhishek', 'Excelsior bird', 'akhurana@excelsiorbird.com', '+919971430370', NULL, '{}', '{}', '{}'),
+	('64efe034-fc05-4730-bc40-43d3cb7a9f81', 'Anush', 'vox master', 'anush.m@voxmaster.com', '+37443881919', 'anush.m@voxmaster.com', '{}', '{}', '{}'),
+	('f44035f8-16dc-4ce0-9c41-7dbba15402a1', 'NEXT TECH', 'NEXT TECH', 'sales@nexttechltd.net', '+15103702526', NULL, '{}', '{}', '{}'),
+	('e12a0b91-9c05-4747-af29-f247125edc07', 'WAVENET', 'WAVENET TEL', 'wavenettel@gmail.com', '+12027736948', NULL, '{}', '{}', '{}'),
+	('8a777b71-e825-4754-9f06-21b2ad83d9af', 'Mymoon P K', 'PKM', 'pkmymoongd@gmail.com', '9539941964', 'mymoonpk', '{"name":"Minhaal"}', '{}', '{}'),
+	('0df63b80-d350-4eef-9bce-64ed3942c554', 'Test', 'Test', 'blackclover5065@gmail.com', '82002021', 'Ulss', '{}', '{}', '{}'),
+	('6419bd2b-5ff3-4b4d-a678-eb8393280b86', 'anmar', 'hamdan', 'anmarofficial@gmail.com', '83783', NULL, '{}', '{}', '{}'),
+	('756fe4cb-12c4-4390-80cc-82b90a2d7f87', 'ZAKARIA', 'ZAKARIA', 'zak@gmail.com', '91 84804 82136', NULL, '{}', '{}', '{}'),
+	('63f8e39e-edee-4884-b7af-c772cea5fcbf', 'LCRTel', 'LCRTel', 'lcrtelweb@gmail.com', '9539941964', '', NULL, NULL, NULL),
+	('bfacd8ad-05d0-479c-a33c-3a1c690a8302', 'shahal', 'LCRTel', 'noc@d2call.com', '+1 (302) 426-2298', NULL, '{}', '{}', '{}');
+
+
+--
+-- Data for Name: executives; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
 
 
 --
@@ -7074,7 +7189,9 @@ INSERT INTO "public"."profiles" ("id", "name", "company_name", "email", "phone",
 --
 
 INSERT INTO "public"."routes" ("id", "vendor_id", "destination", "rate", "route_type", "asr", "acd", "ports", "verification", "verification_by", "verified_at", "created_at", "updated_at", "destination_code", "pdd", "selling_rate", "new_id") VALUES
+	('7e050a88-02f1-40d7-8437-4378426c26a3', '8e518fc5-f963-400e-b4cc-e8af108077bf', 'inidai', '0.04', 'cli', '20', '34', '987', 'pending', NULL, NULL, '2024-08-17 14:32:08.605749+00', NULL, '91', '987', '0.04800', NULL),
 	('318fa843-0be1-4b1c-9230-8e14aaf44519', '3262c9ad-80df-40c2-ac53-0277bb27f9e3', 'india', '00.0125', 'cli', '20', '200', '50', 'verified', NULL, NULL, '2024-06-03 14:43:38.705243+00', NULL, '91', '1', '0.01500', NULL),
+	('ccf478ca-50cb-4334-aa34-62a1b52492be', '8e518fc5-f963-400e-b4cc-e8af108077bf', 'USA', '0.03', 'cli', '20', '30', '867', 'pending', NULL, NULL, '2024-08-17 14:42:13.123645+00', NULL, '1', '9', '0.03600', NULL),
 	('53863552-e791-4642-b046-44a28a1ea726', 'c32ac86a-ff4f-4893-ac80-0c93377560c1', 'BANGLADESH', '0.0095', 'non-cli', '20', '200', '30', 'verified', NULL, NULL, '2024-06-01 16:28:14.757391+00', '2024-06-02 04:52:12.804+00', '8801', '1', '0.01140', NULL),
 	('18c6677d-07f6-4fad-9fbe-140b41b4390f', '7523ee44-8435-427d-9cb0-2328f669e1f3', 'INDIA', '0.0020', 'non-cli', '20', '180', '30', 'verified', NULL, NULL, '2024-06-01 14:31:15.124433+00', NULL, '91', '1', '0.00240', NULL),
 	('41c211e3-1a2c-484d-b8f7-252563e206a2', '756fe4cb-12c4-4390-80cc-82b90a2d7f87', 'india', '0.0019', 'non-cli', '20', '180', '30', 'verified', NULL, NULL, '2024-06-01 14:45:21.568839+00', NULL, '91', '1', '0.00228', NULL);
@@ -7093,6 +7210,12 @@ INSERT INTO "public"."routes" ("id", "vendor_id", "destination", "rate", "route_
 INSERT INTO "public"."invoices" ("invoice_id", "date_issued", "total_amount", "status", "paid_at", "description", "date_due", "bill_to", "invoice_to", "note", "balance") VALUES
 	(561, '2024-06-02 10:02:27.905+00', '20', 'pending', NULL, 'Invoice period: 2 Jun, 2024 to 2 Jun, 2024. Calls: 20. Duration: 200mins.', '2024-06-03 18:30:00+00', '{"IFSCCode": "SBIN007", "bankName": "sbi", "branchName": "areekode", "accountNumber": "0928231", "accountHolderName": "aman"}', '6419bd2b-5ff3-4b4d-a678-eb8393280b86', NULL, '20'),
 	(562, '2024-06-04 10:07:52.3+00', '45545', 'pending', NULL, 'Invoice period: 4 Jun, 2024 to 4 Jun, 2024. Calls: 45. Duration: 54mins.', '2024-06-05 18:30:00+00', '{"IFSCCode": "SBIN007", "bankName": "sbi", "branchName": "areekode", "accountNumber": "0928231", "accountHolderName": "aman"}', '6419bd2b-5ff3-4b4d-a678-eb8393280b86', NULL, '45545');
+
+
+--
+-- Data for Name: managers; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
 
 
 --
@@ -7345,6 +7468,8 @@ INSERT INTO "public"."roles" ("id", "name", "slug") VALUES
 INSERT INTO "public"."routes_history" ("id", "destination", "rate", "route_type", "asr", "acd", "ports", "destination_code", "pdd", "selling_rate", "effective_date", "route_id") VALUES
 	('b6d65688-f143-4ebe-94e2-b648206c1baa', 'BANGLADESH', '0.0095', 'non-cli', '20', '200', '30', '8801', '1', '0.01140', '2024-06-02 04:51:01.123868+00', '53863552-e791-4642-b046-44a28a1ea726'),
 	('331944c6-d982-4ae2-878a-c75d65e7a2a2', 'BANGLADESH', '0.0095', 'non-cli', '20', '200', '30', '8801', '1', '0.01140', '2024-06-02 04:52:13.769832+00', '53863552-e791-4642-b046-44a28a1ea726'),
+	('bf5fa060-bf63-46d0-9e7d-37216821c094', 'inidai', '0.04', 'cli', '20', '34', '987', '91', '987', '0.04800', '2024-08-17 14:32:08.605749+00', '7e050a88-02f1-40d7-8437-4378426c26a3'),
+	('6f410cbc-4680-4031-b598-52a640326de5', 'USA', '0.03', 'cli', '20', '30', '867', '1', '9', '0.03600', '2024-08-17 14:42:13.123645+00', 'ccf478ca-50cb-4334-aa34-62a1b52492be'),
 	('b8325af0-7687-4447-aa90-e75705884d84', 'india', '00.0125', 'cli', '20', '200', '50', '91', '1', '0.01500', '2024-06-03 14:43:38.705243+00', '318fa843-0be1-4b1c-9230-8e14aaf44519'),
 	('3b202293-b827-4a9f-9610-9bd37861ac21', 'INDIA', '0.0020', 'non-cli', '20', '180', '30', '91', '1', '0.00240', '2024-06-01 14:31:15.124433+00', '18c6677d-07f6-4fad-9fbe-140b41b4390f'),
 	('15656df8-f104-41c7-9f25-754a060a73e6', 'india', '0.0019', 'non-cli', '20', '180', '30', '91', '1', '0.00228', '2024-06-01 14:45:21.568839+00', '41c211e3-1a2c-484d-b8f7-252563e206a2'),
@@ -7386,7 +7511,7 @@ INSERT INTO "public"."targets" ("id", "client_id", "destination", "rate", "route
 -- Data for Name: user_roles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO "public"."user_roles" ("user_id", "role") VALUES
+INSERT INTO "public"."user_roles" ("user_id", "role_slug") VALUES
 	('55c51783-5a10-457e-8812-79f4f1dea314', 'user'),
 	('c63da6ec-e43a-4d76-9c5d-a9c1f75d3387', 'user'),
 	('f3299cbd-6d23-44ff-8a73-d6f0c2e4af6e', 'user'),
@@ -7424,14 +7549,9 @@ INSERT INTO "public"."user_roles" ("user_id", "role") VALUES
 	('6419bd2b-5ff3-4b4d-a678-eb8393280b86', 'user'),
 	('756fe4cb-12c4-4390-80cc-82b90a2d7f87', 'user'),
 	('bfacd8ad-05d0-479c-a33c-3a1c690a8302', 'user'),
-	('63f8e39e-edee-4884-b7af-c772cea5fcbf', 'director'),
-	('19f71f20-a5e4-401a-956a-4a80688c6dad', 'user');
-
-
---
--- Data for Name: wallet; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
+	('8a777b71-e825-4754-9f06-21b2ad83d9af', 'user'),
+	('8e518fc5-f963-400e-b4cc-e8af108077bf', 'user'),
+	('63f8e39e-edee-4884-b7af-c772cea5fcbf', 'director');
 
 
 --
@@ -7480,7 +7600,7 @@ INSERT INTO "public"."user_roles" ("user_id", "role") VALUES
 -- Name: refresh_tokens_id_seq; Type: SEQUENCE SET; Schema: auth; Owner: supabase_auth_admin
 --
 
-SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 1842, true);
+SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 1862, true);
 
 
 --
@@ -7498,6 +7618,20 @@ SELECT pg_catalog.setval('"public"."bank_accounts_id_seq"', 17, true);
 
 
 --
+-- Name: departments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"public"."departments_id_seq"', 5, true);
+
+
+--
+-- Name: executives_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"public"."executives_id_seq"', 1, false);
+
+
+--
 -- Name: id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -7509,6 +7643,13 @@ SELECT pg_catalog.setval('"public"."id_seq"', 1, false);
 --
 
 SELECT pg_catalog.setval('"public"."invoices_invoice_id_seq"', 562, true);
+
+
+--
+-- Name: managers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"public"."managers_id_seq"', 1, false);
 
 
 --
@@ -7537,13 +7678,6 @@ SELECT pg_catalog.setval('"public"."roles_id_seq"', 11, true);
 --
 
 SELECT pg_catalog.setval('"public"."support_chat_chat_id_seq"', 1, false);
-
-
---
--- Name: wallet_wallet_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('"public"."wallet_wallet_id_seq"', 1, false);
 
 
 --

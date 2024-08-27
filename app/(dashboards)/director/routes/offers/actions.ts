@@ -5,32 +5,55 @@ import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 
 export async function fetchUnVerfiedRoutes() {
   const supabase = supabaseServer();
-  let { data: routes } = await supabase
+  const { data: routes, error } = await supabase
     .from("routes")
     .select(`*, profiles (name, company_name)`)
     .neq("verification", "verified");
 
-  routes?.forEach((route: any) => {
-    const { name, company_name } = route.profiles;
-    delete route.profiles;
-    route.vendor = name;
-    route.vendor_company = company_name;
+  if (error) {
+    console.error("fetchUnVerfiedRoutes", error);
+    return null;
+  }
+
+  if (!routes) {
+    return [];
+  }
+
+  return routes.map((route: any) => {
+    const profiles = route?.profiles ?? {};
+    const { name, company_name } = profiles;
+    return {
+      ...route,
+      vendor: name,
+      vendor_company: company_name,
+    };
   });
-  return routes;
 }
 
 export async function fetchVerfiedRoutes() {
   const supabase = supabaseAdminServer();
-  let { data: routes } = await supabase
+  const { data: routes, error } = await supabase
     .from("routes")
     .select(`*, profiles (name, company_name)`);
-  routes?.forEach((route: any) => {
-    const { name, company_name } = route.profiles;
-    delete route.profiles;
-    route.vendor = name;
-    route.vendor_company = company_name;
+
+  if (error) {
+    console.error("fetchVerfiedRoutes", error);
+    return null;
+  }
+
+  if (!routes) {
+    return [];
+  }
+
+  return routes.map((route: any) => {
+    const { profiles } = route ?? {};
+    const { name, company_name } = profiles ?? {};
+    const newRoute = { ...route };
+    delete newRoute.profiles;
+    newRoute.vendor = name;
+    newRoute.vendor_company = company_name;
+    return newRoute;
   });
-  return routes;
 }
 
 export async function deleteRoutes(ids: string[]) {

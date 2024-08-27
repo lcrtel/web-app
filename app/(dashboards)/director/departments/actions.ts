@@ -102,7 +102,7 @@ export async function createDepartmentExecutive(
       .eq("user_id", user.id);
     const { error: error2 } = await supabase
       .from("executives")
-      .insert({ user_id: user.id });
+      .insert({ user_id: user.id, department });
     if (error && error2) {
       return { error: error.message || error2.message };
     } else {

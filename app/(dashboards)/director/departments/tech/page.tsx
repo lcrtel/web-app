@@ -1,11 +1,8 @@
 import BackButton from "@/components/BackButton";
-import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
-import { PlusCircle } from "lucide-react";
 import Link from "next/link";
-import { CreateDepartmentExecutive } from "../CreateDepartmentExecutive";
-import { CreateDepartmentManager } from "../CreateDepartmentManager";
-import { ExecutivesTable } from "../ExecutivesTable";
-import ManagerInfo from "../ManagerInfo";
+import { CreateDepartmentExecutive } from "../_components/CreateDepartmentExecutive";
+import ManagerInfo from "../_components/ManagerInfo";
+import ExecutivesList from "../_components/ExecutivesList";
 
 export default function ManagersPage() {
   return (
@@ -38,19 +35,9 @@ export default function ManagersPage() {
         </div>
         <div className="lg:col-span-3">
           <h3 className="text-2xl font-bold">Executives</h3>
-          <Executives />
+          <ExecutivesList department="tech" />
         </div>
       </div>
     </div>
   );
-}
-
-async function Executives() {
-  const supabase = supabaseAdminServer();
-  const { data } = await supabase
-    .from("executives")
-    .select("profiles(*), departments!inner (slug)")
-    .eq("departments.slug", "tech");
-  let executives = data?.map((executive: any) => executive.profiles);
-  return <ExecutivesTable data={executives} />;
 }

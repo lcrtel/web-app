@@ -1,6 +1,6 @@
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { PlusCircle } from "lucide-react";
-import { Department } from "./actions";
+import { Department } from "../actions";
 import { CreateDepartmentManager } from "./CreateDepartmentManager";
 
 export default async function ManagerInfo({

@@ -25,7 +25,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import * as z from "zod";
-import { createDepartmentExecutive, Department } from "./actions";
+import { createDepartmentManager, Department } from "../actions";
 
 const accountSchema = z.object({
   name: z.string(),
@@ -34,10 +34,13 @@ const accountSchema = z.object({
   password: z.string(),
   skype_id: z.string().optional(),
 });
+
 interface Props {
   department: Department;
+  children: React.ReactNode;
 }
-export const CreateDepartmentExecutive = ({ department }: Props) => {
+
+export const CreateDepartmentManager = ({ department, children }: Props) => {
   const form = useForm<any>({
     resolver: zodResolver(accountSchema),
     mode: "onChange",
@@ -46,10 +49,10 @@ export const CreateDepartmentExecutive = ({ department }: Props) => {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  async function onSubmit(executive: z.infer<typeof accountSchema>) {
+  async function onSubmit(manager: z.infer<typeof accountSchema>) {
     setLoading(true);
     const adding = toast.loading("Adding...");
-    const res = await createDepartmentExecutive(executive, department);
+    const res = await createDepartmentManager(manager, department);
     if (res?.error) {
       toast.error(res.error);
       setLoading(false);
@@ -58,7 +61,7 @@ export const CreateDepartmentExecutive = ({ department }: Props) => {
     }
     setLoading(false);
     toast.dismiss(adding);
-    toast.success(`Added ${department} executive: ${executive.name}`);
+    toast.success(`Added ${department} manager: ${manager.name}`);
     router.refresh();
     setIsOpen(false);
   }
@@ -66,13 +69,13 @@ export const CreateDepartmentExecutive = ({ department }: Props) => {
     <>
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
-          <Button variant="outline">Add Executive</Button>
+          <button className="w-full">{children}</button>
         </SheetTrigger>
         <SheetContent>
           <SheetHeader>
-            <SheetTitle className="text-primary-900">Add Executive</SheetTitle>
+            <SheetTitle className="text-primary-900">Add Manager</SheetTitle>
             <SheetDescription>
-              Add a new executive to the {department} department.
+              Add a manager to the {department} department.
             </SheetDescription>
           </SheetHeader>
 

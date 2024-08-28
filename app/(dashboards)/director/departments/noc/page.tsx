@@ -3,6 +3,7 @@ import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import Link from "next/link";
 import { CreateDepartmentExecutive } from "../CreateDepartmentExecutive";
 import { ExecutivesTable } from "../ExecutivesTable";
+import ManagerInfo from "../ManagerInfo";
 
 export default function ManagersPage() {
   return (
@@ -29,9 +30,9 @@ export default function ManagersPage() {
         <CreateDepartmentExecutive department="noc" />
       </div>
       <div className="grid gap-5 lg:grid-cols-4">
-        <div className="h-fit rounded-2xl border bg-slate-50 px-4 py-3 lg:col-span-1">
+        <div className="h-fit space-y-2 rounded-2xl border bg-slate-50 px-4 py-3 lg:col-span-1">
           <h3 className="text-2xl font-bold">Manager</h3>
-          <p>Comin soon</p>
+          <ManagerInfo department="noc" />
         </div>
         <div className="lg:col-span-3">
           <h3 className="text-2xl font-bold">Executives</h3>
@@ -42,9 +43,6 @@ export default function ManagersPage() {
   );
 }
 
-async function Manager() {
-  return <div></div>;
-}
 async function Executives() {
   const supabase = supabaseAdminServer();
   const { data } = await supabase

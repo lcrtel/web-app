@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 
-
 import {
   Command,
   CommandGroup,
@@ -10,17 +9,11 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import {
   Check,
@@ -182,56 +175,42 @@ const Destination = ({
     });
   }, [prefix]);
   return (
-    <>
-      <Input
-        className="w-28"
-        placeholder="Prefix"
-        value={prefix}
-        onChange={() => setIsOpen(true)}
-        onFocus={() => setIsOpen(true)}
-        onClick={() => setIsOpen(true)}
-      />
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Select Destination</DialogTitle>
-          </DialogHeader>
-          <div className="flex h-10 w-full items-center justify-between rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm ring-white transition-all duration-300 ease-in-out file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-400 hover:ring-2 hover:ring-primary-50 focus-visible:border focus-visible:border-gray-400 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary-50 disabled:cursor-not-allowed disabled:opacity-50">
-            <input
-              placeholder="Search destinations..."
-              className="flex-1 appearance-none focus-visible:outline-none"
-              onChange={(e) => setPrefix(e.target.value.toUpperCase())}
-              value={prefix}
-            />
-            {loading && <Loader2 className="size-4 animate-spin" />}
-          </div>
-          {destinations.length > 0 && (
-            <ul className="flex max-h-[300px] flex-col gap-2 overflow-y-auto pr-2">
-              {destinations.map((destination) => (
-                <li
-                  key={destination.code}
-                  onClick={() => {
-                    setDestination(destination);
-                    setPrefix(destination.code.toString());
-                    setIsOpen(false);
-                  }}
-                  className="cursor-pointer rounded-md bg-surface px-2 py-1 capitalize tracking-wide"
-                >
-                  {destination.value?.toLowerCase()}
-                </li>
-              ))}
-            </ul>
-          )}
-        </DialogContent>
-      </Dialog>
+    <div className="relative flex items-center">
+      <div className="flex h-10 w-full items-center justify-between rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm ring-white transition-all duration-300 ease-in-out file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-400 hover:ring-2 hover:ring-primary-50 focus-visible:border focus-visible:border-gray-400 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary-50 disabled:cursor-not-allowed disabled:opacity-50">
+        <input
+          placeholder="Search destinations..."
+          className="flex-1 appearance-none focus-visible:outline-none"
+          onChange={(e) => setPrefix(e.target.value.toUpperCase())}
+          value={prefix}
+          onFocus={() => setIsOpen(true)}
+        />
+        {loading && <Loader2 className="size-4 animate-spin" />}
+      </div>
+      {destinations.length > 0 && isOpen && (
+        <ScrollArea className="!absolute left-0 top-11 h-[180px] bg-white z-10 rounded-md border p-4">
+          {destinations.map((destination) => (
+            <li
+              key={destination.code}
+              onClick={() => {
+                setDestination(destination);
+                setPrefix(destination.code.toString());
+                setIsOpen(false);
+              }}
+              className="my-1 cursor-pointer whitespace-nowrap rounded-md bg-surface px-2 py-1 capitalize tracking-wide"
+            >
+              {destination.value?.toLowerCase()}
+            </li>
+          ))}
+        </ScrollArea>
+      )}
       {destination?.name && (
         <div className="px-2">
-          <h3 className="text-xs">Destination Name</h3>
-          <p className="capitalize">
+          <h3 className="whitespace-nowrap text-xs">Destination Name</h3>
+          <p className="whitespace-nowrap capitalize">
             {destination?.name?.toLowerCase() || "N/A"}
           </p>
         </div>
       )}
-    </>
+    </div>
   );
 };

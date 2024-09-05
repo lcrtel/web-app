@@ -1,23 +1,34 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, flexRender } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import * as React from "react";
 
-import { DataTable } from "@/components/ui/data-table";
+import {
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+
+import { DataTablePagination } from "@/components/ui/data-table-components";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { format } from "date-fns";
 import Link from "next/link";
-import AddToCart from "./AddToCart";
-const columns: ColumnDef<Route>[] = [
-  {
-    accessorKey: "id",
-    header: "",
-    cell: ({ row }) => {
-      const id: any = row.getValue("id");
+import { ScrollArea } from "@/components/ui/scroll-area";
 
-      return <AddToCart routeID={id} />;
-    },
-  },
+const columns: ColumnDef<Route>[] = [
   {
     accessorKey: "destination",
     header: ({ column }) => {
@@ -63,10 +74,7 @@ const columns: ColumnDef<Route>[] = [
     },
     cell: ({ row }) => {
       return (
-        <Link
-          href={`/u/routes/${row.getValue("id")}`}
-          className="font-medium"
-        >
+        <Link href={`/u/routes/${row.getValue("id")}`} className="font-medium">
           $ {row.getValue("selling_rate")}
         </Link>
       );
@@ -105,12 +113,8 @@ const columns: ColumnDef<Route>[] = [
       );
     },
     cell: ({ row }) => {
-      return (
-        <div className="">
-          {row.getValue("asr")}%
-        </div>
-      )
-    }
+      return <div className="">{row.getValue("asr")}%</div>;
+    },
   },
   {
     accessorKey: "acd",
@@ -155,27 +159,110 @@ const columns: ColumnDef<Route>[] = [
     },
     cell: ({ row }) => {
       return (
-        <Link
-          href={`/u/routes/${row.getValue("id")}`}
-          className="font-medium"
-        >
+        <Link href={`/u/routes/${row.getValue("id")}`} className="font-medium">
           {format(new Date(row.getValue("created_at")), "dd/MM/yyyy")}
         </Link>
       );
     },
   },
+  {
+    accessorKey: "remarks",
+    header: ({ column }) => {
+      return (
+        <div className="flex cursor-pointer items-center gap-2 whitespace-nowrap">
+          Remarks
+        </div>
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <Link
+          href={`/u/routes/${row.getValue("id")}`}
+          className="font-medium"
+        ></Link>
+      );
+    },
+  },
 ];
+
 export function OffersTable({ data }: any) {
-  const [selectedRows, setSelectedRows] = React.useState<any>([]);
   const [rowSelection, setRowSelection] = React.useState({});
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
+
+  const table = useReactTable({
+    data,
+    columns,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    state: {
+      sorting,
+      columnFilters,
+      columnVisibility,
+    },
+  });
   return (
-    <DataTable
-      filterBy="destination"
-      data={data}
-      setSelectedRows={setSelectedRows}
-      columns={columns}
-      rowSelection={rowSelection}
-      setRowSelection={setRowSelection}
-    />
+    <div className="space-y-2">
+      <div className="rounded-lg border">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      <DataTablePagination table={table} />
+    </div>
   );
 }

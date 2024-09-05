@@ -69,7 +69,6 @@ export function ExecutivesTable({ data }: any) {
       )} */}
 
       <DataTable
-        filterBy="name"
         data={data}
         setSelectedRows={setSelectedRows}
         columns={columns}

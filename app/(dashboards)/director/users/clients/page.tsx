@@ -1,5 +1,5 @@
 import { Skeleton } from "@/components/ui/skeleton";
-import { supabaseServer } from "@/lib/supabase-server";
+import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { unstable_noStore } from "next/cache";
 import { Suspense } from "react";
 import { AddAccountForm } from "../_components/AddAccount";
@@ -26,12 +26,11 @@ export default function Page() {
 
 const Clients = async () => {
   unstable_noStore();
-  const supabase = supabaseServer();
+  const supabase = supabaseAdminServer();
   let { data: clients, error } = await supabase
     .from("profiles")
-    .select("*")
-    .or(`role.eq.client,role.eq.vendor`);
-
+    .select("*, user_roles!inner(*)")
+    .eq("user_roles.role_slug", "user");
   let { data: targets } = await supabase.from("targets").select("*");
 
   const userRouteCounts = targets?.reduce((acc, route) => {

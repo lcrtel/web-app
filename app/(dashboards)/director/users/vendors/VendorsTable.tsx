@@ -66,14 +66,6 @@ export const columns: ColumnDef<any>[] = [
     accessorKey: "skype_id",
     header: "Skype ID",
   },
-  {
-    accessorKey: "routes",
-    header: "Routes",
-  },
-  {
-    accessorKey: "requests",
-    header: "Route Requests",
-  },
 ];
 
 export function VendorsTable({ data }: any) {
@@ -82,7 +74,6 @@ export function VendorsTable({ data }: any) {
 
   return (
     <DataTable
-      filterBy="name"
       data={data}
       setSelectedRows={setSelectedRows}
       columns={columns}

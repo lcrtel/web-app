@@ -204,7 +204,6 @@ export function RoutesTable({ data }: any) {
   const [rowSelection, setRowSelection] = React.useState({});
   return (
     <DataTable
-      filterBy="destination"
       data={data}
       setSelectedRows={setSelectedRows}
       columns={columns}

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { CreateDepartmentExecutive } from "../_components/CreateDepartmentExecutive";
 import ManagerInfo from "../_components/ManagerInfo";
 import ExecutivesList from "../_components/ExecutivesList";
-
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function ManagersPage() {
   return (
@@ -36,11 +36,21 @@ export default function ManagersPage() {
           <h3 className="text-2xl font-bold">Manager</h3>
           <ManagerInfo department="finance" />
         </div>
-        <div className="lg:col-span-3">
-          <h3 className="text-2xl font-bold">Executives</h3>
-          <ExecutivesList department="finance" />
-        </div>
+        <Tabs defaultValue="list" className="w-full lg:col-span-3">
+          <div className="flex items-center justify-between">
+            <h3 className="text-2xl font-bold">Executives</h3>
+            <TabsList>
+              <TabsTrigger value="list">List</TabsTrigger>
+              <TabsTrigger value="leaderboard">Leaderboard</TabsTrigger>
+            </TabsList>
+          </div>
+          <TabsContent value="list">
+            <ExecutivesList department="finance" />
+          </TabsContent>
+          <TabsContent value="leaderboard">Coming soon</TabsContent>
+        </Tabs>
       </div>
     </div>
   );
 }
+

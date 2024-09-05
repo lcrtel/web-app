@@ -1,5 +1,5 @@
 import { Skeleton } from "@/components/ui/skeleton";
-import { supabaseServer } from "@/lib/supabase-server";
+import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { unstable_noStore } from "next/cache";
 import { Suspense } from "react";
 import { AddAccountForm } from "../_components/AddAccount";
@@ -23,44 +23,12 @@ export default function Page() {
 }
 const Vendors = async () => {
   unstable_noStore();
-  const supabase = supabaseServer();
+  const supabase = supabaseAdminServer();
   let { data: vendors, error } = await supabase
     .from("profiles")
-    .select("*")
-    .match({ role: "vendor" });
+    .select("*, routes(count)");
 
-  let { data: routes } = await supabase.from("routes").select("*");
-
-  const userRouteCount = routes?.reduce((acc, route) => {
-    const { vendor_id } = route;
-    if (acc.has(vendor_id)) {
-      acc.set(vendor_id, acc.get(vendor_id) + 1);
-    } else {
-      acc.set(vendor_id, 1);
-    }
-    return acc;
-  }, new Map());
-
-  let { data: requests } = await supabase.from("targets").select("*");
-
-  const userRouteRequestCount = requests?.reduce((acc, route) => {
-    const { client_id } = route;
-    if (acc.has(client_id)) {
-      acc.set(client_id, acc.get(client_id) + 1);
-    } else {
-      acc.set(client_id, 1);
-    }
-    return acc;
-  }, new Map());
-
-  const vendorsWithRouteCounts = vendors?.map((user) => {
-    const { id } = user;
-    const routeCount = userRouteCount?.get(id) || 0;
-    const routeRequestCount = userRouteRequestCount?.get(id) || 0;
-    return { ...user, routes: routeCount, requests: routeRequestCount };
-  });
-
-  return <VendorsTable data={vendorsWithRouteCounts} />;
+  return <VendorsTable data={vendors} />;
 };
 
 const Loader = () => {

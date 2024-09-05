@@ -102,7 +102,6 @@ export function ClientsTable({ data }: any) {
 
   return (
     <DataTable
-      filterBy="name"
       data={data}
       setSelectedRows={setSelectedRows}
       columns={columns}

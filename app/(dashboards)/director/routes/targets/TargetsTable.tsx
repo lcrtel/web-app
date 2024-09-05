@@ -192,7 +192,6 @@ export function TargetsTable({ data }: any) {
         setRowSelection={setRowSelection}
         rowSelection={rowSelection}
         setSelectedRows={setSelectedRows}
-        filterBy="destination"
       />
     </>
   );

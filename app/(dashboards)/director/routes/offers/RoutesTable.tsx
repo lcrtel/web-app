@@ -253,7 +253,6 @@ export function RoutesTable({ data }: any) {
       )}
 
       <DataTable
-        filterBy="destination"
         data={data}
         setSelectedRows={setSelectedRows}
         columns={columns}

@@ -25,6 +25,10 @@ export default async function SettingsLayout({
             href: `/u/account`,
         },
         {
+            title: "TR Verification",
+            href: `/u/account/tr-verification`,
+        },
+        {
             title: "Company info",
             href: `/u/account/company`,
         },

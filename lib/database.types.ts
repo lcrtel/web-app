@@ -55,23 +55,54 @@ export type Database = {
         }
         Relationships: []
       }
+      departments: {
+        Row: {
+          created_at: string
+          id: number
+          name: string | null
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          name?: string | null
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          name?: string | null
+          slug?: string
+        }
+        Relationships: []
+      }
       executives: {
         Row: {
           created_at: string
+          department: string | null
           id: number
           user_id: string | null
         }
         Insert: {
           created_at?: string
+          department?: string | null
           id?: number
           user_id?: string | null
         }
         Update: {
           created_at?: string
+          department?: string | null
           id?: number
           user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "executives_department_fkey"
+            columns: ["department"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["slug"]
+          },
           {
             foreignKeyName: "executives_user_id_fkey"
             columns: ["user_id"]
@@ -191,20 +222,30 @@ export type Database = {
       managers: {
         Row: {
           created_at: string
+          department: string | null
           id: number
           user_id: string | null
         }
         Insert: {
           created_at?: string
+          department?: string | null
           id?: number
           user_id?: string | null
         }
         Update: {
           created_at?: string
+          department?: string | null
           id?: number
           user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "managers_department_fkey"
+            columns: ["department"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["slug"]
+          },
           {
             foreignKeyName: "managers_user_id_fkey"
             columns: ["user_id"]
@@ -749,6 +790,47 @@ export type Database = {
           },
         ]
       }
+      tr_verifications: {
+        Row: {
+          company_email: string | null
+          company_name: string | null
+          created_at: string
+          id: number
+          name: string | null
+          status: Database["public"]["Enums"]["statuses"] | null
+          user_id: string | null
+          website: string | null
+        }
+        Insert: {
+          company_email?: string | null
+          company_name?: string | null
+          created_at?: string
+          id?: number
+          name?: string | null
+          status?: Database["public"]["Enums"]["statuses"] | null
+          user_id?: string | null
+          website?: string | null
+        }
+        Update: {
+          company_email?: string | null
+          company_name?: string | null
+          created_at?: string
+          id?: number
+          name?: string | null
+          status?: Database["public"]["Enums"]["statuses"] | null
+          user_id?: string | null
+          website?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tr_verifications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           role_slug: string
@@ -820,7 +902,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      statuses: "PENDING" | "VERIFIED" | "DECLINED"
     }
     CompositeTypes: {
       [_ in never]: never

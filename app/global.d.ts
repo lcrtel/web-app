@@ -12,5 +12,6 @@ declare global {
     type Profile = DB["public"]["Tables"]["profiles"]["Row"];
     type Gateway = DB["public"]["Tables"]["gateways"]["Row"];
     type BankAccount = DB["public"]["Tables"]["bank_accounts"]["Row"];
+    type TRVerification = DB["public"]["Tables"]["tr_verifications"]["Row"];
     type AccountRole = "vendor" | "client" | "agent";
 }

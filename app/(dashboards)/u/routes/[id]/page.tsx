@@ -10,6 +10,7 @@ import { supabaseServer } from "@/lib/supabase-server";
 import formatTimestamptz from "@/utils/formatTimestamptz";
 import { format } from "date-fns";
 import {
+  AlertCircle,
   AreaChart,
   ArrowRight,
   BadgeDollarSign,
@@ -159,17 +160,34 @@ export default async function Page({
                   <p>{purchaseRequest.whatsapp_no}</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-x-2 gap-y-0">
+                  <h4 className="font-medium text-primary-900">
+                    Payment type:
+                  </h4>
+                  <p className="capitalize">{purchaseRequest.payment_type}</p>
+                </div>
+                {!trVerified && (
+                  <div className="flex items-center gap-2 rounded-2xl flex-wrap border border-amber-400 bg-amber-50 p-2 text-xs text-amber-600">
+                    <AlertCircle className="size-4" /> Submit your TR to get approved.{" "}
+                    <Link
+                      href="/u/account/tr-verification"
+                      className="font-semibold underline"
+                    >
+                      Verify now
+                    </Link>
+                  </div>
+                )}
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-0">
                   <h4 className="font-medium text-primary-900">Website:</h4>
                   <p>
                     {format(
                       new Date(purchaseRequest.created_at),
-                      "hh:mm, dd, MMM, yyyy",
+                      "dd MMM yyyy, hh:mm a",
                     )}
                   </p>
                 </div>
                 <div className="flex flex-wrap items-center gap-x-2 gap-y-0">
                   <h4 className="font-medium text-primary-900">
-                    Verification:
+                    Status:
                   </h4>
                   <Badge variant="default">
                     {purchaseRequest.communication_status?.toLowerCase()}
@@ -202,7 +220,9 @@ export default async function Page({
                     <PurchaseForm
                       routeId={params.id}
                       buying_rate={route?.selling_rate}
-                      ip={purchaseRequests?.length ? purchaseRequests?.[0].ip : ""}
+                      ip={
+                        purchaseRequests?.length ? purchaseRequests?.[0].ip : ""
+                      }
                       whatsapp_no={
                         purchaseRequests?.length
                           ? purchaseRequests?.[0].whatsapp_no

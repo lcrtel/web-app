@@ -20,12 +20,12 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import * as z from "zod";
 import { postPurchaseRequest } from "./actions";
-import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   buying_rate: z
@@ -70,10 +70,6 @@ export default function PurchaseForm({
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    if (!trVerified) {
-      toast.error("Please complete TR Verification first");
-      return;
-    }
     setLoading(true);
     const res = await postPurchaseRequest(routeId, data);
     if (res?.error) {
@@ -161,28 +157,25 @@ export default function PurchaseForm({
             </FormItem>
           )}
         />
-        {form.watch("payment_type") === "postpaid" ? (
-          trVerified ? (
-            <Button type="submit" className="w-full">
-              Submit purchase request
-            </Button>
-          ) : (
-            <div className="flex items-center justify-center gap-2 rounded-full bg-primary-50 px-4 py-3 text-sm">
-              <AlertCircle className="size-4" /> Verify your TR to purchase
-              postpaid.{" "}
-              <Link
-                href="/u/account/tr-verification"
-                className="font-semibold underline"
-              >
-                Verify now
-              </Link>
-            </div>
-          )
-        ) : (
-          <Button type="submit" className="w-full">
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Submit purchase request"}
-          </Button>
+        {form.watch("payment_type") === "postpaid" && !trVerified && (
+          <div className="flex items-center justify-center gap-2 rounded-full border border-amber-400 bg-amber-50 px-4 py-3 text-sm text-amber-600">
+            <AlertCircle className="size-4" /> Verify your TR to purchase
+            postpaid.{" "}
+            <Link
+              href="/u/account/tr-verification"
+              className="font-semibold underline"
+            >
+              Verify now
+            </Link>
+          </div>
         )}
+        <Button type="submit" className="w-full">
+          {loading ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            "Submit purchase request"
+          )}
+        </Button>
       </form>
     </Form>
   );

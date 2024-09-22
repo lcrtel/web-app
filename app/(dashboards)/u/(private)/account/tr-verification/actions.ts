@@ -39,7 +39,9 @@ export async function getTRVerificationStatus() {
     .from("tr_verifications")
     .select("status")
     .eq("status", "VERIFIED");
-  if (data && data?.length > 2) {
-    return { status: "VERIFIED" };
+  if (data && data?.length > 1) {
+    return true;
+  } else {
+    return false;
   }
 }

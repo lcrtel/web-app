@@ -175,7 +175,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                       <TableCell className="">
                         <div className="group relative flex items-center gap-2">
                           <Link
-                            href={`/director/users/clients/${request.client_id}`}
+                            href={`/director/users/clients/${request.user_id}`}
                           >
                             {request?.profiles?.name}
                             <span className="text-slate-400">

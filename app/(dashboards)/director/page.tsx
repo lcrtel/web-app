@@ -71,7 +71,7 @@ const PurchaseRequests = async () => {
                 </TableCell>
                 <TableCell>
                   <Link
-                    href={`/director/users/clients/${request.client_id}`}
+                    href={`/director/users/clients/${request.user_id}`}
                     className="group relative flex gap-2"
                   >
                     {request?.profiles?.email}

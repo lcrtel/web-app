@@ -61,7 +61,7 @@ export default async function Page() {
                                     <TableCell className="">
                                         <div className="flex gap-2 group items-center relative">
                                             <Link
-                                                href={`/director/users/clients/${request.client_id}`}
+                                                href={`/director/users/clients/${request.user_id}`}
                                             >
                                                 {request?.profiles?.name}
                                                 <span className=" text-slate-400">

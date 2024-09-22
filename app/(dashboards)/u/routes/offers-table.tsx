@@ -27,6 +27,7 @@ import {
 import { format } from "date-fns";
 import Link from "next/link";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { buttonVariants } from "@/components/ui/button";
 
 const columns: ColumnDef<Route>[] = [
   {
@@ -180,6 +181,22 @@ const columns: ColumnDef<Route>[] = [
           href={`/u/routes/${row.getValue("id")}`}
           className="font-medium"
         ></Link>
+      );
+    },
+  },
+  {
+    accessorKey: "id",
+    header: "",
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-end justify-end">
+          <Link
+            href={`/u/routes/${row.getValue("id")}`}
+            className={buttonVariants({ variant: "outline", size: "sm" })}
+          >
+            Details
+          </Link>
+        </div>
       );
     },
   },

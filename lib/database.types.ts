@@ -793,6 +793,44 @@ export type Database = {
           },
         ]
       }
+      tr_communication: {
+        Row: {
+          created_at: string
+          id: number
+          message: string | null
+          messageId: string | null
+          subject: string | null
+          to: string | null
+          tr_request_id: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          message?: string | null
+          messageId?: string | null
+          subject?: string | null
+          to?: string | null
+          tr_request_id?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          message?: string | null
+          messageId?: string | null
+          subject?: string | null
+          to?: string | null
+          tr_request_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tr_communication_tr_request_id_fkey"
+            columns: ["tr_request_id"]
+            isOneToOne: false
+            referencedRelation: "tr_verifications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tr_verifications: {
         Row: {
           company_email: string | null

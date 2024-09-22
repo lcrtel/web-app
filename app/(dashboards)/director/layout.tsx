@@ -110,6 +110,10 @@ export default async function DashboardLayout({
             title: "Invoices",
             path: "/director/finance/invoices",
           },
+          {
+            title: "TR Verification",
+            path: "/director/finance/tr-verification",
+          },
         ],
       },
     ],

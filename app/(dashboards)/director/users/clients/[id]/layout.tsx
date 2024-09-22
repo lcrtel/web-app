@@ -1,6 +1,6 @@
 import { buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { supabaseServer } from "@/lib/supabase-server";
+import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -24,20 +24,20 @@ export default function SettingsLayout({
       href: `${basePath}/${params.id}/account_settings`,
     },
     {
-      title: "Requests",
-      href: `${basePath}/${params.id}/requests`,
-    },
-    {
-      title: "Purchased Routes",
-      href: `${basePath}/${params.id}/purchased_routes`,
-    },
-    {
       title: "Departments",
       href: `${basePath}/${params.id}/departments`,
     },
     {
       title: "Notifications",
       href: `${basePath}/${params.id}/email_notification`,
+    },
+    {
+      title: "Buying Targets",
+      href: `${basePath}/${params.id}/targets`,
+    },
+    {
+      title: "Purchased Routes",
+      href: `${basePath}/${params.id}/purchased_routes`,
     },
   ];
 
@@ -67,7 +67,7 @@ export default function SettingsLayout({
   );
 }
 async function ClientDetails({ userId }: { userId: any }) {
-  const supabase = supabaseServer();
+  const supabase = supabaseAdminServer();
 
   let { data: user, error } = await supabase
     .from("profiles")
@@ -80,13 +80,13 @@ async function ClientDetails({ userId }: { userId: any }) {
   return (
     user && (
       <>
-          <Link
-            href="/director/users/clients"
-            className={`h-8 mb-2 gap-1 ${buttonVariants({ variant: "outline", size: "sm" })}`}
-          >
-            <ArrowLeft className="size-4" />
-            Clients
-          </Link>
+        <Link
+          href="/director/users/clients"
+          className={`mb-2 h-8 gap-1 ${buttonVariants({ variant: "outline", size: "sm" })}`}
+        >
+          <ArrowLeft className="size-4" />
+          Clients
+        </Link>
         <div className="mb-4 flex flex-col gap-2">
           <div className="">
             <h1 className="text-xl font-bold capitalize tracking-tight">

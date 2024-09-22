@@ -15,4 +15,5 @@ declare global {
     type TRVerification = DB["public"]["Tables"]["tr_verifications"]["Row"];
     type AccountRole = "vendor" | "client" | "agent";
     type StatusEnum = DB["public"]["Enums"]["statuses"];
+    type UserTypesEnum = DB["public"]["Enums"]["user_types"];
 }

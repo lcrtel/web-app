@@ -10,7 +10,7 @@ export default function Page() {
     <div className=" ">
       <div className="flex items-center justify-between">
         <h2 className="text-primary text-2xl font-bold">Vendors</h2>
-        <AddAccountForm role="vendor" type="director" />
+        <AddAccountForm role="vendor"/>
       </div>
 
       <div className="flex w-full flex-col gap-3 overflow-x-auto xl:flex-row">

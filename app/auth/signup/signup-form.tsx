@@ -52,7 +52,7 @@ export const signupFormSchema = z
     },
   );
 
-const SignupForm = () => {
+export default function SignupForm()  {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -213,5 +213,3 @@ const SignupForm = () => {
     </Form>
   );
 };
-
-export default SignupForm;

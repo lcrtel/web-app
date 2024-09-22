@@ -51,7 +51,6 @@ export function DataTable<TData, TValue>({
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
@@ -70,7 +69,7 @@ export function DataTable<TData, TValue>({
   }, [rowSelection, table, setSelectedRows]);
 
   return (
-    <div className="rounded-lg border">
+    <div className="rounded-lg border w-full">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

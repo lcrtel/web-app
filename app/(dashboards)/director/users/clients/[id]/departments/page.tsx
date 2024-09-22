@@ -2,6 +2,7 @@ import { supabaseServer } from "@/lib/supabase-server";
 import { Suspense } from "react";
 import { CompanyForm } from "./CompanyForm";
 import Loader from "@/components/Loader";
+import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 
 export default function Page({ params }: { params: { id: string } }) {
     return (
@@ -18,7 +19,7 @@ export default function Page({ params }: { params: { id: string } }) {
 }
 
 async function Departments({ userId }: { userId: string }) {
-    const supabase = supabaseServer();
+    const supabase = supabaseAdminServer();
 
     let { data: vendor, error } = await supabase
         .from("profiles")

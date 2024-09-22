@@ -26,5 +26,5 @@ const VendorDetails = async ({ id }: { id: string }) => {
         .select("*")
         .eq("id", id)
         .single();
-    return <AccountSettingsForm user={vendor} type="director" />;
+    return <AccountSettingsForm user={vendor} />;
 };

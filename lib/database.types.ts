@@ -380,6 +380,7 @@ export type Database = {
           phone: string | null
           sales_department: Json | null
           skype_id: string | null
+          user_type: Database["public"]["Enums"]["user_types"]
         }
         Insert: {
           company_name?: string | null
@@ -391,6 +392,7 @@ export type Database = {
           phone?: string | null
           sales_department?: Json | null
           skype_id?: string | null
+          user_type?: Database["public"]["Enums"]["user_types"]
         }
         Update: {
           company_name?: string | null
@@ -402,6 +404,7 @@ export type Database = {
           phone?: string | null
           sales_department?: Json | null
           skype_id?: string | null
+          user_type?: Database["public"]["Enums"]["user_types"]
         }
         Relationships: [
           {
@@ -944,6 +947,7 @@ export type Database = {
     }
     Enums: {
       statuses: "PENDING" | "VERIFIED" | "DECLINED"
+      user_types: "STAFF" | "CLIENT" | "VENDOR"
     }
     CompositeTypes: {
       [_ in never]: never

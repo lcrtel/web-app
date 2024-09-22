@@ -9,9 +9,9 @@ export default function Page() {
   return (
     <div className=" ">
       <div>
-        <div className="flex items-center justify-between">
+        <div className="mb-4 flex items-center justify-between">
           <h2 className="text-primary text-2xl font-bold">Clients</h2>
-          <AddAccountForm role="client" type="director" />
+          <AddAccountForm role="client" />
         </div>
       </div>
 
@@ -25,31 +25,13 @@ export default function Page() {
 }
 
 const Clients = async () => {
-  unstable_noStore();
   const supabase = supabaseAdminServer();
-  let { data: clients, error } = await supabase
+  let { data: clients } = await supabase
     .from("profiles")
     .select("*, user_roles!inner(*)")
-    .eq("user_roles.role_slug", "user");
-  let { data: targets } = await supabase.from("targets").select("*");
-
-  const userRouteCounts = targets?.reduce((acc, route) => {
-    const { client_id } = route;
-    if (acc.has(client_id)) {
-      acc.set(client_id, acc.get(client_id) + 1);
-    } else {
-      acc.set(client_id, 1);
-    }
-    return acc;
-  }, new Map());
-
-  const clientsWithTargetCounts = clients?.map((user) => {
-    const { id } = user;
-    const targetCount = userRouteCounts?.get(id) || 0;
-    return { ...user, targets: targetCount };
-  });
-
-  return <ClientsTable data={clientsWithTargetCounts} />;
+    .eq("user_roles.role_slug", "user")
+    .match({ user_type: "CLIENT" });
+  return <ClientsTable data={clients} />;
 };
 
 const Loader = () => {

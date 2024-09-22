@@ -1,6 +1,6 @@
 import Loader from "@/components/Loader";
 import { buttonVariants } from "@/components/ui/button";
-import { supabaseServer } from "@/lib/supabase-server";
+import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import formatDate from "@/utils/formatDate";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -9,7 +9,7 @@ import { HiPencilAlt } from "react-icons/hi";
 export default function RequestsPage({ params }: { params: { id: string } }) {
   return (
     <div>
-      <h1 className="text-lg font-semibold tracking-tight">Route Requests</h1>
+      <h1 className="text-lg font-semibold tracking-tight">Buying targets</h1>
       <div className="grid max-w-7xl gap-4 pt-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <Suspense
           fallback={
@@ -26,13 +26,13 @@ export default function RequestsPage({ params }: { params: { id: string } }) {
 }
 
 async function Requests({ userId }: { userId: string }) {
-  const supabase = supabaseServer();
-  let { data: request, error } = await supabase
+  const supabase = supabaseAdminServer();
+  let { data: targets, error } = await supabase
     .from("targets")
     .select("*")
     .eq("client_id", userId);
-  return request?.length ? (
-    request?.map((route) => (
+  return targets?.length ? (
+    targets?.map((route) => (
       <div
         className="flex w-full flex-col justify-between rounded-xl border bg-surface p-4"
         key={route.id}

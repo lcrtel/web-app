@@ -503,6 +503,7 @@ export type Database = {
           pdd: string
           ports: string
           rate: string
+          remarks: string | null
           route_type: string
           selling_rate: string
           updated_at: string | null
@@ -522,6 +523,7 @@ export type Database = {
           pdd: string
           ports: string
           rate: string
+          remarks?: string | null
           route_type: string
           selling_rate?: string
           updated_at?: string | null
@@ -541,6 +543,7 @@ export type Database = {
           pdd?: string
           ports?: string
           rate?: string
+          remarks?: string | null
           route_type?: string
           selling_rate?: string
           updated_at?: string | null
@@ -570,6 +573,7 @@ export type Database = {
           pdd: string
           ports: string
           rate: string
+          remarks: string | null
           route_id: string | null
           route_type: string
           selling_rate: string
@@ -584,6 +588,7 @@ export type Database = {
           pdd: string
           ports: string
           rate: string
+          remarks?: string | null
           route_id?: string | null
           route_type: string
           selling_rate?: string
@@ -598,6 +603,7 @@ export type Database = {
           pdd?: string
           ports?: string
           rate?: string
+          remarks?: string | null
           route_id?: string | null
           route_type?: string
           selling_rate?: string
@@ -700,6 +706,7 @@ export type Database = {
           pdd: string
           ports: string
           rate: string
+          remarks: string | null
           route_type: string
           updated_at: string | null
         }
@@ -715,6 +722,7 @@ export type Database = {
           pdd: string
           ports: string
           rate: string
+          remarks?: string | null
           route_type: string
           updated_at?: string | null
         }
@@ -730,6 +738,7 @@ export type Database = {
           pdd?: string
           ports?: string
           rate?: string
+          remarks?: string | null
           route_type?: string
           updated_at?: string | null
         }
@@ -755,6 +764,7 @@ export type Database = {
           pdd: string
           ports: string
           rate: string
+          remarks: string | null
           route_type: string
           target_id: string | null
         }
@@ -769,6 +779,7 @@ export type Database = {
           pdd: string
           ports: string
           rate: string
+          remarks?: string | null
           route_type: string
           target_id?: string | null
         }
@@ -783,6 +794,7 @@ export type Database = {
           pdd?: string
           ports?: string
           rate?: string
+          remarks?: string | null
           route_type?: string
           target_id?: string | null
         }

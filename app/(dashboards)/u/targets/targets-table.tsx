@@ -9,6 +9,7 @@ import * as React from "react";
 import { DataTable } from "@/components/ui/data-table";
 import { format } from "date-fns";
 import Link from "next/link";
+import { HiOutlineExternalLink } from "react-icons/hi";
 
 export const columns: ColumnDef<Target>[] = [
   {
@@ -148,11 +149,32 @@ export const columns: ColumnDef<Target>[] = [
     },
   },
   {
+    accessorKey: "remarks",
+    header: ({ column }) => {
+      return (
+        <div className="flex cursor-pointer items-center gap-2 whitespace-nowrap">
+          Remarks
+        </div>
+      );
+    },
+    cell: ({ row }) => {
+      return <div className="font-medium">{row.getValue("remarks")}</div>;
+    },
+  },
+  {
     accessorKey: "id",
     header: "",
     cell: ({ row }) => {
-      const id = row.getValue("id");
-      return <p></p>;
+      return (
+        <div className="flex items-end justify-end">
+          <Link
+            href={`/u/targets/${row.getValue("id")}`}
+            className="flex items-center gap-1 rounded-full border px-2 py-1 text-xs"
+          >
+            Details <HiOutlineExternalLink className="size-4" />
+          </Link>
+        </div>
+      );
     },
   },
 ];

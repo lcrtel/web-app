@@ -178,10 +178,9 @@ const columns: ColumnDef<Route>[] = [
     },
     cell: ({ row }) => {
       return (
-        <Link
-          href={`/u/routes/${row.getValue("id")}`}
+        <div
           className="font-medium"
-        ></Link>
+        >{row.getValue("remarks")}</div>
       );
     },
   },

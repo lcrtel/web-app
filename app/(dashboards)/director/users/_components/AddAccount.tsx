@@ -45,6 +45,7 @@ export const AddAccountForm = ({ role }: { role: UserTypesEnum }) => {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const user_type = role.toLowerCase();
 
   async function onSubmit(user: any) {
     setLoading(true);
@@ -57,18 +58,18 @@ export const AddAccountForm = ({ role }: { role: UserTypesEnum }) => {
     }
     setLoading(false);
     toast.dismiss(adding);
-    toast.success(`Added ${role}: ${user.name}`);
+    toast.success(`Added ${user_type}: ${user.name}`);
     router.refresh();
     setIsOpen(false);
   }
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button variant="default">Add {role}</Button>
+        <Button variant="default" className="capitalize">Add {user_type}</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle className="text-primary-900">Add {role}</SheetTitle>
+          <SheetTitle className="text-primary-900">Add {user_type}</SheetTitle>
         </SheetHeader>
         <Form {...form}>
           <form
@@ -80,7 +81,7 @@ export const AddAccountForm = ({ role }: { role: UserTypesEnum }) => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="capitalize">{role} Name</FormLabel>
+                  <FormLabel className="capitalize">{user_type} Name</FormLabel>
                   <FormControl>
                     <Input placeholder="Name" {...field} />
                   </FormControl>

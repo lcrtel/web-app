@@ -1,12 +1,12 @@
 import MetricsCard from "@/components/MetricsCard";
 import { Skeleton } from "@/components/ui/skeleton";
-import { supabaseServer } from "@/lib/supabase-server";
+import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { unstable_noStore } from "next/cache";
 import Link from "next/link";
 import { Suspense } from "react";
 
 const Routes = async () => {
-  const supabase = supabaseServer();
+  const supabase = supabaseAdminServer();
 
   unstable_noStore();
   let { data: offers, error } = await supabase
@@ -21,7 +21,7 @@ const Routes = async () => {
 };
 
 const Targets = async () => {
-  const supabase = supabaseServer();
+  const supabase = supabaseAdminServer();
 
   unstable_noStore();
   let { data: targets, error } = await supabase.from("targets").select("id");
@@ -33,13 +33,12 @@ const Targets = async () => {
 };
 
 const Clients = async () => {
-  const supabase = supabaseServer();
-  unstable_noStore();
-
-  let { data: clients, error } = await supabase
+  const supabase = supabaseAdminServer();
+  let { data: clients } = await supabase
     .from("profiles")
-    .select("*")
-    .or(`role.eq.client,role.eq.vendor`);
+    .select("*, user_roles!inner(*)")
+    .eq("user_roles.role_slug", "user")
+    .match({ user_type: "CLIENT" });
   return (
     <Link href="/director/users/clients">
       <MetricsCard count={clients?.length} label="Clients" />
@@ -48,13 +47,12 @@ const Clients = async () => {
 };
 
 const Vendors = async () => {
-  const supabase = supabaseServer();
-  unstable_noStore();
-
-  let { data: vendors, error } = await supabase
+  const supabase = supabaseAdminServer();
+  let { data: vendors } = await supabase
     .from("profiles")
-    .select("*")
-    .eq("role", "vendor");
+    .select("*, user_roles!inner(*)")
+    .eq("user_roles.role_slug", "user")
+    .match({ user_type: "VENDOR" });
   return (
     <Link href="/director/users/vendors">
       <MetricsCard count={vendors?.length} label="Vendors" />
@@ -62,21 +60,6 @@ const Vendors = async () => {
   );
 };
 
-const Agents = async () => {
-  const supabase = supabaseServer();
-
-  unstable_noStore();
-  let { data: agents, error } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("role", "agent");
-
-  return (
-    <Link href="/director/users/agents">
-      <MetricsCard count={agents?.length} label="Agents" />
-    </Link>
-  );
-};
 
 const Overview = () => {
   return (
@@ -103,12 +86,6 @@ const Overview = () => {
         >
           {" "}
           <Vendors />
-        </Suspense>
-        <Suspense
-          fallback={<Skeleton className="h-[110px] rounded-xl border" />}
-        >
-          {" "}
-          <Agents />
         </Suspense>
       </div>
     </section>

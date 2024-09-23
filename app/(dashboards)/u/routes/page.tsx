@@ -1,14 +1,15 @@
 import Loader from "@/components/Loader";
 import RoutesSearch from "@/components/RoutesSearch";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { buttonVariants } from "@/components/ui/button";
 import { supabaseServer } from "@/lib/supabase-server";
 import { fetchUser } from "@/utils/user";
-import { List, Table } from "lucide-react";
+import { ArrowRight, SearchX } from "lucide-react";
 import { unstable_noStore } from "next/cache";
 import Link from "next/link";
 import { Suspense } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { OffersTable } from "./offers-table";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Page({
   searchParams,
@@ -21,10 +22,14 @@ export default function Page({
         Route Offers
       </h3>
       <p className="mb-4 text-sm text-slate-400">Explore our route offers</p>
-
-      <Suspense fallback={<Loader />}>
-        <Routes searchParams={searchParams} />
-      </Suspense>
+      <div className="space-y-2">
+        <Suspense>
+          <RoutesSearch />
+        </Suspense>
+        <Suspense fallback={<Skeleton className="h-40"/>}>
+          <Routes searchParams={searchParams} />
+        </Suspense>
+      </div>
       <Link
         href="/u/my-targets/post"
         passHref
@@ -54,39 +59,38 @@ async function Routes({
 }) {
   unstable_noStore();
   const user = await fetchUser();
+  let filter: any = {};
+  if (searchParams.route_type) {
+    filter.route_type = searchParams.route_type;
+  }
+  if (searchParams.prefix) {
+    filter.destination_code = searchParams.prefix;
+  }
   const supabase = supabaseServer();
   let query = supabase
     .from("routes")
     .select("*")
-    .eq("verification", "verified");
+    .eq("verification", "verified")
+    .match(filter);
   let { data: routes, error } = await query;
   if (user) {
     query = query.neq("vendor_id", user?.id);
   }
 
   return routes?.length ? (
-    <Tabs defaultValue="table">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <Suspense>
-          <RoutesSearch />
-        </Suspense>
-        <TabsList>
-          <TabsTrigger value="table">
-            <Table className="size-4" />
-          </TabsTrigger>
-          <TabsTrigger value="list">
-            <List className="size-4" />
-          </TabsTrigger>
-        </TabsList>
-      </div>
-      <TabsContent value="table">
-        <OffersTable data={routes} />
-      </TabsContent>
-      <TabsContent value="list">Coming soon</TabsContent>
-    </Tabs>
+    <OffersTable data={routes} />
   ) : (
-    <div className="flex h-12 items-center justify-center gap-2 rounded-lg bg-surface py-10 text-center">
-      <p>No routes found</p>
+    <div className="flex h-[200px] flex-col items-center justify-center gap-5 rounded-lg border text-center text-slate-400">
+      <SearchX className="size-10" />
+      <p>Sorry, we did not find any routes for your search</p>
+      <Link
+        href="/u/post-targets"
+        className={`${buttonVariants({
+          size: "sm",
+        })}`}
+      >
+        Post your buying target <ArrowRight className="ml-2 size-4" />
+      </Link>
     </div>
   );
 }

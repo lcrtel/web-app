@@ -28,6 +28,7 @@ import { format } from "date-fns";
 import Link from "next/link";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { buttonVariants } from "@/components/ui/button";
+import { HiOutlineExternalLink } from "react-icons/hi";
 
 const columns: ColumnDef<Route>[] = [
   {
@@ -192,9 +193,9 @@ const columns: ColumnDef<Route>[] = [
         <div className="flex items-end justify-end">
           <Link
             href={`/u/routes/${row.getValue("id")}`}
-            className={buttonVariants({ variant: "outline", size: "sm" })}
+            className="flex items-center gap-1 rounded-full border px-2 py-1 text-xs"
           >
-            Details
+            Details <HiOutlineExternalLink className="size-4" />
           </Link>
         </div>
       );

@@ -1,11 +1,11 @@
 import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
 import { supabaseServer } from "@/lib/supabase-server";
 import formatString from "@/utils/formatString";
@@ -21,7 +21,7 @@ import { RoutesTable } from "./routes/offers/RoutesTable";
 import { EditPurchaseRequest } from "./routes/targets/EditPurchaseRequest";
 
 export const metadata: Metadata = {
-  title: "Dashboard - Admin",
+  title: "Dashboard - Director",
 };
 
 const PurchaseRequests = async () => {
@@ -128,6 +128,7 @@ const page = () => {
   return (
     <div>
       <h1 className="text-primary mb-5 text-2xl font-bold">Welcome 👋</h1>
+
       <Overview />
       <QuickActions />
       <PurchaseRequests />

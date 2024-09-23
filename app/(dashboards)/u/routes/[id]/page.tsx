@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { supabaseServer } from "@/lib/supabase-server";
 import formatTimestamptz from "@/utils/formatTimestamptz";
+import { fetchUser } from "@/utils/user";
 import { format } from "date-fns";
 import {
   AlertCircle,
@@ -34,7 +35,7 @@ export default async function Page({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const supabase = supabaseServer();
-
+  const user = await fetchUser();
   let { data: route } = await supabase
     .from("routes")
     .select("*")
@@ -140,100 +141,114 @@ export default async function Page({
               </AccordionItem>
             </Accordion>
           </div>
-          {purchaseRequest ? (
-            <div className="m-4 rounded-lg border bg-slate-50 px-4 pb-4">
-              <div className="flex items-center justify-center gap-2 p-4">
-                Your purchase request has been submitted{" "}
-                <CheckCircle2 className="size-5" />
+          {user?.id ? (
+            purchaseRequest ? (
+              <div className="m-4 rounded-lg border bg-slate-50 px-4 pb-4">
+                <div className="flex items-center justify-center gap-2 p-4">
+                  Your purchase request has been submitted{" "}
+                  <CheckCircle2 className="size-5" />
+                </div>
+                <div className="space-y-3 rounded-lg border bg-white p-5 text-slate-500">
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-0">
+                    <h4 className="font-medium text-primary-900">
+                      Buying rate:
+                    </h4>
+                    <p>{purchaseRequest.buying_rate}</p>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-0">
+                    <h4 className="font-medium text-primary-900">
+                      IP Address:
+                    </h4>
+                    <p>{purchaseRequest.ip}</p>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-0">
+                    <h4 className="font-medium text-primary-900">
+                      WhatsApp No:
+                    </h4>
+                    <p>{purchaseRequest.whatsapp_no}</p>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-0">
+                    <h4 className="font-medium text-primary-900">
+                      Payment type:
+                    </h4>
+                    <p className="capitalize">{purchaseRequest.payment_type}</p>
+                  </div>
+                  {!trVerified && (
+                    <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-amber-400 bg-amber-50 p-2 text-xs text-amber-600">
+                      <AlertCircle className="size-4" /> Submit your TR to get
+                      approved.{" "}
+                      <Link
+                        href="/u/account/tr-verification"
+                        className="font-semibold underline"
+                      >
+                        Verify now
+                      </Link>
+                    </div>
+                  )}
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-0">
+                    <h4 className="font-medium text-primary-900">Website:</h4>
+                    <p>
+                      {format(
+                        new Date(purchaseRequest.created_at),
+                        "dd MMM yyyy, hh:mm a",
+                      )}
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-0">
+                    <h4 className="font-medium text-primary-900">Status:</h4>
+                    <Badge variant="default">
+                      {purchaseRequest.communication_status?.toLowerCase()}
+                    </Badge>
+                  </div>
+                </div>
               </div>
-              <div className="space-y-3 rounded-lg border bg-white p-5 text-slate-500">
-                <div className="flex flex-wrap items-center gap-x-2 gap-y-0">
-                  <h4 className="font-medium text-primary-900">Buying rate:</h4>
-                  <p>{purchaseRequest.buying_rate}</p>
-                </div>
-                <div className="flex flex-wrap items-center gap-x-2 gap-y-0">
-                  <h4 className="font-medium text-primary-900">IP Address:</h4>
-                  <p>{purchaseRequest.ip}</p>
-                </div>
-                <div className="flex flex-wrap items-center gap-x-2 gap-y-0">
-                  <h4 className="font-medium text-primary-900">WhatsApp No:</h4>
-                  <p>{purchaseRequest.whatsapp_no}</p>
-                </div>
-                <div className="flex flex-wrap items-center gap-x-2 gap-y-0">
-                  <h4 className="font-medium text-primary-900">
-                    Payment type:
-                  </h4>
-                  <p className="capitalize">{purchaseRequest.payment_type}</p>
-                </div>
-                {!trVerified && (
-                  <div className="flex items-center gap-2 rounded-2xl flex-wrap border border-amber-400 bg-amber-50 p-2 text-xs text-amber-600">
-                    <AlertCircle className="size-4" /> Submit your TR to get approved.{" "}
+            ) : (
+              <>
+                {searchParams.option !== "purchase" && (
+                  <div className="flex w-full items-center gap-2 border-t p-4">
                     <Link
-                      href="/u/account/tr-verification"
-                      className="font-semibold underline"
+                      className={`w-full gap-2 ${buttonVariants({ variant: "default" })}`}
+                      href="?option=purchase"
                     >
-                      Verify now
+                      Purchase now
                     </Link>
                   </div>
                 )}
-                <div className="flex flex-wrap items-center gap-x-2 gap-y-0">
-                  <h4 className="font-medium text-primary-900">Website:</h4>
-                  <p>
-                    {format(
-                      new Date(purchaseRequest.created_at),
-                      "dd MMM yyyy, hh:mm a",
-                    )}
-                  </p>
-                </div>
-                <div className="flex flex-wrap items-center gap-x-2 gap-y-0">
-                  <h4 className="font-medium text-primary-900">
-                    Status:
-                  </h4>
-                  <Badge variant="default">
-                    {purchaseRequest.communication_status?.toLowerCase()}
-                  </Badge>
-                </div>
-              </div>
-            </div>
+                <Accordion
+                  type="single"
+                  value={
+                    searchParams.option === "purchase" ? "purchase" : undefined
+                  }
+                  collapsible
+                  className="w-full border-t"
+                >
+                  <AccordionItem value="purchase" className="w-full border-b-0">
+                    <AccordionContent className="w-full p-4">
+                      <PurchaseForm
+                        routeId={params.id}
+                        buying_rate={route?.selling_rate}
+                        ip={
+                          purchaseRequests?.length
+                            ? purchaseRequests?.[0].ip
+                            : ""
+                        }
+                        whatsapp_no={
+                          purchaseRequests?.length
+                            ? purchaseRequests?.[0].whatsapp_no
+                            : ""
+                        }
+                        trVerified={trVerified}
+                      />
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </>
+            )
           ) : (
-            <>
-              {searchParams.option !== "purchase" && (
-                <div className="flex w-full items-center gap-2 border-t p-4">
-                  <Link
-                    className={`w-full gap-2 ${buttonVariants({ variant: "default" })}`}
-                    href="?option=purchase"
-                  >
-                    Purchase now
-                  </Link>
-                </div>
-              )}
-              <Accordion
-                type="single"
-                value={
-                  searchParams.option === "purchase" ? "purchase" : undefined
-                }
-                collapsible
-                className="w-full border-t"
-              >
-                <AccordionItem value="purchase" className="w-full border-b-0">
-                  <AccordionContent className="w-full p-4">
-                    <PurchaseForm
-                      routeId={params.id}
-                      buying_rate={route?.selling_rate}
-                      ip={
-                        purchaseRequests?.length ? purchaseRequests?.[0].ip : ""
-                      }
-                      whatsapp_no={
-                        purchaseRequests?.length
-                          ? purchaseRequests?.[0].whatsapp_no
-                          : ""
-                      }
-                      trVerified={trVerified}
-                    />
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </>
+            <div className="m-4 rounded-lg bg-primary-50 p-4 text-center">
+              Please login to purchase{" "}
+              <Link href="/auth/login" className="bg-primary-900 px-3 py-1.5 ml-2 text-sm rounded-full text-white">Login</Link>
+            </div>
           )}
         </div>
       </div>

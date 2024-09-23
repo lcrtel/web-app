@@ -39,7 +39,7 @@ export async function marketSearch(prefix: string, type: string) {
   const { data: routes, error } = await supabase
     .from("routes")
     .select(
-      "destination, destination_code, route_type, selling_rate, asr , pdd, created_at",
+      "destination, destination_code, route_type, selling_rate, asr , pdd, created_at, id",
     )
     .match(filter).range(0, 10);
   if (error) {

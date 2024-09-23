@@ -55,11 +55,15 @@ async function Routes({
   unstable_noStore();
   const user = await fetchUser();
   const supabase = supabaseServer();
-  let { data: routes, error } = await supabase
+  let query = supabase
     .from("routes")
     .select("*")
-    .eq("verification", "verified")
-    .neq("vendor_id", user?.id);
+    .eq("verification", "verified");
+  let { data: routes, error } = await query;
+  if (user) {
+    query = query.neq("vendor_id", user?.id);
+  }
+
   return routes?.length ? (
     <Tabs defaultValue="table">
       <div className="flex flex-wrap items-center justify-between gap-2">

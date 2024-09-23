@@ -11,7 +11,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, ExternalLink } from "lucide-react";
 import * as React from "react";
 
 import {
@@ -23,6 +23,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { format } from "date-fns";
+import Link from "next/link";
+import { HiExternalLink, HiOutlineExternalLink } from "react-icons/hi";
 
 export const columns: ColumnDef<Route>[] = [
   {
@@ -69,7 +71,9 @@ export const columns: ColumnDef<Route>[] = [
         currency: "USD",
       }).format(amount);
 
-      return <div className="font-medium">$ {row.getValue("selling_rate")}</div>;
+      return (
+        <div className="font-medium">$ {row.getValue("selling_rate")}</div>
+      );
     },
   },
   {
@@ -117,6 +121,20 @@ export const columns: ColumnDef<Route>[] = [
         </div>
       );
     },
+  },
+  {
+    accessorKey: "id",
+    header: "",
+    cell: ({ row }) => (
+      <div className="flex justify-end">
+        <Link
+          href={`/u/routes/${row.getValue("id")}`}
+          className="rounded-full border px-2 py-1 flex items-center gap-1 text-xs"
+        >
+          Details <HiOutlineExternalLink className="size-4"/>
+        </Link>
+      </div>
+    ),
   },
 ];
 

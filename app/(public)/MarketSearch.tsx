@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 import {
   Command,
@@ -16,6 +16,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import {
+  ArrowRight,
   Check,
   ChevronsUpDown,
   FilterXIcon,
@@ -27,11 +28,12 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import updatePhoneCodes, { marketSearch } from "./actions";
 import { RatesTable } from "./rates-table";
+import Link from "next/link";
 
 export default function InputForm({
   initialRoutes,
 }: {
-  initialRoutes: Route[];
+  initialRoutes: any[];
 }): JSX.Element {
   const [routeOffers, setRouteOffers] = useState<any[]>(initialRoutes);
   const [prefix, setPrefix] = useState<string>("");
@@ -142,6 +144,14 @@ export default function InputForm({
         <div className="flex h-[180px] flex-col items-center justify-center gap-5 text-center text-slate-400">
           <SearchX className="size-10" />
           <p>Sorry, we did not find any routes for your search</p>
+          <Link
+            href="/u/post-targets"
+            className={`${buttonVariants({
+              size: "sm",
+            })}`}
+          >
+            Post your buying target <ArrowRight className="size-4 ml-2"/>
+          </Link>
         </div>
       )}
     </div>
@@ -187,7 +197,7 @@ const Destination = ({
         {loading && <Loader2 className="size-4 animate-spin" />}
       </div>
       {destinations.length > 0 && isOpen && (
-        <ScrollArea className="!absolute left-0 top-11 h-[180px] bg-white z-10 rounded-md border p-4">
+        <ScrollArea className="!absolute left-0 top-11 z-10 h-[180px] rounded-md border bg-white p-4">
           {destinations.map((destination) => (
             <li
               key={destination.code}

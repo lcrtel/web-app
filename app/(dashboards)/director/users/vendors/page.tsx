@@ -8,9 +8,9 @@ import { VendorsTable } from "./VendorsTable";
 export default function Page() {
   return (
     <div className=" ">
-      <div className="flex items-center justify-between">
+      <div className="flex mb-4 items-center justify-between">
         <h2 className="text-primary text-2xl font-bold">Vendors</h2>
-        <AddAccountForm role="vendor"/>
+        <AddAccountForm role="VENDOR"/>
       </div>
 
       <div className="flex w-full flex-col gap-3 overflow-x-auto xl:flex-row">
@@ -26,7 +26,9 @@ const Vendors = async () => {
   const supabase = supabaseAdminServer();
   let { data: vendors, error } = await supabase
     .from("profiles")
-    .select("*, routes(count)");
+    .select("*, user_roles!inner(*)")
+    .eq("user_roles.role_slug", "user")
+    .match({ user_type: "VENDOR" });
 
   return <VendorsTable data={vendors} />;
 };

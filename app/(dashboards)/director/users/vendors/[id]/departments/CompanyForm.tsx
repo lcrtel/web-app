@@ -24,9 +24,9 @@ import {
 } from "../../../actions";
 
 const departmentSchema = z.object({
-  name: z.string().optional(),
-  email: z.string().optional(),
-  phone: z.string().optional(),
+  name: z.string(),
+  email: z.string(),
+  phone: z.string(),
   skype_id: z.string().optional(),
 });
 
@@ -54,7 +54,7 @@ export function CompanyForm({ user }: { user: any }) {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5 items-end"
+          className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5 items-start"
         >
           <FormField
             control={form.control}
@@ -108,7 +108,7 @@ export function CompanyForm({ user }: { user: any }) {
               </FormItem>
             )}
           />
-          <Button type="submit">Save</Button>
+          <Button type="submit" className="self-end">Save</Button>
         </form>
       </Form>
     );

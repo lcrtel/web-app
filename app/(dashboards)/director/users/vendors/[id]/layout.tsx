@@ -1,6 +1,6 @@
 import { buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { supabaseServer } from "@/lib/supabase-server";
+import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -24,6 +24,14 @@ export default function SettingsLayout({
       href: `${basePath}/${params.id}/account_settings`,
     },
     {
+      title: "Departments",
+      href: `${basePath}/${params.id}/departments`,
+    },
+    {
+      title: "Notification",
+      href: `${basePath}/${params.id}/email_notification`,
+    },
+    {
       title: "Route Offers",
       href: `${basePath}/${params.id}/routes`,
     },
@@ -32,16 +40,8 @@ export default function SettingsLayout({
       href: `${basePath}/${params.id}/purchased_routes`,
     },
     {
-      title: "Requests",
-      href: `${basePath}/${params.id}/requests`,
-    },
-    {
-      title: "Departments",
-      href: `${basePath}/${params.id}/departments`,
-    },
-    {
-      title: "Notification",
-      href: `${basePath}/${params.id}/email_notification`,
+      title: "Buying Targets",
+      href: `${basePath}/${params.id}/targets`,
     },
   ];
 
@@ -69,7 +69,7 @@ export default function SettingsLayout({
 }
 
 async function VendorDetails({ userId }: { userId: any }) {
-  const supabase = supabaseServer();
+  const supabase = supabaseAdminServer();
 
   let { data: vendor, error } = await supabase
     .from("profiles")

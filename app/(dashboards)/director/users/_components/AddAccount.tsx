@@ -36,7 +36,7 @@ const accountSchema = z.object({
   skype_id: z.string().optional(),
 });
 
-export const AddAccountForm = ({ role }: { role: AccountRole }) => {
+export const AddAccountForm = ({ role }: { role: UserTypesEnum }) => {
   const form = useForm<any>({
     resolver: zodResolver(accountSchema),
     mode: "onChange",
@@ -88,21 +88,19 @@ export const AddAccountForm = ({ role }: { role: AccountRole }) => {
                 </FormItem>
               )}
             />
-            {role !== "agent" && (
-              <FormField
-                control={form.control}
-                name="company_name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Company Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Company Name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            )}
+            <FormField
+              control={form.control}
+              name="company_name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Company Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Company Name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <FormField
               control={form.control}

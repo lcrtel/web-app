@@ -1,6 +1,6 @@
 import Loader from "@/components/Loader";
 import { buttonVariants } from "@/components/ui/button";
-import { supabaseServer } from "@/lib/supabase-server";
+import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import formatDate from "@/utils/formatDate";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -26,7 +26,7 @@ export default function RequestsPage({ params }: { params: { id: string } }) {
 }
 
 async function Requests({ userId }: { userId: string }) {
-  const supabase = supabaseServer();
+  const supabase = supabaseAdminServer();
   let { data: request, error } = await supabase
     .from("targets")
     .select("*")

@@ -1,6 +1,6 @@
 import { EditRoute } from "@/app/(dashboards)/director/routes/offers/[id]/EditRoute";
 import Loader from "@/components/Loader";
-import { supabaseServer } from "@/lib/supabase-server";
+import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import formatDate from "@/utils/formatDate";
 import { Suspense } from "react";
 
@@ -24,7 +24,7 @@ export default function Page({ params }: { params: { id: string } }) {
 }
 
 async function Routes({ userId }: { userId: any }) {
-  const supabase = supabaseServer();
+  const supabase = supabaseAdminServer();
   let { data: routes, error } = await supabase
     .from("routes")
     .select("*")

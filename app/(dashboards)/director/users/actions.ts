@@ -69,29 +69,37 @@ export async function updateAccountDetails(user: any) {
   return { success: true };
 }
 
-export async function addAccount(user: any, role: AccountRole) {
+export async function addAccount(formData: any, userType: UserTypesEnum) {
   const supabase = supabaseAdminServer();
-  const { error } = await supabase.auth.admin.createUser({
-    email: user.email,
-    password: user.password,
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.admin.createUser({
+    email: formData.email,
+    password: formData.password,
     email_confirm: true,
     user_metadata: {
-      name: user.name,
-      company_name: user.company_name,
-      email: user.email,
-      phone: user.phone,
-      skype_id: user.skype_id,
+      name: formData.name,
+      company_name: formData.company_name,
+      email: formData.email,
+      phone: formData.phone,
+      skype_id: formData.skype_id,
     },
   });
 
   if (error) {
     return { error: error.message };
+  } else if (user) {
+    await supabase
+      .from("profiles")
+      .update({ user_type: userType })
+      .eq("id", user?.id);
   }
   transporter.sendMail({
     from: process.env.SMTP_USER,
-    to: user?.email,
+    to: formData?.email,
     subject: "Welcome to LCRTel.com! Account Details Inside.",
-    html: await renderAsync(AddAccountEmail({ user: user })),
+    html: await renderAsync(AddAccountEmail({ user: formData })),
   });
 }
 

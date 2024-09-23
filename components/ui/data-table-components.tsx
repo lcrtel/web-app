@@ -79,14 +79,14 @@ export function DataTablePagination<TData>({
   table,
 }: DataTablePaginationProps<TData>) {
   return (
-    <div className="flex items-center justify-end p-2">
-      {!!table.getFilteredSelectedRowModel().rows.length && (
-        <div className="text-muted-foreground flex-1 text-sm">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
-      )}
-      {table.getFilteredRowModel().rows?.length >= 10 && (
+    table.getFilteredRowModel().rows?.length >= 10 && (
+      <div className="flex items-center justify-end p-2">
+        {!!table.getFilteredSelectedRowModel().rows.length && (
+          <div className="text-muted-foreground flex-1 text-sm">
+            {table.getFilteredSelectedRowModel().rows.length} of{" "}
+            {table.getFilteredRowModel().rows.length} row(s) selected.
+          </div>
+        )}
         <div className="flex items-center space-x-6 self-end lg:space-x-8">
           <div className="flex items-center space-x-2">
             <p className="text-sm font-medium">Rows per page</p>
@@ -153,7 +153,7 @@ export function DataTablePagination<TData>({
             </Button>
           </div>
         </div>
-      )}
-    </div>
+      </div>
+    )
   );
 }

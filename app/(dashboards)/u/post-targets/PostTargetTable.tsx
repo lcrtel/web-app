@@ -31,8 +31,6 @@ export function PostTargetTable({
   const [isPosting, setIsPosting] = useState(false);
   const router = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isOtpModalOpen, setIsOtpModalOpen] = useState(false);
-  const [email, setEmail] = useState<string | undefined>(userEmail);
   const [data, setData] = useState<any>([
     {
       id: uuidv4(),
@@ -43,6 +41,7 @@ export function PostTargetTable({
       acd: "",
       ports: "",
       pdd: "",
+      remarks: "",
     },
   ]);
 

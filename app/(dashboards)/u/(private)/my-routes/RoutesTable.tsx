@@ -1,8 +1,6 @@
 "use client";
 
-import {
-    ColumnDef
-} from "@tanstack/react-table";
+import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import * as React from "react";
 
@@ -19,10 +17,7 @@ export const columns: ColumnDef<Route>[] = [
       return <div className="min-w-[100px] whitespace-nowrap">Destination</div>;
     },
     cell: ({ row }) => (
-      <Link
-        href={`/u/my-routes/${row.getValue("id")}`}
-        className="capitalize"
-      >
+      <Link href={`/u/my-routes/${row.getValue("id")}`} className="capitalize">
         {row.getValue("destination")}
       </Link>
     ),
@@ -31,10 +26,7 @@ export const columns: ColumnDef<Route>[] = [
     accessorKey: "destination_code",
     header: "Prefix",
     cell: ({ row }) => (
-      <Link
-        href={`/u/my-routes/${row.getValue("id")}`}
-        className="capitalize"
-      >
+      <Link href={`/u/my-routes/${row.getValue("id")}`} className="capitalize">
         {row.getValue("destination_code")}
       </Link>
     ),
@@ -53,10 +45,7 @@ export const columns: ColumnDef<Route>[] = [
       );
     },
     cell: ({ row }) => (
-      <Link
-        href={`/u/my-routes/${row.getValue("id")}`}
-        className="uppercase"
-      >
+      <Link href={`/u/my-routes/${row.getValue("id")}`} className="uppercase">
         $ {row.getValue("rate")}
       </Link>
     ),
@@ -75,10 +64,7 @@ export const columns: ColumnDef<Route>[] = [
       );
     },
     cell: ({ row }) => (
-      <Link
-        href={`/u/my-routes/${row.getValue("id")}`}
-        className="uppercase"
-      >
+      <Link href={`/u/my-routes/${row.getValue("id")}`} className="uppercase">
         {row.getValue("route_type")}
       </Link>
     ),
@@ -97,10 +83,7 @@ export const columns: ColumnDef<Route>[] = [
       );
     },
     cell: ({ row }) => (
-      <Link
-        href={`/u/my-routes/${row.getValue("id")}`}
-        className="capitalize"
-      >
+      <Link href={`/u/my-routes/${row.getValue("id")}`} className="capitalize">
         {row.getValue("verification") === "verified" ? (
           <span className="ml-2 rounded-full border-[1.5px] border-green-200 bg-green-100 px-2 py-1 text-xs font-medium text-green-500">
             Verified
@@ -155,6 +138,7 @@ export const columns: ColumnDef<Route>[] = [
       );
     },
   },
+
   {
     accessorKey: "created_at",
     header: ({ column }) => {
@@ -169,13 +153,18 @@ export const columns: ColumnDef<Route>[] = [
       );
     },
     cell: ({ row }) => (
-      <Link
-        href={`/u/my-routes/${row.getValue("id")}`}
-        className="capitalize"
-      >
+      <Link href={`/u/my-routes/${row.getValue("id")}`} className="capitalize">
         {format(new Date(row.getValue("created_at")), "dd/MM/yyyy")}
       </Link>
     ),
+  },
+  {
+    accessorKey: "remarks",
+    header: ({ column }) => {
+      return (
+        <div className="flex cursor-pointer items-center gap-2">Remarks</div>
+      );
+    },
   },
   {
     accessorKey: "id",

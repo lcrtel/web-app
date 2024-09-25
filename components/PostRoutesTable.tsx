@@ -71,6 +71,7 @@ export function PostRoutesTable({
         acd: "",
         ports: "",
         pdd: "",
+        remarks:""
       },
     ]);
   };
@@ -231,6 +232,18 @@ export function PostRoutesTable({
             {...props}
             type="number"
             placeholder="Ports"
+            required={false}
+          />
+        ),
+      },
+      {
+        accessorKey: "remarks",
+        header: () => <div className="min-w-[100px]">Ports</div>,
+        cell: (props) => (
+          <EditableCell
+            {...props}
+            type="text"
+            placeholder="Remarks"
             required={false}
           />
         ),

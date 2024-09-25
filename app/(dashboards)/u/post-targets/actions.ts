@@ -23,6 +23,7 @@ export async function postTargets(data: Target[]) {
       acd: target.acd,
       ports: target.ports,
       pdd: target.pdd,
+      remarks: target.remarks,
     })),
   );
   // await sendTargetPostedEmail(user, data, user?.email);

@@ -23,6 +23,7 @@ export async function postRoutes(data: Route[]) {
       acd: route.acd,
       ports: route.ports,
       pdd: route.pdd,
+      remarks: route.remarks
     })),
   );
   // await sendTargetPostedEmail(user, data, user?.email);

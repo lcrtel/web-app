@@ -1,5 +1,5 @@
+import OTPForm from "@/components/auth/forms/OTPForm";
 import Link from "next/link";
-import OTPForm from "./OTPForm";
 
 export default function OTPLogin({
   searchParams,

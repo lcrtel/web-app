@@ -1,11 +1,16 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import LoginModal from "@/components/auth/LoginModal";
-import OtpModal from "@/components/auth/OTPModal";
+import OTPForm from "@/components/auth/forms/OTPForm";
 import { ImportDropdown, PostRoutesTable } from "@/components/PostRoutesTable";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { toast } from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
 import { postRoutes } from "./actions";
@@ -20,8 +25,6 @@ export function PostOffersTable({
   const [isPosting, setIsPosting] = useState(false);
   const router = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isOtpModalOpen, setIsOtpModalOpen] = useState(false);
-  const [email, setEmail] = useState<string | undefined>(userEmail);
   const [data, setData] = useState<any>([
     {
       id: uuidv4(),
@@ -61,7 +64,12 @@ export function PostOffersTable({
     }
     await post();
   };
-
+  useEffect(() => {
+    if (isDialogOpen) {
+      setIsDialogOpen(false);
+      post()
+    }
+  }, [userId]);
   return (
     <div className="w-full">
       <div className="mb-4 flex items-center justify-between">
@@ -70,20 +78,14 @@ export function PostOffersTable({
         </h2>
         <ImportDropdown setData={setData} />
       </div>
-      <LoginModal
-        setOtpModalOpen={setIsOtpModalOpen}
-        dialogOpen={isDialogOpen}
-        setDialogOpen={setIsDialogOpen}
-        email={email}
-        setEmail={setEmail}
-      />
-      <OtpModal
-        email={email}
-        otpModalOpen={isOtpModalOpen}
-        setDialogOpen={setIsDialogOpen}
-        setOtpModalOpen={setIsOtpModalOpen}
-        postFunction={post}
-      />
+      <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <AlertDialogContent className="max-w-sm">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Authenticate</AlertDialogTitle>
+          </AlertDialogHeader>
+          <OTPForm />
+        </AlertDialogContent>
+      </AlertDialog>
       <PostRoutesTable
         data={data}
         handleSubmit={handleSubmit}

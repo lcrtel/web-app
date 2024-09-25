@@ -18,14 +18,14 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import * as z from "zod";
-import { signInWithPassword } from "./action";
+import { signInWithPassword } from "../actions/signInWithPassword";
 
 export const loginFormSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string(),
 });
 
-const LoginForm = () => {
+export default function PasswordLoginForm() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -113,4 +113,3 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;

@@ -25,7 +25,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
-import { updateUser } from "./userActions";
+import { updateUser } from "../userActions";
 interface ProfileModalProps {
   user: any;
 }

@@ -1,7 +1,7 @@
+import SignUpForm from "@/components/auth/forms/SignUpForm";
 import { AlertTriangle } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
-import SignupForm from "./signup-form";
 
 export const metadata: Metadata = {
   title: "Signup",
@@ -35,7 +35,7 @@ const page = ({
             {searchParams.message}
           </div>
         )}
-        <SignupForm />
+        <SignUpForm />
       </section>
       <p className="text-center text-sm font-light text-white">
         Already have an account?{" "}

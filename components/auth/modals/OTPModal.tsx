@@ -1,6 +1,5 @@
 "use client";
 
-import { verifyOtp } from "@/app/auth/otp-login/actions";
 import {
   Form,
   FormControl,
@@ -28,15 +27,16 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "../ui/alert-dialog";
-import { Button } from "../ui/button";
+} from "../../ui/alert-dialog";
+import { Button } from "../../ui/button";
+import verifyOtp from "../actions/verifyOtp";
 
 interface OtpModalProps {
-  setOtpModalOpen: Dispatch<SetStateAction<boolean>>;
-  otpModalOpen: boolean;
-  setDialogOpen: Dispatch<SetStateAction<boolean>>;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  open: boolean;
+  setLoginModalOpen: Dispatch<SetStateAction<boolean>>;
   email: string | undefined;
-  postFunction: () => Promise<void>;
+  functionToRun?: () => Promise<void>;
 }
 
 const formSchema = z.object({
@@ -46,10 +46,10 @@ const formSchema = z.object({
 });
 export default function OtpModal({
   email,
-  otpModalOpen,
-  setDialogOpen,
-  setOtpModalOpen,
-  postFunction,
+  open: open,
+  setLoginModalOpen: setDialogOpen,
+  setOpen: setOtpModalOpen,
+  functionToRun,
 }: OtpModalProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -70,7 +70,7 @@ export default function OtpModal({
       setDialogOpen(false);
       setLoading(false);
       router.refresh();
-      await postFunction();
+      if (functionToRun) await functionToRun();
     } else {
       toast.error(res?.error);
       setLoading(false);
@@ -78,7 +78,7 @@ export default function OtpModal({
   }
 
   return (
-    <AlertDialog open={otpModalOpen} onOpenChange={setOtpModalOpen}>
+    <AlertDialog open={open} onOpenChange={setOtpModalOpen}>
       <AlertDialogContent className="sm:max-w-md">
         <AlertDialogHeader>
           <AlertDialogTitle>OTP Verification</AlertDialogTitle>

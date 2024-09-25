@@ -1,8 +1,8 @@
+import PasswordResetRequestForm from "@/components/auth/forms/PasswordResetRequestForm";
 import { AlertTriangle, ArrowLeftFromLine } from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import ResetForm from "./reset-form";
 
 export const metadata: Metadata = {
   title: "Reset Password",
@@ -30,7 +30,7 @@ export default function ResetPasswordPage({
             {searchParams.message}
           </div>
         )}
-        <ResetForm />
+        <PasswordResetRequestForm />
       </section>
       <Link
         href="/auth/login"

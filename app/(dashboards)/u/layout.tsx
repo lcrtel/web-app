@@ -1,4 +1,4 @@
-import CompleteProfileModal from "@/components/auth/CompleteProfileModal";
+import CompleteProfileModal from "@/components/auth/modals/CompleteProfileModal";
 import { Chat } from "@/components/chat";
 import DashboardNav, { NavProps } from "@/components/navigation/DashboardNav";
 import { getUser } from "@/utils/user";

@@ -1,3 +1,4 @@
+import OTPLoginModal from "@/components/auth/modals/OTPLoginModal";
 import {
   Accordion,
   AccordionContent,
@@ -173,18 +174,19 @@ export default async function Page({
                     </h4>
                     <p className="capitalize">{purchaseRequest.payment_type}</p>
                   </div>
-                  {!trVerified && (
-                    <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-amber-400 bg-amber-50 p-2 text-xs text-amber-600">
-                      <AlertCircle className="size-4" /> Submit your TR to get
-                      approved.{" "}
-                      <Link
-                        href="/u/account/tr-verification"
-                        className="font-semibold underline"
-                      >
-                        Verify now
-                      </Link>
-                    </div>
-                  )}
+                  {!trVerified &&
+                    purchaseRequest.payment_type === "postpaid" && (
+                      <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-amber-400 bg-amber-50 p-2 text-xs text-amber-600">
+                        <AlertCircle className="size-4" /> Submit your TR to get
+                        approved.{" "}
+                        <Link
+                          href="/u/account/tr-verification"
+                          className="font-semibold underline"
+                        >
+                          Verify now
+                        </Link>
+                      </div>
+                    )}
                   <div className="flex flex-wrap items-center gap-x-2 gap-y-0">
                     <h4 className="font-medium text-primary-900">Website:</h4>
                     <p>
@@ -245,9 +247,8 @@ export default async function Page({
               </>
             )
           ) : (
-            <div className="m-4 rounded-lg bg-primary-50 p-4 text-center">
-              Please login to purchase{" "}
-              <Link href="/auth/login" className="bg-primary-900 px-3 py-1.5 ml-2 text-sm rounded-full text-white">Login</Link>
+            <div className="m-4 flex items-center justify-center gap-2 rounded-lg bg-primary-50 p-4 text-center">
+              Please login to purchase <OTPLoginModal userId={user?.id} />
             </div>
           )}
         </div>

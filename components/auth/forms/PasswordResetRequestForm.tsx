@@ -16,13 +16,13 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
-import { resetPassword } from "./action";
+import resetPassword from "../actions/resetPassword";
 
 export const resetPasswordFormSchema = z.object({
   email: z.string().email("Invalid email address"),
 });
 
-export default function ResetForm() {
+export default function PasswordResetRequestForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof resetPasswordFormSchema>>({

@@ -1,11 +1,16 @@
 "use client";
 
-import LoginModal from "@/components/auth/LoginModal";
-import OtpModal from "@/components/auth/OTPModal";
+import OTPForm from "@/components/auth/forms/OTPForm";
 import { ImportDropdown, PostRoutesTable } from "@/components/PostRoutesTable";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { RowData } from "@tanstack/react-table";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
 import { postTargets } from "./actions";
@@ -45,12 +50,12 @@ export function PostTargetTable({
     setIsPosting(true);
     const postingToast = toast.loading("Posting...");
     const res = await postTargets(data);
-    // if (res?.error) {
-    //   setIsPosting(false);
-    //   toast.dismiss(postingToast);
-    //   toast.error(res.error);
-    //   return;
-    // }
+    if (res?.error) {
+      setIsPosting(false);
+      toast.dismiss(postingToast);
+      toast.error(res.error);
+      return;
+    }
     router.refresh();
     router.push("/u/my-targets");
     toast.dismiss(postingToast);
@@ -67,7 +72,12 @@ export function PostTargetTable({
     }
     await post();
   };
-
+  useEffect(() => {
+    if (isDialogOpen) {
+      setIsDialogOpen(false);
+      post();
+    }
+  }, [userId]);
   return (
     <div className="w-full">
       <div className="mb-4 flex items-center justify-between">
@@ -76,20 +86,14 @@ export function PostTargetTable({
         </h3>
         <ImportDropdown setData={setData} />
       </div>
-      <LoginModal
-        setOtpModalOpen={setIsOtpModalOpen}
-        dialogOpen={isDialogOpen}
-        setDialogOpen={setIsDialogOpen}
-        email={email}
-        setEmail={setEmail}
-      />
-      <OtpModal
-        email={email}
-        otpModalOpen={isOtpModalOpen}
-        setDialogOpen={setIsDialogOpen}
-        setOtpModalOpen={setIsOtpModalOpen}
-        postFunction={post}
-      />
+      <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <AlertDialogContent className="max-w-sm">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Authenticate</AlertDialogTitle>
+          </AlertDialogHeader>
+          <OTPForm />
+        </AlertDialogContent>
+      </AlertDialog>
       <PostRoutesTable
         data={data}
         handleSubmit={handleSubmit}

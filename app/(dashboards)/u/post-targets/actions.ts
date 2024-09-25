@@ -12,21 +12,21 @@ import XLSX from "xlsx";
 export async function postTargets(data: Target[]) {
   let user = await fetchUser();
   const supabase = supabaseServer();
-  // const { error } = await supabase.from("targets").insert(
-  //   data.map((target: Target) => ({
-  //     destination: target.destination,
-  //     destination_code: target.destination_code,
-  //     rate: target.rate,
-  //     buying_rate: dec20Percent(Number(target.rate)),
-  //     route_type: target.route_type,
-  //     asr: target.asr,
-  //     acd: target.acd,
-  //     ports: target.ports,
-  //     pdd: target.pdd,
-  //   })),
-  // );
-  // // await sendTargetPostedEmail(user, data, user?.email);
-  // return { error: error?.message };
+  const { error } = await supabase.from("targets").insert(
+    data.map((target: Target) => ({
+      destination: target.destination,
+      destination_code: target.destination_code,
+      rate: target.rate,
+      buying_rate: Number(dec20Percent(Number(target.rate))),
+      route_type: target.route_type,
+      asr: target.asr,
+      acd: target.acd,
+      ports: target.ports,
+      pdd: target.pdd,
+    })),
+  );
+  // await sendTargetPostedEmail(user, data, user?.email);
+  return { error: error?.message };
 }
 async function sendTargetPostedEmail(
   user: User | undefined,

@@ -1,7 +1,7 @@
+import PasswordLoginForm from "@/components/auth/forms/PasswordLoginForm";
 import { AlertTriangle } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
-import LoginForm from "./login-form";
 
 export const metadata: Metadata = {
   title: "Login",
@@ -20,7 +20,7 @@ const page = ({ searchParams }: { searchParams: { message: string } }) => {
             {searchParams.message}
           </div>
         )}
-        <LoginForm />
+        <PasswordLoginForm />
       </section>
       <div className="space-y-1">
         <p className="text-center text-sm font-light text-white">

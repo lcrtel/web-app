@@ -1,9 +1,8 @@
 "use server";
 
 import { supabaseServer } from "@/lib/supabase-server";
-import { redirect } from "next/navigation";
 
-export async function verifyOtp(email: string, otp: string) {
+export default async function verifyOtp(email: string, otp: string) {
   const supabase = supabaseServer();
   const { error } = await supabase.auth.verifyOtp({
     email,
@@ -13,5 +12,4 @@ export async function verifyOtp(email: string, otp: string) {
   if (error) {
     return { error: error.message };
   }
-  redirect("/u");
 }

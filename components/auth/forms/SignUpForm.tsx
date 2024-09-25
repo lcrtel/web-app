@@ -18,8 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
-import { signUp } from "./action";
-
+import { signUp } from "../actions/signUp";
 export const signupFormSchema = z
   .object({
     name: z.string(),
@@ -52,7 +51,7 @@ export const signupFormSchema = z
     },
   );
 
-export default function SignupForm()  {
+export default function SignUpForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -212,4 +211,4 @@ export default function SignupForm()  {
       </form>
     </Form>
   );
-};
+}

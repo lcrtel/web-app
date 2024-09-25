@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { supabaseClient } from "@/lib/supabase-client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -24,8 +25,7 @@ import {
   AlertDialogContent,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "../ui/alert-dialog";
-import { Loader2 } from "lucide-react";
+} from "../../ui/alert-dialog";
 
 const passwordFormSchema = z
   .object({
@@ -68,7 +68,7 @@ export function PasswordResetModal() {
         data: { session },
       } = await supabase.auth.getSession();
       if (password_reset && session) {
-        router.refresh()
+        router.refresh();
         setPasswordModalOpen(true);
       }
     };
@@ -154,7 +154,11 @@ export function PasswordResetModal() {
               )}
             />
             <Button type="submit" className="ml-auto flex gap-2">
-             {loading ? <Loader2 className="size-4 animate-spin" /> : "Change Password"}
+              {loading ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : (
+                "Change Password"
+              )}
             </Button>
           </form>
         </Form>

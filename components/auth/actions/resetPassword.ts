@@ -3,7 +3,7 @@
 import { supabaseServer } from "@/lib/supabase-server";
 import { redirect } from "next/navigation";
 
-export async function resetPassword(
+export default async function resetPassword(
   email: string,
 ): Promise<{ error?: string } | null> {
   const supabase = supabaseServer();

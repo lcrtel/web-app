@@ -24,7 +24,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
-import { signInWithOtp, verifyOtp } from "./actions";
+import verifyOtp from "../actions/verifyOtp";
+import signInWithOtp from "../actions/signInWithOtp";
 const otpSchema = z.object({
   otp: z
     .string()
@@ -82,7 +83,7 @@ export default function OTPForm() {
     });
     return (
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-2">
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-2 w-full">
           <FormField
             control={form.control}
             name="email"
@@ -99,7 +100,10 @@ export default function OTPForm() {
               </FormItem>
             )}
           />
-          <button type="submit" className="text-xs flex items-center gap-2 underline">
+          <button
+            type="submit"
+            className="flex items-center gap-2 text-xs underline"
+          >
             {OTPloading ? (
               <>
                 <Loader2 className="size-4 animate-spin" />

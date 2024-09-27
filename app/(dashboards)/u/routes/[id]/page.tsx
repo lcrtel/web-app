@@ -258,7 +258,7 @@ export default async function Page({
 
       <div className="grid grid-cols-1 gap-5 py-5 md:grid-cols-2">
         <Link
-          href="/u/my-targets/post"
+          href="/u/post-targets"
           className="flex flex-wrap items-start justify-between gap-1 rounded-2xl border border-primary-100/50 bg-gradient-to-br from-primary-100/10 to-white p-4 shadow-sm transition-all hover:shadow-lg"
         >
           <div className="">
@@ -274,7 +274,7 @@ export default async function Page({
           </div>
         </Link>
         <Link
-          href="/u/my-routes/post"
+          href="/u/post-offers"
           className="flex flex-wrap items-start justify-between gap-1 rounded-2xl border border-primary-100/50 bg-gradient-to-br from-primary-100/10 to-white p-4 shadow-sm transition-all hover:shadow-lg"
         >
           <div className="">

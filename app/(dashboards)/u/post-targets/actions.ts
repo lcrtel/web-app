@@ -17,7 +17,7 @@ export async function postTargets(data: Target[]) {
       destination: target.destination,
       destination_code: target.destination_code,
       rate: target.rate,
-      buying_rate: Number(dec20Percent(Number(target.rate))),
+      buying_rate: dec20Percent(Number(target.rate)),
       route_type: target.route_type,
       asr: target.asr,
       acd: target.acd,

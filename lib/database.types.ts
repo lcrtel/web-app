@@ -756,7 +756,7 @@ export type Database = {
         Row: {
           acd: string
           asr: string
-          buying_rate: number
+          buying_rate: string
           destination: string
           destination_code: string
           effective_date: string | null
@@ -771,7 +771,7 @@ export type Database = {
         Insert: {
           acd: string
           asr: string
-          buying_rate?: number
+          buying_rate: string
           destination: string
           destination_code: string
           effective_date?: string | null
@@ -786,7 +786,7 @@ export type Database = {
         Update: {
           acd?: string
           asr?: string
-          buying_rate?: number
+          buying_rate?: string
           destination?: string
           destination_code?: string
           effective_date?: string | null

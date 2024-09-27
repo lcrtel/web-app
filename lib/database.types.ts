@@ -697,7 +697,7 @@ export type Database = {
         Row: {
           acd: string
           asr: string
-          buying_rate: number
+          buying_rate: string
           client_id: string
           created_at: string | null
           destination: string
@@ -713,7 +713,7 @@ export type Database = {
         Insert: {
           acd: string
           asr: string
-          buying_rate?: number
+          buying_rate: string
           client_id?: string
           created_at?: string | null
           destination: string
@@ -729,7 +729,7 @@ export type Database = {
         Update: {
           acd?: string
           asr?: string
-          buying_rate?: number
+          buying_rate?: string
           client_id?: string
           created_at?: string | null
           destination?: string
@@ -955,7 +955,40 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      match_all_routes_targets: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: string
+          destination: string
+          destination_code: string
+          rate: string
+          route_type: string
+          asr: string
+          acd: string
+          ports: string
+          verification: string
+          created_at: string
+          pdd: string
+          selling_rate: string
+          remarks: string
+        }[]
+      }
+      match_all_targets_with_routes: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: string
+          destination: string
+          destination_code: string
+          route_type: string
+          asr: string
+          acd: string
+          ports: string
+          created_at: string
+          pdd: string
+          buying_rate: string
+          remarks: string
+        }[]
+      }
     }
     Enums: {
       statuses: "PENDING" | "VERIFIED" | "DECLINED"

@@ -3,10 +3,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
 import { fetchUser } from "@/utils/user";
 import { SearchX } from "lucide-react";
-import { Suspense } from "react";
-import { TargetsTable } from "./targets-table";
-import { HiArrowRight } from "react-icons/hi";
 import Link from "next/link";
+import { Suspense } from "react";
+import { HiArrowRight } from "react-icons/hi";
+import { TargetsTable } from "./targets-table";
 
 export default async function Page({
   searchParams,
@@ -72,11 +72,28 @@ async function TargetRates({
     query = query.neq("client_id", user?.id);
   }
   return targets?.length ? (
-    <TargetsTable data={targets} />
+    <>
+      <TargetsTable data={targets} />
+      {user && <RoutesMatchingTheTargetDestination />}
+    </>
   ) : (
     <div className="flex h-[200px] flex-col items-center justify-center gap-5 rounded-lg border text-center text-slate-400">
       <SearchX className="size-10" />
       <p>Sorry, we did not find any targets for your search</p>
     </div>
   );
+}
+async function RoutesMatchingTheTargetDestination() {
+  const supabase = supabaseServer();
+  let { data: matchedResults, error } = await supabase.rpc(
+    "match_all_targets_with_routes",
+  );
+  return matchedResults?.length ? (
+    <div className="">
+      <h3 className="mb-2 text-xl font-bold">
+        Buying target matching your route offers
+      </h3>
+      <TargetsTable data={matchedResults} />
+    </div>
+  ) : null;
 }

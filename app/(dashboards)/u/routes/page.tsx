@@ -1,6 +1,6 @@
-import Loader from "@/components/Loader";
 import RoutesSearch from "@/components/RoutesSearch";
 import { buttonVariants } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
 import { fetchUser } from "@/utils/user";
 import { ArrowRight, SearchX } from "lucide-react";
@@ -9,7 +9,6 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { OffersTable } from "./offers-table";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Page({
   searchParams,
@@ -78,9 +77,11 @@ async function Routes({
   if (user) {
     query = query.neq("vendor_id", user?.id);
   }
-
   return routes?.length ? (
-    <OffersTable data={routes} />
+    <>
+      <OffersTable data={routes} />
+      {user && <RoutesMatchingTheTargetDestination />}
+    </>
   ) : (
     <div className="flex h-[200px] flex-col items-center justify-center gap-5 rounded-lg border text-center text-slate-400">
       <SearchX className="size-10" />
@@ -95,4 +96,20 @@ async function Routes({
       </Link>
     </div>
   );
+}
+
+async function RoutesMatchingTheTargetDestination() {
+  const supabase = supabaseServer();
+  let { data: matchedResults, error } = await supabase.rpc(
+    "match_all_routes_targets",
+  );
+  console.log(matchedResults);
+  return matchedResults?.length ? (
+    <div className="">
+      <h3 className="mb-2 text-xl font-bold">
+        Route offers matching your targets
+      </h3>
+      <OffersTable data={matchedResults} />
+    </div>
+  ) : null;
 }

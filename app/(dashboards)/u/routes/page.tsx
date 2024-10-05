@@ -9,6 +9,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { OffersTable } from "./offers-table";
+import React from "react";
 
 export default function Page({
   searchParams,
@@ -32,7 +33,7 @@ export default function Page({
         </Suspense>
       </div>
       <Link
-        href="/u/my-targets/post"
+        href="/u/post-targets"
         passHref
         className="block w-full rounded-xl border bg-slate-50 p-5 transition-all ease-in hover:bg-slate-100 active:scale-[99%]"
       >
@@ -41,9 +42,9 @@ export default function Page({
             <p className="font-medium text-slate-500">
               No routes meet your needs?
             </p>
-            <h3 className="text-xl font-bold">Request for a route</h3>
+            <h3 className="text-xl font-bold">Post your buying target</h3>
             <p className="text-sm text-slate-400">
-              We will let you know when there is a route matching your request
+              We will let you know when there is a route matching your target
             </p>
           </div>
           <HiArrowRight className="h-5 w-5" />

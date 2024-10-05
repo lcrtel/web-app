@@ -10,30 +10,31 @@ import { TargetsTable } from "./TargetsTable";
 
 export default function MyTargetRates() {
     return (
-        <section className="">
-            <div className="flex mb-5 justify-between items-center flex-wrap gap-2">
-                <div>
-                    <h3 className="text-2xl tracking-tight font-bold text-primary-900 flex items-center">
-                        My Target Rates
-                    </h3>
-                    <p className="text-gray-500 text-sm">
-                        View and manage your target rates
-                    </p>
-                </div>
-                <Link
-                    href="/u/post-targets"
-                    className={`${buttonVariants({
-                        variant: "default",
-                        size: "icon",
-                    })}`}
-                >
-                    <HiOutlinePlusCircle className="w-5 h-5" />
-                </Link>
-            </div>
-            <Suspense fallback={<Loader />}>
-                <Targets />
-            </Suspense>
-        </section>
+      <section className="">
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h3 className="flex items-center text-2xl font-bold tracking-tight text-primary-900">
+              My Target Rates
+            </h3>
+            <p className="text-sm text-gray-500">
+              View and manage your target rates
+            </p>
+          </div>
+          <Link
+            href="/u/post-targets"
+            className={`${buttonVariants({
+              variant: "default",
+              size: "sm",
+            })}`}
+          >
+            Add
+            <HiOutlinePlusCircle className="ml-1 h-5 w-5" />
+          </Link>
+        </div>
+        <Suspense fallback={<Loader />}>
+          <Targets />
+        </Suspense>
+      </section>
     );
 }
 

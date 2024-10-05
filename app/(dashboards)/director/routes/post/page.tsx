@@ -1,36 +1,35 @@
-import { buttonVariants } from "@/components/ui/button";
+import BackButton from "@/components/BackButton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import Link from "next/link";
-import { HiArrowLeft } from "react-icons/hi";
 import { AddRouteTable } from "./AddRoutes";
-export const revalidate = 0;
-const page = async () => {
-    const supabase = supabaseAdminServer();
-    const {
-        data: { users },
-        error,
-    } = await supabase.auth.admin.listUsers();
-    return (
-        <section className="">
-            <div className="flex items-center gap-4 justify-between mb-4">
-                <div className="flex items-center gap-4">
-                    <Link
-                        href="/director/routes/offers"
-                        className={buttonVariants({
-                            variant: "secondary",
-                            size: "icon",
-                        })}
-                    >
-                        <HiArrowLeft />
-                    </Link>
-                    <h3 className="text-xl  font-bold text-primary">
-                        Add routes
-                    </h3>
-                </div>
-            </div>
-            <AddRouteTable users={users} />
-        </section>
-    );
-};
 
-export default page;
+export default async function page() {
+  const supabase = supabaseAdminServer();
+  let { data: vendors } = await supabase
+    .from("profiles")
+    .select("*, user_roles!inner(*)")
+    .eq("user_roles.role_slug", "user")
+    .match({ user_type: "VENDOR" });
+  return (
+    <section className="">
+      <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
+        <BackButton />
+        <Link href="/director" className="hover:underline">
+          Dashboard
+        </Link>
+        /
+        <Link href="/director/routes/offers" className="hover:underline">
+          Routes
+        </Link>
+        /
+        <Link
+          href="/director/routes/post"
+          className="font-semibold hover:underline"
+        >
+          Post Routes
+        </Link>
+      </div>
+      <AddRouteTable users={vendors} />
+    </section>
+  );
+}

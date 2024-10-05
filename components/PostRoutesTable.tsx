@@ -27,8 +27,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { AnimatePresence, motion } from "framer-motion";
-import { Loader2 } from "lucide-react";
-import { Dispatch, useEffect, useMemo, useState } from "react";
+import { Check, ChevronsUpDown, Loader2 } from "lucide-react";
+import React, { Dispatch, useEffect, useMemo, useState } from "react";
 import {
   HiOutlineCloudUpload,
   HiOutlineDuplicate,
@@ -39,6 +39,9 @@ import {
 } from "react-icons/hi";
 import { v4 as uuidv4 } from "uuid";
 import * as XLSX from "xlsx";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "./ui/command";
+import { cn } from "@/lib/utils";
 
 declare module "@tanstack/react-table" {
   interface TableMeta<TData extends RowData> {
@@ -47,11 +50,15 @@ declare module "@tanstack/react-table" {
 }
 
 export function PostRoutesTable({
+  clients,
+  vendors,
   setData,
   data,
   handleSubmit,
   posting,
 }: {
+  clients?: Profile[];
+  vendors?: Profile[];
   setData: Dispatch<any>;
   data: any;
   handleSubmit: (e: any) => Promise<void>;
@@ -71,7 +78,7 @@ export function PostRoutesTable({
         acd: "",
         ports: "",
         pdd: "",
-        remarks:""
+        remarks: "",
       },
     ]);
   };
@@ -91,20 +98,25 @@ export function PostRoutesTable({
       return [...prevData, newRow];
     });
   };
+
   interface EditableCellProps {
     getValue: () => any;
+    users?: Profile[];
     row: { index: number };
     column: { id: string };
     table: any;
     type?: string;
+    max?: number;
     placeholder?: string;
     required?: boolean;
   }
+
   const EditableCell: React.FC<EditableCellProps> = ({
     getValue,
     row: { index },
     column: { id },
     table,
+    max,
     type = "text",
     placeholder,
     required = true,
@@ -126,14 +138,113 @@ export function PostRoutesTable({
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onBlur={onBlur}
+        max={max}
         required={required}
         placeholder={placeholder}
       />
     );
   };
+  const ClientsOrVendorsDropdown: React.FC<EditableCellProps> = ({
+    getValue,
+    row: { index },
+    column: { id },
+    table,
+    users,
+    placeholder,
+    required = true,
+  }) => {
+    const initialValue = getValue();
+    const [value, setValue] = useState<any>(initialValue);
+
+    useEffect(() => {
+      setValue(initialValue);
+    }, [initialValue]);
+
+    useEffect(() => {
+      table.options.meta?.updateData(index, id, value);
+    }, [value]);
+
+    return (
+
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button variant="outline" role="combobox" className="justify-between w-full">
+            {value ? (
+              <>
+                <Input required={required} type="hidden" value={value} />
+                {users?.find((user: any) => user.id === value)?.name}
+              </>
+            ) : (
+              placeholder
+            )}
+            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="p-0" align="start">
+          <Command>
+            <CommandInput placeholder={placeholder} />
+            <CommandEmpty>No results.</CommandEmpty>
+            <CommandGroup>
+              {users?.map((user: any) => (
+                <CommandItem
+                  key={user.id}
+                  onSelect={() => {
+                    setValue(user.id);
+                  }}
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      value === user.id ? "opacity-100" : "opacity-0",
+                    )}
+                  />
+                  {user.name}
+                  {user.company_name && (
+                    <span className="text-slate-400">
+                      ({user.company_name})
+                    </span>
+                  )}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </Command>
+        </PopoverContent>
+      </Popover>
+    );
+  };
 
   const columns = useMemo<ColumnDef<any>[]>(
     () => [
+      ...(vendors
+        ? [
+            {
+              accessorKey: "vendor_id",
+              header: "Vendor",
+              cell: (props: any) => (
+                <ClientsOrVendorsDropdown
+                  {...props}
+                  users={vendors}
+                  placeholder="Select vendor..."
+                />
+              ),
+            },
+          ]
+        : []),
+      ...(clients
+        ? [
+            {
+              accessorKey: "client_id",
+              header: "Client",
+              cell: (props: any) => (
+                <ClientsOrVendorsDropdown
+                  {...props}
+                  users={clients}
+                  placeholder="Select client..."
+                />
+              ),
+            },
+          ]
+        : []),
       {
         accessorKey: "destination",
         header: () => <div className="min-w-[80px]">Destination</div>,
@@ -196,6 +307,7 @@ export function PostRoutesTable({
             {...props}
             type="number"
             placeholder="ASR %"
+            max={100}
             required={false}
           />
         ),
@@ -238,7 +350,7 @@ export function PostRoutesTable({
       },
       {
         accessorKey: "remarks",
-        header: () => <div className="min-w-[100px]">Ports</div>,
+        header: () => <div className="min-w-[100px]">Remarks</div>,
         cell: (props) => (
           <EditableCell
             {...props}
@@ -297,7 +409,7 @@ export function PostRoutesTable({
   return (
     <div className="w-full">
       <form
-        className="mt-4 overflow-clip rounded-lg border"
+        className="overflow-clip rounded-lg border"
         onSubmit={handleSubmit}
       >
         <Table>

@@ -2,7 +2,7 @@
 
 import SubmitTargets from "@/emails/SubmitTargets";
 import { supabaseServer } from "@/lib/supabase-server";
-import { dec20Percent } from "@/utils/rateHikes";
+import { calculateNewRate } from "@/utils/rateHikes";
 import { transporter } from "@/utils/smtp-transporter";
 import { fetchUser } from "@/utils/user";
 import { renderAsync } from "@react-email/render";
@@ -12,20 +12,28 @@ import XLSX from "xlsx";
 export async function postTargets(data: Target[]) {
   let user = await fetchUser();
   const supabase = supabaseServer();
-  const { error } = await supabase.from("targets").insert(
-    data.map((target: Target) => ({
-      destination: target.destination,
-      destination_code: target.destination_code,
-      rate: target.rate,
-      buying_rate: dec20Percent(Number(target.rate)),
-      route_type: target.route_type,
-      asr: target.asr,
-      acd: target.acd,
-      ports: target.ports,
-      pdd: target.pdd,
-      remarks: target.remarks,
-    })),
+  const targets: any = await Promise.all(
+    data.map(async (target: Target) => {
+      return {
+        destination: target.destination,
+        destination_code: target.destination_code,
+        rate: target.rate,
+        buying_rate: await calculateNewRate(
+          Number(target.rate),
+          Number(target.destination),
+          false,
+        ),
+        route_type: target.route_type,
+        asr: target.asr,
+        acd: target.acd,
+        ports: target.ports,
+        pdd: target.pdd,
+        remarks: target.remarks,
+      };
+    }),
   );
+  const { error } = await supabase.from("targets").insert(targets);
+
   // await sendTargetPostedEmail(user, data, user?.email);
   return { error: error?.message };
 }

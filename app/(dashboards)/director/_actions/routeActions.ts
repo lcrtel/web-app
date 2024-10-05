@@ -1,46 +1,48 @@
 "use server";
 
 import { supabaseServer } from "@/lib/supabase-server";
-import { getUpdatedValues } from "@/utils/getUpdatedValuesOfObject";
-import { renderAsync } from "@react-email/render";
-import { transporter } from "@/utils/smtp-transporter";
-import { add20Percent } from "@/utils/rateHikes";
+import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
+import { calculateNewRate } from "@/utils/rateHikes";
 
+export async function insertRoutesInDb(newRoutes: Route[]) {
+  const supabase = supabaseAdminServer();
+  const routes: any = await Promise.all(
+    newRoutes.map(async (route: Route) => {
+      return {
+        vendor_id: route.vendor_id,
+        destination: route.destination,
+        destination_code: route.destination_code,
+        rate: route.rate,
+        selling_rate: await calculateNewRate(
+          Number(route.rate),
+          Number(route.destination),
+          true,
+        ),
+        route_type: route.route_type,
+        asr: route.asr,
+        acd: route.acd,
+        ports: route.ports,
+        pdd: route.pdd,
+        remarks: route.remarks,
+        verification: "verified",
+      };
+    }),
+  );
+  const { data: route, error } = await supabase.from("routes").insert(routes);
 
-export async function insertRoutesInDb(newRoutes: Route[], vendor: string) {
-    const supabase = supabaseServer();
-    const { data: route, error } = await supabase
-        .from("routes")
-        .insert(
-            newRoutes.map((route: any) => ({
-                vendor_id: vendor,
-                destination: route.destination,
-                destination_code: route.destination_code,
-                rate: route.rate,
-                selling_rate: add20Percent(Number(route.rate)),
-                route_type: route.route_type,
-                asr: route.asr,
-                acd: route.acd,
-                ports: route.ports,
-                pdd: route.pdd,
-                verification: "verified",
-            }))
-        )
-        .select();
-
-    return { data: route, error };
+  return { data: route, error };
 }
 
 async function updateRouteInDb(oldRouteId: string, updatedRoute: Route) {
-    const supabase = supabaseServer();
-    const { data: route, error } = await supabase
-        .from("routes")
-        .update({ ...updatedRoute, updated_at: new Date().toISOString() })
-        .eq("id", oldRouteId)
-        .select(`*, profiles (*)`)
-        .single();
-    if (error) throw new Error(error.message);
-    return route;
+  const supabase = supabaseServer();
+  const { data: route, error } = await supabase
+    .from("routes")
+    .update({ ...updatedRoute, updated_at: new Date().toISOString() })
+    .eq("id", oldRouteId)
+    .select(`*, profiles (*)`)
+    .single();
+  if (error) throw new Error(error.message);
+  return route;
 }
 // export async function sendUpdateEmail(
 //     route: any,
@@ -70,7 +72,7 @@ async function updateRouteInDb(oldRouteId: string, updatedRoute: Route) {
 // }
 
 export async function deleteRoute(routeId: string) {
-    const supabase = supabaseServer();
-    const { error } = await supabase.from("routes").delete().eq("id", routeId);
-    return { error };
+  const supabase = supabaseServer();
+  const { error } = await supabase.from("routes").delete().eq("id", routeId);
+  return { error };
 }

@@ -24,10 +24,10 @@ export default function MyRouteOffers() {
                     href="/u/post-offers"
                     className={`${buttonVariants({
                         variant: "default",
-                        size: "icon",
+                        size: "sm",
                     })}`}
-                >
-                    <HiOutlinePlusCircle className="w-5 h-5" />
+                >Add
+                    <HiOutlinePlusCircle className="w-5 ml-1 h-5" />
                 </Link>
             </div>
             <Suspense fallback={<Loader />}>

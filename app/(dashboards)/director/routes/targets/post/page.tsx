@@ -1,38 +1,37 @@
+import BackButton from "@/components/BackButton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
-import { AddRouteTable } from "./AddTargets";
 import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
-import { HiArrowLeft } from "react-icons/hi";
-export const revalidate = 0; // revalidate at most every hour
+import { AddRouteTable } from "./AddTargets";
 
 const page = async () => {
-    const supabase = supabaseAdminServer();
-    const {
-        data: { users },
-        error,
-    } = await supabase.auth.admin.listUsers();
-    return (
-        <section className="">
-            
-            <div className="flex items-center gap-4 justify-between mb-4">
-                <div className="flex items-center gap-4">
-                    <Link
-                        href="/director/routes/targets"
-                        className={buttonVariants({
-                            variant: "secondary",
-                            size: "icon",
-                        })}
-                    >
-                        <HiArrowLeft />
-                    </Link>
-                    <h1 className="text-xl  font-bold text-primary">
-                        Add Route Requests
-                    </h1>
-                </div>
-            </div>
-            <AddRouteTable users={users} />
-        </section>
-    );
+  const supabase = supabaseAdminServer();
+  let { data: clients } = await supabase
+    .from("profiles")
+    .select("*, user_roles!inner(*)")
+    .eq("user_roles.role_slug", "user")
+    .match({ user_type: "CLIENT" });
+  return (
+    <section className="">
+      <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
+        <BackButton />
+        <Link href="/director" className="hover:underline">
+          Dashboard
+        </Link>
+        /
+        <Link href="/director/routes/targets" className="hover:underline">
+          Buying targets
+        </Link>
+        /
+        <Link
+          href="/director/routes/targets/post"
+          className="font-semibold hover:underline"
+        >
+          Post targets
+        </Link>
+      </div>
+      <AddRouteTable users={clients} />
+    </section>
+  );
 };
 
 export default page;

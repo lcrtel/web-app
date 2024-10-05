@@ -1,3 +1,4 @@
+import { PasswordResetModal } from "@/components/auth/modals/PasswordResetModal";
 import { RefreshOnFocus } from "@/components/refresh-on-focus";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/react";
@@ -5,10 +6,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { Suspense } from "react";
-import Toast from "./Toast";
 import "./globals.css";
-import { PasswordResetModal } from "@/components/auth/modals/PasswordResetModal";
-// export const dynamic = "force-dynamic";
+import Toast from "./Toast";
 
 const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
@@ -36,7 +35,7 @@ export default function RootLayout({
           <Suspense>
             <PasswordResetModal />
           </Suspense>
-          {children}{" "}
+          {children}
         </main>
         <Analytics />
         <SpeedInsights />

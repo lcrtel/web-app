@@ -473,6 +473,35 @@ export type Database = {
           },
         ]
       }
+      rate_hikes: {
+        Row: {
+          decrease_percentage: number
+          destination_code: number
+          id: string
+          increase_percentage: number
+        }
+        Insert: {
+          decrease_percentage: number
+          destination_code: number
+          id?: string
+          increase_percentage: number
+        }
+        Update: {
+          decrease_percentage?: number
+          destination_code?: number
+          id?: string
+          increase_percentage?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rate_hikes_destination_code_fkey"
+            columns: ["destination_code"]
+            isOneToOne: true
+            referencedRelation: "phone_codes"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
       roles: {
         Row: {
           id: number

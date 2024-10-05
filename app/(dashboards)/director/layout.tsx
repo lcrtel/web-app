@@ -36,11 +36,11 @@ export default async function DashboardLayout({
         submenu: true,
         subMenuItems: [
           {
-            title: "Offers",
+            title: "Route offers",
             path: "/director/routes/offers",
           },
           {
-            title: "Targets Routes",
+            title: "Buying targets",
             path: "/director/routes/targets",
           },
           {

@@ -2,6 +2,7 @@ import { supabaseServer } from "@/lib/supabase-server";
 import { fetchUser } from "@/utils/user";
 import { OffersTable } from "../routes/offers-table";
 import { PostTargetTable } from "./PostTargetTable";
+import React from "react";
 export const revalidate = 0;
 const page = async () => {
   const user = await fetchUser();

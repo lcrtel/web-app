@@ -18,7 +18,9 @@ import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { submitTRVerificationForm, whoisCheckup } from "./actions";
+import { submitTRVerificationForm } from "./actions";
+import React from "react";
+import { whoisCheckup } from "@/utils/whoisCheckUp";
 
 const trSchema = z.object({
   name: z.string(),

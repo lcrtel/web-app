@@ -1,12 +1,29 @@
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { Suspense } from "react";
+import { HiOutlinePlusCircle } from "react-icons/hi";
+import AddTRSheet from "./AddTRSheet";
 import { TRTable } from "./tr-table";
 
 export default function TRVerification() {
   return (
     <div className="space-y-4">
-      <h1 className="text-primary text-2xl font-bold">TR Verification</h1>
+      <div className="flex flex-wrap justify-between gap-2 md:items-center">
+        <h1 className="text-primary text-2xl font-bold">TR Verification</h1>
+        <Suspense
+          fallback={
+            <Button>
+              {" "}
+              <HiOutlinePlusCircle className="mr-2 h-5 w-5" />
+              Add
+            </Button>
+          }
+        >
+          <AddTRButton />
+        </Suspense>
+      </div>
+
       <div className="">
         <h1 className="text-primary mb-2 text-xl font-semibold">
           Pending Verification
@@ -31,6 +48,14 @@ export default function TRVerification() {
   );
 }
 
+async function AddTRButton() {
+  const supabase = supabaseAdminServer();
+  let { data: users } = await supabase
+    .from("profiles")
+    .select("*, user_roles!inner(*)")
+    .eq("user_roles.role_slug", "user");
+  return users && <AddTRSheet users={users} />;
+}
 async function PendingVerification() {
   const supabase = supabaseAdminServer();
   const { data } = await supabase

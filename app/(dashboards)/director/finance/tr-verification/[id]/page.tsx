@@ -1,4 +1,3 @@
-import { whoisCheckup } from "@/app/(dashboards)/u/(private)/account/tr-verification/actions";
 import BackButton from "@/components/BackButton";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -8,6 +7,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import TRInquiryForm from "./TRInquiryForm";
 import VerificationStatusUpdate from "./VerificationStatusUpdate";
+import { whoisCheckup } from "@/utils/whoisCheckUp";
 export default async function TRDetailsPage({
   params,
 }: {

@@ -145,7 +145,7 @@ export default function InputForm({
           <SearchX className="size-10" />
           <p>Sorry, we did not find any routes for your search</p>
           <Link
-            href="/u/post-targets"
+            href="/user/post-targets"
             className={`${buttonVariants({
               size: "sm",
             })}`}

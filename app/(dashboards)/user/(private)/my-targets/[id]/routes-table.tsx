@@ -22,7 +22,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { format } from "date-fns";
+import formatDate from "@/utils/formatDate";
 import Link from "next/link";
 
 export const columns: ColumnDef<Route>[] = [
@@ -34,7 +34,10 @@ export const columns: ColumnDef<Route>[] = [
       );
     },
     cell: ({ row }) => (
-      <Link href={`/user/routes/${row.getValue("id")}`} className="capitalize">
+      <Link
+        href={`/user/routes/offers/${row.getValue("id")}`}
+        className="capitalize"
+      >
         {row.getValue("destination")}
       </Link>
     ),
@@ -43,7 +46,10 @@ export const columns: ColumnDef<Route>[] = [
     accessorKey: "destination_code",
     header: "Prefix",
     cell: ({ row }) => (
-      <Link href={`/user/routes/${row.getValue("id")}`} className="capitalize">
+      <Link
+        href={`/user/routes/offers/${row.getValue("id")}`}
+        className="capitalize"
+      >
         {row.getValue("destination_code")}
       </Link>
     ),
@@ -95,7 +101,10 @@ export const columns: ColumnDef<Route>[] = [
       );
     },
     cell: ({ row }) => (
-      <Link href={`/user/routes/${row.getValue("id")}`} className="uppercase">
+      <Link
+        href={`/user/routes/offers/${row.getValue("id")}`}
+        className="uppercase"
+      >
         {row.getValue("route_type")}
       </Link>
     ),
@@ -156,11 +165,9 @@ export const columns: ColumnDef<Route>[] = [
       );
     },
     cell: ({ row }) => {
-      return (
-        <div className="font-medium">
-          {format(new Date(row.getValue("created_at")), "dd/MM/yyyy")}
-        </div>
-      );
+      const Date = row.getValue("created_at");
+      const formattedDate = formatDate(Date);
+      return <div className="font-medium">{formattedDate}</div>;
     },
   },
   {

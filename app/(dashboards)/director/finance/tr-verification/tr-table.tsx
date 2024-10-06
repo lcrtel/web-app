@@ -70,7 +70,7 @@ export const columns: ColumnDef<Route>[] = [
       );
     },
     cell: ({ row }) => (
-      <Link href={`/u/my-routes/${row.getValue("id")}`} className="capitalize">
+      <Link href={`/user/my-routes/${row.getValue("id")}`} className="capitalize">
         {format(new Date(row.getValue("created_at")), "dd/MM/yyyy")}
       </Link>
     ),

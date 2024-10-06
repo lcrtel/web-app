@@ -22,7 +22,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { format } from "date-fns";
+import formatDate from "@/utils/formatDate";
 import Link from "next/link";
 
 export const columns: ColumnDef<Route>[] = [
@@ -34,7 +34,7 @@ export const columns: ColumnDef<Route>[] = [
       );
     },
     cell: ({ row }) => (
-      <Link href={`/user/routes/${row.getValue("id")}`} className="capitalize">
+      <Link href={`/user/targets/${row.getValue("id")}`} className="capitalize">
         {row.getValue("destination")}
       </Link>
     ),
@@ -43,13 +43,13 @@ export const columns: ColumnDef<Route>[] = [
     accessorKey: "destination_code",
     header: "Prefix",
     cell: ({ row }) => (
-      <Link href={`/user/routes/${row.getValue("id")}`} className="capitalize">
+      <Link href={`/user/targets/${row.getValue("id")}`} className="capitalize">
         {row.getValue("destination_code")}
       </Link>
     ),
   },
   {
-    accessorKey: "selling_rate",
+    accessorKey: "buying_rate",
     header: ({ column }) => {
       return (
         <div
@@ -62,19 +62,17 @@ export const columns: ColumnDef<Route>[] = [
       );
     },
     cell: ({ row }) => {
-      const Rate = parseFloat(row.getValue("selling_rate"));
+      const Rate = parseFloat(row.getValue("buying_rate"));
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
       }).format(Rate);
 
-      return (
-        <div className="font-medium">$ {row.getValue("selling_rate")}</div>
-      );
+      return <div className="font-medium">$ {row.getValue("buying_rate")}</div>;
     },
     // cell: ({ row }) => (
     //     <Link
-    //         href={`/user/routes/offers/${row.getValue("id")}`}
+    //         href={`/user/routes/requests/${row.getValue("id")}`}
     //         className="uppercase"
     //     >
     //         {row.getValue("rate")}
@@ -95,7 +93,7 @@ export const columns: ColumnDef<Route>[] = [
       );
     },
     cell: ({ row }) => (
-      <Link href={`/user/routes/${row.getValue("id")}`} className="uppercase">
+      <Link href={`/user/targets/${row.getValue("id")}`} className="uppercase">
         {row.getValue("route_type")}
       </Link>
     ),
@@ -156,11 +154,9 @@ export const columns: ColumnDef<Route>[] = [
       );
     },
     cell: ({ row }) => {
-      return (
-        <div className="font-medium">
-          {format(new Date(row.getValue("created_at")), "dd/MM/yyyy")}
-        </div>
-      );
+      const Date = row.getValue("created_at");
+      const formattedDate = formatDate(Date);
+      return <div className="font-medium">{formattedDate}</div>;
     },
   },
   {
@@ -170,7 +166,7 @@ export const columns: ColumnDef<Route>[] = [
       const id = row.getValue("id");
       return (
         <Link
-          href={`/user/routes/${id}`}
+          href={`/user/targets/${id}`}
           className="whitespace-nowrap rounded-full bg-primary-50 px-3 py-1.5 text-sm font-medium text-primary-900"
         >
           Details
@@ -195,7 +191,6 @@ export function RoutesTable({ data }: any) {
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
-
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
@@ -212,7 +207,7 @@ export function RoutesTable({ data }: any) {
     <div>
       <div className="flex items-center pb-4">
         <h3 className="text-lg font-semibold tracking-tight">
-          Matching Route Offers
+          Matching targets
         </h3>
       </div>
       <div className="rounded-lg border">
@@ -258,7 +253,7 @@ export function RoutesTable({ data }: any) {
                   colSpan={columns.length}
                   className="h-12 gap-2 text-center"
                 >
-                  No matching routes found
+                  No matching requests yet
                 </TableCell>
               </TableRow>
             )}

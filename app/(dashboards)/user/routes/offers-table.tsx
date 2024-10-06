@@ -1,19 +1,21 @@
 "use client";
 
-import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { ColumnDef, flexRender } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import * as React from "react";
 
+import {
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+
+import { DataTablePagination } from "@/components/ui/data-table-components";
 import {
   Table,
   TableBody,
@@ -24,14 +26,15 @@ import {
 } from "@/components/ui/table";
 import { format } from "date-fns";
 import Link from "next/link";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { buttonVariants } from "@/components/ui/button";
+import { HiOutlineExternalLink } from "react-icons/hi";
 
-export const columns: ColumnDef<Route>[] = [
+const columns: ColumnDef<Route>[] = [
   {
     accessorKey: "destination",
     header: ({ column }) => {
-      return (
-        <div className="min-w-[100px] whitespace-nowrap">Destination Name</div>
-      );
+      return <div className="min-w-[100px] whitespace-nowrap">Destination</div>;
     },
     cell: ({ row }) => (
       <Link href={`/user/routes/${row.getValue("id")}`} className="capitalize">
@@ -41,7 +44,17 @@ export const columns: ColumnDef<Route>[] = [
   },
   {
     accessorKey: "destination_code",
-    header: "Prefix",
+    header: ({ column }) => {
+      return (
+        <div
+          className="flex cursor-pointer items-center gap-2"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Prefix
+          <ArrowUpDown className="h-4 w-4" />
+        </div>
+      );
+    },
     cell: ({ row }) => (
       <Link href={`/user/routes/${row.getValue("id")}`} className="capitalize">
         {row.getValue("destination_code")}
@@ -62,24 +75,12 @@ export const columns: ColumnDef<Route>[] = [
       );
     },
     cell: ({ row }) => {
-      const Rate = parseFloat(row.getValue("selling_rate"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(Rate);
-
       return (
-        <div className="font-medium">$ {row.getValue("selling_rate")}</div>
+        <Link href={`/user/routes/${row.getValue("id")}`} className="font-medium">
+          $ {row.getValue("selling_rate")}
+        </Link>
       );
     },
-    // cell: ({ row }) => (
-    //     <Link
-    //         href={`/user/routes/offers/${row.getValue("id")}`}
-    //         className="uppercase"
-    //     >
-    //         {row.getValue("rate")}
-    //     </Link>
-    // ),
   },
   {
     accessorKey: "route_type",
@@ -112,6 +113,9 @@ export const columns: ColumnDef<Route>[] = [
           <ArrowUpDown className="h-4 w-4" />
         </div>
       );
+    },
+    cell: ({ row }) => {
+      return <div className="">{row.getValue("asr")}%</div>;
     },
   },
   {
@@ -157,9 +161,26 @@ export const columns: ColumnDef<Route>[] = [
     },
     cell: ({ row }) => {
       return (
-        <div className="font-medium">
+        <Link href={`/user/routes/${row.getValue("id")}`} className="font-medium">
           {format(new Date(row.getValue("created_at")), "dd/MM/yyyy")}
+        </Link>
+      );
+    },
+  },
+  {
+    accessorKey: "remarks",
+    header: ({ column }) => {
+      return (
+        <div className="flex cursor-pointer items-center gap-2 whitespace-nowrap">
+          Remarks
         </div>
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <div
+          className="font-medium"
+        >{row.getValue("remarks")}</div>
       );
     },
   },
@@ -167,27 +188,28 @@ export const columns: ColumnDef<Route>[] = [
     accessorKey: "id",
     header: "",
     cell: ({ row }) => {
-      const id = row.getValue("id");
       return (
-        <Link
-          href={`/user/routes/${id}`}
-          className="whitespace-nowrap rounded-full bg-primary-50 px-3 py-1.5 text-sm font-medium text-primary-900"
-        >
-          Details
-        </Link>
+        <div className="flex items-end justify-end">
+          <Link
+            href={`/user/routes/${row.getValue("id")}`}
+            className="flex items-center gap-1 rounded-full border px-2 py-1 text-xs"
+          >
+            Details <HiOutlineExternalLink className="size-4" />
+          </Link>
+        </div>
       );
     },
   },
 ];
 
-export function RoutesTable({ data }: any) {
+export function OffersTable({ data }: any) {
+  const [rowSelection, setRowSelection] = React.useState({});
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
   );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
     data,
@@ -195,26 +217,18 @@ export function RoutesTable({ data }: any) {
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
-
+    getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
-      rowSelection,
     },
   });
-
   return (
-    <div>
-      <div className="flex items-center pb-4">
-        <h3 className="text-lg font-semibold tracking-tight">
-          Matching Route Offers
-        </h3>
-      </div>
+    <div className="space-y-2">
       <div className="rounded-lg border">
         <Table>
           <TableHeader>
@@ -256,15 +270,16 @@ export function RoutesTable({ data }: any) {
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-12 gap-2 text-center"
+                  className="h-24 text-center"
                 >
-                  No matching routes found
+                  No results.
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
+      <DataTablePagination table={table} />
     </div>
   );
 }

@@ -5,9 +5,6 @@ import { fetchUserRole } from "./utils/user";
 export async function middleware(request: NextRequest) {
   const res = await fetchUserRole();
   if (res?.role && !request.nextUrl.pathname.startsWith(`/${res.role}`)) {
-    if (res.role === "user") {
-      return NextResponse.redirect(new URL(`/u`, request.url));
-    }
     return NextResponse.redirect(new URL(`/${res.role}`, request.url));
   }
   if (
@@ -23,7 +20,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/",
+    "/user/((?!routes|targets|post-offers|post-targets).*)",
     "/director/:path*",
     "/company_manager/:path*",
     "/finance_executive/:path*",

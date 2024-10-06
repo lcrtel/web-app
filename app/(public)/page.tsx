@@ -50,7 +50,7 @@ const HeroSection = async () => {
             </p>
             <div className="flex w-full flex-wrap items-start gap-4 sm:items-center sm:justify-center">
               <Link
-                href="/u/post-offers"
+                href="/user/post-offers"
                 className={`${buttonVariants({
                   variant: "default",
                 })}`}
@@ -60,7 +60,7 @@ const HeroSection = async () => {
               </Link>
               <Link
                 passHref
-                href="/u/post-targets"
+                href="/user/post-targets"
                 className={`${buttonVariants({
                   variant: "secondary",
                 })}`}

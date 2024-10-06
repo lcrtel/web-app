@@ -128,7 +128,7 @@ export const columns: ColumnDef<Route>[] = [
     cell: ({ row }) => (
       <div className="flex justify-end">
         <Link
-          href={`/u/routes/${row.getValue("id")}`}
+          href={`/user/routes/${row.getValue("id")}`}
           className="rounded-full border px-2 py-1 flex items-center gap-1 text-xs"
         >
           Details <HiOutlineExternalLink className="size-4"/>

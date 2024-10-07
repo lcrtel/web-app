@@ -118,3 +118,11 @@ export async function createDepartmentExecutive(
     }
   }
 }
+
+export async function deleteDepartmentExecutiveOrManager(executiveId: string) {
+  const supabase = supabaseAdminServer();
+  const { error } = await supabase.auth.admin.deleteUser(executiveId);
+  if (error) {
+    return { error: error.message };
+  }
+}

@@ -2,6 +2,7 @@ import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { PlusCircle } from "lucide-react";
 import { Department } from "../actions";
 import { CreateDepartmentManager } from "./CreateDepartmentManager";
+import DeleteManager from "./DeleteManager";
 
 export default async function ManagerInfo({
   department,
@@ -25,6 +26,10 @@ export default async function ManagerInfo({
       <h4>
         <span>Phone:</span> {manager?.profiles?.phone}
       </h4>
+      <div className="flex py-2 justify-between items-center">
+        <h4>Actions</h4>
+        <DeleteManager managerId={manager?.profiles?.id} />
+      </div>
     </div>
   ) : (
     <CreateDepartmentManager department={department}>

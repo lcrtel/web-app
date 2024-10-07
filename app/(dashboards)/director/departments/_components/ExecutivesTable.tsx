@@ -5,6 +5,7 @@ import * as React from "react";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { DataTable } from "@/components/ui/data-table";
+import DeleteExecutive from "./DeleteExecutive";
 
 export const columns: ColumnDef<Route>[] = [
   {
@@ -49,6 +50,13 @@ export const columns: ColumnDef<Route>[] = [
       return <div className="whitespace-nowrap">Phone</div>;
     },
     cell: ({ row }) => <div className="">{row.getValue("phone")}</div>,
+  },
+  {
+    accessorKey: "id",
+    header: ({ column }) => {
+      return <div className="whitespace-nowrap"></div>;
+    },
+    cell: ({ row }) => <DeleteExecutive executiveId={row.getValue("id")} />,
   },
 ];
 

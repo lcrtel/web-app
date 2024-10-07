@@ -24,17 +24,17 @@ export default function ManagersPage() {
           Tech Department
         </Link>
       </div>
-      <div className="flex items-center justify-between py-4">
-        <h2 className="text-3xl font-bold tracking-tight">Tech Department</h2>
+      <div className="flex items-center justify-between py-2">
+        <h2 className="text-2xl font-bold tracking-tight">Tech Department</h2>
         <CreateDepartmentExecutive department="tech" />
       </div>
       <div className="grid gap-5 lg:grid-cols-4">
         <div className="h-fit space-y-2 rounded-2xl border bg-slate-50 px-4 py-3 lg:col-span-1">
-          <h3 className="text-2xl font-bold">Manager</h3>
+          <h3 className="text-xl font-semibold">Manager</h3>
           <ManagerInfo department="tech" />
         </div>
-        <div className="lg:col-span-3">
-          <h3 className="text-2xl font-bold">Executives</h3>
+        <div className="lg:col-span-3 space-y-2">
+          <h3 className="text-xl font-semibold">Executives</h3>
           <ExecutivesList department="tech" />
         </div>
       </div>

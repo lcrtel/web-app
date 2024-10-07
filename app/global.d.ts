@@ -13,6 +13,7 @@ declare global {
     type Gateway = DB["public"]["Tables"]["gateways"]["Row"];
     type BankAccount = DB["public"]["Tables"]["bank_accounts"]["Row"];
     type TRVerification = DB["public"]["Tables"]["tr_verifications"]["Row"];
+    type Executive = DB["public"]["Tables"]["executives"]["Row"];
     type AccountRole = "vendor" | "client" | "agent";
     type StatusEnum = DB["public"]["Enums"]["statuses"];
     type UserTypesEnum = DB["public"]["Enums"]["user_types"];

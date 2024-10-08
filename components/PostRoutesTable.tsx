@@ -184,7 +184,7 @@ export function PostRoutesTable({
           <Command>
             <CommandInput placeholder={placeholder} />
             <CommandEmpty>No results.</CommandEmpty>
-            <CommandGroup>
+            <CommandGroup className="max-h-56 overflow-y-auto">
               {users?.map((user: any) => (
                 <CommandItem
                   key={user.id}

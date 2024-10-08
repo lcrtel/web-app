@@ -4,13 +4,25 @@ import { unstable_noStore } from "next/cache";
 import { Suspense } from "react";
 import { AddAccountForm } from "../_components/AddAccount";
 import { VendorsTable } from "./VendorsTable";
+import BackButton from "@/components/BackButton";
+import Link from "next/link";
 
 export default function Page() {
   return (
-    <div className=" ">
-      <div className="flex mb-4 items-center justify-between">
+    <div className="space-y-2">
+      <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
+        <BackButton />
+        <Link href="/director" className="hover:underline">
+          Dashboard
+        </Link>
+        /
+        <Link href="/director/users/vendors" className="hover:underline">
+          Vendors
+        </Link>
+      </div>
+      <div className="mb-4 flex items-center justify-between">
         <h2 className="text-primary text-2xl font-bold">Vendors</h2>
-        <AddAccountForm role="VENDOR"/>
+        <AddAccountForm role="VENDOR" />
       </div>
 
       <div className="flex w-full flex-col gap-3 overflow-x-auto xl:flex-row">

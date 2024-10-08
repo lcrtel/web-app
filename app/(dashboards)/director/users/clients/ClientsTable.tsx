@@ -46,7 +46,7 @@ export const columns: ColumnDef<any>[] = [
       return (
         <div className="flex gap-2">
           <Link
-            href={`/director/users/clients/${id}/account_settings`}
+            href={`/director/users/clients/${id}`}
             className=""
           >
             <HiOutlineExternalLink className="h-5 w-5" />

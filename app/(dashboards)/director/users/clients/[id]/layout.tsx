@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { ClientNav } from "./ClientNav";
 import { DropDownMenu } from "./dropdownMenu";
+import BackButton from "@/components/BackButton";
 
 interface SettingsLayoutProps {
   children: React.ReactNode;
@@ -21,7 +22,7 @@ export default function SettingsLayout({
   const NavItems = [
     {
       title: "Account",
-      href: `${basePath}/${params.id}/account_settings`,
+      href: `${basePath}/${params.id}`,
     },
     {
       title: "Departments",
@@ -79,15 +80,25 @@ async function ClientDetails({ userId }: { userId: any }) {
   }
   return (
     user && (
-      <>
-        <Link
-          href="/director/users/clients"
-          className={`mb-2 h-8 gap-1 ${buttonVariants({ variant: "outline", size: "sm" })}`}
-        >
-          <ArrowLeft className="size-4" />
-          Clients
-        </Link>
-        <div className="mb-4 flex flex-col gap-2">
+      <div className="space-y-4">
+        <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
+          <BackButton />
+          <Link href="/director" className="hover:underline">
+            Dashboard
+          </Link>
+          /
+          <Link href="/director/users/clients" className="hover:underline">
+            Clients
+          </Link>
+          /
+          <Link
+            href={`/director/users/clients/${userId}`}
+            className="hover:underline"
+          >
+            {user?.name}
+          </Link>
+        </div>
+        <div className="pb-4 flex flex-col gap-2">
           <div className="">
             <h1 className="text-xl font-bold capitalize tracking-tight">
               {user?.name}
@@ -99,7 +110,7 @@ async function ClientDetails({ userId }: { userId: any }) {
             )}
           </div>
         </div>
-      </>
+      </div>
     )
   );
 }

@@ -15,7 +15,7 @@ export async function insertRoutesInDb(newRoutes: Route[]) {
         rate: route.rate,
         selling_rate: await calculateNewRate(
           Number(route.rate),
-          Number(route.destination),
+          Number(route.destination_code),
           true,
         ),
         route_type: route.route_type,

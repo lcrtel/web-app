@@ -114,6 +114,10 @@ export default async function DashboardLayout({
             title: "TR Verification",
             path: "/director/finance/tr-verification",
           },
+          {
+            title: "Rate hikes",
+            path: "/director/finance/rate-hikes",
+          },
         ],
       },
     ],

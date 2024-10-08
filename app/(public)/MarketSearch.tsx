@@ -150,7 +150,7 @@ export default function InputForm({
               size: "sm",
             })}`}
           >
-            Post your buying target <ArrowRight className="size-4 ml-2"/>
+            Post your buying target <ArrowRight className="ml-2 size-4" />
           </Link>
         </div>
       )}
@@ -158,16 +158,18 @@ export default function InputForm({
   );
 }
 
-const Destination = ({
+export const Destination = ({
   prefix,
   setPrefix,
   destination,
   setDestination,
+  displayDestinationName = true,
 }: {
   prefix: string;
   setPrefix: React.Dispatch<React.SetStateAction<string>>;
   destination: Destination | undefined;
   setDestination: React.Dispatch<React.SetStateAction<Destination | undefined>>;
+  displayDestinationName?: boolean;
 }): JSX.Element => {
   const [destinations, setDestinations] = useState<Destination[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -197,7 +199,7 @@ const Destination = ({
         {loading && <Loader2 className="size-4 animate-spin" />}
       </div>
       {destinations.length > 0 && isOpen && (
-        <ScrollArea className="!absolute left-0 top-11 z-10 h-[180px] rounded-md border bg-white p-4">
+        <ScrollArea className="!absolute left-0 top-11 z-10 max-h-[180px] drop-shadow-2xl rounded-md border bg-white p-4">
           {destinations.map((destination) => (
             <li
               key={destination.code}
@@ -213,7 +215,8 @@ const Destination = ({
           ))}
         </ScrollArea>
       )}
-      {destination?.name && (
+
+      {displayDestinationName && destination?.name && (
         <div className="px-2">
           <h3 className="whitespace-nowrap text-xs">Destination Name</h3>
           <p className="whitespace-nowrap capitalize">

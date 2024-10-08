@@ -14,7 +14,7 @@ export async function postTargetsAsAdmin(data: Target[]) {
         rate: route.rate,
         buying_rate: await calculateNewRate(
           Number(route.rate),
-          Number(route.destination),
+          Number(route.destination_code),
           false,
         ),
         route_type: route.route_type,

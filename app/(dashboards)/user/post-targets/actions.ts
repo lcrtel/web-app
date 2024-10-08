@@ -20,7 +20,7 @@ export async function postTargets(data: Target[]) {
         rate: target.rate,
         buying_rate: await calculateNewRate(
           Number(target.rate),
-          Number(target.destination),
+          Number(target.destination_code),
           false,
         ),
         route_type: target.route_type,

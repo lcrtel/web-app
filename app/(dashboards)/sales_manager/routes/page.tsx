@@ -6,7 +6,7 @@ import { Suspense } from "react";
 export default function RoutesPage() {
   return (
     <div className="space-y-2">
-      <h1 className="text-primary text-2xl font-bold">Route Offers</h1>
+      <h1 className="text-primary text-2xl font-bold">Route Offers <span className="text-sm text-slate-500 font-normal">(Read only)</span></h1>
       <Suspense fallback={<Skeleton className="h-32 w-full" />}>
         <Routes />
       </Suspense>

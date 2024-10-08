@@ -4,7 +4,7 @@ import { supabaseServer } from "@/lib/supabase-server";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 
 export async function fetchUnVerfiedRoutes() {
-  const supabase = supabaseServer();
+  const supabase = supabaseAdminServer();
   const { data: routes, error } = await supabase
     .from("routes")
     .select(`*, profiles (name, company_name)`)

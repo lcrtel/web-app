@@ -9,7 +9,6 @@ const page = async () => {
     .from("profiles")
     .select("*, user_roles!inner(*)")
     .eq("user_roles.role_slug", "user")
-    .match({ user_type: "CLIENT" });
   return (
     <section className="">
       <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">

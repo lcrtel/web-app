@@ -1,12 +1,13 @@
 "use server";
 import InvoiceTemplate from "@/emails/Invoice";
 import { supabaseServer } from "@/lib/supabase-server";
+import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import formatDate from "@/utils/formatDate";
 import { renderAsync } from "@react-email/render";
 import nodemailer from "nodemailer";
 
 export default async function sendInvoice(data: any) {
-    const supabase = supabaseServer();
+    const supabase = supabaseAdminServer();
     const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 465,
@@ -22,7 +23,6 @@ export default async function sendInvoice(data: any) {
         .insert([data.invoice_details])
         .select(`*, profiles (*)`)
         .single();
-
     if (error) {
         return { success: false, error: error };
     } else {

@@ -45,10 +45,11 @@ export const columns: ColumnDef<any>[] = [
         ),
     },
     {
-        accessorKey: "client",
+        accessorKey: "profiles",
         header: "Client",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("client")} </div>
+            // @ts-ignore
+            <div className="capitalize">{row.getValue("profiles").name} </div>
         ),
     },
     {

@@ -44,13 +44,12 @@ export default function InvoicesPage() {
 }
 
 async function Create({ supabase }: { supabase: SupabaseClient }) {
-  let { data: clients } = await supabase
+  let { data: users } = await supabase
     .from("profiles")
-    .select("*")
-    .or(`role.eq.client,role.eq.vendor`);
-
+    .select("*, user_roles!inner(*)")
+    .eq("user_roles.role_slug", "user");
   let { data: payment_methods } = await supabase.from("config").select("*");
-  return <CreateInvoice clients={clients} paymentMethods={payment_methods} />;
+  return <CreateInvoice clients={users} paymentMethods={payment_methods} />;
 }
 
 async function Invoices({ supabase }: { supabase: any }) {
@@ -58,20 +57,10 @@ async function Invoices({ supabase }: { supabase: any }) {
   const { data: invoices } = await supabase
     .from("invoices")
     .select(`*, profiles (name)`);
-  const invoicesWithNames = invoices?.map((invoice: any) => {
-    const {
-      profiles: { name },
-      ...restInvoice
-    } = invoice;
 
-    return {
-      ...restInvoice,
-      client: name ? name : "",
-    };
-  });
 
   return invoices?.length ? (
-    <InvoiceTable data={invoicesWithNames} />
+    <InvoiceTable data={invoices} />
   ) : (
     <div className="flex h-12 items-center justify-center gap-2 rounded-lg border py-10 text-center text-sm">
       <p>No invoices created yet</p>

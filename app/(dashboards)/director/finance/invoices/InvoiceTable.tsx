@@ -152,23 +152,6 @@ const table = useReactTable({
 
     return (
         <div className="">
-            <div className="flex items-center pb-4">
-                <Input
-                    type="text"
-                    placeholder="Search by client name"
-                    value={
-                        (table
-                            .getColumn("client")
-                            ?.getFilterValue() as string) ?? ""
-                    }
-                    onChange={(event: any) =>
-                        table
-                            .getColumn("client")
-                            ?.setFilterValue(event.target.value)
-                    }
-                    className="w-full"
-                />
-            </div>
             <div className="rounded-xl border overflow-y-auto">
                 <Table>
                     <TableHeader>

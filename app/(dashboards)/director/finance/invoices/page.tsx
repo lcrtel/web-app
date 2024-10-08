@@ -18,12 +18,12 @@ export default function InvoicesPage() {
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-primary text-2xl font-bold">Invoices</h2>
           <div className="flex items-center gap-2">
-            <Link
+            {/* <Link
               href="/director/finance/invoices/bulk"
               className={buttonVariants({ variant: "ghost" })}
             >
               Bulk Invoice
-            </Link>
+            </Link> */}
             <Suspense
               fallback={
                 <Button className="gap-2" size="sm">

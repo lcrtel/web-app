@@ -46,13 +46,13 @@ const InvoiceDetails = ({
         }
     };
 
-    const sendEmail = () => {
-        fetch("/api/emails/invoice", {
-            method: "POST",
-            body: JSON.stringify({ ...invoice }),
-        });
-        toast.success("Email sent successfully");
-    };
+    // const sendEmail = () => {
+    //     // fetch("/api/emails/invoice", {
+    //     //     method: "POST",
+    //     //     body: JSON.stringify({ ...invoice }),
+    //     // });
+    //     toast.success("Email sent successfully");
+    // };
 
     return (
         <div className="  flex items-starts max-w-8xl mx-auto gap-5 mb-5">
@@ -175,7 +175,7 @@ const InvoiceDetails = ({
                 ) : null}
             </div>
             <div className=" w-[200px] space-y-2">
-                <Button onClick={sendEmail} className=" w-full">
+                <Button disabled className=" w-full">
                     Send
                 </Button>
                 <Button

@@ -12,23 +12,16 @@ export default async function page() {
     .from("gateways")
     .select(`*, routes (*), profiles (*)`);
 
-  let { data: clients } = await supabase
+  let { data: users } = await supabase
     .from("profiles")
-    .select("*")
-    .or(`role.eq.client,role.eq.vendor`);
-  let { data: agents } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("role", "agent");
+    .select("*, user_roles!inner(*)")
+    .eq("user_roles.role_slug", "user");
+
   let { data: payment_methods } = await supabase.from("config").select("*");
   return (
     <section className="flex h-full flex-col">
       <h3 className="mb-4 text-2xl font-bold tracking-tight">Bulk Invoice</h3>
-      <BulkInvoiceForm
-        clients={clients}
-        paymentMethods={payment_methods}
-        agents={agents}
-      />
+      <BulkInvoiceForm clients={users} paymentMethods={payment_methods} />
     </section>
   );
 }

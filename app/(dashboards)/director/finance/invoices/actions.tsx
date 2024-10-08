@@ -67,7 +67,7 @@ export async function sendBulkInvoice(invoices: any) {
                 })
         );
     } catch (error) {
-        return { success: false, error: error };
+        return { success: false, error: JSON.stringify(error) };
     }
     return { success: true };
 }

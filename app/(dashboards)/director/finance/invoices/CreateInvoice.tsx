@@ -125,7 +125,6 @@ export function CreateInvoice({
         }. Duration: ${data.total_duration}mins.`,
         total_amount: data.total_amount,
         balance: data.total_amount,
-        bill_to: paymentMethod.details,
       },
       to: to,
       cc: cc,
@@ -153,7 +152,7 @@ export function CreateInvoice({
         </SheetTrigger>
         <SheetContent className="overflow-y-auto">
           <SheetHeader>
-            <SheetTitle className="text-primary-900">
+            <SheetTitle className="text-primary-900 pb-4">
               Create Invoice{" "}
             </SheetTitle>
           </SheetHeader>
@@ -420,51 +419,6 @@ export function CreateInvoice({
                       </FormItem>
                     )}
                   />
-                </div>
-                <div className="flex flex-col items-start gap-2">
-                  <div className="flex w-full items-center justify-between">
-                    <Label>Payment Method</Label>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm">
-                          Choose
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent className="w-full" align="end">
-                        <DropdownMenuLabel>Bank Accounts</DropdownMenuLabel>
-                        <DropdownMenuSeparator />{" "}
-                        {paymentMethods.map(
-                          (method: any) =>
-                            method.type === "bank" && (
-                              <DropdownMenuCheckboxItem
-                                key={method.id}
-                                className="cursor-pointer"
-                                checked={paymentMethod.id === method.id}
-                                onCheckedChange={(e) =>
-                                  setPaymentMethod(method)
-                                }
-                              >
-                                {method.details.bankName}{" "}
-                                {method.details.accountNumber}
-                              </DropdownMenuCheckboxItem>
-                            ),
-                        )}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-
-                  {paymentMethod && (
-                    <div className="text-left text-sm text-slate-400">
-                      <p>A/C No: {paymentMethod.details.accountNumber}</p>
-                      <p>
-                        A/C Holder Name:{" "}
-                        {paymentMethod.details.accountHolderName}
-                      </p>
-                      <p>Bank Name: {paymentMethod.details.bankName}</p>
-                      <p>Branch Name: {paymentMethod.details.branchName}</p>
-                      <p>IFSC Code: {paymentMethod.details.IFSCCode}</p>
-                    </div>
-                  )}
                 </div>
               </div>
               <Button

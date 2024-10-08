@@ -27,7 +27,7 @@ export async function fetchUserMetadata() {
 }
 export async function getUser() {
   const supabase = supabaseServer();
-  const { data: user } = await supabase.from("profiles").select("*").single();
+  const { data: user } = await supabase.from("profiles").select("*, user_roles(*)").single();
   return user;
 }
 export async function fetchUser() {

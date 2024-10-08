@@ -43,11 +43,9 @@ export default function ProfileDropdown({
         avoidCollisions
         collisionPadding={20}
       >
-        <div className="flex flex-col space-y-1 border-b p-4">
+        <div className="flex flex-col items-start gap-2 border-b p-4">
           <p className="font-medium leading-none">{user.name}</p>
-          <p className="text-muted-foreground text-sm leading-none">
-            {user.email}
-          </p>
+          <Role role={user.user_roles.role_slug} />
         </div>
         <div className="flex flex-col">
           <PopoverClose asChild>
@@ -69,4 +67,73 @@ export default function ProfileDropdown({
       </PopoverContent>
     </Popover>
   );
+}
+
+function Role({ role }: { role: UserRolesEnum }) {
+  switch (role) {
+    case "director":
+      return (
+        <h2 className="rounded-full bg-primary-900 px-3 py-1 text-center text-sm text-white">
+          Director
+        </h2>
+      );
+    case "company_manager":
+      return (
+        <h2 className="rounded-full bg-primary-900 px-3 py-1 text-center text-sm text-white">
+          Company Manager
+        </h2>
+      );
+    case "finance_executive":
+      return (
+        <h2 className="rounded-full bg-primary-900 px-3 py-1 text-center text-sm text-white">
+          Finance Executive
+        </h2>
+      );
+    case "finance_manager":
+      return (
+        <h2 className="rounded-full bg-primary-900 px-3 py-1 text-center text-sm text-white">
+          Finance Manager
+        </h2>
+      );
+    case "noc_executive":
+      return (
+        <h2 className="rounded-full bg-primary-900 px-3 py-1 text-center text-sm text-white">
+          NOC Executive
+        </h2>
+      );
+    case "noc_manager":
+      return (
+        <h2 className="rounded-full bg-primary-900 px-3 py-1 text-center text-sm text-white">
+          NOC Manager
+        </h2>
+      );
+    case "purchase_executive":
+      return (
+        <h2 className="rounded-full bg-primary-900 px-3 py-1 text-center text-sm text-white">
+          Purchase Executive
+        </h2>
+      );
+    case "purchase_manager":
+      return (
+        <h2 className="rounded-full bg-primary-900 px-3 py-1 text-center text-sm text-white">
+          Purchase Manager
+        </h2>
+      );
+    case "sales_executive":
+      return (
+        <h2 className="rounded-full bg-primary-900 px-3 py-1 text-center text-sm text-white">
+          Sales Executive
+        </h2>
+      );
+    case "sales_manager":
+      return (
+        <h2 className="rounded-full bg-primary-900 px-3 py-1 text-center text-sm text-white">
+          Sales Manager
+        </h2>
+      );
+    case "user":
+      return null;
+    default:
+      return null;
+  }
 }

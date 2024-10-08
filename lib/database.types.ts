@@ -477,26 +477,26 @@ export type Database = {
         Row: {
           decrease_percentage: number
           destination_code: number
-          id: string
+          id: number
           increase_percentage: number
         }
         Insert: {
           decrease_percentage: number
           destination_code: number
-          id?: string
+          id?: number
           increase_percentage: number
         }
         Update: {
           decrease_percentage?: number
           destination_code?: number
-          id?: string
+          id?: number
           increase_percentage?: number
         }
         Relationships: [
           {
             foreignKeyName: "rate_hikes_destination_code_fkey"
             columns: ["destination_code"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "phone_codes"
             referencedColumns: ["code"]
           },
@@ -1020,6 +1020,18 @@ export type Database = {
       }
     }
     Enums: {
+      roles_enum:
+        | "director"
+        | "company_manager"
+        | "finance_executive"
+        | "finance_manager"
+        | "noc_executive"
+        | "noc_manager"
+        | "purchase_executive"
+        | "purchase_manager"
+        | "sales_executive"
+        | "sales_manager"
+        | "user"
       statuses: "PENDING" | "VERIFIED" | "DECLINED"
       user_types: "STAFF" | "CLIENT" | "VENDOR"
     }

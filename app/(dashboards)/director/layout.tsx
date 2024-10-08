@@ -1,5 +1,5 @@
 import DashboardNav, { NavProps } from "@/components/navigation/DashboardNav";
-import { fetchUser } from "@/utils/user";
+import { fetchUser, getUser } from "@/utils/user";
 import {
   LayoutDashboard,
   Receipt,
@@ -16,7 +16,7 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   unstable_noStore();
-  const user = await fetchUser();
+  const user = await getUser();
   const NAV_ITEMS: NavProps = {
     root: {
       label: "Admin Panel",

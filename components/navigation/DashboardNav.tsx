@@ -102,9 +102,6 @@ const MobileNav = ({ navItems }: { navItems: NavProps }) => {
             width={160}
             height={32}
           />
-          <h2 className="w-full rounded-full border border-slate-200 px-3 py-1 text-center text-sm text-slate-500">
-            {navItems.root.label}
-          </h2>
         </Link>
         {navItems.pages.map((item, idx) => {
           return <MobileMenuItem key={idx} item={item} />;
@@ -113,6 +110,7 @@ const MobileNav = ({ navItems }: { navItems: NavProps }) => {
     </Sheet>
   );
 };
+
 const MobileMenuItem = ({ item }: { item: SideNavItem }) => {
   const pathname = usePathname();
   const [subMenuOpen, setSubMenuOpen] = useState(() =>
@@ -275,3 +273,5 @@ const NavMenuItem = ({ item }: { item: SideNavItem }) => {
     </li>
   );
 };
+
+

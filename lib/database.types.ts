@@ -496,7 +496,7 @@ export type Database = {
           {
             foreignKeyName: "rate_hikes_destination_code_fkey"
             columns: ["destination_code"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "phone_codes"
             referencedColumns: ["code"]
           },
@@ -909,6 +909,32 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "tr_verifications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_durations: {
+        Row: {
+          duration: number | null
+          id: number
+          user_id: string | null
+        }
+        Insert: {
+          duration?: number | null
+          id?: number
+          user_id?: string | null
+        }
+        Update: {
+          duration?: number | null
+          id?: number
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_durations_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"

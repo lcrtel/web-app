@@ -53,7 +53,7 @@ export default async function DashboardLayout({
     NAV_ITEMS.pages = [
       {
         title: "Dashboard",
-        path: "/u",
+        path: "/user",
       },
       ...publicNavItems,
       ...privateNavItems,

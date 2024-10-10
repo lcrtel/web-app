@@ -15,8 +15,6 @@ export default async function DashboardLayout({
   };
 }) {
   const user = await getUser();
-  const res = await fetchUserRole();
-  console.log(res)
   let publicNavItems = [
     {
       title: "Routes",
@@ -44,7 +42,7 @@ export default async function DashboardLayout({
   const NAV_ITEMS: NavProps = {
     root: {
       label: "User",
-      path: "/u",
+      path: "/user",
     },
     accountPage: "/user/account",
     pages: [],

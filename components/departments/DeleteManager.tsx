@@ -13,9 +13,9 @@ import {
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
-import { deleteDepartmentExecutiveOrManager } from "../actions";
+import { deleteDepartmentExecutiveOrManager } from "./actions";
 
-export default function DeleteManager({ managerId }: { managerId: any }) {
+export default function DeleteManager({ managerId }: { managerId: string }) {
   const router = useRouter();
   const handleDelete = async () => {
     const res = await deleteDepartmentExecutiveOrManager(managerId);
@@ -23,7 +23,7 @@ export default function DeleteManager({ managerId }: { managerId: any }) {
       toast.error(res.error);
       return;
     }
-    toast.success("Deleted Manager");
+    toast.success("Deleted");
     router.refresh();
   };
   return (

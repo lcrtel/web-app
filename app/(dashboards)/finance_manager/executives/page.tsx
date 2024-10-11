@@ -19,9 +19,9 @@ export default function ExecutivesPage() {
       </div>
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold tracking-tight">Executives</h2>
-        <CreateDepartmentExecutive department="sales" />
+        <CreateDepartmentExecutive department="finance" />
       </div>
-      <ExecutivesList department="sales" />
+      <ExecutivesList department="finance" />
     </div>
   );
 }

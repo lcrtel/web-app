@@ -25,7 +25,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import * as z from "zod";
-import { createDepartmentManager, Department } from "../actions";
+import { createDepartmentManager, Department } from "./actions";
 
 const accountSchema = z.object({
   name: z.string(),

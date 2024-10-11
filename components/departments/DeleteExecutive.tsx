@@ -12,10 +12,10 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
-import { HiTrash } from "react-icons/hi";
+import { HiOutlineTrash, HiTrash } from "react-icons/hi";
 import {
   deleteDepartmentExecutiveOrManager
-} from "../actions";
+} from "./actions";
 
 export default function DeleteExecutive({ executiveId }: { executiveId: any }) {
   const router = useRouter();
@@ -31,8 +31,8 @@ export default function DeleteExecutive({ executiveId }: { executiveId: any }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <div className="cursor-pointer">
-          <HiTrash className="h-5 w-5 text-red-500" />{" "}
+        <div className="flex cursor-pointer items-center gap-2 text-red-500">
+          <HiOutlineTrash className="size-4" /> Delete
         </div>
       </AlertDialogTrigger>
       <AlertDialogContent className="border-red-500">

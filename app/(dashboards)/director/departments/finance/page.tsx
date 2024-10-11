@@ -1,8 +1,8 @@
 import BackButton from "@/components/BackButton";
+import { CreateDepartmentExecutive } from "@/components/departments/CreateDepartmentExecutive";
 import Link from "next/link";
-import { CreateDepartmentExecutive } from "../_components/CreateDepartmentExecutive";
-import ExecutivesList from "../_components/ExecutivesList";
-import ManagerInfo from "../_components/ManagerInfo";
+
+import DepartmentInfo from "../DepartmentInfo";
 
 export default function ManagersPage() {
   return (
@@ -30,16 +30,7 @@ export default function ManagersPage() {
         </h2>
         <CreateDepartmentExecutive department="finance" />
       </div>
-      <div className="grid gap-5 lg:grid-cols-4">
-        <div className="h-fit space-y-2 rounded-2xl border bg-slate-50 px-4 py-3 lg:col-span-1">
-          <h3 className="text-xl font-semibold">Manager</h3>
-          <ManagerInfo department="finance" />
-        </div>
-        <div className="w-full space-y-2 lg:col-span-3">
-          <h3 className="text-xl font-semibold">Executives</h3>
-          <ExecutivesList department="finance" />
-        </div>
-      </div>
+      <DepartmentInfo department="finance" />
     </div>
   );
 }

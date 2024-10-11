@@ -110,7 +110,7 @@ function SelectRouteType({ routeType, setRouteType }: SelectRouteTypeProps) {
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="flex-1 justify-between sm:max-w-32"
+          className=" justify-between sm:max-w-32"
         >
           {routeType ? routeType.toUpperCase() : "Route type"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -170,10 +170,10 @@ function SelectDestination({
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="relative flex items-center gap-2">
-      <div className="flex h-10 w-20 sm:w-auto items-center justify-between overflow-clip rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm ring-white transition-all duration-300 ease-in-out placeholder:text-gray-400 hover:ring-2 hover:ring-primary-50 focus-visible:border focus-visible:border-gray-400 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary-50">
+      <div className="flex h-10 sm:w-auto items-center justify-between overflow-clip rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm ring-white transition-all duration-300 ease-in-out placeholder:text-gray-400 hover:ring-2 hover:ring-primary-50 focus-visible:border focus-visible:border-gray-400 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary-50">
         <input
           placeholder="Search destinations..."
-          className="min-w-14 appearance-none focus-visible:outline-none"
+          className="w-36 appearance-none focus-visible:outline-none"
           onChange={(e) => setPrefix(e.target.value.toUpperCase())}
           value={prefix}
           onFocus={() => setIsOpen(true)}
@@ -181,7 +181,7 @@ function SelectDestination({
         {loading && <Loader2 className="size-4 animate-spin" />}
       </div>
       {destinations.length > 0 && isOpen && (
-        <ScrollArea className="!absolute left-0 top-11 z-10 h-[180px] rounded-md border bg-white p-4">
+        <ScrollArea className="!absolute left-0 top-11 z-10 h-[250px] drop-shadow-2xl rounded-md border bg-white p-4">
           {destinations.map((destination) => (
             <li
               key={destination.code}

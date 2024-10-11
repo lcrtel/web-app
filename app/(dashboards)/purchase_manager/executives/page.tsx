@@ -1,7 +1,8 @@
 import BackButton from "@/components/BackButton";
 import Link from "next/link";
-import { CreateDepartmentExecutive } from "../../director/departments/_components/CreateDepartmentExecutive";
-import ExecutivesList from "../../director/departments/_components/ExecutivesList";
+import ExecutivesList from "@/components/departments/ExecutivesList";
+import { CreateDepartmentExecutive } from "@/components/departments/CreateDepartmentExecutive";
+
 
 export default function ExecutivesPage() {
   return (

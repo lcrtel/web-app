@@ -8,9 +8,8 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
-  useReactTable,
+  useReactTable
 } from "@tanstack/react-table";
 import * as React from "react";
 
@@ -69,7 +68,7 @@ export function DataTable<TData, TValue>({
   }, [rowSelection, table, setSelectedRows]);
 
   return (
-    <div className="rounded-lg border w-full">
+    <div className="w-full rounded-lg border">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

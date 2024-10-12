@@ -54,6 +54,17 @@ export default async function DashboardLayout({
         title: "Marketing",
         path: "/director/marketing",
         icon: <TrendingUp width="18" height="18" />,
+        submenu: true,
+        subMenuItems: [
+          {
+            title: "Routes",
+            path: "/director/marketing/routes",
+          },
+          {
+            title: "Targets",
+            path: "/director/marketing/targets",
+          }
+        ]
       },
       {
         title: "Users",

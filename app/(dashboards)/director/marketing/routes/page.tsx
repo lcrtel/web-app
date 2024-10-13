@@ -39,7 +39,6 @@ async function Marketing() {
     .from("profiles")
     .select("name, user_roles!inner(*), routes(count)")
     .eq("user_roles.role_slug", "user")
-    .match({ user_type: "CLIENT" });
   // @ts-ignore
   clients = data?.filter((client) => client.routes[0].count == 0);
   return <RoutesMarketing routes={routes} clients={clients} />;

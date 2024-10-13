@@ -154,7 +154,7 @@ export const routeColumns: ColumnDef<Target>[] = [
       );
     },
     cell: ({ row }) => {
-      const rate: number = row.getValue("selling_rate");
+      const rate: number = row.getValue("buying_rate");
 
       return <div className="font-medium">$ {Number(rate).toFixed(5)}</div>;
     },

@@ -1,16 +1,21 @@
 "use server";
-import RouteMarketingEmail from "@/emails/RouteMarketingEmail";
+import TargetMarketingEmail from "@/emails/TargetMarketingEmail";
 import { transporter } from "@/utils/smtp-transporter";
 import { renderAsync } from "@react-email/render";
 import { format } from "date-fns";
 import XLSX from "xlsx";
 
 export default async function sendTargets(
-  targets: Target[],
-  emailIds: string[],
+  unfilteredTargets: Target[],
+  emailId: string,
+  user_id: string,
   message: string,
 ) {
-  const RoutesForExcel = targets.map((target) => {
+  const targets = unfilteredTargets.filter(
+    (target) => target.client_id !== user_id,
+  );
+  if (targets.length === 0) return ;
+  const TargetsForExcel = targets.map((target) => {
     return {
       Destination: target.destination,
       Prefix: target.destination_code,
@@ -20,12 +25,12 @@ export default async function sendTargets(
       ACD: target.acd,
       "Posted on":
         target.created_at && format(new Date(target.created_at), "dd/MM/yyyy"),
-      "Buy link": `=HYPERLINK("https://www.lcrtel.com/user/targets/${target.id}", "Buy")`, // Using formula directly as a string
+      "Buy link": `=HYPERLINK("https://www.lcrtel.com/user/targets/${target.id}", "View")`, // Using formula directly as a string
     };
   });
 
   const workbook = XLSX.utils.book_new();
-  const worksheet = XLSX.utils.json_to_sheet(RoutesForExcel);
+  const worksheet = XLSX.utils.json_to_sheet(TargetsForExcel);
 
   // Ensure that the 'Buy link' column is properly registered as a formula
   Object.keys(worksheet).forEach((cell) => {
@@ -42,10 +47,10 @@ export default async function sendTargets(
   });
   await transporter.sendMail({
     from: process.env.SMTP_USER,
-    to: emailIds,
+    to: emailId,
     subject: `Target rates`,
     html: await renderAsync(
-      RouteMarketingEmail({ data: targets.slice(0, 10), message: message }),
+      TargetMarketingEmail({ data: targets.slice(0, 10), message: message }),
     ),
     attachments: [
       {

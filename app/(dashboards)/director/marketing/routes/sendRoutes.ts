@@ -6,10 +6,15 @@ import { format } from "date-fns";
 import XLSX from "xlsx";
 
 export default async function sendRoutes(
-  routes: Route[],
-  emailIds: string[],
+  unfilteredRoutes: Route[],
+  emailId: string,
+  user_id: string,
   message: string,
 ) {
+  const routes = unfilteredRoutes.filter(
+    (route) => route.vendor_id !== user_id,
+  );
+  if (routes.length === 0) return;
   const RoutesForExcel = routes.map((route) => {
     return {
       Destination: route.destination,
@@ -42,7 +47,7 @@ export default async function sendRoutes(
   });
   await transporter.sendMail({
     from: process.env.SMTP_USER,
-    to: emailIds,
+    to: emailId,
     subject: `Route offers`,
     html: await renderAsync(
       RouteMarketingEmail({ data: routes.slice(0, 10), message: message }),

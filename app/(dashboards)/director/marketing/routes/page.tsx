@@ -37,9 +37,9 @@ async function Marketing() {
   let clients: Profile[] = [];
   let { data } = await supabase
     .from("profiles")
-    .select("name, user_roles!inner(*), routes(count)")
-    .eq("user_roles.role_slug", "user")
+    .select("*, user_roles!inner(*)")
+    .eq("user_roles.role_slug", "user");
   // @ts-ignore
-  clients = data?.filter((client) => client.routes[0].count == 0);
+  clients = data;
   return <RoutesMarketing routes={routes} clients={clients} />;
 }

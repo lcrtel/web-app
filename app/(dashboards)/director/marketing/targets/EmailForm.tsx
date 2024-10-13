@@ -3,8 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { format } from "date-fns";
-import { Loader2, Mail, Send, XCircle } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Loader2, Mail, Send } from "lucide-react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import sendTargets from "./sendTargets";
 
@@ -16,33 +16,18 @@ export default function EmailForm({
   vendors: Profile[];
 }) {
   const [message, setMessage] = useState(`Hi, here are our target rates:`);
-  const [emailIds, setEmailIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    const collectedEmails: string[] = [];
-
-    vendors.forEach((vendor: any) => {
-      // Add main email
-      if (vendor?.email) collectedEmails.push(vendor.email);
-      // Add sales department email if it exists and is non-empty
-      // if (client?.noc_department?.email)
-      //   collectedEmails.push(client.noc_department.email);
-    });
-
-    // Update state with the collected email addresses
-    setEmailIds(collectedEmails);
-  }, [vendors]);
-  const removeEmail = (emailToRemove: string) => {
-    setEmailIds((prevEmailIds) =>
-      prevEmailIds.filter((email) => email !== emailToRemove),
-    );
-  };
 
   async function sendEmail() {
     setLoading(true);
-    await sendTargets(targets, emailIds, message);
+    await Promise.all(
+      vendors.map(async (vendor) => {
+        if (!vendor.email) return;
+        await sendTargets(targets, vendor.email, vendor.id, message);
+        toast.success(`Email sent to ${vendor.name}`);
+      })
+    );
     setLoading(false);
-    toast.success("Email sent successfully");
   }
 
   return (
@@ -61,15 +46,11 @@ export default function EmailForm({
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2 text-sm">
-          {emailIds.length ? (
-            emailIds?.map((emailId, idx: number) => (
+          {vendors.length ? (
+            vendors?.map((vendor, idx: number) => (
               <div key={idx} className="flex flex-wrap items-center gap-2">
-                <div className="flex items-center gap-2 rounded-full border bg-slate-50 px-3 py-1">
-                  <p>{emailId}</p>{" "}
-                  <XCircle
-                    className="size-4 cursor-pointer text-slate-500"
-                    onClick={() => removeEmail(emailId)}
-                  />
+                <div className="rounded-full border bg-slate-50 px-3 py-1">
+                  <p>{vendor.email}</p>
                 </div>
               </div>
             ))
@@ -135,7 +116,7 @@ export default function EmailForm({
         )}
         <Button
           className="ml-auto"
-          disabled={loading || emailIds.length === 0 || targets.length === 0}
+          disabled={loading || vendors.length === 0 || targets.length === 0}
           onClick={sendEmail}
         >
           Send Email{" "}

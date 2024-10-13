@@ -3,8 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { format } from "date-fns";
-import { Loader2, Mail, Send, XCircle } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Loader2, Mail, Send } from "lucide-react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import sendRoutes from "./sendRoutes";
 
@@ -16,33 +16,18 @@ export default function EmailForm({
   clients: Profile[];
 }) {
   const [message, setMessage] = useState(`Hi, here are our route offers:`);
-  const [emailIds, setEmailIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    const collectedEmails: string[] = [];
-
-    clients.forEach((client: any) => {
-      // Add main email
-      if (client?.email) collectedEmails.push(client.email);
-      // Add sales department email if it exists and is non-empty
-      // if (client?.noc_department?.email)
-      //   collectedEmails.push(client.noc_department.email);
-    });
-
-    // Update state with the collected email addresses
-    setEmailIds(collectedEmails);
-  }, [clients]);
-  const removeEmail = (emailToRemove: string) => {
-    setEmailIds((prevEmailIds) =>
-      prevEmailIds.filter((email) => email !== emailToRemove),
-    );
-  };
 
   async function sendEmail() {
     setLoading(true);
-    await sendRoutes(routes, emailIds, message);
+    await Promise.all(
+      clients.map(async (client) => {
+        if (!client.email) return;
+        await sendRoutes(routes, client.email, client.id, message);
+        toast.success(`Email sent to ${client.name}`);
+      }),
+    );
     setLoading(false);
-    toast.success("Email sent successfully");
   }
 
   return (
@@ -61,15 +46,11 @@ export default function EmailForm({
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2 text-sm">
-          {emailIds.length ? (
-            emailIds?.map((emailId, idx: number) => (
+          {clients.length ? (
+            clients?.map((client, idx: number) => (
               <div key={idx} className="flex flex-wrap items-center gap-2">
-                <div className="flex items-center gap-2 rounded-full border bg-slate-50 px-3 py-1">
-                  <p>{emailId}</p>{" "}
-                  <XCircle
-                    className="size-4 cursor-pointer text-slate-500"
-                    onClick={() => removeEmail(emailId)}
-                  />
+                <div className=" rounded-full border bg-slate-50 px-3 py-1">
+                  <p>{client.email}</p>
                 </div>
               </div>
             ))
@@ -135,7 +116,7 @@ export default function EmailForm({
         )}
         <Button
           className="ml-auto"
-          disabled={loading || emailIds.length === 0 || routes.length === 0}
+          disabled={loading || clients.length === 0 || routes.length === 0}
           onClick={sendEmail}
         >
           Send Email{" "}

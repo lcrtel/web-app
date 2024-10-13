@@ -38,9 +38,9 @@ async function Marketing() {
   let vendors: Profile[] = [];
   let { data } = await supabase
     .from("profiles")
-    .select("*, user_roles!inner(*), targets(count)")
-    .eq("user_roles.role_slug", "user")
+    .select("*, user_roles!inner(*), routes(count)")
+    .eq("user_roles.role_slug", "user");
   // @ts-ignore
-  vendors = data?.filter((client) => client.targets[0].count == 0);
+  vendors = data?.filter((v) => v.routes[0].count > 0);
   return <TargetsMarketing targets={targets} vendors={vendors} />;
 }

@@ -7,12 +7,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { PopoverArrow, PopoverClose } from "@radix-ui/react-popover";
-import { UserRoundIcon } from "lucide-react";
+import { Loader2, UserRoundIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { HiOutlineLogout } from "react-icons/hi";
 import { signOut } from "../auth/userActions";
+import { useState } from "react";
 
 export default function ProfileDropdown({
   user,
@@ -22,8 +23,9 @@ export default function ProfileDropdown({
   accountPage: string;
 }) {
   const router = useRouter();
-
+const [loading, setLoading] = useState(false);
   const handleSignOut = async () => {
+    setLoading(true);
     const res = await signOut();
     if (res?.error) {
       toast.error(res.error);
@@ -60,7 +62,7 @@ export default function ProfileDropdown({
             className="flex w-full cursor-pointer items-center justify-between px-4 py-3 hover:bg-surface"
             onClick={handleSignOut}
           >
-            <p>Signout</p> <HiOutlineLogout />
+            <p>Signout</p> {loading ? <Loader2 className="size-5 animate-spin"/>:<HiOutlineLogout className="size-5" />}
           </div>
         </div>
         <PopoverArrow className="fill-slate-200" />

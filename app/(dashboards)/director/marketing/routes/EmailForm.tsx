@@ -2,10 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2, Mail, Send, X, XCircle } from "lucide-react";
+import { format } from "date-fns";
+import { Loader2, Mail, Send, XCircle } from "lucide-react";
 import { useEffect, useState } from "react";
-import sendRoutes from "./sendRoutes";
 import toast from "react-hot-toast";
+import sendRoutes from "./sendRoutes";
 
 export default function EmailForm({
   routes,
@@ -92,6 +93,46 @@ export default function EmailForm({
             rows={4}
           />
         </div>
+        <h4 className="font-medium">Route offers</h4>
+        {routes.length > 0 ? (
+          <table>
+            <thead className="">
+              <tr>
+                <th className="border bg-slate-50 px-2 text-left">
+                  Destination
+                </th>
+                <th className="border bg-slate-50 px-2 text-left">Prefix</th>
+                <th className="border bg-slate-50 px-2 text-left">Rate</th>
+                <th className="border bg-slate-50 px-2 text-left">Type</th>
+                <th className="border bg-slate-50 px-2 text-left">ASR%</th>
+                <th className="border bg-slate-50 px-2 text-left">ACD</th>
+                <th className="border bg-slate-50 px-2 text-left">Posted on</th>
+              </tr>
+            </thead>
+            <tbody>
+              {routes.map((route: Route, idx: number) => (
+                <tr key={idx}>
+                  <td className="border px-2 font-medium">
+                    {route.destination}
+                  </td>
+                  <td className="border px-2 font-medium">
+                    {route.destination_code}
+                  </td>
+                  <td className="border px-2">{route.selling_rate}</td>
+                  <td className="border px-2 uppercase">{route.route_type}</td>
+                  <td className="border px-2">{route.asr}%</td>
+                  <td className="border px-2">{route.acd}</td>
+                  <td className="border px-2">
+                    {route.created_at &&
+                      format(new Date(route.created_at), "dd/MM/yyyy")}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p className="text-sm text-gray-400">No routes selected</p>
+        )}
         <Button
           className="ml-auto"
           disabled={loading || emailIds.length === 0 || routes.length === 0}
@@ -99,7 +140,7 @@ export default function EmailForm({
         >
           Send Email{" "}
           {loading ? (
-            <Loader2 className="size-5 ml-2 animate-spin" />
+            <Loader2 className="ml-2 size-5 animate-spin" />
           ) : (
             <Send className="ml-2 size-4" />
           )}{" "}

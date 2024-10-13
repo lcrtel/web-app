@@ -1,7 +1,11 @@
 import BackButton from "@/components/BackButton";
+import { Skeleton } from "@/components/ui/skeleton";
+import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import Link from "next/link";
+import { Suspense } from "react";
+import TargetsMarketing from "./TargetsMarketing";
 
-export default function TargetsMarketingPage() {
+export default function RoutesMarketingPage() {
   return (
     <section className="space-y-2">
       <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
@@ -19,7 +23,25 @@ export default function TargetsMarketingPage() {
         </Link>
       </div>
       <h2 className="text-2xl font-bold tracking-tight">Targets Marketing</h2>
-      <p>Coming soon...</p>
+      <Suspense fallback={<Skeleton className="h-96 w-full" />}>
+        <Marketing />
+      </Suspense>
     </section>
   );
+}
+
+async function Marketing() {
+  const supabase = supabaseAdminServer();
+  let { data: targets } = await supabase
+    .from("targets")
+    .select("*, profiles(name, company_name)");
+  let vendors: Profile[] = [];
+  let { data } = await supabase
+    .from("profiles")
+    .select("*, user_roles!inner(*), targets(count)")
+    .eq("user_roles.role_slug", "user")
+    .match({ user_type: "VENDOR" });
+  // @ts-ignore
+  vendors = data?.filter((client) => client.targets[0].count == 0);
+  return <TargetsMarketing targets={targets} vendors={vendors} />;
 }

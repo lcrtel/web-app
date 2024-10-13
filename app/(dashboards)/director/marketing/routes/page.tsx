@@ -34,12 +34,13 @@ export default function RoutesMarketingPage() {
 async function Marketing() {
   const supabase = supabaseAdminServer();
   const routes = await fetchVerfiedRoutes();
-  let { data: clients } = await supabase
+  let clients: Profile[] = [];
+  let { data } = await supabase
     .from("profiles")
-    .select("*, user_roles!inner(*)")
+    .select("name, user_roles!inner(*), routes(count)")
     .eq("user_roles.role_slug", "user")
     .match({ user_type: "CLIENT" });
-  return (
-    routes && clients && <RoutesMarketing routes={routes} clients={clients} />
-  );
+  // @ts-ignore
+  clients = data?.filter((client) => client.routes[0].count == 0);
+  return <RoutesMarketing routes={routes} clients={clients} />;
 }

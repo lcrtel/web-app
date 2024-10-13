@@ -5,22 +5,22 @@ import { renderAsync } from "@react-email/render";
 import { format } from "date-fns";
 import XLSX from "xlsx";
 
-export default async function sendRoutes(
-  routes: Route[],
+export default async function sendTargets(
+  targets: Target[],
   emailIds: string[],
   message: string,
 ) {
-  const RoutesForExcel = routes.map((route) => {
+  const RoutesForExcel = targets.map((target) => {
     return {
-      Destination: route.destination,
-      Prefix: route.destination_code,
-      Rate: route.selling_rate,
-      Type: route.route_type.toUpperCase(),
-      ASR: `${route.asr}%`,
-      ACD: route.acd,
+      Destination: target.destination,
+      Prefix: target.destination_code,
+      Rate: target.buying_rate,
+      Type: target.route_type.toUpperCase(),
+      ASR: `${target.asr}%`,
+      ACD: target.acd,
       "Posted on":
-        route.created_at && format(new Date(route.created_at), "dd/MM/yyyy"),
-      "Buy link": `=HYPERLINK("https://www.lcrtel.com/user/routes/${route.id}", "Buy")`, // Using formula directly as a string
+        target.created_at && format(new Date(target.created_at), "dd/MM/yyyy"),
+      "Buy link": `=HYPERLINK("https://www.lcrtel.com/user/targets/${target.id}", "Buy")`, // Using formula directly as a string
     };
   });
 
@@ -35,7 +35,7 @@ export default async function sendRoutes(
     }
   });
 
-  XLSX.utils.book_append_sheet(workbook, worksheet, "Route offers");
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Target rates");
   const excelBuffer = XLSX.write(workbook, {
     bookType: "xlsx",
     type: "buffer",
@@ -43,13 +43,13 @@ export default async function sendRoutes(
   await transporter.sendMail({
     from: process.env.SMTP_USER,
     to: emailIds,
-    subject: `Route offers`,
+    subject: `Target rates`,
     html: await renderAsync(
-      RouteMarketingEmail({ data: routes.slice(0, 10), message: message }),
+      RouteMarketingEmail({ data: targets.slice(0, 10), message: message }),
     ),
     attachments: [
       {
-        filename: "Route offers.xlsx",
+        filename: "Target rates.xlsx",
         content: excelBuffer,
       },
     ],

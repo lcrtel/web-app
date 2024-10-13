@@ -8,15 +8,15 @@ import { ArrowUpDown } from "lucide-react";
 import { useState } from "react";
 import EmailForm from "./EmailForm";
 
-export default function RoutesMarketing({
-  routes,
-  clients,
+export default function TargetsMarketing({
+  targets,
+  vendors,
 }: {
-  routes: Route[] | null;
-  clients: Profile[] | null;
+  targets: Target[] | null;
+  vendors: Profile[] | null;
 }) {
-  const [selectedRouts, setSelectedRouts] = useState<any>([]);
-  const [selectedClients, setSelectedClients] = useState<any>([]);
+  const [selectedTargets, setSelectedTargets] = useState<any>([]);
+  const [selectedVendors, setSelectedVendors] = useState<any>([]);
   const [routesSelection, setRoutesSelection] = useState({});
   const [clientsSelection, setClientsSelection] = useState({});
   return (
@@ -24,53 +24,53 @@ export default function RoutesMarketing({
       <div className="flex flex-col gap-4 md:flex-row">
         <div className="relative w-full space-y-2 rounded-lg border p-4 pt-3">
           <div className="">
-            <h3 className="text-lg font-semibold">Route offers</h3>
+            <h3 className="text-lg font-semibold">Target rates</h3>
             <p className="text-sm text-gray-500">
-              Select route offers that you would like to send to clients.
+              Select target rates that you would like to send to vendors.
             </p>
           </div>
           <div className="max-h-[500px] overflow-y-auto">
-            {routes?.length ? (
+            {targets?.length ? (
               <DataTable
-                data={routes}
-                setSelectedRows={setSelectedRouts}
+                data={targets}
+                setSelectedRows={setSelectedTargets}
                 columns={routeColumns}
                 rowSelection={routesSelection}
                 setRowSelection={setRoutesSelection}
               />
             ) : (
-              <p>No routes found</p>
+              <p>No targets found</p>
             )}
           </div>
         </div>
         <div className="relative space-y-2 rounded-lg border px-4 py-3 md:w-1/4">
           <div className="">
-            <h3 className="text-lg font-semibold">Clients</h3>
+            <h3 className="text-lg font-semibold">Vendors</h3>
             <p className="text-sm text-gray-500">
-              Select clients to send route offers.
+              Select vendors to send target rates.
             </p>
           </div>
           <div className="max-h-[500px] overflow-y-auto">
-            {clients?.length ? (
+            {vendors?.length ? (
               <DataTable
-                data={clients}
-                setSelectedRows={setSelectedClients}
+                data={vendors}
+                setSelectedRows={setSelectedVendors}
                 columns={clientsColumns}
                 rowSelection={clientsSelection}
                 setRowSelection={setClientsSelection}
               />
             ) : (
-              <p>No clients found</p>
+              <p>No vendors found</p>
             )}
           </div>
         </div>
       </div>
-      <EmailForm clients={selectedClients} routes={selectedRouts} />
+      <EmailForm vendors={selectedVendors} targets={selectedTargets} />
     </div>
   );
 }
 
-export const routeColumns: ColumnDef<Route>[] = [
+export const routeColumns: ColumnDef<Target>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -94,18 +94,20 @@ export const routeColumns: ColumnDef<Route>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "vendor",
+    accessorKey: "profiles",
     header: ({ column }) => {
-      return <div className="whitespace-nowrap">Vendor</div>;
+      return <div className="whitespace-nowrap">Client</div>;
     },
-    cell: ({ row }) => <div>{row.getValue("vendor")}</div>,
+    // @ts-ignore
+    cell: ({ row }) => <div>{row.getValue("profiles").name}</div>,
   },
   {
-    accessorKey: "vendor_company",
+    accessorKey: "profiles",
     header: ({ column }) => {
-      return <div className="whitespace-nowrap"> Company</div>;
+      return <div className="whitespace-nowrap">Company</div>;
     },
-    cell: ({ row }) => <div>{row.getValue("vendor_company")}</div>,
+    // @ts-ignore
+    cell: ({ row }) => <div>{row.getValue("profiles").company_name}</div>,
   },
   {
     accessorKey: "destination",
@@ -139,14 +141,14 @@ export const routeColumns: ColumnDef<Route>[] = [
     },
   },
   {
-    accessorKey: "selling_rate",
+    accessorKey: "buying_rate",
     header: ({ column }) => {
       return (
         <div
           className="flex cursor-pointer items-center gap-2"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Selling Rate $
+          Buying Rate $
           <ArrowUpDown className="h-4 w-4" />
         </div>
       );
@@ -189,33 +191,6 @@ export const routeColumns: ColumnDef<Route>[] = [
     },
     cell: ({ row }) => (
       <div>{format(new Date(row.getValue("created_at")), "dd/MM/yyyy")}</div>
-    ),
-  },
-  {
-    accessorKey: "verification",
-    header: ({ column }) => {
-      return (
-        <div
-          className="flex cursor-pointer items-center gap-2"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Verification
-          <ArrowUpDown className="h-4 w-4" />
-        </div>
-      );
-    },
-    cell: ({ row }) => (
-      <div>
-        {row.getValue("verification") === "verified" ? (
-          <span className="ml-2 rounded-full border-[1.5px] border-green-200 bg-green-100 px-2 py-1 text-xs font-medium text-green-500">
-            Verified
-          </span>
-        ) : (
-          <span className="ml-2 rounded-full border-[1.5px] border-slate-200 bg-slate-100 px-2 py-1 text-xs text-slate-500">
-            Pending
-          </span>
-        )}
-      </div>
     ),
   },
 ];

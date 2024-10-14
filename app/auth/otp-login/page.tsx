@@ -1,4 +1,4 @@
-import OTPForm from "@/components/auth/forms/OTPForm";
+import OTPLoginForm from "@/components/auth/forms/OTPLoginForm";
 import Link from "next/link";
 
 export default function OTPLogin({
@@ -18,7 +18,7 @@ export default function OTPLogin({
             {searchParams.message}
           </p>
         )}
-        <OTPForm />
+        <OTPLoginForm />
       </section>
       <p className="text-center text-sm font-light text-white">
         Don’t have an account yet?{" "}

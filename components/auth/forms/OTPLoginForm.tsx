@@ -24,8 +24,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
-import verifyOtp from "../actions/verifyOtp";
 import signInWithOtp from "../actions/signInWithOtp";
+import verifyOtp from "../actions/verifyOtp";
 const otpSchema = z.object({
   otp: z
     .string()
@@ -35,7 +35,7 @@ const emailSchema = z.object({
   email: z.string().email("Invalid email address"),
 });
 
-export default function OTPForm() {
+export default function OTPLoginForm() {
   const [email, setEmail] = useState<string | undefined>("");
   const [isOTPSent, setIsOTPSent] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -83,7 +83,10 @@ export default function OTPForm() {
     });
     return (
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-2 w-full">
+        <form
+          onSubmit={form.handleSubmit(handleSubmit)}
+          className="w-full space-y-2"
+        >
           <FormField
             control={form.control}
             name="email"

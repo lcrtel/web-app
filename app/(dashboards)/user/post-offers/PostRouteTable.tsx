@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import OTPForm from "@/components/auth/forms/OTPForm";
+import OTPLoginForm from "@/components/auth/forms/OTPLoginForm";
 import { ImportDropdown, PostRoutesTable } from "@/components/PostRoutesTable";
 import {
   AlertDialog,
@@ -35,7 +35,7 @@ export function PostOffersTable({
       acd: "",
       ports: "",
       pdd: "",
-      remarks: ""
+      remarks: "",
     },
   ]);
 
@@ -68,7 +68,7 @@ export function PostOffersTable({
   useEffect(() => {
     if (isDialogOpen) {
       setIsDialogOpen(false);
-      post()
+      post();
     }
   }, [userId]);
   return (
@@ -84,7 +84,7 @@ export function PostOffersTable({
           <AlertDialogHeader>
             <AlertDialogTitle>Authenticate</AlertDialogTitle>
           </AlertDialogHeader>
-          <OTPForm />
+          <OTPLoginForm />
         </AlertDialogContent>
       </AlertDialog>
       <PostRoutesTable

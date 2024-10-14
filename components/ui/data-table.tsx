@@ -72,7 +72,7 @@ export function DataTable<TData, TValue>({
   }, [rowSelection, table, setSelectedRows]);
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 w-full">
       <div className="rounded-lg border">
         <Table>
           <TableHeader>

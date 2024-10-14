@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import OTPForm from "../forms/OTPForm";
+import OTPLoginForm from "../forms/OTPLoginForm";
 export default function OTPLoginModal({
   userId,
 }: {
@@ -30,7 +30,7 @@ export default function OTPLoginModal({
         <AlertDialogHeader>
           <AlertDialogTitle>Authenticate</AlertDialogTitle>
         </AlertDialogHeader>
-        <OTPForm />
+        <OTPLoginForm />
       </AlertDialogContent>
     </AlertDialog>
   );

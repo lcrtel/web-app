@@ -1,6 +1,5 @@
 "use client";
 
-import OTPForm from "@/components/auth/forms/OTPForm";
 import { ImportDropdown, PostRoutesTable } from "@/components/PostRoutesTable";
 import {
   AlertDialog,
@@ -14,6 +13,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
 import { postTargets } from "./actions";
+import OTPLoginForm from "@/components/auth/forms/OTPLoginForm";
 
 declare module "@tanstack/react-table" {
   interface TableMeta<TData extends RowData> {
@@ -90,7 +90,7 @@ export function PostTargetTable({
           <AlertDialogHeader>
             <AlertDialogTitle>Authenticate</AlertDialogTitle>
           </AlertDialogHeader>
-          <OTPForm />
+          <OTPLoginForm />
         </AlertDialogContent>
       </AlertDialog>
       <PostRoutesTable

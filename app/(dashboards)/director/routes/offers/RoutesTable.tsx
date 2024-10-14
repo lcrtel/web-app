@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, Loader } from "lucide-react";
+import { ArrowUpDown, Loader, Trash2 } from "lucide-react";
 import * as React from "react";
 
 import { Alert } from "@/components/ui/alert";
@@ -241,9 +241,9 @@ export function RoutesTable({ data }: any) {
   const [rowSelection, setRowSelection] = React.useState({});
 
   return (
-    <>
-      {!!selectedRows.length && (
-        <div className="flex items-center gap-2">
+    <div className="space-y-2">
+      {selectedRows.length > 0 && (
+        <div className="flex items-center justify-end gap-2">
           <DeleteAlert
             selectedRows={selectedRows.map((r: any) => r.id)}
             setSelectedRows={setSelectedRows}
@@ -259,7 +259,7 @@ export function RoutesTable({ data }: any) {
         rowSelection={rowSelection}
         setRowSelection={setRowSelection}
       />
-    </>
+    </div>
   );
 }
 
@@ -297,6 +297,7 @@ const DeleteAlert = ({
       <AlertDialogTrigger asChild>
         <Button variant="destructiveOutline" size="sm">
           Delete selected routes
+          <Trash2 className="ml-2 size-5" />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -315,14 +316,13 @@ const DeleteAlert = ({
             reversible. Please be certain.
           </Alert>
         </AlertDialogHeader>
-        <AlertDialogContent asChild></AlertDialogContent>
         <AlertDialogFooter>
           <form onSubmit={onSubmit} className="w-full space-y-2">
             <Label
               htmlFor="verificationText"
               className="font-normal text-slate-500"
             >
-              To verify, type{" "}
+              To confirm, type{" "}
               <span className="font-semibold text-primary-900">
                 delete selected routes
               </span>{" "}

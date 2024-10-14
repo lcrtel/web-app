@@ -26,8 +26,6 @@ import {
 } from "@/components/ui/table";
 import { format } from "date-fns";
 import Link from "next/link";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { buttonVariants } from "@/components/ui/button";
 import { HiOutlineExternalLink } from "react-icons/hi";
 
 const columns: ColumnDef<Route>[] = [
@@ -76,7 +74,10 @@ const columns: ColumnDef<Route>[] = [
     },
     cell: ({ row }) => {
       return (
-        <Link href={`/user/routes/${row.getValue("id")}`} className="font-medium">
+        <Link
+          href={`/user/routes/${row.getValue("id")}`}
+          className="font-medium"
+        >
           $ {row.getValue("selling_rate")}
         </Link>
       );
@@ -161,7 +162,10 @@ const columns: ColumnDef<Route>[] = [
     },
     cell: ({ row }) => {
       return (
-        <Link href={`/user/routes/${row.getValue("id")}`} className="font-medium">
+        <Link
+          href={`/user/routes/${row.getValue("id")}`}
+          className="font-medium"
+        >
           {format(new Date(row.getValue("created_at")), "dd/MM/yyyy")}
         </Link>
       );
@@ -177,11 +181,7 @@ const columns: ColumnDef<Route>[] = [
       );
     },
     cell: ({ row }) => {
-      return (
-        <div
-          className="font-medium"
-        >{row.getValue("remarks")}</div>
-      );
+      return <div className="font-medium">{row.getValue("remarks")}</div>;
     },
   },
   {

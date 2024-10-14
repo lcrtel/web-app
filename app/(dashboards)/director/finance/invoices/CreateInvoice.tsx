@@ -7,55 +7,47 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 
 import { Calendar } from "@/components/ui/calendar";
 import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
 } from "@/components/ui/command";
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
 } from "@/components/ui/popover";
 import {
-    Sheet,
-    SheetContent,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import formatDate from "@/utils/formatDate";
 import { format } from "date-fns";
 import {
-    CalendarIcon,
-    Check,
-    ChevronsUpDown,
-    Edit,
-    Loader2,
-    Trash,
+  CalendarIcon,
+  Check,
+  ChevronsUpDown,
+  Edit,
+  Loader2,
+  Trash,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -152,7 +144,7 @@ export function CreateInvoice({
         </SheetTrigger>
         <SheetContent className="overflow-y-auto">
           <SheetHeader>
-            <SheetTitle className="text-primary-900 pb-4">
+            <SheetTitle className="pb-4 text-primary-900">
               Create Invoice{" "}
             </SheetTitle>
           </SheetHeader>
@@ -289,7 +281,6 @@ export function CreateInvoice({
                             selected={endDate}
                             onSelect={setEndDate}
                             initialFocus
-
                           />
                         </PopoverContent>
                       </Popover>

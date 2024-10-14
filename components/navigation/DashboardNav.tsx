@@ -212,22 +212,19 @@ const NavMenuItem = ({ item }: { item: SideNavItem }) => {
       {item.submenu ? (
         <DropdownMenu open={subMenuOpen} onOpenChange={setSubMenuOpen}>
           <DropdownMenuTrigger
-            asChild
-            className={`rounded-full border-[1.5px] border-transparent ${
+            className={`flex cursor-pointer items-center gap-2 rounded-full border-[1.5px] border-transparent px-3.5 py-1.5 ${
               pathname.includes(item.path)
                 ? "border-zinc-100"
                 : "text-zinc-500 hover:bg-zinc-100"
             }`}
           >
-            <div className="flex items-center gap-2 px-3.5 py-1.5">
-              {item.title}
+            {item.title}
 
-              <ChevronDown
-                width="16"
-                height="16"
-                className={`${subMenuOpen ? "rotate-180" : ""}`}
-              />
-            </div>
+            <ChevronDown
+              width="16"
+              height="16"
+              className={`${subMenuOpen ? "rotate-180" : ""} transition-all`}
+            />
           </DropdownMenuTrigger>
           <DropdownMenuContent className="rounded-xl" avoidCollisions>
             {item.subMenuItems?.map((subItem: any, idx) => {
@@ -235,7 +232,7 @@ const NavMenuItem = ({ item }: { item: SideNavItem }) => {
                 <DropdownMenuItem asChild key={idx}>
                   <Link
                     href={subItem.path}
-                    className={`relative flex items-center gap-1 ${
+                    className={`relative flex cursor-pointer items-center gap-1 ${
                       subItem.path === pathname
                         ? "text-primary-900"
                         : "text-zinc-500"
@@ -256,22 +253,17 @@ const NavMenuItem = ({ item }: { item: SideNavItem }) => {
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
-        <div className="relative flex w-full items-center">
-          <Link
-            href={item.path as any}
-            className={`flex w-full flex-row items-center gap-2 rounded-full border-[1.5px] border-transparent px-3.5 py-1.5 ${
-              item.path === pathname
-                ? "border-zinc-100"
-                : "text-zinc-500 hover:bg-zinc-100"
-            }`}
-          >
-            {/* {item.icon} */}
-            <span className="flex text-sm font-medium">{item.title}</span>
-          </Link>
-        </div>
+        <Link
+          href={item.path as any}
+          className={`flex w-full cursor-pointer flex-row items-center gap-2 rounded-full border-[1.5px] border-transparent px-3.5 py-1.5 text-sm font-medium ${
+            item.path === pathname
+              ? "border-zinc-100"
+              : "text-zinc-500 hover:bg-zinc-100"
+          }`}
+        >
+          {item.title}
+        </Link>
       )}
     </li>
   );
 };
-
-

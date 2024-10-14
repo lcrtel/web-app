@@ -156,7 +156,7 @@ export default function OTPForm() {
           <Button
             type="submit"
             disabled={!isOTPSent || loading}
-            className="w-full"
+            className="w-full gap-2"
           >
             {loading ? (
               <>

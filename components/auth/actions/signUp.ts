@@ -20,7 +20,6 @@ export const signUp = async (formData: any) => {
     return { error: error.message };
   }
   return redirect(
-    // "/auth/login?message=Check email to continue sign in process",
-    "/auth/verify?email=" + encodeURIComponent(formData.email),
+    "/auth/login?message=Check email to continue sign in process",
   );
 };

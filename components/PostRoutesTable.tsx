@@ -2,6 +2,11 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
   Select,
   SelectContent,
   SelectGroup,
@@ -9,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 import {
   Table,
   TableBody,
@@ -17,6 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 import {
   ColumnDef,
   RowData,
@@ -26,10 +33,10 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { AnimatePresence, motion } from "framer-motion";
 import { Check, ChevronsUpDown, Loader2 } from "lucide-react";
 import React, { Dispatch, useEffect, useMemo, useState } from "react";
 import {
+  HiOutlineCloudDownload,
   HiOutlineCloudUpload,
   HiOutlineDuplicate,
   HiOutlineTrash,
@@ -39,9 +46,13 @@ import {
 } from "react-icons/hi";
 import { v4 as uuidv4 } from "uuid";
 import * as XLSX from "xlsx";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "./ui/command";
-import { cn } from "@/lib/utils";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "./ui/command";
 
 declare module "@tanstack/react-table" {
   interface TableMeta<TData extends RowData> {
@@ -165,10 +176,13 @@ export function PostRoutesTable({
     }, [value]);
 
     return (
-
       <Popover>
         <PopoverTrigger asChild>
-          <Button variant="outline" role="combobox" className="justify-between w-full">
+          <Button
+            variant="outline"
+            role="combobox"
+            className="w-full justify-between"
+          >
             {value ? (
               <>
                 <Input required={required} type="hidden" value={value} />
@@ -408,10 +422,7 @@ export function PostRoutesTable({
 
   return (
     <div className="w-full">
-      <form
-        className="overflow-clip rounded-lg border"
-        onSubmit={handleSubmit}
-      >
+      <form className="overflow-clip rounded-lg border" onSubmit={handleSubmit}>
         <Table>
           {/* {table.getRowModel().rows?.length !== 0 && ( */}
           <TableHeader>
@@ -620,50 +631,38 @@ export const ImportDropdown = ({ setData }: { setData: Dispatch<any> }) => {
   };
 
   return (
-    <div className="relative text-left">
-      <div
-        onClick={handleCLick}
-        className="hover:bg-primary text-primary relative flex cursor-pointer items-center justify-center rounded-full border px-3 py-2 text-sm font-medium shadow-sm transition-all ease-in-out hover:bg-opacity-5"
-      >
-        <HiOutlineCloudUpload className="mr-1.5 h-4 w-4" />
-        Import
-      </div>
-      <AnimatePresence>
-        {isOpen && (
-          <>
-            <motion.div
-              className="absolute right-0 top-10 z-10 w-60 rounded-lg border-2 border-surface bg-white shadow-xl"
-              initial={{ opacity: 0, y: "-10%" }}
-              animate={{ opacity: 1, y: "0%" }}
-              exit={{ opacity: 0, y: "-10%" }}
-            >
-              <div className="flex flex-col items-center justify-center p-4">
-                <label
-                  htmlFor="file-upload"
-                  className="text-primary mt-2 flex cursor-pointer flex-col items-center font-semibold"
-                >
-                  <div className="mb-1 rounded-lg border-2 border-surface p-2">
-                    <HiOutlineCloudUpload className="h-5 w-5" />
-                  </div>
-                  Click to Upload{" "}
-                </label>
-                <span className="text-xs text-gray-500">.xlsx only</span>
-                <p className="mt-2 text-center text-xs text-slate-400">
-                  To import from a filled spreadsheet, you have to <EmptyFile />{" "}
-                  and edit it, then upload.
-                </p>
-              </div>
-              <input
-                id="file-upload"
-                type="file"
-                className="hidden"
-                accept=".xlsx"
-                onChange={handleFileChange}
-              />
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-    </div>
+    <Popover>
+      <PopoverTrigger asChild>
+        <button className="hover:bg-primary text-primary relative flex cursor-pointer items-center justify-center rounded-full border px-3 py-2 text-sm font-medium shadow-sm transition-all ease-in-out hover:bg-opacity-5">
+          Import
+          <HiOutlineCloudDownload className="ml-2 h-4 w-4" />
+        </button>
+      </PopoverTrigger>
+      <PopoverContent align="end">
+        <div className="flex flex-col items-center justify-center text-primary-900">
+          <label
+            htmlFor="file-upload"
+            className="text-primary flex w-full cursor-pointer flex-col items-center rounded-lg border border-dashed bg-slate-50 p-4 font-semibold"
+          >
+            <div className="mb-1 rounded-lg border-2 p-2">
+              <HiOutlineCloudUpload className="size-5" />
+            </div>
+            Click to Upload{" "}
+            <span className="text-xs text-gray-500">.xlsx only</span>
+          </label>
+          <p className="mt-2 text-center text-xs text-slate-400">
+            To import from a filled spreadsheet, you have to <EmptyFile /> and
+            edit it, then upload.
+          </p>
+        </div>
+        <input
+          id="file-upload"
+          type="file"
+          className="hidden"
+          accept=".xlsx"
+          onChange={handleFileChange}
+        />
+      </PopoverContent>
+    </Popover>
   );
 };

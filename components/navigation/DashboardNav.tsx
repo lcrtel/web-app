@@ -226,7 +226,7 @@ const NavMenuItem = ({ item }: { item: SideNavItem }) => {
               className={`${subMenuOpen ? "rotate-180" : ""} transition-all`}
             />
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="rounded-xl" avoidCollisions>
+          <DropdownMenuContent className="rounded-xl" align="start" avoidCollisions>
             {item.subMenuItems?.map((subItem: any, idx) => {
               return (
                 <DropdownMenuItem asChild key={idx}>
@@ -238,7 +238,7 @@ const NavMenuItem = ({ item }: { item: SideNavItem }) => {
                         : "text-zinc-500"
                     }`}
                   >
-                    <ArrowRight
+                    <CornerDownRight
                       className={`size-4 ${
                         subItem.path === pathname
                           ? "text-primary-900"

@@ -109,9 +109,9 @@ export default function AddTRSheet({ users }: { users: Profile[] }) {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button>
-          <HiOutlinePlusCircle className="mr-2 h-5 w-5" />
+        <Button size="sm">
           Add
+          <HiOutlinePlusCircle className="ml-2 h-5 w-5" />
         </Button>
       </SheetTrigger>
       <SheetContent>

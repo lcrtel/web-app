@@ -86,7 +86,7 @@ const Links = () => {
       >
         <div className="flex items-center justify-between">
           <h3 className="text-xl font-semibold tracking-tight">
-            🏷️ Explore our route offers
+            Explore our route offers
           </h3>
           <HiArrowRight className="h-5 w-5" />
         </div>
@@ -98,7 +98,7 @@ const Links = () => {
       >
         <div className="flex items-center justify-between">
           <h3 className="text-xl font-semibold tracking-tight">
-            🎯 Post your target rate
+            Post your buying target
           </h3>
           <HiArrowRight className="h-5 w-5" />
         </div>

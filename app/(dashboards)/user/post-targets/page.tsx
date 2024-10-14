@@ -1,30 +1,65 @@
+import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
 import { fetchUser } from "@/utils/user";
+import { Suspense } from "react";
 import { OffersTable } from "../routes/offers-table";
 import { PostTargetTable } from "./PostTargetTable";
-import React from "react";
-export const revalidate = 0;
-const page = async () => {
+
+export default async function PostTargetsPage({
+  searchParams,
+}: {
+  searchParams: { prefix: string; route_type: string };
+}) {
   const user = await fetchUser();
-  const supabase = supabaseServer();
-  let { data: routes, error } = await supabase
-    .from("routes")
-    .select("*")
-    .eq("verification", "verified")
-    .neq("vendor_id", user?.id);
   return (
     <section className="">
       <PostTargetTable userId={user?.id} userEmail={user?.email} />
-      {routes?.length ? (
+      <Suspense fallback={<Skeleton className="h-32 w-full" />}>
+        <RouteOffers
+          route_type={searchParams.route_type}
+          prefix={searchParams.prefix}
+        />
+      </Suspense>
+    </section>
+  );
+}
+
+async function RouteOffers({
+  prefix,
+  route_type,
+}: {
+  prefix: string;
+  route_type: string;
+}) {
+  const user = await fetchUser();
+  const supabase = supabaseServer();
+  let query = supabase
+    .from("routes")
+    .select("*")
+    .eq("verification", "verified");
+
+  let filter: any = {};
+  if (route_type || prefix) {
+    if (route_type || route_type !== "") {
+      filter.route_type = route_type;
+    }
+    if (prefix) {
+      filter.destination_code = prefix;
+    }
+    query = query.match(filter);
+    if (user) {
+      query = query.neq("vendor_id", user?.id);
+    }
+    let { data: routes } = await query;
+    return (
+      !!routes?.length && (
         <>
-          <h3 className="mb-2 mt-4 flex items-center border-t pt-4 text-xl font-bold tracking-tight text-primary-900">
+          <h3 className="mb-2 mt-4 flex items-center text-xl font-bold tracking-tight text-primary-900">
             Our Route Offers
           </h3>
           <OffersTable data={routes} />
         </>
-      ) : null}
-    </section>
-  );
-};
-
-export default page;
+      )
+    );
+  }
+}

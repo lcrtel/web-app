@@ -9,7 +9,6 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { OffersTable } from "./offers-table";
-import React from "react";
 
 export default function Page({
   searchParams,
@@ -73,11 +72,11 @@ async function Routes({
     .from("routes")
     .select("*")
     .eq("verification", "verified")
+    .neq("vendor_id", user?.id)
     .match(filter);
   let { data: routes, error } = await query;
-  if (user) {
-    query = query.neq("vendor_id", user?.id);
-  }
+  query = query.neq("vendor_id", user?.id);
+
   return routes?.length ? (
     <>
       <OffersTable data={routes} />

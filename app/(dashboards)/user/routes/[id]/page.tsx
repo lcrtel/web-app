@@ -28,6 +28,7 @@ import { HiOutlineArrowCircleLeft } from "react-icons/hi";
 import { getTRVerificationStatus } from "../../(private)/account/tr-verification/actions";
 import PurchaseForm from "./_components/PurchaseForm";
 import { RateHistoryChart } from "./_components/RateHistoryChart";
+
 export default async function Page({
   params,
   searchParams,
@@ -84,14 +85,6 @@ export default async function Page({
                 (+{route?.destination_code})
               </span>
             </h2>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="icon">
-                <Heart className="size-4 text-red-500" />
-              </Button>
-              <Button variant="outline" size="icon">
-                <Share2 className="size-4 text-primary-900" />
-              </Button>
-            </div>
           </div>
           <div className="mb-4 flex flex-wrap gap-x-4 gap-y-1 text-sm">
             <p className="text-slate-500">
@@ -266,7 +259,7 @@ export default async function Page({
               Didn&apos;t find what you were looking for?
             </h3>
             <p className="text-pretty text-base text-slate-400">
-              Post your target route and let us handle the rest.
+              Post your buying target and let us handle the rest.
             </p>
           </div>
           <div className="flex w-fit items-center justify-center gap-2 self-end rounded-full border py-1 pl-4 pr-2">
@@ -302,7 +295,7 @@ const SimilarRoutes = async ({ route }: { route: any }) => {
     .select("*")
     .eq("verification", "verified")
     .neq("id", route.id)
-    .match({ destination_code: route?.destination_code });
+    .match({ destination_code: route?.destination_code }).range(0, 2);
   return (
     similarRoutes &&
     similarRoutes?.length > 0 && (
@@ -310,7 +303,7 @@ const SimilarRoutes = async ({ route }: { route: any }) => {
         <h2 className="text-xl font-semibold">
           Similar routes in the same destination
         </h2>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4">
           {similarRoutes.map((route: any) => (
             <RouteCard key={route.id} route={route} />
           ))}
@@ -343,10 +336,6 @@ const RouteCard = ({ route }: { route: any }) => {
             </span>
           </h4>
         </div>
-
-        <Button variant="outline" size="icon">
-          <Heart className="size-4 text-red-500" />
-        </Button>
       </div>
 
       <div className="flex flex-wrap items-center justify-between">

@@ -30,7 +30,7 @@ export function PostOffersTable({
       id: uuidv4(),
       destination: "",
       rate: "",
-      route_type: "cli",
+      route_type: "",
       asr: "",
       acd: "",
       ports: "",

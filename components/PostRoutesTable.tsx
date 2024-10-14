@@ -34,6 +34,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { Check, ChevronsUpDown, Loader2 } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { Dispatch, useEffect, useMemo, useState } from "react";
 import {
   HiOutlineCloudDownload,
@@ -75,6 +76,23 @@ export function PostRoutesTable({
   handleSubmit: (e: any) => Promise<void>;
   posting: boolean;
 }) {
+  const router = useRouter();
+  const [prefix, setPrefix] = useState<string>("");
+  const [routeType, setRouteType] = useState<string>("");
+  const searchParams = useSearchParams();
+  const handleSearchParams = () => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set("prefix", prefix);
+    newSearchParams.set("route_type", routeType);
+    router.push(`?${newSearchParams.toString()}`);
+  };
+  useEffect(() => {
+    setPrefix(data[data.length - 1]?.destination_code);
+    setRouteType(data[data.length - 1]?.route_type);
+  }, [data]);
+  useEffect(() => {
+    handleSearchParams();
+  }, [prefix, routeType]);
   const [columnVisibility, setColumnVisibility] = useState({});
 
   const handleAddRoute = () => {
@@ -83,8 +101,9 @@ export function PostRoutesTable({
       {
         id: uuidv4(),
         destination: "",
+        destination_code: "",
         rate: 0,
-        route_type: "cli",
+        route_type: "",
         asr: "",
         acd: "",
         ports: "",

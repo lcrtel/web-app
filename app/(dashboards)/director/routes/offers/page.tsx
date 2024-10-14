@@ -8,18 +8,7 @@ import { HiOutlinePlusCircle } from "react-icons/hi";
 import { fetchVerfiedRoutes } from "./actions";
 import { RoutesTable } from "./RoutesTable";
 
-const Routes = async () => {
-  unstable_noStore();
-  const verified_routes = await fetchVerfiedRoutes();
-  if (verified_routes)
-    return (
-      <div className="my-2 w-full">
-        <RoutesTable data={verified_routes} />
-      </div>
-    );
-};
-
-export default function Page() {
+export default function RoutesPage() {
   return (
     <div className="h-full space-y-2">
       <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
@@ -39,7 +28,7 @@ export default function Page() {
         <h1 className="text-primary text-2xl font-bold">Route Offers</h1>
         <Link
           passHref
-          href="/director/routes/post"
+          href="/director/routes/offers/post"
           className={buttonVariants({
             variant: "default",
             size: "sm",
@@ -55,3 +44,14 @@ export default function Page() {
     </div>
   );
 }
+
+const Routes = async () => {
+  unstable_noStore();
+  const verified_routes = await fetchVerfiedRoutes();
+  if (verified_routes)
+    return (
+      <div className="my-2 w-full">
+        <RoutesTable data={verified_routes} />
+      </div>
+    );
+};

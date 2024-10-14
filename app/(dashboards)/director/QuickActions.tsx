@@ -12,7 +12,7 @@ export default function QuickActions() {
         <AddAccountForm role="CLIENT" />
         <AddAccountForm role="VENDOR" />
         <Link
-          href="/director/routes/post"
+          href="/director/routes/offers/post"
           className={`${buttonVariants({
             variant: "outline",
             size: "sm",

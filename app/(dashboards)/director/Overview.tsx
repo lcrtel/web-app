@@ -5,14 +5,42 @@ import { unstable_noStore } from "next/cache";
 import Link from "next/link";
 import { Suspense } from "react";
 
+export default function Overview() {
+  return (
+    <section>
+      <h2 className="mb-2 text-lg font-semibold">Overview</h2>
+      <div className="grid grid-cols-2 items-center gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-4 xl:grid-cols-5">
+        <Suspense
+          fallback={<Skeleton className="h-[110px] rounded-xl border" />}
+        >
+          <Routes />
+        </Suspense>
+        <Suspense
+          fallback={<Skeleton className="h-[110px] rounded-xl border" />}
+        >
+          <Targets />
+        </Suspense>
+        <Suspense
+          fallback={<Skeleton className="h-[110px] rounded-xl border" />}
+        >
+          <Clients />
+        </Suspense>
+        <Suspense
+          fallback={<Skeleton className="h-[110px] rounded-xl border" />}
+        >
+          {" "}
+          <Vendors />
+        </Suspense>
+      </div>
+    </section>
+  );
+}
+
 const Routes = async () => {
   const supabase = supabaseAdminServer();
-
-  unstable_noStore();
   let { data: offers, error } = await supabase
     .from("routes")
-    .select("verification")
-    .eq("verification", "verified");
+    .select("verification");
   return (
     <Link href="/director/routes/offers">
       <MetricsCard count={offers?.length} label="Routes" />
@@ -22,12 +50,11 @@ const Routes = async () => {
 
 const Targets = async () => {
   const supabase = supabaseAdminServer();
-
   unstable_noStore();
   let { data: targets, error } = await supabase.from("targets").select("id");
   return (
     <Link href="/director/routes/targets">
-      <MetricsCard count={targets?.length} label="Route Requests" />
+      <MetricsCard count={targets?.length} label="Buying targets" />
     </Link>
   );
 };
@@ -59,37 +86,3 @@ const Vendors = async () => {
     </Link>
   );
 };
-
-
-const Overview = () => {
-  return (
-    <section className="mb-5">
-      <h2 className="mb-3 text-lg font-semibold">Overview</h2>
-      <div className="grid grid-cols-2 items-center gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-4 xl:grid-cols-5">
-        <Suspense
-          fallback={<Skeleton className="h-[110px] rounded-xl border" />}
-        >
-          <Routes />
-        </Suspense>
-        <Suspense
-          fallback={<Skeleton className="h-[110px] rounded-xl border" />}
-        >
-          <Targets />
-        </Suspense>
-        <Suspense
-          fallback={<Skeleton className="h-[110px] rounded-xl border" />}
-        >
-          <Clients />
-        </Suspense>
-        <Suspense
-          fallback={<Skeleton className="h-[110px] rounded-xl border" />}
-        >
-          {" "}
-          <Vendors />
-        </Suspense>
-      </div>
-    </section>
-  );
-};
-
-export default Overview;

@@ -65,7 +65,7 @@ export const AddAccountForm = ({ role }: { role: UserTypesEnum }) => {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button variant="default" className="capitalize">Add {user_type}</Button>
+        <Button variant="default" size="sm" className="capitalize">Add {user_type}</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>

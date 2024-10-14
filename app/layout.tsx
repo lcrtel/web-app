@@ -30,7 +30,7 @@ export default function RootLayout({
       <body className={`${plusJakartaSans.className} text-primary-900`}>
         <Toast />
         <Toaster />
-        <main className="relative pb-5">
+        <main className="relative">
           <RefreshOnFocus />
           <Suspense>
             <PasswordResetModal />

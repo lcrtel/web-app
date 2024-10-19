@@ -6,7 +6,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { supabaseServer } from "@/lib/supabase-server";
 import formatTimestamptz from "@/utils/formatTimestamptz";
 import { fetchUser } from "@/utils/user";
@@ -18,9 +18,7 @@ import {
   BadgeDollarSign,
   Calendar,
   CheckCircle2,
-  Heart,
-  Router,
-  Share2,
+  Router
 } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -90,9 +88,11 @@ export default async function Page({
             <p className="text-slate-500">
               Posted on: {formatTimestamptz(route?.created_at)}
             </p>
-            <p className="text-slate-500">
-              Updated on: {formatTimestamptz(route?.updated_at)}
-            </p>
+            {route?.updated_at && (
+              <p className="text-slate-500">
+                Updated on: {formatTimestamptz(route?.updated_at)}
+              </p>
+            )}
           </div>
 
           <div className="overflow-clip rounded-2xl border bg-white shadow-sm">
@@ -192,7 +192,7 @@ export default async function Page({
                   <div className="flex flex-wrap items-center gap-x-2 gap-y-0">
                     <h4 className="font-medium text-primary-900">Status:</h4>
                     <Badge variant="default">
-                      {purchaseRequest.communication_status?.toLowerCase()}
+                      {purchaseRequest.status?.toLowerCase()}
                     </Badge>
                   </div>
                 </div>
@@ -295,7 +295,8 @@ const SimilarRoutes = async ({ route }: { route: any }) => {
     .select("*")
     .eq("verification", "verified")
     .neq("id", route.id)
-    .match({ destination_code: route?.destination_code }).range(0, 2);
+    .match({ destination_code: route?.destination_code })
+    .range(0, 2);
   return (
     similarRoutes &&
     similarRoutes?.length > 0 && (

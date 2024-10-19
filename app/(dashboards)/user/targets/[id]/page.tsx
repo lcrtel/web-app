@@ -66,9 +66,11 @@ export default async function Page({
             <p className="text-slate-500">
               Posted on: {formatTimestamptz(target?.created_at)}
             </p>
-            <p className="text-slate-500">
-              Updated on: {formatTimestamptz(target?.updated_at)}
-            </p>
+            {target?.updated_at && (
+              <p className="text-slate-500">
+                Updated on: {formatTimestamptz(target?.updated_at)}
+              </p>
+            )}
           </div>
 
           <div className="overflow-clip rounded-2xl border bg-white shadow-sm">

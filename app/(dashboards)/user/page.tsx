@@ -1,9 +1,10 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
 import { getUser } from "@/utils/user";
+import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
-import { HiArrowRight, HiOutlineExternalLink } from "react-icons/hi";
+import { HiOutlineExternalLink } from "react-icons/hi";
 
 export default async function Dashboard() {
   const user = await getUser();
@@ -75,29 +76,57 @@ const PurchaseRequests = async ({
 };
 const Links = () => {
   return (
-    <div className="grid gap-3 md:grid-cols-2">
+    <div className="flex flex-wrap gap-3">
       <Link
         href="/user/routes"
         passHref
-        className="rounded-xl border bg-slate-50 p-5 transition-all ease-in hover:shadow-lg active:scale-[99%]"
+        className="flex-1 whitespace-nowrap rounded-xl border bg-slate-50 p-5 transition-all ease-in hover:shadow-lg active:scale-[99%]"
       >
         <div className="flex items-center justify-between">
           <h3 className="text-xl font-semibold tracking-tight">
             Explore our route offers
           </h3>
-          <HiArrowRight className="h-5 w-5" />
+
+          <ExternalLink className="size-5 text-primary-900" />
+        </div>
+      </Link>
+      <Link
+        href="/user/post-offers"
+        passHref
+        className="flex-1 whitespace-nowrap rounded-xl border bg-slate-50 p-5 transition-all ease-in hover:shadow-lg active:scale-[99%]"
+      >
+        <div className="flex items-center justify-between">
+          <h3 className="text-xl font-semibold tracking-tight">
+            Post your route offers
+          </h3>
+
+          <ExternalLink className="size-5 text-primary-900" />
+        </div>
+      </Link>
+      <Link
+        href="/user/targets"
+        passHref
+        className="flex-1 whitespace-nowrap rounded-xl border bg-slate-50 p-5 transition-all ease-in hover:shadow-lg active:scale-[99%]"
+      >
+        <div className="flex items-center justify-between">
+          <h3 className="text-xl font-semibold tracking-tight">
+            Explore our buying targets
+          </h3>
+
+          <ExternalLink className="size-5 text-primary-900" />
         </div>
       </Link>
       <Link
         href="/user/post-targets"
         passHref
-        className="rounded-xl border bg-slate-50 p-5 transition-all ease-in hover:shadow-lg active:scale-[99%]"
+        className="flex-1 whitespace-nowrap rounded-xl border bg-slate-50 p-5 transition-all ease-in hover:shadow-lg active:scale-[99%]"
       >
         <div className="flex items-center justify-between">
           <h3 className="text-xl font-semibold tracking-tight">
             Post your buying target
           </h3>
-          <HiArrowRight className="h-5 w-5" />
+
+          <ExternalLink className="size-5 text-primary-900" />
         </div>
       </Link>
     </div>

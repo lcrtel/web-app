@@ -36,11 +36,11 @@ const PurchaseRequests = async ({
   let { data: purchaseRequests, error } = await supabase
     .from("purchase_requests")
     .select(`*, routes (*)`)
-    .match({ client_id: user?.id, status: "pending" });
+    .match({ status: "pending" });
   return purchaseRequests?.length ? (
     <div className="pt-4">
       <div className="flex justify-between">
-        <h3 className="mb-2 text-lg font-semibold">Purchase Requests</h3>
+        <h3 className="mb-2 text-xl font-bold"> Your purchase requests</h3>
       </div>
 
       <div className="space-y-2">

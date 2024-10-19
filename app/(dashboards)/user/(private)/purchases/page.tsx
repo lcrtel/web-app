@@ -25,7 +25,7 @@ async function Requests() {
   let { data: purchase_requests }: any = await supabase
     .from("purchase_requests")
     .select(`*, routes (*)`)
-    .match({ client_id: user?.id, status: "pending" });
+    .match({ status: "pending" });
   return purchase_requests?.length ? (
     <div className="mt-4">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
@@ -114,7 +114,6 @@ const PurchaserequestCard = ({
                   {request.routes.ports}
                 </h4>
               </div>
-             
             </div>
           </div>
         </div>

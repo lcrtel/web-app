@@ -162,7 +162,7 @@ export const columns: ColumnDef<Route>[] = [
           <div className="text-red-500">
             <DeleteRoute routeID={id as string} />
           </div>{" "}
-          <Link href={`/user/my-targets/post/${id}`} className="">
+          <Link href={`/user/post-targets/${id}`} className="">
             <HiOutlinePencilAlt className="h-5 w-5" />
           </Link>
           <Link href={`/user/my-targets/${id}`} className="">

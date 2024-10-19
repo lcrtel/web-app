@@ -5,12 +5,9 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { HiArrowRight, HiOutlineExternalLink } from "react-icons/hi";
 
-export const revalidate = 0;
-
 export default async function Dashboard() {
   const user = await getUser();
   const supabase = supabaseServer();
-
   return (
     <main className="flex flex-col gap-5">
       <h3 className="text-primary text-2xl font-bold tracking-tight">

@@ -3,12 +3,12 @@ import {
   AccordionContent,
   AccordionItem,
 } from "@/components/ui/accordion";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
 import formatTimestamptz from "@/utils/formatTimestamptz";
 import { fetchUser } from "@/utils/user";
-import { BadgeDollarSign, Calendar, Heart, Router, Share2 } from "lucide-react";
+import { BadgeDollarSign, Calendar, Router } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -45,7 +45,7 @@ export default async function Page({
   ];
 
   return (
-    <div className="pb-5">
+    <div className="space-y-4 pb-5">
       <Link
         href="/user/targets"
         className="inline-flex items-center text-gray-400 transition-all ease-in-out hover:text-primary-900"
@@ -61,14 +61,6 @@ export default async function Page({
                 (+{target?.destination_code})
               </span>
             </h2>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="icon">
-                <Heart className="size-4 text-red-500" />
-              </Button>
-              <Button variant="outline" size="icon">
-                <Share2 className="size-4 text-primary-900" />
-              </Button>
-            </div>
           </div>
           <div className="mb-4 flex flex-wrap gap-x-4 gap-y-1 text-sm">
             <p className="text-slate-500">
@@ -156,14 +148,15 @@ async function MatchingRouteOffers({
     .from("routes")
     .select("*")
     .eq("vendor_id", userId)
-    .match({ destination_code: target?.destination_code });
+    .match({ destination_code: target?.destination_code })
+    .range(0, 4);
 
   return (
     matchingOffers &&
     matchingOffers?.length > 0 && (
-      <div className="space-y-4">
+      <div className="space-y-2">
         <h2 className="text-xl font-semibold">Matching route offers</h2>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
           {matchingOffers.map((route: any) => (
             <RouteCard key={route.id} route={route} />
           ))}
@@ -178,15 +171,16 @@ const SimilarTargets = async ({ target }: { target: any }) => {
     .from("targets")
     .select("*")
     .neq("id", target.id)
-    .match({ destination_code: target?.destination_code });
+    .match({ destination_code: target?.destination_code })
+    .range(0, 4);
   return (
     similarTargets &&
     similarTargets?.length > 0 && (
-      <div className="space-y-4 py-5">
+      <div className="space-y-2">
         <h2 className="text-xl font-semibold">
           Similar targets in the same destination
         </h2>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
           {similarTargets.map((route: any) => (
             <RouteCard key={route.id} route={route} />
           ))}
@@ -219,10 +213,6 @@ const RouteCard = ({ route }: { route: any }) => {
             </span>
           </h4>
         </div>
-
-        <Button variant="outline" size="icon">
-          <Heart className="size-4 text-red-500" />
-        </Button>
       </div>
 
       <div className="flex flex-wrap items-center justify-between">

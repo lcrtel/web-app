@@ -44,8 +44,8 @@ export default async function DashboardLayout({
             path: "/director/routes/targets",
           },
           {
-            title: "Purchase Requests",
-            path: "/director/routes/purchase_requests",
+            title: "Purchases",
+            path: "/director/routes/purchases",
           },
         ],
       },

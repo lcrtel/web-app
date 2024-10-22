@@ -5,9 +5,7 @@ import { unstable_noStore } from "next/cache";
 import { Suspense } from "react";
 import { DeleteButton } from "../purchases/DeleteButton";
 import { PurchaseRequestForm } from "./PurchaseRequestForm";
-interface PurchaseRequestWithRoutes extends PurchaseRequest {
-  routes: Route;
-}
+
 export default function Page() {
   return (
     <section className="flex flex-col gap-5">
@@ -30,7 +28,7 @@ async function SelectedRoutes() {
     .match({ user_id: user?.id });
 
   const { data: purchaseRequests } = await supabase
-    .from("purchase_requests")
+    .from("purchases")
     .select(`*, routes (*)`)
     .match({ client_id: user?.id, status: "pending" });
   return (
@@ -51,7 +49,7 @@ async function SelectedRoutes() {
       <div className=" ">
         <div className="mb-5 flex justify-between">
           <h3 className="text-xl font-semibold tracking-tight">
-            Purchase Requests
+            Purchases
           </h3>
         </div>
         {purchaseRequests?.length ? (
@@ -72,11 +70,7 @@ async function SelectedRoutes() {
     </>
   );
 }
-const PurchaserequestCard = ({
-  request,
-}: {
-  request: PurchaseRequestWithRoutes;
-}) => {
+const PurchaserequestCard = ({ request }: { request: any }) => {
   return (
     <div className="flex w-full flex-col justify-between rounded-xl border bg-slate-50">
       <h2 className="border-b p-4 capitalize">Status: {request.status}</h2>

@@ -25,7 +25,7 @@ export async function postPurchaseRequest(
   formData: z.infer<typeof FormSchema>,
 ) {
   const supabase = supabaseServer();
-  const { error } = await supabase.from("purchase_requests").insert([
+  const { error } = await supabase.from("purchases").insert([
     {
       route_id: routeId,
       buying_rate: formData.buying_rate,

@@ -50,7 +50,7 @@ export default async function Page({
     redirect("/user/routes");
   }
   const { data: purchaseRequests } = await supabase
-    .from("purchase_requests")
+    .from("purchases")
     .select(`*`);
   const purchaseRequest = purchaseRequests?.find(
     (p) => p.route_id === params.id,

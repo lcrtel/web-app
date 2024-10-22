@@ -15,10 +15,10 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { FaWhatsapp } from "react-icons/fa6";
 import { HiOutlineExternalLink } from "react-icons/hi";
-import { EditPurchaseRequest } from "../../targets/EditPurchaseRequest";
 import DeleteRoute from "./DeleteRoute";
 import { EditRoute } from "./EditRoute";
 import { RoutesTable } from "./routes-table";
+import { EditPurchaseRequest } from "../../purchases/EditPurchaseRequest";
 
 export const revalidate = 0;
 export default async function Page({ params }: { params: { id: string } }) {
@@ -33,7 +33,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   }
 
   let { data: purchase_requests, error } = await supabase
-    .from("purchase_requests")
+    .from("purchases")
     .select(`*, profiles (*), routes (*)`)
     .match({ route_id: params.id, status: "pending" });
 
@@ -143,7 +143,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         </div>
         <section>
           <h2 className="pb-2 text-xl font-bold tracking-tight">
-            Purchase Requests
+            Purchases
           </h2>
           {purchase_requests?.length ? (
             <div className="overflow-clip rounded-lg border">

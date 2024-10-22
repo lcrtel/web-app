@@ -5,7 +5,7 @@ export const revalidate = 0;
 export default async function Page({ params }: { params: { id: string } }) {
   const supabase = supabaseServer();
   let { data: requests, error } = await supabase
-    .from("purchase_requests")
+    .from("purchases")
     .select(`*, routes (*)`)
     .match({ id: params.id })
     .single();
@@ -16,7 +16,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           href="/user/purchases"
           className="mb-2 inline-flex items-center text-gray-400 transition-all ease-in-out hover:text-primary-900"
         >
-          <HiOutlineArrowCircleLeft className="mr-1.5" /> Purchase Requests
+          <HiOutlineArrowCircleLeft className="mr-1.5" /> Purchases
         </Link>
         <div className="mb-3">
           <h2 className="text-primary text-2xl font-bold tracking-tight">

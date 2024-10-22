@@ -7,7 +7,7 @@ export default function PurchasedRoutesPage({
     <section className="flex flex-col gap-5">
       <div className="">
         <div className="flex justify-between">
-          <h3 className="mb-2 text-lg font-semibold">Purchase Requests</h3>
+          <h3 className="mb-2 text-lg font-semibold">Purchases</h3>
         </div>
         <p>Coming soon...</p>
       </div>

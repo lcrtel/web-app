@@ -7,7 +7,7 @@ declare global {
     type Destination = DB["public"]["Tables"]["phone_codes"]["Row"];
     type Target = DB["public"]["Tables"]["targets"]["Row"];
     type SelectedRoute = DB["public"]["Tables"]["selected_routes"]["Row"];
-    type PurchaseRequest = DB["public"]["Tables"]["purchase_requests"]["Row"];
+    type PurchaseRequest = DB["public"]["Tables"]["purchases"]["Row"];
     type Invoice = DB["public"]["Tables"]["invoices"]["Row"];
     type Profile = DB["public"]["Tables"]["profiles"]["Row"];
     type Gateway = DB["public"]["Tables"]["gateways"]["Row"];

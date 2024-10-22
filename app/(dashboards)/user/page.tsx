@@ -34,9 +34,8 @@ const PurchaseRequests = async ({
   user: any;
 }) => {
   let { data: purchaseRequests, error } = await supabase
-    .from("purchase_requests")
+    .from("purchases")
     .select(`*, routes (*)`)
-    .match({ status: "pending" });
   return purchaseRequests?.length ? (
     <div className="pt-4">
       <div className="flex justify-between">

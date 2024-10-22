@@ -416,7 +416,7 @@ export type Database = {
           },
         ]
       }
-      purchase_requests: {
+      purchases: {
         Row: {
           buying_rate: string | null
           communication_status: string

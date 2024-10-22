@@ -7,7 +7,7 @@ import XLSX from "xlsx";
 
 export async function postPurchaseRequest(route: SelectedRoute, data: any) {
     const supabase = supabaseServer();
-    const { error } = await supabase.from("purchase_requests").insert([
+    const { error } = await supabase.from("purchases").insert([
         {
             route_id: route.route_id,
             payment_type: data.payment_type,

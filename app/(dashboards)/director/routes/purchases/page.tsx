@@ -1,21 +1,25 @@
 import BackButton from "@/components/BackButton";
+import { Button } from "@/components/ui/button";
 import CopyButton from "@/components/ui/copy-button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
-import { supabaseServer } from "@/lib/supabase-server";
+import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import formatString from "@/utils/formatString";
+import { PlusCircle } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { HiOutlineExternalLink } from "react-icons/hi";
-import { EditPurchaseRequest } from "../targets/EditPurchaseRequest";
+import { fetchVerfiedRoutes } from "../offers/actions";
+import AddPurchaseSheet from "./AddPurchaseSheet";
+import { EditPurchaseRequest } from "./EditPurchaseRequest";
 
 export default function PurchaseRequestsPage() {
   return (
@@ -27,14 +31,23 @@ export default function PurchaseRequestsPage() {
         </Link>
         /
         <Link
-          href="/director/routes/purchase_requests"
+          href="/director/routes/purchases"
           className="font-semibold hover:underline"
         >
-          Purchase requests
+          Purchases
         </Link>
       </div>
       <div className="mb-4 flex flex-wrap justify-between gap-2 md:items-center">
-        <h1 className="text-primary text-2xl font-bold">Purchase requests</h1>
+        <h1 className="text-primary text-2xl font-bold">Purchases</h1>
+        <Suspense
+          fallback={
+            <Button size="sm">
+              Add <PlusCircle className="ml-2 size-4" />
+            </Button>
+          }
+        >
+          <AddPurchaseRequestButton />
+        </Suspense>
       </div>
       <div className="w-full overflow-y-auto">
         <Suspense fallback={<Skeleton className="h-28 w-full" />}>
@@ -45,11 +58,24 @@ export default function PurchaseRequestsPage() {
   );
 }
 
+async function AddPurchaseRequestButton() {
+  const supabase = supabaseAdminServer();
+  let { data: users } = await supabase
+    .from("profiles")
+    .select("*, user_roles!inner(*)")
+    .eq("user_roles.role_slug", "user");
+  const verified_routes = await fetchVerfiedRoutes();
+  return (
+    users &&
+    verified_routes && (
+      <AddPurchaseSheet routes={verified_routes} users={users} />
+    )
+  );
+}
 async function PurchaseRequestsTable() {
-  const supabase = supabaseServer();
-
+  const supabase = supabaseAdminServer();
   let { data: requests } = await supabase
-    .from("purchase_requests")
+    .from("purchases")
     .select(`*, routes (*), profiles (*)`);
   return requests?.length ? (
     <div className="overflow-clip rounded-lg border">
@@ -57,6 +83,7 @@ async function PurchaseRequestsTable() {
         <TableHeader>
           <TableRow>
             <TableHead>Route Offer</TableHead>
+            <TableHead>Asking rate</TableHead>
             <TableHead>Client</TableHead>
             <TableHead>Communication Status</TableHead>
             <TableHead>VOS Status</TableHead>
@@ -66,17 +93,23 @@ async function PurchaseRequestsTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {/* <pre>{JSON.stringify(requests, null, 2)}</pre> */}
           {requests?.map((request) => (
             <TableRow key={request.id}>
               <TableCell className="font-medium">
                 <Link
                   href={`/director/routes/offers/${request.route_id}`}
-                  className="group relative flex gap-2 uppercase"
+                  className="group relative flex gap-2"
                 >
-                  {request?.routes?.destination} - {request?.routes?.route_type}
+                  <span className="font-semibold uppercase">
+                    {request?.routes?.destination} -{" "}
+                    {request?.routes?.route_type},
+                  </span>
+                  ${request.routes?.selling_rate}/m
                   <HiOutlineExternalLink className="absolute right-6 hidden h-5 w-5 group-hover:block" />
                 </Link>
+              </TableCell>
+              <TableCell className="font-medium">
+                ${request.buying_rate}
               </TableCell>
               <TableCell className="">
                 <div className="group relative flex items-center gap-2">
@@ -95,7 +128,8 @@ async function PurchaseRequestsTable() {
                 </div>
               </TableCell>
               <TableCell>
-                {request?.communication_status === "contacted" ? (
+                {request?.communication_status ===
+                "deal_settled_successfully" ? (
                   <span className="rounded-full border-[1.5px] border-green-100 bg-green-50 px-2 py-1 text-xs capitalize text-green-500">
                     {formatString(request?.communication_status)}
                   </span>

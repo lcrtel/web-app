@@ -104,6 +104,20 @@ export type Database = {
             referencedColumns: ["slug"]
           },
           {
+            foreignKeyName: "executives_department_fkey"
+            columns: ["department"]
+            isOneToOne: false
+            referencedRelation: "executive_durations"
+            referencedColumns: ["department_slug"]
+          },
+          {
+            foreignKeyName: "executives_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "executive_durations"
+            referencedColumns: ["profile_id"]
+          },
+          {
             foreignKeyName: "executives_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
@@ -153,6 +167,13 @@ export type Database = {
           updated_on?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "gateways_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "executive_durations"
+            referencedColumns: ["profile_id"]
+          },
           {
             foreignKeyName: "gateways_client_id_fkey"
             columns: ["client_id"]
@@ -214,6 +235,13 @@ export type Database = {
             foreignKeyName: "invoices_invoice_to_fkey"
             columns: ["invoice_to"]
             isOneToOne: false
+            referencedRelation: "executive_durations"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "invoices_invoice_to_fkey"
+            columns: ["invoice_to"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -245,6 +273,20 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "departments"
             referencedColumns: ["slug"]
+          },
+          {
+            foreignKeyName: "managers_department_fkey"
+            columns: ["department"]
+            isOneToOne: false
+            referencedRelation: "executive_durations"
+            referencedColumns: ["department_slug"]
+          },
+          {
+            foreignKeyName: "managers_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "executive_durations"
+            referencedColumns: ["profile_id"]
           },
           {
             foreignKeyName: "managers_user_id_fkey"
@@ -341,6 +383,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "invoices"
             referencedColumns: ["invoice_id"]
+          },
+          {
+            foreignKeyName: "payments_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "executive_durations"
+            referencedColumns: ["profile_id"]
           },
           {
             foreignKeyName: "payments_user_id_fkey"
@@ -468,6 +517,13 @@ export type Database = {
             foreignKeyName: "purchase_requests_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
+            referencedRelation: "executive_durations"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "purchase_requests_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -582,6 +638,13 @@ export type Database = {
           verified_at?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "routes_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "executive_durations"
+            referencedColumns: ["profile_id"]
+          },
           {
             foreignKeyName: "routes_vendor_id_fkey"
             columns: ["vendor_id"]
@@ -776,6 +839,13 @@ export type Database = {
             foreignKeyName: "targets_client_id_fkey"
             columns: ["client_id"]
             isOneToOne: false
+            referencedRelation: "executive_durations"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "targets_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -911,6 +981,13 @@ export type Database = {
             foreignKeyName: "tr_verifications_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
+            referencedRelation: "executive_durations"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "tr_verifications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -918,21 +995,31 @@ export type Database = {
       }
       user_durations: {
         Row: {
+          created_at: string | null
           duration: number | null
           id: number
-          user_id: string | null
+          user_id: string
         }
         Insert: {
+          created_at?: string | null
           duration?: number | null
           id?: number
-          user_id?: string | null
+          user_id?: string
         }
         Update: {
+          created_at?: string | null
           duration?: number | null
           id?: number
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "user_durations_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "executive_durations"
+            referencedColumns: ["profile_id"]
+          },
           {
             foreignKeyName: "user_durations_user_id_fkey"
             columns: ["user_id"]
@@ -962,6 +1049,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "roles"
             referencedColumns: ["slug"]
+          },
+          {
+            foreignKeyName: "public_user_roles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "executive_durations"
+            referencedColumns: ["profile_id"]
           },
           {
             foreignKeyName: "public_user_roles_user_id_fkey"
@@ -1007,7 +1101,28 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      executive_durations: {
+        Row: {
+          company_name: string | null
+          department_slug: string | null
+          email: string | null
+          executive_id: number | null
+          name: string | null
+          phone: string | null
+          profile_id: string | null
+          skype_id: string | null
+          total_duration: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       match_all_routes_targets: {

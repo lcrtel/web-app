@@ -103,7 +103,6 @@ async function RoutesMatchingTheTargetDestination() {
   let { data: matchedResults, error } = await supabase.rpc(
     "match_all_routes_targets",
   );
-  console.log(matchedResults)
   return matchedResults?.length ? (
     <div className="">
       <h3 className="mb-2 text-xl font-bold">

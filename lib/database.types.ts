@@ -107,14 +107,56 @@ export type Database = {
             foreignKeyName: "executives_department_fkey"
             columns: ["department"]
             isOneToOne: false
+            referencedRelation: "executive_action_counts"
+            referencedColumns: ["department_slug"]
+          },
+          {
+            foreignKeyName: "executives_department_fkey"
+            columns: ["department"]
+            isOneToOne: false
             referencedRelation: "executive_durations"
+            referencedColumns: ["department_slug"]
+          },
+          {
+            foreignKeyName: "executives_department_fkey"
+            columns: ["department"]
+            isOneToOne: false
+            referencedRelation: "manager_action_counts"
+            referencedColumns: ["department_slug"]
+          },
+          {
+            foreignKeyName: "executives_department_fkey"
+            columns: ["department"]
+            isOneToOne: false
+            referencedRelation: "manager_durations"
             referencedColumns: ["department_slug"]
           },
           {
             foreignKeyName: "executives_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
+            referencedRelation: "executive_action_counts"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "executives_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
             referencedRelation: "executive_durations"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "executives_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "manager_action_counts"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "executives_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "manager_durations"
             referencedColumns: ["profile_id"]
           },
           {
@@ -171,7 +213,28 @@ export type Database = {
             foreignKeyName: "gateways_client_id_fkey"
             columns: ["client_id"]
             isOneToOne: false
+            referencedRelation: "executive_action_counts"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "gateways_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
             referencedRelation: "executive_durations"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "gateways_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "manager_action_counts"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "gateways_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "manager_durations"
             referencedColumns: ["profile_id"]
           },
           {
@@ -235,7 +298,28 @@ export type Database = {
             foreignKeyName: "invoices_invoice_to_fkey"
             columns: ["invoice_to"]
             isOneToOne: false
+            referencedRelation: "executive_action_counts"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "invoices_invoice_to_fkey"
+            columns: ["invoice_to"]
+            isOneToOne: false
             referencedRelation: "executive_durations"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "invoices_invoice_to_fkey"
+            columns: ["invoice_to"]
+            isOneToOne: false
+            referencedRelation: "manager_action_counts"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "invoices_invoice_to_fkey"
+            columns: ["invoice_to"]
+            isOneToOne: false
+            referencedRelation: "manager_durations"
             referencedColumns: ["profile_id"]
           },
           {
@@ -278,14 +362,56 @@ export type Database = {
             foreignKeyName: "managers_department_fkey"
             columns: ["department"]
             isOneToOne: false
+            referencedRelation: "executive_action_counts"
+            referencedColumns: ["department_slug"]
+          },
+          {
+            foreignKeyName: "managers_department_fkey"
+            columns: ["department"]
+            isOneToOne: false
             referencedRelation: "executive_durations"
+            referencedColumns: ["department_slug"]
+          },
+          {
+            foreignKeyName: "managers_department_fkey"
+            columns: ["department"]
+            isOneToOne: false
+            referencedRelation: "manager_action_counts"
+            referencedColumns: ["department_slug"]
+          },
+          {
+            foreignKeyName: "managers_department_fkey"
+            columns: ["department"]
+            isOneToOne: false
+            referencedRelation: "manager_durations"
             referencedColumns: ["department_slug"]
           },
           {
             foreignKeyName: "managers_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
+            referencedRelation: "executive_action_counts"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "managers_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
             referencedRelation: "executive_durations"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "managers_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "manager_action_counts"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "managers_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "manager_durations"
             referencedColumns: ["profile_id"]
           },
           {
@@ -388,7 +514,28 @@ export type Database = {
             foreignKeyName: "payments_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
+            referencedRelation: "executive_action_counts"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "payments_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
             referencedRelation: "executive_durations"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "payments_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "manager_action_counts"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "payments_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "manager_durations"
             referencedColumns: ["profile_id"]
           },
           {
@@ -517,7 +664,28 @@ export type Database = {
             foreignKeyName: "purchase_requests_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
+            referencedRelation: "executive_action_counts"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "purchase_requests_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
             referencedRelation: "executive_durations"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "purchase_requests_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "manager_action_counts"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "purchase_requests_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "manager_durations"
             referencedColumns: ["profile_id"]
           },
           {
@@ -642,7 +810,28 @@ export type Database = {
             foreignKeyName: "routes_vendor_id_fkey"
             columns: ["vendor_id"]
             isOneToOne: false
+            referencedRelation: "executive_action_counts"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "routes_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
             referencedRelation: "executive_durations"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "routes_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "manager_action_counts"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "routes_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "manager_durations"
             referencedColumns: ["profile_id"]
           },
           {
@@ -839,7 +1028,28 @@ export type Database = {
             foreignKeyName: "targets_client_id_fkey"
             columns: ["client_id"]
             isOneToOne: false
+            referencedRelation: "executive_action_counts"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "targets_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
             referencedRelation: "executive_durations"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "targets_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "manager_action_counts"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "targets_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "manager_durations"
             referencedColumns: ["profile_id"]
           },
           {
@@ -981,11 +1191,92 @@ export type Database = {
             foreignKeyName: "tr_verifications_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
+            referencedRelation: "executive_action_counts"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "tr_verifications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
             referencedRelation: "executive_durations"
             referencedColumns: ["profile_id"]
           },
           {
             foreignKeyName: "tr_verifications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "manager_action_counts"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "tr_verifications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "manager_durations"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "tr_verifications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_actions: {
+        Row: {
+          action_details: string
+          action_type: string
+          created_at: string
+          id: number
+          user_id: string
+        }
+        Insert: {
+          action_details: string
+          action_type: string
+          created_at?: string
+          id?: number
+          user_id?: string
+        }
+        Update: {
+          action_details?: string
+          action_type?: string
+          created_at?: string
+          id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_actions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "executive_action_counts"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "user_actions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "executive_durations"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "user_actions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "manager_action_counts"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "user_actions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "manager_durations"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "user_actions_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
@@ -1017,7 +1308,28 @@ export type Database = {
             foreignKeyName: "user_durations_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
+            referencedRelation: "executive_action_counts"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "user_durations_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
             referencedRelation: "executive_durations"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "user_durations_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "manager_action_counts"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "user_durations_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "manager_durations"
             referencedColumns: ["profile_id"]
           },
           {
@@ -1054,7 +1366,28 @@ export type Database = {
             foreignKeyName: "public_user_roles_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: true
+            referencedRelation: "executive_action_counts"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "public_user_roles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
             referencedRelation: "executive_durations"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "public_user_roles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "manager_action_counts"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "public_user_roles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "manager_durations"
             referencedColumns: ["profile_id"]
           },
           {
@@ -1101,16 +1434,66 @@ export type Database = {
       }
     }
     Views: {
-      executive_durations: {
+      executive_action_counts: {
         Row: {
-          company_name: string | null
+          action_counts: Json | null
           department_slug: string | null
-          email: string | null
           executive_id: number | null
           name: string | null
-          phone: string | null
           profile_id: string | null
-          skype_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      executive_durations: {
+        Row: {
+          department_slug: string | null
+          executive_id: number | null
+          name: string | null
+          profile_id: string | null
+          total_duration: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      manager_action_counts: {
+        Row: {
+          action_counts: Json | null
+          department_slug: string | null
+          manager_id: number | null
+          name: string | null
+          profile_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      manager_durations: {
+        Row: {
+          department_slug: string | null
+          manager_id: number | null
+          name: string | null
+          profile_id: string | null
           total_duration: number | null
         }
         Relationships: [

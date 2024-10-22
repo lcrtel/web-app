@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { ImportDropdown, PostRoutesTable } from "@/components/PostRoutesTable";
 import { toast } from "react-hot-toast";
-import { postTargetsAsManager } from "./actions";
+import { postTargetsAsExecutive } from "./actions";
 
 declare module "@tanstack/react-table" {
   interface TableMeta<TData extends RowData> {
@@ -32,7 +32,7 @@ export function PostTargetsTable({ users }: { users: any }) {
   ]);
   const postRoutes = async () => {
     setPosting(true);
-    const { error } = await postTargetsAsManager(data);
+    const { error } = await postTargetsAsExecutive(data);
     if (error) {
       setPosting(false);
       toast.error(error.message);
@@ -64,7 +64,6 @@ export function PostTargetsTable({ users }: { users: any }) {
     ) {
       await postRoutes();
       toast.dismiss(postingToast);
-      
     } else {
       setPosting(false);
       toast.error("Please select client");
@@ -73,7 +72,9 @@ export function PostTargetsTable({ users }: { users: any }) {
   return (
     <div className="w-full">
       <div className="flex items-center justify-between py-4">
-        <h2 className="text-2xl font-bold tracking-tight">Post buying targets</h2>
+        <h2 className="text-2xl font-bold tracking-tight">
+          Post buying targets
+        </h2>
         <div className="flex items-center gap-2 text-sm">
           <p>{data.length} route(s)</p> <ImportDropdown setData={setData} />
         </div>

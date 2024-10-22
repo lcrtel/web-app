@@ -1,9 +1,10 @@
 "use server";
 
+import { supabaseServer } from "@/lib/supabase-server";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { calculateNewRate } from "@/utils/rateHikes";
 
-export async function postTargetsAsManager(data: Target[]) {
+export async function postTargetsAsExecutive(data: Target[]) {
   const supabase = supabaseAdminServer();
   const targets: any = await Promise.all(
     data.map(async (route: Target) => {
@@ -26,7 +27,21 @@ export async function postTargetsAsManager(data: Target[]) {
       };
     }),
   );
-  const { data: route, error } = await supabase.from("targets").insert(targets);
+  const { data: targetsInserted, error } = await supabase
+    .from("targets")
+    .insert(targets)
+    .select();
 
-  return { data: route, error };
+  const actions = targetsInserted?.map((target) => ({
+    action_type: "target_created",
+    action_details: JSON.stringify(target),
+  }));
+  const supabaseClient = supabaseServer();
+  if (actions) {
+    const { error } = await supabaseClient.from("user_actions").insert(actions);
+    if (error) {
+      return { error };
+    }
+  }
+  return { error };
 }

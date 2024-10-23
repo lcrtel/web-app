@@ -1,5 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
+import { getUser } from "@/utils/user";
 import { Suspense } from "react";
 import { PostTargetsTable } from "./PostTargetsTable";
 import { TargetsTable } from "./TargetsTable";
@@ -18,14 +19,21 @@ export default function RoutesPage() {
 
 async function Targets() {
   const supabase = supabaseAdminServer();
-  const { data } = await supabase.from("targets").select("*, profiles(*)");
-  return <TargetsTable data={data} />;
+  const user = await getUser();
+  if (!user) return null;
+  const { data: targets } = await supabase
+    .from("targets")
+    .select("*, profiles(*)")
+    .eq("added_by", user?.id);
+  return targets ? <TargetsTable data={targets} /> : <p>No targets</p>;
 }
 async function AddTargets() {
   const supabase = supabaseAdminServer();
+  const user = await getUser();
   let { data: users } = await supabase
     .from("profiles")
     .select("*, user_roles!inner(*)")
-    .eq("user_roles.role_slug", "user");
-  return <PostTargetsTable users={users} />;
+    .eq("user_roles.role_slug", "user")
+    .match({ added_by: user?.id });
+  return users && <PostTargetsTable users={users} />;
 }

@@ -116,6 +116,6 @@ async function Requests({ userId }: { userId: string }) {
       </div>
     ))
   ) : (
-    <p className="text-slate-400">No route requests posted yet</p>
+    <p className="text-slate-400">No targets posted yet</p>
   );
 }

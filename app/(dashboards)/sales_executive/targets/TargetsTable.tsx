@@ -152,7 +152,7 @@ export const columns: ColumnDef<Route>[] = [
           <div className="text-red-500">
             <DeleteTarget targetId={id as string} />
           </div>{" "}
-          <Link href={`/sales_manager/targets/${id}`} className="">
+          <Link href={`/sales_executive/targets/${id}`} className="">
             <HiOutlineExternalLink className="h-5 w-5" />
           </Link>
         </div>

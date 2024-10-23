@@ -33,6 +33,10 @@ export async function updateUser(userId: string, formData: userProps) {
     .from("profiles")
     .update(formData)
     .eq("id", userId);
+  await supabase.from("user_actions").insert({
+    action_type: "updated_profile",
+    action_details: `Updated ${formData.name}'s profile`,
+  });
   return { error: error?.message || null };
 }
 
@@ -47,6 +51,12 @@ export async function changeEmail(email: string) {
   const { error } = await supabase.auth.updateUser({
     email: email,
   });
+  if (!error) {
+    await supabase.from("user_actions").insert({
+      action_type: "updated_email",
+      action_details: "Updated email",
+    })
+  }
   if (error) {
     return { error: error.message };
   }

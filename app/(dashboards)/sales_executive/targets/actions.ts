@@ -3,27 +3,30 @@
 import { supabaseServer } from "@/lib/supabase-server";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { calculateNewRate } from "@/utils/rateHikes";
+import { getUser } from "@/utils/user";
 
 export async function postTargetsAsExecutive(data: Target[]) {
   const supabase = supabaseAdminServer();
+  const user = await getUser();
   const targets: any = await Promise.all(
-    data.map(async (route: Target) => {
+    data.map(async (target: Target) => {
       return {
-        client_id: route.client_id,
-        destination: route.destination,
-        destination_code: route.destination_code,
-        rate: route.rate,
+        client_id: target.client_id,
+        destination: target.destination,
+        destination_code: target.destination_code,
+        rate: target.rate,
         buying_rate: await calculateNewRate(
-          Number(route.rate),
-          Number(route.destination_code),
+          Number(target.rate),
+          Number(target.destination_code),
           false,
         ),
-        route_type: route.route_type,
-        asr: route.asr,
-        acd: route.acd,
-        ports: route.ports,
-        pdd: route.pdd,
-        remarks: route.remarks,
+        route_type: target.route_type,
+        asr: target.asr,
+        acd: target.acd,
+        ports: target.ports,
+        pdd: target.pdd,
+        remarks: target.remarks,
+        added_by: user?.id,
       };
     }),
   );

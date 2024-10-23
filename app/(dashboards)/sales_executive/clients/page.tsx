@@ -1,6 +1,7 @@
 import BackButton from "@/components/BackButton";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
+import { getUser } from "@/utils/user";
 import Link from "next/link";
 import { Suspense } from "react";
 import { AddAccountForm } from "../../director/users/_components/AddAccount";
@@ -37,11 +38,13 @@ export default function Page() {
 
 const Clients = async () => {
   const supabase = supabaseAdminServer();
+  const user = await getUser();
+  if (!user) return null;
   let { data: clients } = await supabase
     .from("profiles")
     .select("*, user_roles!inner(*)")
     .eq("user_roles.role_slug", "user")
-    .match({ user_type: "CLIENT" });
+    .match({ user_type: "CLIENT", added_by: user?.id });
   return <ClientsTable data={clients} />;
 };
 

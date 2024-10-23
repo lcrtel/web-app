@@ -4,28 +4,32 @@ import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { unstable_noStore } from "next/cache";
 import Link from "next/link";
 import { Suspense } from "react";
+import QuickActions from "./QuickActions";
 
 export default function DashboardPage() {
   return (
-    <section className="mb-5">
-      <h2 className="mb-3 text-lg font-semibold">Overview</h2>
-      <div className="grid grid-cols-2 items-center gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-4 xl:grid-cols-5">
-        <Suspense
-          fallback={<Skeleton className="h-[110px] rounded-xl border" />}
-        >
-          <Routes />
-        </Suspense>
-        <Suspense
-          fallback={<Skeleton className="h-[110px] rounded-xl border" />}
-        >
-          <Targets />
-        </Suspense>
-        <Suspense
-          fallback={<Skeleton className="h-[110px] rounded-xl border" />}
-        >
-          <Clients />
-        </Suspense>
+    <section className="space-y-4">
+      <div className="">
+        <h2 className="mb-2 text-lg font-semibold">Overview</h2>
+        <div className="grid grid-cols-2 items-center gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-4 xl:grid-cols-5">
+          <Suspense
+            fallback={<Skeleton className="h-[110px] rounded-xl border" />}
+          >
+            <Routes />
+          </Suspense>
+          <Suspense
+            fallback={<Skeleton className="h-[110px] rounded-xl border" />}
+          >
+            <Targets />
+          </Suspense>
+          <Suspense
+            fallback={<Skeleton className="h-[110px] rounded-xl border" />}
+          >
+            <Clients />
+          </Suspense>
+        </div>
       </div>
+      <QuickActions />
     </section>
   );
 }

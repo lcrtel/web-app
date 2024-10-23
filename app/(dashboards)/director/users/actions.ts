@@ -4,6 +4,7 @@ import DeleteAccount from "@/emails/DeleteAccount";
 import LoginCredentialsUpdate from "@/emails/LoginCredentialsUpdate";
 import { supabaseServer } from "@/lib/supabase-server";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
+import { getUser } from "@/utils/user";
 import { renderAsync } from "@react-email/render";
 import nodemailer from "nodemailer";
 
@@ -70,11 +71,13 @@ export async function updateAccountDetails(user: any) {
 }
 
 export async function addAccount(formData: any, userType: UserTypesEnum) {
-  const supabase = supabaseAdminServer();
+  const supabaseAdmin = supabaseAdminServer();
+  const supabase = supabaseServer();
+  const adminUser = await getUser();
   const {
     data: { user },
     error,
-  } = await supabase.auth.admin.createUser({
+  } = await supabaseAdmin.auth.admin.createUser({
     email: formData.email,
     password: formData.password,
     email_confirm: true,
@@ -90,10 +93,14 @@ export async function addAccount(formData: any, userType: UserTypesEnum) {
   if (error) {
     return { error: error.message };
   } else if (user) {
-    await supabase
+    await supabaseAdmin
       .from("profiles")
-      .update({ user_type: userType })
+      .update({ user_type: userType, added_by: adminUser?.id })
       .eq("id", user?.id);
+    await supabase.from("user_actions").insert({
+      action_type: "created_user",
+      action_details: `Created ${formData.name}'s account`,
+    });
   }
   transporter.sendMail({
     from: process.env.SMTP_USER,

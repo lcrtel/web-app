@@ -1,13 +1,11 @@
-import { buttonVariants } from "@/components/ui/button";
+import BackButton from "@/components/BackButton";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
-import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { ClientNav } from "./ClientNav";
 import { DropDownMenu } from "./dropdownMenu";
-import BackButton from "@/components/BackButton";
 
 interface SettingsLayoutProps {
   children: React.ReactNode;
@@ -18,7 +16,7 @@ export default function SettingsLayout({
   children,
   params,
 }: SettingsLayoutProps) {
-  const basePath = "/sales_manager/clients";
+  const basePath = "/sales_executive/clients";
   const NavItems = [
     {
       title: "Account",
@@ -98,7 +96,7 @@ async function ClientDetails({ userId }: { userId: any }) {
             {user?.name}
           </Link>
         </div>
-        <div className="pb-4 flex flex-col gap-2">
+        <div className="flex flex-col gap-2 pb-4">
           <div className="">
             <h1 className="text-xl font-bold capitalize tracking-tight">
               {user?.name}

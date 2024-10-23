@@ -1,8 +1,9 @@
-import { AccountSettingsForm } from "@/app/(dashboards)/director/users/_components/AccountSettingsForm";
 import Loader from "@/components/Loader";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { unstable_noStore } from "next/cache";
 import { Suspense } from "react";
+import { AccountSettingsForm } from "./AccountSettingsForm";
+import { redirect } from "next/navigation";
 
 export default function Page({ params }: { params: { id: any } }) {
   return (
@@ -26,5 +27,8 @@ const VendorDetails = async ({ id }: { id: string }) => {
     .select("*")
     .eq("id", id)
     .single();
+    if (error) {
+      redirect("/sales_executive/clients");
+    }
   return <AccountSettingsForm user={user} />;
 };

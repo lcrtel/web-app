@@ -3,20 +3,12 @@
 import EmailTemplate from "@/emails/EmailTemplate";
 import GatewayAccountDetailsTemplate from "@/emails/GatewayAccountDetailsTemplate";
 import RateNotificationTemplate from "@/emails/RateNotificationTemplate";
+import { supabaseServer } from "@/lib/supabase-server";
+import { transporter } from "@/utils/smtp-transporter";
 import { renderAsync } from "@react-email/render";
-import nodemailer from "nodemailer";
 
 export async function sendLowBalanceNotification(data: any) {
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASSWORD,
-    },
-  });
-
+  const supabase = supabaseServer();
   const emailHtml = await renderAsync(
     <EmailTemplate body={data.body} subject={data.subject} />,
   );
@@ -29,22 +21,18 @@ export async function sendLowBalanceNotification(data: any) {
       subject: data.subject,
       html: emailHtml,
     });
+    await supabase.from("user_actions").insert({
+      action_type: "sent_email",
+      action_details: `Sent low balance notification to ${data.to}`,
+    });
     return true;
   } catch (error) {
     return false;
   }
 }
-export async function sendPaymentReminder(data: any) {
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASSWORD,
-    },
-  });
 
+export async function sendPaymentReminder(data: any) {
+  const supabase = supabaseServer();
   const emailHtml = await renderAsync(
     <EmailTemplate body={data.body} subject={data.subject} />,
   );
@@ -56,6 +44,10 @@ export async function sendPaymentReminder(data: any) {
       cc: data.cc,
       subject: data.subject,
       html: emailHtml,
+    });
+    await supabase.from("user_actions").insert({
+      action_type: "sent_email",
+      action_details: `Sent payment reminder to ${data.to}`,
     });
     return true;
   } catch (error) {
@@ -63,16 +55,7 @@ export async function sendPaymentReminder(data: any) {
   }
 }
 export async function sendRateNotification(data: any) {
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASSWORD,
-    },
-  });
-
+  const supabase = supabaseServer();
   const emailHtml = await renderAsync(<RateNotificationTemplate data={data} />);
 
   try {
@@ -83,22 +66,17 @@ export async function sendRateNotification(data: any) {
       subject: data.subject,
       html: emailHtml,
     });
+    await supabase.from("user_actions").insert({
+      action_type: "sent_email",
+      action_details: `Sent rate notification to ${data.to}`,
+    });
     return true;
   } catch (error) {
     return false;
   }
 }
 export async function sendGatewayAccountDetails(data: any) {
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASSWORD,
-    },
-  });
-
+  const supabase = supabaseServer();
   const emailHtml = await renderAsync(
     <GatewayAccountDetailsTemplate data={data} />,
   );
@@ -110,6 +88,10 @@ export async function sendGatewayAccountDetails(data: any) {
       cc: data.cc,
       subject: data.subject,
       html: emailHtml,
+    });
+    await supabase.from("user_actions").insert({
+      action_type: "sent_email",
+      action_details: `Sent gateway account details to ${data.to}`,
     });
     return true;
   } catch (error) {

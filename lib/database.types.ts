@@ -81,19 +81,19 @@ export type Database = {
           created_at: string
           department: string | null
           id: number
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           created_at?: string
           department?: string | null
           id?: number
-          user_id?: string | null
+          user_id?: string
         }
         Update: {
           created_at?: string
           department?: string | null
           id?: number
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
@@ -134,35 +134,35 @@ export type Database = {
           {
             foreignKeyName: "executives_user_id_fkey"
             columns: ["user_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "executive_action_counts"
             referencedColumns: ["profile_id"]
           },
           {
             foreignKeyName: "executives_user_id_fkey"
             columns: ["user_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "executive_durations"
             referencedColumns: ["profile_id"]
           },
           {
             foreignKeyName: "executives_user_id_fkey"
             columns: ["user_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "manager_action_counts"
             referencedColumns: ["profile_id"]
           },
           {
             foreignKeyName: "executives_user_id_fkey"
             columns: ["user_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "manager_durations"
             referencedColumns: ["profile_id"]
           },
           {
             foreignKeyName: "executives_user_id_fkey"
             columns: ["user_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -257,6 +257,7 @@ export type Database = {
         Row: {
           balance: string | null
           bill_to: Json | null
+          created_by: string | null
           date_due: string | null
           date_issued: string | null
           description: string | null
@@ -270,6 +271,7 @@ export type Database = {
         Insert: {
           balance?: string | null
           bill_to?: Json | null
+          created_by?: string | null
           date_due?: string | null
           date_issued?: string | null
           description?: string | null
@@ -283,6 +285,7 @@ export type Database = {
         Update: {
           balance?: string | null
           bill_to?: Json | null
+          created_by?: string | null
           date_due?: string | null
           date_issued?: string | null
           description?: string | null
@@ -463,6 +466,7 @@ export type Database = {
       }
       payments: {
         Row: {
+          added_by: string | null
           amount: string
           created_at: string
           gateway: string | null
@@ -474,6 +478,7 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
+          added_by?: string | null
           amount: string
           created_at?: string
           gateway?: string | null
@@ -485,6 +490,7 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
+          added_by?: string | null
           amount?: string
           created_at?: string
           gateway?: string | null
@@ -567,6 +573,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          added_by: string | null
           company_name: string | null
           email: string | null
           finance_department: Json | null
@@ -579,6 +586,7 @@ export type Database = {
           user_type: Database["public"]["Enums"]["user_types"]
         }
         Insert: {
+          added_by?: string | null
           company_name?: string | null
           email?: string | null
           finance_department?: Json | null
@@ -591,6 +599,7 @@ export type Database = {
           user_type?: Database["public"]["Enums"]["user_types"]
         }
         Update: {
+          added_by?: string | null
           company_name?: string | null
           email?: string | null
           finance_department?: Json | null
@@ -614,6 +623,7 @@ export type Database = {
       }
       purchases: {
         Row: {
+          added_by: string | null
           buying_rate: string | null
           communication_status: string
           created_at: string
@@ -627,6 +637,7 @@ export type Database = {
           whatsapp_no: string | null
         }
         Insert: {
+          added_by?: string | null
           buying_rate?: string | null
           communication_status?: string
           created_at?: string
@@ -640,6 +651,7 @@ export type Database = {
           whatsapp_no?: string | null
         }
         Update: {
+          added_by?: string | null
           buying_rate?: string | null
           communication_status?: string
           created_at?: string
@@ -699,18 +711,21 @@ export type Database = {
       }
       rate_hikes: {
         Row: {
+          added_by: string | null
           decrease_percentage: number
           destination_code: number
           id: number
           increase_percentage: number
         }
         Insert: {
+          added_by?: string | null
           decrease_percentage: number
           destination_code: number
           id?: number
           increase_percentage: number
         }
         Update: {
+          added_by?: string | null
           decrease_percentage?: number
           destination_code?: number
           id?: number
@@ -747,6 +762,7 @@ export type Database = {
       routes: {
         Row: {
           acd: string
+          added_by: string | null
           asr: string
           created_at: string | null
           destination: string
@@ -767,6 +783,7 @@ export type Database = {
         }
         Insert: {
           acd: string
+          added_by?: string | null
           asr: string
           created_at?: string | null
           destination: string
@@ -787,6 +804,7 @@ export type Database = {
         }
         Update: {
           acd?: string
+          added_by?: string | null
           asr?: string
           created_at?: string | null
           destination?: string
@@ -977,6 +995,7 @@ export type Database = {
       targets: {
         Row: {
           acd: string
+          added_by: string | null
           asr: string
           buying_rate: string
           client_id: string
@@ -993,6 +1012,7 @@ export type Database = {
         }
         Insert: {
           acd: string
+          added_by?: string | null
           asr: string
           buying_rate: string
           client_id?: string
@@ -1009,6 +1029,7 @@ export type Database = {
         }
         Update: {
           acd?: string
+          added_by?: string | null
           asr?: string
           buying_rate?: string
           client_id?: string

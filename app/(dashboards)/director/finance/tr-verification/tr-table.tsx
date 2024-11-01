@@ -16,7 +16,10 @@ export const columns: ColumnDef<Route>[] = [
     header: "User",
     cell: ({ row }) => (
       // @ts-ignore
-      <div className="capitalize">{row.getValue("profiles").name}</div>
+      <div className="capitalize">
+        {/* @ts-ignore */}
+        {row.getValue("profiles") ? row.getValue("profiles").name : "N/A"}
+      </div>
     ),
   },
   {
@@ -70,13 +73,16 @@ export const columns: ColumnDef<Route>[] = [
       );
     },
     cell: ({ row }) => (
-      <Link href={`/user/my-routes/${row.getValue("id")}`} className="capitalize">
+      <Link
+        href={`/user/my-routes/${row.getValue("id")}`}
+        className="capitalize"
+      >
         {format(new Date(row.getValue("created_at")), "dd/MM/yyyy")}
       </Link>
     ),
   },
   {
-    accessorKey: "id",  
+    accessorKey: "id",
     header: "",
     cell: ({ row }) => (
       <div className="flex justify-end">

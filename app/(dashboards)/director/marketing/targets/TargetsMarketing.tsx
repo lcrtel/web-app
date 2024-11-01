@@ -99,15 +99,24 @@ export const routeColumns: ColumnDef<Target>[] = [
       return <div className="whitespace-nowrap">Client</div>;
     },
     // @ts-ignore
-    cell: ({ row }) => <div>{row.getValue("profiles").name}</div>,
+    cell: ({ row }) => (
+      <div>
+        {/* @ts-ignore */}
+        {row.getValue("profiles") ? row.getValue("profiles").name : "N/A"}
+      </div>
+    ),
   },
   {
     accessorKey: "profiles",
     header: ({ column }) => {
       return <div className="whitespace-nowrap">Company</div>;
     },
-    // @ts-ignore
-    cell: ({ row }) => <div>{row.getValue("profiles").company_name}</div>,
+    cell: ({ row }) => (
+      <div>
+        {/* @ts-ignore */}
+        {row.getValue("profiles") ? row.getValue("profiles").company_name: "N/A"}
+      </div>
+    ),
   },
   {
     accessorKey: "destination",

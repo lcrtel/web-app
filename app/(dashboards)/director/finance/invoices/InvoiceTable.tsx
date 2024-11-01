@@ -32,7 +32,10 @@ export const columns: ColumnDef<any>[] = [
     header: "Client",
     cell: ({ row }) => (
       // @ts-ignore
-      <div className="capitalize">{row.getValue("profiles").name} </div>
+      <div className="capitalize">
+        {/* @ts-ignore */}
+        {row.getValue("profiles") ? row.getValue("profiles").name : "N/A"}
+      </div>
     ),
   },
   {

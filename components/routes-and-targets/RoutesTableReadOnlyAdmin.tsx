@@ -16,7 +16,7 @@ export const columns: ColumnDef<Route>[] = [
     cell: ({ row }) => (
       <div className="capitalize">
         {/* @ts-ignore */}
-        {/* {row.getValue("profiles").name} */}
+        { row.getValue("profiles") ? row.getValue("profiles").name : "N/A" }
       </div>
     ),
   },

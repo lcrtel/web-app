@@ -2,18 +2,11 @@
 import { supabaseServer } from "@/lib/supabase-server";
 export async function fetchUserRole() {
   const supabase = await supabaseServer();
-  const { data: {user} } = await supabase.auth.getUser();
-  if (user) {
-    const { data, error } = await supabase
-      .from("user_roles")
-      .select("role_slug")
-      .single();
-    if (error) {
-      return { error: "Error fetching user role, " + error.message };
-    } else {
-      return { role: data?.role_slug };
-    }
-  }
+  const { data, error } = await supabase
+    .from("user_roles")
+    .select("role_slug")
+    .single();
+  return data?.role_slug;
 }
 
 export async function fetchUserMetadata() {
@@ -27,7 +20,10 @@ export async function fetchUserMetadata() {
 }
 export async function getUser() {
   const supabase = await supabaseServer();
-  const { data: user } = await supabase.from("profiles").select("*, user_roles(*)").single();
+  const { data: user } = await supabase
+    .from("profiles")
+    .select("*, user_roles(*)")
+    .single();
   return user;
 }
 export async function fetchUser() {

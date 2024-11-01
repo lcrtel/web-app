@@ -104,7 +104,7 @@ async function Requests({ userId }: { userId: string }) {
           </div>
           <div className="mt-2.5 flex gap-2.5">
             <Link
-              href={`/director/routes/targets/${route.id}`}
+              href={`/admin/routes/targets/${route.id}`}
               className={`${buttonVariants({
                 size: "sm",
               })} w-full gap-2`}

@@ -33,12 +33,18 @@ export async function updateSession(request: NextRequest) {
   );
 
   await supabase.auth.getUser();
-  const res = await fetchUserRole();
-  if (res?.role && !request.nextUrl.pathname.startsWith(`/${res.role}`)) {
-    return NextResponse.redirect(new URL(`/${res.role}`, request.url));
+  const userRole = await fetchUserRole();
+  if (userRole === "user" && !request.nextUrl.pathname.startsWith(`/user`)) {
+    return NextResponse.redirect(new URL(`/user`, request.url));
+  } else if (
+    userRole &&
+    userRole !== "user" &&
+    !request.nextUrl.pathname.startsWith(`/admin`)
+  ) {
+    return NextResponse.redirect(new URL(`/admin`, request.url));
   }
   if (
-    !res?.role &&
+    !userRole &&
     request.nextUrl.pathname !== "/" &&
     !request.nextUrl.pathname.startsWith("/auth")
   ) {

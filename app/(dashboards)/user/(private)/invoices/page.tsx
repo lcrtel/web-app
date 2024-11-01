@@ -22,7 +22,7 @@ const page = async () => {
                     <div className="gap-2  h-12 text-center flex items-center text-sm  justify-center border py-10 rounded-lg">
                         <p>No invoices created yet</p>
                         <Link
-                            href="/director/finance/invoices/new"
+                            href="/admin/finance/invoices/new"
                             className={`${buttonVariants({
                                 variant: "default",
                                 size: "sm",

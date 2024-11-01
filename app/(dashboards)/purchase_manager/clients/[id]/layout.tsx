@@ -79,7 +79,7 @@ async function ClientDetails({ userId }: { userId: any }) {
     .eq("id", userId)
     .single();
   if (!user) {
-    redirect("/director/user/clients");
+    redirect("/admin/user/clients");
   }
   return (
     user && (
@@ -90,12 +90,12 @@ async function ClientDetails({ userId }: { userId: any }) {
             Dashboard
           </Link>
           /
-          <Link href="/director/users/clients" className="hover:underline">
+          <Link href="/admin/users/clients" className="hover:underline">
             Clients
           </Link>
           /
           <Link
-            href={`/director/users/clients/${userId}`}
+            href={`/admin/users/clients/${userId}`}
             className="hover:underline"
           >
             {user?.name}

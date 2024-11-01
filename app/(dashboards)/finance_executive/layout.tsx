@@ -24,10 +24,6 @@ export default async function DashboardLayout({
         path: "/finance_executive",
         icon: <LayoutDashboard width="18" height="18" />,
       },
-      // {
-      //   title: "Routes",
-      //   path: "/finance_executive/routes",
-      // },
     ],
   };
 

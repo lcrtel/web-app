@@ -1,4 +1,4 @@
-import { AccountSettingsForm } from "@/app/(dashboards)/director/users/_components/AccountSettingsForm";
+import { AccountSettingsForm } from "@/app/(dashboards)/admin/users/_components/AccountSettingsForm";
 import Loader from "@/components/Loader";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { unstable_noStore } from "next/cache";

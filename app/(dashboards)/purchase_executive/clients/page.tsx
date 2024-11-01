@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import Link from "next/link";
 import { Suspense } from "react";
-import { AddAccountForm } from "../../director/users/_components/AddAccount";
+import { AddAccountForm } from "../../admin/users/_components/AddAccount";
 import { ClientsTable } from "./ClientsTable";
 
 export default function Page() {

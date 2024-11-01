@@ -1,6 +1,6 @@
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
-import { AddAccountForm } from "../director/users/_components/AddAccount";
+import { AddAccountForm } from "../admin/users/_components/AddAccount";
 
 export default function QuickActions() {
   return (

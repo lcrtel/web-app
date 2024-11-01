@@ -6,11 +6,12 @@ import { Suspense } from "react";
 import { TargetsTable } from "../targets/targets-table";
 import { PostOffersTable } from "./PostRouteTable";
 
-export default async function PostRoutes({
-  searchParams,
-}: {
-  searchParams: { prefix: string; route_type: string };
-}) {
+export default async function PostRoutes(
+  props: {
+    searchParams: Promise<{ prefix: string; route_type: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const user = await fetchUser();
   return (
     <section className="">

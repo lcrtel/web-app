@@ -21,7 +21,8 @@ import { RoutesTable } from "./routes-table";
 import { EditPurchaseRequest } from "../../purchases/EditPurchaseRequest";
 
 export const revalidate = 0;
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const supabase = supabaseAdminServer();
   let { data: route } = await supabase
     .from("routes")

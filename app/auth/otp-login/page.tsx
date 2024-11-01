@@ -1,11 +1,12 @@
 import OTPLoginForm from "@/components/auth/forms/OTPLoginForm";
 import Link from "next/link";
 
-export default function OTPLogin({
-  searchParams,
-}: {
-  searchParams: { message: string };
-}) {
+export default async function OTPLogin(
+  props: {
+    searchParams: Promise<{ message: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   return (
     <div className="w-full max-w-[360px] space-y-2">
       <section className="rounded-2xl bg-white p-6">

@@ -7,11 +7,12 @@ export const metadata: Metadata = {
   title: "Signup",
 };
 
-const page = ({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) => {
+const page = async (
+  props: {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  }
+) => {
+  const searchParams = await props.searchParams;
   return (
     <div className="space-y-2">
       <section className="rounded-2xl bg-white p-6">

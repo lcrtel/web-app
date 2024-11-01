@@ -3,7 +3,8 @@ import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { Suspense } from "react";
 import MailForm from "./MailForm";
 
-export default function Page({ params }: { params: { id: string } }) {
+export default async function Page(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   return (
     <Suspense
       fallback={

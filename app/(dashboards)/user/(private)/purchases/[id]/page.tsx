@@ -2,7 +2,8 @@ import { supabaseServer } from "@/lib/supabase-server";
 import Link from "next/link";
 import { HiOutlineArrowCircleLeft } from "react-icons/hi";
 export const revalidate = 0;
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const supabase = supabaseServer();
   let { data: requests, error } = await supabase
     .from("purchases")

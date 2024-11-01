@@ -4,11 +4,12 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "OTP Verification",
 };
-export default function VerifyOTPVerificationPage({
-  searchParams,
-}: {
-  searchParams: { email: string };
-}) {
+export default async function VerifyOTPVerificationPage(
+  props: {
+    searchParams: Promise<{ email: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   return (
     <div className="w-full max-w-[360px] space-y-2">
       <section className="rounded-2xl bg-white p-6">

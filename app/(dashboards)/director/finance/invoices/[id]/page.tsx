@@ -13,7 +13,8 @@ import formatString from "@/utils/formatString";
 import InvoiceDetails from "./InvoiceDetails";
 export const revalidate = 0;
 
-const page = async ({ params }: { params: { id: string } }) => {
+const page = async (props: { params: Promise<{ id: string }> }) => {
+  const params = await props.params;
   const supabase = supabaseAdminServer();
 
   const { data: invoice } = await supabase

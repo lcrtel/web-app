@@ -59,7 +59,7 @@ export default async function DashboardLayout({
   } else {
     NAV_ITEMS.pages = [...publicNavItems];
   }
-  const isAccountPage = headers().get("referer")?.includes("/user/account");
+  const isAccountPage = (await headers()).get("referer")?.includes("/user/account");
   return (
     <main className="px-2 md:px-4">
       <DashboardNav navItems={NAV_ITEMS} user={user} />

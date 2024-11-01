@@ -10,11 +10,12 @@ import { Suspense } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { OffersTable } from "./offers-table";
 
-export default function Page({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
+export default async function Page(
+  props: {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   return (
     <div className="space-y-4">
       <div className="">

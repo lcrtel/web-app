@@ -6,7 +6,8 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { HiPencilAlt } from "react-icons/hi";
 
-export default function RequestsPage({ params }: { params: { id: string } }) {
+export default async function RequestsPage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   return (
     <div>
       <h1 className="text-lg font-semibold tracking-tight">Buying targets</h1>

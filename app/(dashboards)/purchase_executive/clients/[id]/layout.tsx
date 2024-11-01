@@ -11,13 +11,16 @@ import BackButton from "@/components/BackButton";
 
 interface SettingsLayoutProps {
   children: React.ReactNode;
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
-export default function SettingsLayout({
-  children,
-  params,
-}: SettingsLayoutProps) {
+export default async function SettingsLayout(props: SettingsLayoutProps) {
+  const params = await props.params;
+
+  const {
+    children
+  } = props;
+
   const basePath = "/sales_manager/clients";
   const NavItems = [
     {

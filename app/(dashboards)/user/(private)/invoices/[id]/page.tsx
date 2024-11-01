@@ -14,7 +14,8 @@ import InvoiceDetails from "./InvoiceDetails";
 import { supabaseServer } from "@/lib/supabase-server";
 export const revalidate = 0;
 
-const page = async ({ params }: { params: { id: string } }) => {
+const page = async (props: { params: Promise<{ id: string }> }) => {
+    const params = await props.params;
     const supabase = supabaseServer();
     const { data: invoice }:any = await supabase
         .from("invoices")

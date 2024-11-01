@@ -8,11 +8,12 @@ import { redirect } from "next/navigation";
 import TRInquiryForm from "./TRInquiryForm";
 import VerificationStatusUpdate from "./VerificationStatusUpdate";
 import { whoisCheckup } from "@/utils/whoisCheckUp";
-export default async function TRDetailsPage({
-  params,
-}: {
-  params: { id: number };
-}) {
+export default async function TRDetailsPage(
+  props: {
+    params: Promise<{ id: number }>;
+  }
+) {
+  const params = await props.params;
   const supabase = supabaseAdminServer();
   const { data: details } = await supabase
     .from("tr_verifications")

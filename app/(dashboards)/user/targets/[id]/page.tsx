@@ -15,13 +15,14 @@ import { Suspense } from "react";
 import { HiOutlineArrowCircleLeft } from "react-icons/hi";
 import RouteOfferForm from "./route-offer-form";
 
-export default async function Page({
-  params,
-  searchParams,
-}: {
-  params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
+export default async function Page(
+  props: {
+    params: Promise<{ id: string }>;
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  }
+) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const supabase = supabaseServer();
   const user = await fetchUser();
   let { data: target } = await supabase

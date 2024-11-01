@@ -7,11 +7,12 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Reset Password",
 };
-export default function ResetPasswordPage({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
+export default async function ResetPasswordPage(
+  props: {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   return (
     <div className="w-full max-w-[360px] space-y-2">
       <section className="rounded-2xl bg-white p-6">

@@ -11,7 +11,8 @@ import Loader from "@/components/Loader";
 import DeleteRoute from "../../(private)/my-targets/DeleteRoute";
 export const revalidate = 0;
 
-export default function Page({ params }: { params: { id: string } }) {
+export default async function Page(props: { params: Promise<{ id: string }> }) {
+    const params = await props.params;
     return (
         <div>
             <Link

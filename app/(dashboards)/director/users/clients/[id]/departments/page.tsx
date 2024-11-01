@@ -4,7 +4,8 @@ import { CompanyForm } from "./CompanyForm";
 import Loader from "@/components/Loader";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 
-export default function Page({ params }: { params: { id: string } }) {
+export default async function Page(props: { params: Promise<{ id: string }> }) {
+    const params = await props.params;
     return (
         <Suspense
             fallback={

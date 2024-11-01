@@ -4,7 +4,8 @@ import { unstable_noStore } from "next/cache";
 import { Suspense } from "react";
 import { AccountSettingsForm } from "../../_components/AccountSettingsForm";
 
-export default function Page({ params }: { params: { id: any } }) {
+export default async function Page(props: { params: Promise<{ id: any }> }) {
+  const params = await props.params;
   return (
     <Suspense
       fallback={

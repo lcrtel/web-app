@@ -6,7 +6,8 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Login",
 };
-const page = ({ searchParams }: { searchParams: { message: string } }) => {
+const page = async (props: { searchParams: Promise<{ message: string }> }) => {
+  const searchParams = await props.searchParams;
   return (
     <div className="w-full max-w-[360px] space-y-2">
       <section className="rounded-2xl bg-white p-6">

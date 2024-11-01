@@ -8,11 +8,12 @@ import { Suspense } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { TargetsTable } from "./targets-table";
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
+export default async function Page(
+  props: {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   return (
     <div className="">
       <h3 className="flex items-center text-2xl font-bold tracking-tight text-primary-900">

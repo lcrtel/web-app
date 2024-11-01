@@ -3,7 +3,7 @@
 import { supabaseServer } from "@/lib/supabase-server";
 
 export async function deletePurchaseRequest(id: string) {
-    const supabase = supabaseServer();
+    const supabase = await supabaseServer();
     const { error } = await supabase
         .from("purchases")
         .delete()

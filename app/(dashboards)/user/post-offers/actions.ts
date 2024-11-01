@@ -11,7 +11,7 @@ import XLSX from "xlsx";
 
 export async function postRoutes(data: Route[]) {
   let user = await fetchUser();
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const routes: any = await Promise.all(
     data.map(async (route: Route) => {
       return {

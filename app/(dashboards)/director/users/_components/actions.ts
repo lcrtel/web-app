@@ -3,7 +3,7 @@
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 
 export async function updateAccountDetails(user: any) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { error } = await supabase
     .from("profiles")
     .update({

@@ -18,7 +18,7 @@ export default function RoutesPage() {
 }
 
 async function Targets() {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const user = await getUser();
   if (!user) return null;
   const { data: targets } = await supabase
@@ -28,7 +28,7 @@ async function Targets() {
   return targets ? <TargetsTable data={targets} /> : <p>No targets</p>;
 }
 async function AddTargets() {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const user = await getUser();
   let { data: users } = await supabase
     .from("profiles")

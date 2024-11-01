@@ -24,7 +24,7 @@ import {
   SearchIcon,
   SearchX,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { JSX, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import updatePhoneCodes, { marketSearch } from "./actions";
 import { RatesTable } from "./rates-table";

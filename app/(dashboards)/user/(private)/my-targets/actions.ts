@@ -12,7 +12,7 @@ import XLSX from "xlsx";
 
 export async function postTargets(data: any) {
   const user = await fetchUserMetadata();
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const targetDetailsForExcel = data.map((route: Route) => {
     const { id, ...rest } = route;
     return rest;
@@ -63,7 +63,7 @@ function dec20Percent(rate: number) {
 
 export async function deleteTarget(routeId: string) {
   const user = await fetchUserMetadata();
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const { data: target, error } = await supabase
     .from("targets")
     .delete()
@@ -84,7 +84,7 @@ export async function updateTarget(oldTarget: Target, newTarget: any) {
   const updatedValues = getUpdatedValues(oldTarget, newTarget);
   if (updatedValues) {
     const user = await fetchUserMetadata();
-    const supabase = supabaseServer();
+    const supabase = await supabaseServer();
     await supabase.from("targets_history").insert([
       {
         pdd: oldTarget.pdd,

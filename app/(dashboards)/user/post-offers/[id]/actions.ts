@@ -7,7 +7,7 @@ import nodemailer from "nodemailer";
 import RouteOfferUpdatesEmail from "./RouteOfferUpdatesEmail";
 
 export async function updateRoute(oldRoute: Route, updatedRoute: Route) {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const { data: route, error }: any = await supabase
     .from("routes")
     .update({

@@ -3,7 +3,7 @@
 import { supabaseServer } from "@/lib/supabase-server";
 
 export default async function updatePhoneCodes(code: string) {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const { data: phoneCodes, error: error2 } = await supabase
     .from("phone_codes")
     .select("*");
@@ -28,7 +28,7 @@ export default async function updatePhoneCodes(code: string) {
 }
 
 export async function marketSearch(prefix: string, type: string) {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   let filter: any = {};
   if (type) {
     filter.route_type = type;

@@ -4,11 +4,10 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
+  SheetTrigger
 } from "@/components/ui/sheet";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -40,7 +39,7 @@ import { CalendarIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { HiX } from "react-icons/hi";
+import { addPayment } from "./actions";
 const paymentFormSchema = z.object({
   amount: z.string(),
   payment_method: z.string(),
@@ -48,7 +47,6 @@ const paymentFormSchema = z.object({
 });
 
 export function AddPayment({ invoice }: { invoice: Invoice }) {
-  const supabase = supabaseClient();
   const [isOpen, setIsOpen] = useState(false);
   const [calenderOpen, setCalenderOpen] = useState(false);
 
@@ -58,31 +56,11 @@ export function AddPayment({ invoice }: { invoice: Invoice }) {
 
   const router = useRouter();
   async function onSubmit(data: z.infer<typeof paymentFormSchema>) {
-    const { data: payment, error } = await supabase
-      .from("payments")
-      .insert([
-        {
-          amount: data.amount,
-          payment_method: data.payment_method,
-          paid_at: data.paid_at.toISOString(),
-          invoice_id: invoice.invoice_id,
-          user_id: invoice.invoice_to,
-        },
-      ])
-      .select("*")
-      .single();
-    if (error) {
-      toast.error(error.message);
+    const res = await addPayment(data, invoice);
+    if (res?.error) {
+      toast.error(res.error);
       return;
     }
-
-    const { data: inv } = await supabase
-      .from("invoices")
-      .update({
-        balance: (Number(invoice?.balance) - Number(data.amount)).toString(),
-      })
-      .eq("invoice_id", invoice.invoice_id);
-
     toast.success("Saved");
     setIsOpen(false);
     router.refresh();

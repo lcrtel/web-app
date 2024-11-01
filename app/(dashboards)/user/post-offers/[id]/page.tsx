@@ -10,7 +10,7 @@ import DeleteRoute from "../../(private)/my-routes/DeleteRoute";
 export const revalidate = 0;
 export default async function Page(props: { params: Promise<{ id: string }> }) {
     const params = await props.params;
-    const supabase = supabaseServer();
+    const supabase = await supabaseServer();
     let { data: route } = await supabase
         .from("routes")
         .select("*")

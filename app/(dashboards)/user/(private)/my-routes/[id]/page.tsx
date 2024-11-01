@@ -11,7 +11,7 @@ export const revalidate = 0;
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const user = await fetchUser();
 
   let { data: route } = await supabase

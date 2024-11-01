@@ -40,7 +40,7 @@ export default function MyTargetRates() {
 
 async function Targets() {
     unstable_noStore();
-    const supabase = supabaseServer();
+    const supabase = await supabaseServer();
     const user = await fetchUser();
     let { data: routes, error } = await supabase
         .from("targets")

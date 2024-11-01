@@ -28,7 +28,7 @@ const HomePage = async () => {
 export default HomePage;
 
 const HeroSection = async () => {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const { data: routes } = await supabase
     .from("routes")
     .select(

@@ -16,7 +16,7 @@ export default function page() {
 }
 
 async function BulkInvoice() {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   let { data: users } = await supabase
     .from("profiles")
     .select("*, user_roles!inner(*)")

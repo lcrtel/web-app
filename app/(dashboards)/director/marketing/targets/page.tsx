@@ -31,7 +31,7 @@ export default function RoutesMarketingPage() {
 }
 
 async function Marketing() {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   let { data: targets } = await supabase
     .from("targets")
     .select("*, profiles(name, company_name)");

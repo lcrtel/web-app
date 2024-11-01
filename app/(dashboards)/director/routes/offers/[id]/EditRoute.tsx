@@ -3,39 +3,39 @@
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-    Sheet,
-    SheetClose,
-    SheetContent,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
 } from "@/components/ui/sheet";
-import { supabaseClient } from "@/lib/supabase-client";
 import * as z from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { HiX } from "react-icons/hi";
+import { editRoute } from "./actions";
 const routeFormSchema = z.object({
   destination: z.string(),
   rate: z.string(),
@@ -49,7 +49,6 @@ const routeFormSchema = z.object({
   pdd: z.string(),
 });
 export function EditRoute({ route }: { route: Route }) {
-  const supabase = supabaseClient();
   const [isOpen, setIsOpen] = useState(false);
   const defaultValues = route;
   const form = useForm<Route>({
@@ -60,16 +59,9 @@ export function EditRoute({ route }: { route: Route }) {
 
   const router = useRouter();
   async function onSubmit(data: Route) {
-    const { data: target, error } = await supabase
-      .from("routes")
-      .update({
-        ...data,
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", route.id)
-      .select();
-    if (error) {
-      toast.error(error.message);
+    const res = await editRoute(data, route.id);
+    if (res?.error) {
+      toast.error(res.error);
       return;
     }
     toast.success("Route updated");

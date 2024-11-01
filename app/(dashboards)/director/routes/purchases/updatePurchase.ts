@@ -6,7 +6,7 @@ export async function updatePurchase(
   formData: PurchaseRequest,
   requestId: number,
 ) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { error } = await supabase
     .from("purchases")
     .update({

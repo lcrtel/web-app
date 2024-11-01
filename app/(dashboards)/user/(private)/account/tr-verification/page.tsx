@@ -32,7 +32,7 @@ export default async function Page() {
 }
 
 async function VerificationStatus() {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const { data } = await supabase
     .from("tr_verifications")
     .select("status")
@@ -49,7 +49,7 @@ async function VerificationStatus() {
   );
 }
 async function TRVerifications() {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const { data: trVerifications, error } = await supabase
     .from("tr_verifications")
     .select("*")

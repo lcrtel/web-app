@@ -1,37 +1,27 @@
 "use client";
 import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { supabaseClient } from "@/lib/supabase-client";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
+import { deleteTarget } from "./actions";
 
 export default function DeleteTarget({ targetId }: { targetId: string }) {
-  const supabase = supabaseClient();
   const router = useRouter();
-/*************  ✨ Codeium Command ⭐  *************/
-  /**
-   * Handles the deletion of the target.
-   * @async
-   * @function
-   */
-/******  57b25602-2bca-4e00-acda-e9192772b80b  *******/
+
   const handleDelete = async () => {
-    const { error } = await supabase
-      .from("targets")
-      .delete()
-      .eq("id", targetId);
-    if (error) {
-      toast.error(error.message);
+    const res = await deleteTarget(targetId);
+    if (res?.error) {
+      toast.error(res.error);
       return;
     }
     toast.success("Deleted target");

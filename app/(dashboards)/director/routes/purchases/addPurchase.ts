@@ -22,7 +22,7 @@ const routeFormSchema = z.object({
 
 type FormData = z.infer<typeof routeFormSchema>;
 export async function addPurchase(formData: FormData) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { data, error } = await supabase
     .from("purchases")
     .insert(formData)

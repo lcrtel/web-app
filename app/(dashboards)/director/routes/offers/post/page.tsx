@@ -33,7 +33,7 @@ export default function page() {
 }
 
 async function AddRoutes() {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   let { data: vendors } = await supabase
     .from("profiles")
     .select("*, user_roles!inner(*)")

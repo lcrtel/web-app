@@ -23,7 +23,7 @@ export default async function Page(
 ) {
   const searchParams = await props.searchParams;
   const params = await props.params;
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const user = await fetchUser();
   let { data: target } = await supabase
     .from("targets")
@@ -146,7 +146,7 @@ async function MatchingRouteOffers({
   target: any;
   userId: string;
 }) {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   let { data: matchingOffers } = await supabase
     .from("routes")
     .select("*")
@@ -169,7 +169,7 @@ async function MatchingRouteOffers({
   );
 }
 const SimilarTargets = async ({ target }: { target: any }) => {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   let { data: similarTargets } = await supabase
     .from("targets")
     .select("*")

@@ -29,7 +29,7 @@ export default function Departments() {
 }
 
 async function DepartmentsList() {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { data } = await supabase
     .from("departments")
     .select("*, executives(count)");

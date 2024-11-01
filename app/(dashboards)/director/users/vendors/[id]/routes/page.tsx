@@ -25,7 +25,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 }
 
 async function Routes({ userId }: { userId: any }) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   let { data: routes, error } = await supabase
     .from("routes")
     .select("*")

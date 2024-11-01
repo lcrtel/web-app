@@ -15,7 +15,7 @@ export default function RoutesPage() {
 }
 
 async function Routes() {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { data } = await supabase.from("routes").select("*, profiles(*)");
   return <RoutesTableReadOnlyAdmin data={data} />;
 }

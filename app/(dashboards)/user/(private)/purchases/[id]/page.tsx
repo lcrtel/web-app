@@ -4,7 +4,7 @@ import { HiOutlineArrowCircleLeft } from "react-icons/hi";
 export const revalidate = 0;
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   let { data: requests, error } = await supabase
     .from("purchases")
     .select(`*, routes (*)`)

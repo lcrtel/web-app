@@ -1,19 +1,19 @@
 "use client";
-import { supabaseClient } from "@/lib/supabase-client";
 import { useEffect, useState } from "react";
 import { useIdle } from "react-haiku";
 import toast from "react-hot-toast";
+import { updateDurationInDb } from "./duration-tracking/actions";
 const DurationTracker = () => {
   const [startTime, setStartTime] = useState(Date.now());
-  const supabase = supabaseClient();
   const idle = useIdle(20000);
   useEffect(() => {
     async function updateDuration(duration: number) {
       const durationInSeconds = Math.floor(duration / 1000);
       if (durationInSeconds > 0) {
-        const { error } = await supabase
-          .from("user_durations")
-          .insert({ duration: durationInSeconds });
+        const res = await updateDurationInDb(durationInSeconds);
+        if (res?.error) {
+          toast.error(res.error);
+        }
       }
     }
     if (idle) {

@@ -1,3 +1,4 @@
+import BackButton from "@/components/BackButton";
 import { buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
@@ -7,12 +8,11 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { HiOutlinePlusCircle } from "react-icons/hi";
 import { TargetsTable } from "./TargetsTable";
-import BackButton from "@/components/BackButton";
 
-export default function Page() {
-  const supabase = supabaseAdminServer();
+export default async function Page() {
+  const supabase = await supabaseAdminServer();
   return (
-    <div className=" space-y-2">
+    <div className="space-y-2">
       <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
         <BackButton />
         <Link href="/director" className="hover:underline">

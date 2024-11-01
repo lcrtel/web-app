@@ -17,12 +17,12 @@ export default function RoutesPage() {
 }
 
 async function Targets() {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { data } = await supabase.from("targets").select("*, profiles(*)");
   return <TargetsTable data={data} />;
 }
 async function AddTargets() {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   let { data: users } = await supabase
     .from("profiles")
     .select("*, user_roles!inner(*)")

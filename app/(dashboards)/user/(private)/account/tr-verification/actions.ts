@@ -10,7 +10,7 @@ const trSchema = z.object({
 });
 export async function submitTRVerificationForm(data: z.infer<typeof trSchema>) {
   const { name, company_name, website, email } = data;
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const { error } = await supabase.from("tr_verifications").insert({
     company_email: email,
     company_name,
@@ -24,7 +24,7 @@ export async function submitTRVerificationForm(data: z.infer<typeof trSchema>) {
 }
 
 export async function getTRVerificationStatus() {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const { data } = await supabase
     .from("tr_verifications")
     .select("status")

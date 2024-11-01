@@ -5,7 +5,7 @@ import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { calculateNewRate } from "@/utils/rateHikes";
 
 export async function insertRoutesInDb(newRoutes: Route[]) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const routes: any = await Promise.all(
     newRoutes.map(async (route: Route) => {
       return {
@@ -34,7 +34,7 @@ export async function insertRoutesInDb(newRoutes: Route[]) {
 }
 
 async function updateRouteInDb(oldRouteId: string, updatedRoute: Route) {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const { data: route, error } = await supabase
     .from("routes")
     .update({ ...updatedRoute, updated_at: new Date().toISOString() })
@@ -72,7 +72,7 @@ async function updateRouteInDb(oldRouteId: string, updatedRoute: Route) {
 // }
 
 export async function deleteRoute(routeId: string) {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const { error } = await supabase.from("routes").delete().eq("id", routeId);
   return { error };
 }

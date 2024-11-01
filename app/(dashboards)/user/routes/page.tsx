@@ -68,7 +68,7 @@ async function Routes({
   if (searchParams.prefix) {
     filter.destination_code = searchParams.prefix;
   }
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   let query = supabase
     .from("routes")
     .select("*")
@@ -100,7 +100,7 @@ async function Routes({
 }
 
 async function RoutesMatchingTheTargetDestination() {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   let { data: matchedResults, error } = await supabase.rpc(
     "match_all_routes_targets",
   );

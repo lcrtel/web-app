@@ -36,7 +36,7 @@ export default function DashboardPage() {
   );
 }
 const Routes = async () => {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   let { data: offers, error } = await supabase
     .from("routes")
     .select("verification")
@@ -49,7 +49,7 @@ const Routes = async () => {
 };
 
 const Targets = async () => {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
 
   unstable_noStore();
   let { data: targets, error } = await supabase.from("targets").select("id");
@@ -61,7 +61,7 @@ const Targets = async () => {
 };
 
 const Clients = async () => {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   let { data: clients } = await supabase
     .from("profiles")
     .select("*, user_roles!inner(*)")
@@ -75,7 +75,7 @@ const Clients = async () => {
 };
 
 const Executives = async () => {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
     const { data } = await supabase
       .from("executives")
       .select("profiles(*), departments!inner (slug)")

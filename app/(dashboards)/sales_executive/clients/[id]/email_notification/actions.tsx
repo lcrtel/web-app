@@ -8,7 +8,7 @@ import { transporter } from "@/utils/smtp-transporter";
 import { renderAsync } from "@react-email/render";
 
 export async function sendLowBalanceNotification(data: any) {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const emailHtml = await renderAsync(
     <EmailTemplate body={data.body} subject={data.subject} />,
   );
@@ -32,7 +32,7 @@ export async function sendLowBalanceNotification(data: any) {
 }
 
 export async function sendPaymentReminder(data: any) {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const emailHtml = await renderAsync(
     <EmailTemplate body={data.body} subject={data.subject} />,
   );
@@ -55,7 +55,7 @@ export async function sendPaymentReminder(data: any) {
   }
 }
 export async function sendRateNotification(data: any) {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const emailHtml = await renderAsync(<RateNotificationTemplate data={data} />);
 
   try {
@@ -76,7 +76,7 @@ export async function sendRateNotification(data: any) {
   }
 }
 export async function sendGatewayAccountDetails(data: any) {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const emailHtml = await renderAsync(
     <GatewayAccountDetailsTemplate data={data} />,
   );

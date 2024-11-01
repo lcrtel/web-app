@@ -22,7 +22,7 @@ export default async function Page(props: { params: Promise<{ id: any }> }) {
 
 const VendorDetails = async ({ id }: { id: string }) => {
   unstable_noStore();
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   let { data: user, error } = await supabase
     .from("profiles")
     .select("*")

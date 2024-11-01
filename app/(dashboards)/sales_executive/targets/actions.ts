@@ -6,7 +6,7 @@ import { calculateNewRate } from "@/utils/rateHikes";
 import { getUser } from "@/utils/user";
 
 export async function postTargetsAsExecutive(data: Target[]) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const user = await getUser();
   const targets: any = await Promise.all(
     data.map(async (target: Target) => {
@@ -39,7 +39,7 @@ export async function postTargetsAsExecutive(data: Target[]) {
     action_type: "target_created",
     action_details: JSON.stringify(target),
   }));
-  const supabaseClient = supabaseServer();
+  const supabaseClient = await supabaseServer();
   if (actions) {
     const { error } = await supabaseClient.from("user_actions").insert(actions);
     if (error) {

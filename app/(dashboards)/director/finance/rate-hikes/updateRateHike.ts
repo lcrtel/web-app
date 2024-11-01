@@ -12,7 +12,7 @@ export async function updateRateHike(
   id: number,
   formData: z.infer<typeof RateHikeSchema>,
 ) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
 
   const { error } = await supabase
     .from("rate_hikes")

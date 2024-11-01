@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   redirectTo.pathname = next;
 
   if (token_hash && type) {
-    const supabase = supabaseServer();
+    const supabase = await supabaseServer();
 
     const { error } = await supabase.auth.verifyOtp({
       type,

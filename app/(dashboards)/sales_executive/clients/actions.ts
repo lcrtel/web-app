@@ -8,13 +8,13 @@ import { transporter } from "@/utils/smtp-transporter";
 import { renderAsync } from "@react-email/render";
 
 export async function deleteAccount(user: any) {
-  const supabaseAdmin = supabaseAdminServer();
+  const supabaseAdmin = await supabaseAdminServer();
   const { error } = await supabaseAdmin.auth.admin.deleteUser(user.id);
 
   if (error) {
     return { error: error.message };
   }
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   await supabase.from("user_actions").insert({
     action_type: "delete_client",
     action_details: `Deleted ${user.name}'s account`,
@@ -28,7 +28,7 @@ export async function deleteAccount(user: any) {
 }
 
 export async function updateCredentials(user: any) {
-  const supabaseAdmin = supabaseAdminServer();
+  const supabaseAdmin = await supabaseAdminServer();
   const { error } = await supabaseAdmin.auth.admin.updateUserById(user.id, {
     email: user.email,
     password: user.password,
@@ -36,7 +36,7 @@ export async function updateCredentials(user: any) {
   if (error) {
     return { error: error.message };
   }
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   await supabase.from("user_actions").insert({
     action_type: "updated_client",
     action_details: `Updated ${user.name}'s login credentials `,
@@ -50,7 +50,7 @@ export async function updateCredentials(user: any) {
 }
 
 export async function updateAccountDetails(user: any) {
-  const supabaseAdmin = supabaseAdminServer();
+  const supabaseAdmin = await supabaseAdminServer();
   const { error } = await supabaseAdmin
     .from("profiles")
     .update({
@@ -66,7 +66,7 @@ export async function updateAccountDetails(user: any) {
   if (error) {
     return { error: error.message };
   }
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   await supabase.from("user_actions").insert({
     action_type: "updated_client",
     action_details: `Updated ${user.name}'s profile`,
@@ -75,7 +75,7 @@ export async function updateAccountDetails(user: any) {
 }
 
 export async function addAccount(formData: any, userType: UserTypesEnum) {
-  const supabaseAdmin = supabaseAdminServer();
+  const supabaseAdmin = await supabaseAdminServer();
   const {
     data: { user },
     error,
@@ -100,7 +100,7 @@ export async function addAccount(formData: any, userType: UserTypesEnum) {
       .update({ user_type: userType })
       .eq("id", user?.id);
   }
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   await supabase.from("user_actions").insert({
     action_type: "created_client",
     action_details: `Created ${formData.name}'s account`,
@@ -114,8 +114,8 @@ export async function addAccount(formData: any, userType: UserTypesEnum) {
 }
 
 export async function updateFinanceDipartment(data: any) {
-  const supabaseAdmin = supabaseAdminServer();
-  const supabase = supabaseServer();
+  const supabaseAdmin = await supabaseAdminServer();
+  const supabase = await supabaseServer();
   await supabase.from("user_actions").insert({
     action_type: "updated_client",
     action_details: `Updated client's finance department`,
@@ -127,8 +127,8 @@ export async function updateFinanceDipartment(data: any) {
 }
 
 export async function updateNOCDipartment(data: any) {
-  const supabaseAdmin = supabaseAdminServer();
-  const supabase = supabaseServer();
+  const supabaseAdmin = await supabaseAdminServer();
+  const supabase = await supabaseServer();
   await supabase.from("user_actions").insert({
     action_type: "updated_client",
     action_details: `Updated client's NOC department`,
@@ -140,8 +140,8 @@ export async function updateNOCDipartment(data: any) {
 }
 
 export async function updateSalesDipartment(data: any) {
-  const supabaseAdmin = supabaseAdminServer();
-  const supabase = supabaseServer();
+  const supabaseAdmin = await supabaseAdminServer();
+  const supabase = await supabaseServer();
   await supabase.from("user_actions").insert({
     action_type: "updated_client",
     action_details: `Updated client's sales department`,

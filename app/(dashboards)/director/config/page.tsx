@@ -27,7 +27,7 @@ export default function Page() {
 }
 
 async function PaymentMethods() {
-    const supabase = supabaseServer();
+    const supabase = await supabaseServer();
 
     let { data: payment_methods, error } = await supabase
         .from("config")

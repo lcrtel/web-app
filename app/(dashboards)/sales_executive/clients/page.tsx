@@ -37,7 +37,7 @@ export default function Page() {
 }
 
 const Clients = async () => {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const user = await getUser();
   if (!user) return null;
   let { data: clients } = await supabase

@@ -28,7 +28,7 @@ export default async function ExecutivesList({
 }: {
   department: Department;
 }) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { data: executives } = await supabase
     .from("executives")
     .select("profiles(*), departments!inner (slug)")
@@ -126,7 +126,7 @@ export default async function ExecutivesList({
 }
 
 async function TimeSpent({ department }: { department: Department }) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { data: executivesWithDurations, error } = await supabase
     .from("executive_durations")
     .select("*")
@@ -156,7 +156,7 @@ async function TimeSpent({ department }: { department: Department }) {
   );
 }
 async function ActionsDone({ department }: { department: Department }) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { data: executiveActionCounts, error } = await supabase
     .from("executive_action_counts")
     .select("*")

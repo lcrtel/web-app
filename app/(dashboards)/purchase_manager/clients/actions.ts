@@ -18,7 +18,7 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function deleteAccount(user: any) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { error } = await supabase.auth.admin.deleteUser(user.id);
 
   if (error) {
@@ -33,7 +33,7 @@ export async function deleteAccount(user: any) {
 }
 
 export async function updateCredentials(user: any) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { error } = await supabase.auth.admin.updateUserById(user.id, {
     email: user.email,
     password: user.password,
@@ -50,7 +50,7 @@ export async function updateCredentials(user: any) {
 }
 
 export async function updateAccountDetails(user: any) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { error } = await supabase
     .from("profiles")
     .update({
@@ -70,7 +70,7 @@ export async function updateAccountDetails(user: any) {
 }
 
 export async function addAccount(formData: any, userType: UserTypesEnum) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const {
     data: { user },
     error,
@@ -104,7 +104,7 @@ export async function addAccount(formData: any, userType: UserTypesEnum) {
 }
 
 export async function updateFinanceDipartment(data: any) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   return await supabase
     .from("profiles")
     .update({ finance_department: data.finance_department })
@@ -112,7 +112,7 @@ export async function updateFinanceDipartment(data: any) {
 }
 
 export async function updateNOCDipartment(data: any) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   return await supabase
     .from("profiles")
     .update({ noc_department: data.noc_department })
@@ -120,7 +120,7 @@ export async function updateNOCDipartment(data: any) {
 }
 
 export async function updateSalesDipartment(data: any) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   return await supabase
     .from("profiles")
     .update({ sales_department: data.sales_department })
@@ -128,7 +128,7 @@ export async function updateSalesDipartment(data: any) {
 }
 
 export async function getAgents() {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const { data: agents } = await supabase
     .from("profiles")
     .select("*")

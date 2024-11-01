@@ -73,7 +73,7 @@ export default async function SettingsLayout(props: SettingsLayoutProps) {
 }
 
 async function VendorDetails({ userId }: { userId: any }) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
 
   let { data: vendor, error } = await supabase
     .from("profiles")

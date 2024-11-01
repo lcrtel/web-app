@@ -35,7 +35,7 @@ export default async function Page(
 ) {
   const searchParams = await props.searchParams;
   const params = await props.params;
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const user = await fetchUser();
   let { data: route } = await supabase
     .from("routes")
@@ -290,7 +290,7 @@ export default async function Page(
 }
 
 const SimilarRoutes = async ({ route }: { route: any }) => {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   let { data: similarRoutes } = await supabase
     .from("routes")
     .select("*")

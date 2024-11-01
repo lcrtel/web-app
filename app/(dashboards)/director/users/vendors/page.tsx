@@ -35,7 +35,7 @@ export default function Page() {
 }
 const Vendors = async () => {
   unstable_noStore();
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   let { data: vendors, error } = await supabase
     .from("profiles")
     .select("*, user_roles!inner(*)")

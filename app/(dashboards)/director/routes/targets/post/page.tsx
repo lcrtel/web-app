@@ -4,7 +4,7 @@ import Link from "next/link";
 import { AddRouteTable } from "./AddTargets";
 
 const page = async () => {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   let { data: clients } = await supabase
     .from("profiles")
     .select("*, user_roles!inner(*)")

@@ -22,7 +22,7 @@ export async function addTR(data: z.infer<typeof trSchema>) {
     status,
     user: user_id,
   } = data;
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { error } = await supabase.from("tr_verifications").insert({
     user_id,
     company_email,

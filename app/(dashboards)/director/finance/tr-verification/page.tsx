@@ -49,7 +49,7 @@ export default function TRVerification() {
 }
 
 async function AddTRButton() {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   let { data: users } = await supabase
     .from("profiles")
     .select("*, user_roles!inner(*)")
@@ -57,7 +57,7 @@ async function AddTRButton() {
   return users && <AddTRSheet users={users} />;
 }
 async function PendingVerification() {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { data } = await supabase
     .from("tr_verifications")
     .select("*, profiles(*)")
@@ -67,7 +67,7 @@ async function PendingVerification() {
 }
 
 async function Verified() {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { data } = await supabase
     .from("tr_verifications")
     .select("*, profiles(*)")
@@ -76,7 +76,7 @@ async function Verified() {
   return <TRTable data={data} />;
 }
 async function Declined() {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { data } = await supabase
     .from("tr_verifications")
     .select("*, profiles(*)")

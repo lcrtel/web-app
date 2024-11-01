@@ -39,7 +39,7 @@ export default function MyRouteOffers() {
 
 async function RouteOffers() {
     unstable_noStore();
-    const supabase = supabaseServer();
+    const supabase = await supabaseServer();
     const user = await fetchUser();
     if (user) {
         let { data: routes, error } = await supabase

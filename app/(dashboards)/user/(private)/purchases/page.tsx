@@ -26,7 +26,7 @@ export default function PurchaseRequests() {
 }
 
 async function Requests() {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   let { data: purchases } = await supabase
     .from("purchases")
     .select(`*, routes (*)`);

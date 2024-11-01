@@ -10,7 +10,7 @@ import { User } from "@supabase/supabase-js";
 import XLSX from "xlsx";
 
 export async function postRouteOffer(route: Route) {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const { error } = await supabase.from("routes").insert({
     destination: route.destination,
     destination_code: route.destination_code,

@@ -42,7 +42,7 @@ export function DropDownMenu({ className, items, ...props }: SidebarNavProps) {
                             initial={{ opacity: 0, y: "-10%" }}
                             animate={{ opacity: 1, y: "0%" }}
                             exit={{ opacity: 0, y: "-10%" }}
-                            onClick={(event) => setIsMenuOpen(false)}
+                            onClick={(event:any) => setIsMenuOpen(false)}
                         >
                             {items.map((item) => (
                                 <Link

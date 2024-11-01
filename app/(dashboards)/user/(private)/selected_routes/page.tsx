@@ -19,7 +19,7 @@ export default function Page() {
 
 async function SelectedRoutes() {
   unstable_noStore();
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const user = await fetchUser();
 
   const { data: selectedRoutes } = await supabase

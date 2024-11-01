@@ -41,7 +41,7 @@ export default function RateHikesPage() {
 }
 
 async function RateHikesList() {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { data: rateHikes } = await supabase
     .from("rate_hikes")
     .select("*, phone_codes(*)");

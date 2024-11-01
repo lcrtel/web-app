@@ -14,7 +14,7 @@ export default async function TRDetailsPage(
   }
 ) {
   const params = await props.params;
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { data: details } = await supabase
     .from("tr_verifications")
     .select("*")
@@ -101,7 +101,7 @@ async function TRInquiry({
   trId: number;
   email: string | null;
 }) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { data: trMessages } = await supabase
     .from("tr_communication")
     .select("*")

@@ -54,7 +54,7 @@ async function TargetRates({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const user = await fetchUser();
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   let filter: any = {};
   if (searchParams.route_type) {
     filter.route_type = searchParams.route_type;
@@ -85,7 +85,7 @@ async function TargetRates({
   );
 }
 async function RoutesMatchingTheTargetDestination() {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   let { data: matchedResults, error } = await supabase.rpc(
     "match_all_targets_with_routes",
   );

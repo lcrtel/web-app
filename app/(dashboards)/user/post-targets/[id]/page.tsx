@@ -52,7 +52,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 }
 
 async function TargetDetails({ id }: { id: string }) {
-    const supabase = supabaseServer();
+    const supabase = await supabaseServer();
     let { data: target } = await supabase
         .from("targets")
         .select("*")

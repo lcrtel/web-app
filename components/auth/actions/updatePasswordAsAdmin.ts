@@ -6,7 +6,7 @@ import { transporter } from "@/utils/smtp-transporter";
 import { renderAsync } from "@react-email/render";
 
 export async function updatePasswordAsAdmin(user: any) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { error } = await supabase.auth.admin.updateUserById(user.id, {
     email: user.email,
     password: user.password,

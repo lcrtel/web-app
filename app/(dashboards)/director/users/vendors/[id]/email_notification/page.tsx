@@ -18,7 +18,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 }
 
 async function Notifications({ userId }: { userId: string }) {
-    const supabase = supabaseAdminServer();
+    const supabase = await supabaseAdminServer();
 
     let { data: vendor } = await supabase
         .from("profiles")

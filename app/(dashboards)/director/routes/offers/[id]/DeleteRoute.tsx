@@ -14,19 +14,15 @@ import { supabaseClient } from "@/lib/supabase-client";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
+import { deleteRoute } from "./actions";
 
 export default function DeleteRoute({ routeID }: { routeID: any }) {
     const supabase = supabaseClient();
     const router = useRouter();
     const handleDelete = async () => {
-        const { error } = await supabase
-            .from("routes")
-            .delete()
-            .eq("id", routeID);
-        if (error) {
-            error.code === "23502"
-                ? toast.error("Can't Delete when there is active gateways")
-                : toast.error(error.message);
+        const res = await deleteRoute(routeID);
+        if (res?.error) {
+            toast.error(res.error);
             return;
         }
         toast.success("Deleted route");

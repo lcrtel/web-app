@@ -27,7 +27,7 @@ export default async function RequestsPage(props: { params: Promise<{ id: string
 }
 
 async function Requests({ userId }: { userId: string }) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   let { data: request, error } = await supabase
     .from("targets")
     .select("*")

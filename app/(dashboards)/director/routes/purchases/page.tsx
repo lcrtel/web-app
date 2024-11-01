@@ -59,7 +59,7 @@ export default function PurchaseRequestsPage() {
 }
 
 async function AddPurchaseRequestButton() {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   let { data: users } = await supabase
     .from("profiles")
     .select("*, user_roles!inner(*)")
@@ -73,7 +73,7 @@ async function AddPurchaseRequestButton() {
   );
 }
 async function PurchaseRequestsTable() {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   let { data: requests } = await supabase
     .from("purchases")
     .select(`*, routes (*), profiles (*)`);

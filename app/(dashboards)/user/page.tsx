@@ -8,7 +8,7 @@ import { HiOutlineExternalLink } from "react-icons/hi";
 
 export default async function Dashboard() {
   const user = await getUser();
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   return (
     <main className="flex flex-col gap-5">
       <h3 className="text-primary text-2xl font-bold tracking-tight">

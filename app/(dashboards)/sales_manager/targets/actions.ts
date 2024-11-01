@@ -4,7 +4,7 @@ import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { calculateNewRate } from "@/utils/rateHikes";
 
 export async function postTargetsAsManager(data: Target[]) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const targets: any = await Promise.all(
     data.map(async (route: Target) => {
       return {

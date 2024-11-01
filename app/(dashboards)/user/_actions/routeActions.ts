@@ -6,7 +6,7 @@ import { renderAsync } from "@react-email/render";
 import RouteOfferUpdatesEmail from "../post-offers/[id]/RouteOfferUpdatesEmail";
 
 async function updateRouteInDb(oldRouteId: string, updatedRoute: Route) {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const { data: route, error } = await supabase
     .from("routes")
     .update({ ...updatedRoute, updated_at: new Date().toISOString() })
@@ -45,7 +45,7 @@ export async function sendUpdateEmail(
 }
 
 export async function deleteRoute(routeId: string) {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const { error } = await supabase.from("routes").delete().eq("id", routeId);
   return { error };
 }

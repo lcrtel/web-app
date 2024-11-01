@@ -1,7 +1,7 @@
 "use server";
 import { supabaseServer } from "@/lib/supabase-server";
 export async function fetchUserRole() {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const { data: {user} } = await supabase.auth.getUser();
   if (user) {
     const { data, error } = await supabase
@@ -17,7 +17,7 @@ export async function fetchUserRole() {
 }
 
 export async function fetchUserMetadata() {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -26,12 +26,12 @@ export async function fetchUserMetadata() {
   }
 }
 export async function getUser() {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const { data: user } = await supabase.from("profiles").select("*, user_roles(*)").single();
   return user;
 }
 export async function fetchUser() {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -40,7 +40,7 @@ export async function fetchUser() {
   }
 }
 export async function checkIsUserAnonymous() {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const {
     data: { user },
   } = await supabase.auth.getUser();

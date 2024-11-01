@@ -32,7 +32,7 @@ export default function RoutesMarketingPage() {
 }
 
 async function Marketing() {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const routes = await fetchVerfiedRoutes();
   let clients: Profile[] = [];
   let { data } = await supabase

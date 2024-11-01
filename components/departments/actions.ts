@@ -14,7 +14,7 @@ export async function createDepartmentManager(
   manager: UserProps,
   department: Department,
 ) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const {
     data: { user },
     error,
@@ -68,7 +68,7 @@ export async function createDepartmentExecutive(
   executive: UserProps,
   department: Department,
 ) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const {
     data: { user },
     error,
@@ -113,7 +113,7 @@ export async function createDepartmentExecutive(
 }
 
 export async function deleteDepartmentExecutiveOrManager(executiveId: string) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { error } = await supabase.auth.admin.deleteUser(executiveId);
   if (error) {
     return { error: error.message };

@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 export default async function resetPassword(
   email: string,
 ): Promise<{ error?: string } | null> {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
 
   const { error } = await supabase.auth.resetPasswordForEmail(email);
 

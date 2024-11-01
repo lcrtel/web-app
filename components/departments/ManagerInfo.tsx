@@ -21,7 +21,7 @@ export default async function ManagerInfo({
 }: {
   department: Department;
 }) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { data: manager } = await supabase
     .from("managers")
     .select("profiles(*), departments!inner (slug)")

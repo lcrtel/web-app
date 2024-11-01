@@ -4,12 +4,12 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import * as React from "react";
 
-import DeleteTarget from "@/components/routes-and-targets/DeleteTarget";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DataTable } from "@/components/ui/data-table";
 import { format } from "date-fns";
 import Link from "next/link";
 import { HiOutlineExternalLink } from "react-icons/hi";
+import DeleteTarget from "@/components/routes-and-targets/DeleteTarget";
 
 export const columns: ColumnDef<Route>[] = [
   {

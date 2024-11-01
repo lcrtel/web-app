@@ -10,7 +10,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { supabaseClient } from "@/lib/supabase-client";
 import * as z from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,6 +35,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { HiX } from "react-icons/hi";
+import { editTarget } from "./actions";
 const routeFormSchema = z.object({
   acd: z.string().optional(),
   asr: z.string().optional(),
@@ -48,7 +48,6 @@ const routeFormSchema = z.object({
   route_type: z.string(),
 });
 export function EditRouteRequest({ route_request }: { route_request: Target }) {
-  const supabase = supabaseClient();
   const [isOpen, setIsOpen] = useState(false);
   const defaultValues = route_request;
   const form = useForm<Target>({
@@ -59,19 +58,13 @@ export function EditRouteRequest({ route_request }: { route_request: Target }) {
 
   const router = useRouter();
   async function onSubmit(data: Target) {
-    const { error } = await supabase
-      .from("targets")
-      .update({
-        ...data,
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", route_request.id)
-      .select();
-    if (error) {
-      toast.error(error.message);
+    const res = await editTarget(data, route_request.id);
+
+    if (res?.error) {
+      toast.error(res.error);
       return;
     }
-    toast.success("Route request updated");
+    toast.success("Target updated");
     setIsOpen(false);
     router.refresh();
   }

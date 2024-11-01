@@ -10,7 +10,7 @@ const RateHikeSchema = z.object({
 });
 
 export async function createRateHike(formData: z.infer<typeof RateHikeSchema>) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
 
   const { error } = await supabase.from("rate_hikes").insert({
     decrease_percentage: formData.decreasePercentage,

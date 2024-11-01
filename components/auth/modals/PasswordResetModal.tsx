@@ -55,7 +55,6 @@ const passwordFormSchema = z
   );
 
 export function PasswordResetModal() {
-  const supabase = supabaseClient();
   const searchParams = useSearchParams();
   const router = useRouter();
   const password_reset = searchParams.get("update_password");
@@ -64,6 +63,7 @@ export function PasswordResetModal() {
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
   useEffect(() => {
     const checkSession = async () => {
+      const supabase = await supabaseClient();
       const {
         data: { session },
       } = await supabase.auth.getSession();
@@ -74,7 +74,7 @@ export function PasswordResetModal() {
     };
 
     checkSession();
-  }, [supabase, password_reset, router]);
+  }, [password_reset, router]);
   const form = useForm<z.infer<typeof passwordFormSchema>>({
     resolver: zodResolver(passwordFormSchema),
     mode: "onChange",

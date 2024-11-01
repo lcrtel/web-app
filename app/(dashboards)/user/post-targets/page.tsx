@@ -33,7 +33,7 @@ async function RouteOffers({
   route_type: string;
 }) {
   const user = await fetchUser();
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   let query = supabase
     .from("routes")
     .select("*")

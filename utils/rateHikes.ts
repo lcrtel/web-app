@@ -13,7 +13,7 @@ export async function dec20Percent(rate: number) {
   return result.toFixed(5);
 }
 export async function getRateHike(destinationCode: number) {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const { data, error } = await supabase
     .from("rate_hikes")
     .select("increase_percentage, decrease_percentage")

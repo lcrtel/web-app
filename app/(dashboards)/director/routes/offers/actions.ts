@@ -4,7 +4,7 @@ import { supabaseServer } from "@/lib/supabase-server";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 
 export async function fetchUnVerfiedRoutes() {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { data: routes, error } = await supabase
     .from("routes")
     .select(`*, profiles (name, company_name)`)
@@ -31,7 +31,7 @@ export async function fetchUnVerfiedRoutes() {
 }
 
 export async function fetchVerfiedRoutes() {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { data: routes, error } = await supabase
     .from("routes")
     .select(`*, profiles (name, company_name)`);
@@ -57,6 +57,6 @@ export async function fetchVerfiedRoutes() {
 }
 
 export async function deleteRoutes(ids: string[]) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   return await supabase.from("routes").delete().in("id", ids);
 }

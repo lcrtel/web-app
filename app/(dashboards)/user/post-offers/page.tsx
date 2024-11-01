@@ -35,7 +35,7 @@ async function TargetRates({
 }) {
   unstable_noStore();
   const user = await fetchUser();
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   let query = supabase.from("targets").select("*");
   let filter: any = {};
   if (route_type || prefix) {

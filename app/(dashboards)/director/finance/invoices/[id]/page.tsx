@@ -15,7 +15,7 @@ export const revalidate = 0;
 
 const page = async (props: { params: Promise<{ id: string }> }) => {
   const params = await props.params;
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
 
   const { data: invoice } = await supabase
     .from("invoices")

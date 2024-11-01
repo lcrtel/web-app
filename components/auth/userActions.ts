@@ -20,7 +20,7 @@ interface userProps {
   sales_department?: Department;
 }
 export async function updateUserAsAdmin(userId: string, formData: userProps) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { error } = await supabase
     .from("profiles")
     .update(formData)
@@ -28,7 +28,7 @@ export async function updateUserAsAdmin(userId: string, formData: userProps) {
   return { error: error?.message || null };
 }
 export async function updateUser(userId: string, formData: userProps) {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const { error } = await supabase
     .from("profiles")
     .update(formData)
@@ -41,13 +41,13 @@ export async function updateUser(userId: string, formData: userProps) {
 }
 
 export async function signOut() {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const { error } = await supabase.auth.signOut();
   return { error: error?.message };
 }
 
 export async function changeEmail(email: string) {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const { error } = await supabase.auth.updateUser({
     email: email,
   });

@@ -23,7 +23,7 @@ import { EditPurchaseRequest } from "../../purchases/EditPurchaseRequest";
 export const revalidate = 0;
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   let { data: route } = await supabase
     .from("routes")
     .select(`*, profiles (name)`)

@@ -3,7 +3,7 @@
 import { supabaseServer } from "@/lib/supabase-server";
 
 export default async function signInWithOtp(email: string) {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
   const { error } = await supabase.auth.signInWithOtp({
     email: email,
   });

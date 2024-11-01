@@ -17,7 +17,7 @@ export async function sendTREnquiry(
   trId: number,
   formData: z.infer<typeof formSchema>,
 ) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { data: trMessages } = await supabase
     .from("tr_communication")
     .select("*")
@@ -46,7 +46,7 @@ export async function sendTREnquiry(
 }
 
 export async function updateStatus(trId: number, status: StatusEnum) {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   const { error } = await supabase
     .from("tr_verifications")
     .update({

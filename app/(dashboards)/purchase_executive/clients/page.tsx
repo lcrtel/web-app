@@ -36,7 +36,7 @@ export default function Page() {
 }
 
 const Clients = async () => {
-  const supabase = supabaseAdminServer();
+  const supabase = await supabaseAdminServer();
   let { data: clients } = await supabase
     .from("profiles")
     .select("*, user_roles!inner(*)")

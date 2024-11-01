@@ -26,7 +26,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { deleteTargets } from "./actions";
-import DeleteRoute from "./DeleteRoute";
+import DeleteTarget from "./DeleteTarget";
 
 export const columns: ColumnDef<Route>[] = [
   {
@@ -160,7 +160,7 @@ export const columns: ColumnDef<Route>[] = [
       return (
         <div className="flex items-center justify-end gap-2">
           <div className="text-red-500">
-            <DeleteRoute routeID={id as string} />
+            <DeleteTarget routeID={id as string} />
           </div>{" "}
           <Link href={`/director/routes/targets/${id}`} className="">
             <HiOutlineExternalLink className="h-5 w-5" />

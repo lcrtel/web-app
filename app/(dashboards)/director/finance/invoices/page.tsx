@@ -9,8 +9,8 @@ import { HiOutlinePlusCircle } from "react-icons/hi";
 import { CreateInvoice } from "./CreateInvoice";
 import { InvoiceTable } from "./InvoiceTable";
 
-export default function InvoicesPage() {
-  const supabase = supabaseAdminServer();
+export default async function InvoicesPage() {
+  const supabase = await supabaseAdminServer();
 
   return (
     <div className=" ">

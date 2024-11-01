@@ -2,13 +2,12 @@ import Loader from "@/components/Loader";
 import { Separator } from "@/components/ui/separator";
 import { supabaseServer } from "@/lib/supabase-server";
 import formatTimestamptz from "@/utils/formatTimestamptz";
-import { fetchUser } from "@/utils/user";
+import { getUser } from "@/utils/user";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { HiOutlineArrowCircleLeft, HiOutlinePencilAlt } from "react-icons/hi";
 import { RoutesTable } from "./routes-table";
-export const revalidate = 0;
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
@@ -36,7 +35,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 
 async function TargetDetails({ id }: { id: string }) {
   const supabase = await supabaseServer();
-  const user = await fetchUser();
+  const user = await getUser();
   let { data: target } = await supabase
     .from("targets")
     .select("*")

@@ -5,14 +5,14 @@ import { redirect } from "next/navigation";
 import { HiOutlineArrowCircleLeft, HiOutlinePencilAlt } from "react-icons/hi";
 
 import formatString from "@/utils/formatString";
-import { fetchUser } from "@/utils/user";
+import { getUser } from "@/utils/user";
 
 export const revalidate = 0;
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const supabase = await supabaseServer();
-  const user = await fetchUser();
+  const user = await getUser();
 
   let { data: route } = await supabase
     .from("routes")

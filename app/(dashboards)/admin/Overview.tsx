@@ -1,7 +1,6 @@
 import MetricsCard from "@/components/MetricsCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
-import { unstable_noStore } from "next/cache";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -50,7 +49,6 @@ const Routes = async () => {
 
 const Targets = async () => {
   const supabase = await supabaseAdminServer();
-  unstable_noStore();
   let { data: targets, error } = await supabase.from("targets").select("id");
   return (
     <Link href="/admin/routes/targets">

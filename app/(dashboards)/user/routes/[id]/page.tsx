@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { supabaseServer } from "@/lib/supabase-server";
 import formatTimestamptz from "@/utils/formatTimestamptz";
-import { fetchUser } from "@/utils/user";
+import { getUser } from "@/utils/user";
 import { format } from "date-fns";
 import {
   AlertCircle,
@@ -18,7 +18,7 @@ import {
   BadgeDollarSign,
   Calendar,
   CheckCircle2,
-  Router
+  Router,
 } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -27,16 +27,14 @@ import { getTRVerificationStatus } from "../../(private)/account/tr-verification
 import PurchaseForm from "./_components/PurchaseForm";
 import { RateHistoryChart } from "./_components/RateHistoryChart";
 
-export default async function Page(
-  props: {
-    params: Promise<{ id: string }>;
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-  }
-) {
+export default async function Page(props: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const searchParams = await props.searchParams;
   const params = await props.params;
   const supabase = await supabaseServer();
-  const user = await fetchUser();
+  const user = await getUser();
   let { data: route } = await supabase
     .from("routes")
     .select("*")

@@ -26,13 +26,9 @@ const bankDetailsSchema = z.object({
     IFSCCode: z.string(),
 });
 
-export function PaymentsForm({ user }: { user: any }) {
-    const userID = user?.id;
-    const defaultValues = user.user_metadata.payment_method;
-    const router = useRouter();
+export function PaymentsForm({ user }: { user: Profile }) {
     const form = useForm<any>({
         resolver: zodResolver(bankDetailsSchema),
-        defaultValues,
         mode: "onChange",
     });
 

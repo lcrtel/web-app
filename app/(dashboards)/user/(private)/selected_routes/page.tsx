@@ -1,6 +1,6 @@
 import Loader from "@/components/Loader";
 import { supabaseServer } from "@/lib/supabase-server";
-import { fetchUser } from "@/utils/user";
+import { getUser } from "@/utils/user";
 import { unstable_noStore } from "next/cache";
 import { Suspense } from "react";
 import { DeleteButton } from "../purchases/DeleteButton";
@@ -20,7 +20,7 @@ export default function Page() {
 async function SelectedRoutes() {
   unstable_noStore();
   const supabase = await supabaseServer();
-  const user = await fetchUser();
+  const user = await getUser();
 
   const { data: selectedRoutes } = await supabase
     .from("selected_routes")
@@ -48,9 +48,7 @@ async function SelectedRoutes() {
       )}
       <div className=" ">
         <div className="mb-5 flex justify-between">
-          <h3 className="text-xl font-semibold tracking-tight">
-            Purchases
-          </h3>
+          <h3 className="text-xl font-semibold tracking-tight">Purchases</h3>
         </div>
         {purchaseRequests?.length ? (
           <div className="grid w-full gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">

@@ -2,13 +2,12 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    experimental: {
+  experimental: {},
+  logging: {
+    fetches: {
+      fullUrl: true,
     },
-    logging: {
-        fetches: {
-            fullUrl: true,
-        },
-    },
+  },
 };
 
 module.exports = nextConfig;

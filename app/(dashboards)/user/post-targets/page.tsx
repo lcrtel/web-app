@@ -1,20 +1,18 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
-import { fetchUser } from "@/utils/user";
+import { getUser } from "@/utils/user";
 import { Suspense } from "react";
 import { OffersTable } from "../routes/offers-table";
 import { PostTargetTable } from "./PostTargetTable";
 
-export default async function PostTargetsPage(
-  props: {
-    searchParams: Promise<{ prefix: string; route_type: string }>;
-  }
-) {
+export default async function PostTargetsPage(props: {
+  searchParams: Promise<{ prefix: string; route_type: string }>;
+}) {
   const searchParams = await props.searchParams;
-  const user = await fetchUser();
+  const user = await getUser();
   return (
     <section className="">
-      <PostTargetTable userId={user?.id} userEmail={user?.email} />
+      <PostTargetTable userId={user?.id} userEmail={user?.email as string} />
       <Suspense fallback={<Skeleton className="h-32 w-full" />}>
         <RouteOffers
           route_type={searchParams.route_type}
@@ -32,7 +30,7 @@ async function RouteOffers({
   prefix: string;
   route_type: string;
 }) {
-  const user = await fetchUser();
+  const user = await getUser();
   const supabase = await supabaseServer();
   let query = supabase
     .from("routes")

@@ -2,9 +2,7 @@
 
 import SubmitRoutes from "@/emails/SubmitRoutes";
 import { supabaseServer } from "@/lib/supabase-server";
-import { add20Percent } from "@/utils/rateHikes";
 import { transporter } from "@/utils/smtp-transporter";
-import { fetchUser } from "@/utils/user";
 import { renderAsync } from "@react-email/render";
 import { User } from "@supabase/supabase-js";
 import XLSX from "xlsx";
@@ -14,7 +12,7 @@ export async function postRouteOffer(route: Route) {
   const { error } = await supabase.from("routes").insert({
     destination: route.destination,
     destination_code: route.destination_code,
-    rate:  route.rate,
+    rate: route.rate,
     selling_rate: route.rate,
     route_type: route.route_type,
     asr: route.asr,

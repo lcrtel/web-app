@@ -1,4 +1,3 @@
-import { fetchUser } from "@/utils/user";
 import { Metadata } from "next";
 import { SidebarNav } from "./sidebar";
 
@@ -16,7 +15,6 @@ export default async function SettingsLayout({
   children,
   params,
 }: SettingsLayoutProps) {
-  const user = await fetchUser();
   const NavItems = [
     {
       title: "Personal info",

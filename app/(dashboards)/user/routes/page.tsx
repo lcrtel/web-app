@@ -2,7 +2,7 @@ import RoutesSearch from "@/components/RoutesSearch";
 import { buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
-import { fetchUser } from "@/utils/user";
+import { getUser } from "@/utils/user";
 import { ArrowRight, SearchX } from "lucide-react";
 import { unstable_noStore } from "next/cache";
 import Link from "next/link";
@@ -10,11 +10,9 @@ import { Suspense } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { OffersTable } from "./offers-table";
 
-export default async function Page(
-  props: {
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-  }
-) {
+export default async function Page(props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const searchParams = await props.searchParams;
   return (
     <div className="space-y-4">
@@ -60,7 +58,7 @@ async function Routes({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   unstable_noStore();
-  const user = await fetchUser();
+  const user = await getUser();
   let filter: any = {};
   if (searchParams.route_type) {
     filter.route_type = searchParams.route_type;

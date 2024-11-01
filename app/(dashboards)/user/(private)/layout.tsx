@@ -1,4 +1,4 @@
-import { fetchUser } from "@/utils/user";
+import { getAuthUser } from "@/utils/user";
 import { redirect } from "next/navigation";
 
 export default async function PrivateLayout({
@@ -6,7 +6,7 @@ export default async function PrivateLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = await fetchUser();
+  const user = await getAuthUser();
   if (!user) {
     redirect("/auth/login");
   }

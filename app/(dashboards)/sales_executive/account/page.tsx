@@ -1,11 +1,11 @@
-import { fetchUser, getUser } from "@/utils/user";
+import {getAuthUser, getUser } from "@/utils/user";
 import { AlertCircle } from "lucide-react";
 import { AccountForm } from "./AccountForm";
 import { EmailForm } from "./EmailForm";
 
 export default async function Page() {
   const userProfile = await getUser();
-  const user = await fetchUser();
+  const user = await getAuthUser();
   return (
     <div className="space-y-4">
       <div className="rounded-lg border p-5">

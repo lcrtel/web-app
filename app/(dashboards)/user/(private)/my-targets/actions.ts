@@ -6,12 +6,12 @@ import UpdateTargetRate from "@/emails/target-rate/UpdateTargetRate";
 import { supabaseServer } from "@/lib/supabase-server";
 import { getUpdatedValues } from "@/utils/getUpdatedValuesOfObject";
 import { transporter } from "@/utils/smtp-transporter";
-import { fetchUserMetadata } from "@/utils/user";
+import { getUser } from "@/utils/user";
 import { renderAsync } from "@react-email/render";
 import XLSX from "xlsx";
 
 export async function postTargets(data: any) {
-  const user = await fetchUserMetadata();
+  const user = await getUser();
   const supabase = await supabaseServer();
   const targetDetailsForExcel = data.map((route: Route) => {
     const { id, ...rest } = route;
@@ -42,7 +42,7 @@ export async function postTargets(data: any) {
   }
   transporter.sendMail({
     from: process.env.SMTP_USER,
-    to: user?.email,
+    to: user?.email as string,
     subject: `Your Buying Targets Have Been Posted`,
     html: await renderAsync(
       SubmitTargets({ data: data.slice(0, 10), user: user }),
@@ -62,7 +62,7 @@ function dec20Percent(rate: number) {
 }
 
 export async function deleteTarget(routeId: string) {
-  const user = await fetchUserMetadata();
+  const user = await getUser();
   const supabase = await supabaseServer();
   const { data: target, error } = await supabase
     .from("targets")
@@ -74,7 +74,7 @@ export async function deleteTarget(routeId: string) {
   }
   transporter.sendMail({
     from: process.env.SMTP_USER,
-    to: user?.email,
+    to: user?.email as string,
     subject: "Confirmation: Your Buying Target Has Been Deleted",
     html: await renderAsync(DeleteTargetEmail({ target: target, user: user })),
   });
@@ -83,7 +83,7 @@ export async function deleteTarget(routeId: string) {
 export async function updateTarget(oldTarget: Target, newTarget: any) {
   const updatedValues = getUpdatedValues(oldTarget, newTarget);
   if (updatedValues) {
-    const user = await fetchUserMetadata();
+    const user = await getUser();
     const supabase = await supabaseServer();
     await supabase.from("targets_history").insert([
       {
@@ -110,7 +110,7 @@ export async function updateTarget(oldTarget: Target, newTarget: any) {
     }
     transporter.sendMail({
       from: process.env.SMTP_USER,
-      to: user?.email,
+      to: user?.email as string,
       subject: "Confirmation: Your Target Rate Has Been Updated",
       html: await renderAsync(
         UpdateTargetRate({ updatedValues: updatedValues, user: user }),

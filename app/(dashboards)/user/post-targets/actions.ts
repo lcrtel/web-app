@@ -4,13 +4,11 @@ import SubmitTargets from "@/emails/SubmitTargets";
 import { supabaseServer } from "@/lib/supabase-server";
 import { calculateNewRate } from "@/utils/rateHikes";
 import { transporter } from "@/utils/smtp-transporter";
-import { fetchUser } from "@/utils/user";
 import { renderAsync } from "@react-email/render";
 import { User } from "@supabase/supabase-js";
 import XLSX from "xlsx";
 
 export async function postTargets(data: Target[]) {
-  let user = await fetchUser();
   const supabase = await supabaseServer();
   const targets: any = await Promise.all(
     data.map(async (target: Target) => {

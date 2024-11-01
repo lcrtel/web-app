@@ -1,19 +1,19 @@
-import { fetchUser, getUser } from "@/utils/user";
+import { getAuthUser, getUser } from "@/utils/user";
 import { AlertCircle } from "lucide-react";
 import { AccountForm } from "./AccountForm";
 import { EmailForm } from "./EmailForm";
 
 export default async function Page() {
   const userProfile = await getUser();
-  const user = await fetchUser();
+  const user = await getAuthUser();
   return (
     <div className="space-y-4">
       <div className="rounded-lg border p-5">
         <h2 className="mb-4 text-xl font-bold tracking-tight">Personal info</h2>
         <AccountForm user={userProfile} />
       </div>
-      <div className="rounded-lg border p-5 space-y-2">
-        <h2 className=" text-xl font-bold tracking-tight">Email address</h2>
+      <div className="space-y-2 rounded-lg border p-5">
+        <h2 className="text-xl font-bold tracking-tight">Email address</h2>
         {user?.new_email && (
           <div className="flex items-start gap-2 rounded-lg bg-slate-50 p-4 text-slate-500">
             <AlertCircle className="size-5" />

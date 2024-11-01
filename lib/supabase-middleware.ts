@@ -1,4 +1,4 @@
-import { fetchUserRole } from "@/utils/user";
+import { getUser } from "@/utils/user";
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
@@ -33,18 +33,21 @@ export async function updateSession(request: NextRequest) {
   );
 
   await supabase.auth.getUser();
-  const userRole = await fetchUserRole();
-  if (userRole === "user" && !request.nextUrl.pathname.startsWith(`/user`)) {
+  const user = await getUser();
+  if (
+    user?.user_roles?.role_slug === "user" &&
+    !request.nextUrl.pathname.startsWith(`/user`)
+  ) {
     return NextResponse.redirect(new URL(`/user`, request.url));
   } else if (
-    userRole &&
-    userRole !== "user" &&
+    user?.user_roles?.role_slug &&
+    user?.user_roles?.role_slug !== "user" &&
     !request.nextUrl.pathname.startsWith(`/admin`)
   ) {
     return NextResponse.redirect(new URL(`/admin`, request.url));
   }
   if (
-    !userRole &&
+    !user?.user_roles?.role_slug &&
     request.nextUrl.pathname !== "/" &&
     !request.nextUrl.pathname.startsWith("/auth")
   ) {

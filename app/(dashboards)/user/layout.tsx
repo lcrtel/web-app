@@ -1,7 +1,7 @@
 import CompleteProfileModal from "@/components/auth/modals/CompleteProfileModal";
 import { Chat } from "@/components/chat";
 import DashboardNav, { NavProps } from "@/components/navigation/DashboardNav";
-import { fetchUserRole, getUser } from "@/utils/user";
+import { getUser } from "@/utils/user";
 import { headers } from "next/headers";
 
 export default async function DashboardLayout({
@@ -59,7 +59,9 @@ export default async function DashboardLayout({
   } else {
     NAV_ITEMS.pages = [...publicNavItems];
   }
-  const isAccountPage = (await headers()).get("referer")?.includes("/user/account");
+  const isAccountPage = (await headers())
+    .get("referer")
+    ?.includes("/user/account");
   return (
     <main className="px-2 md:px-4">
       <DashboardNav navItems={NAV_ITEMS} user={user} />

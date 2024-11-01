@@ -7,7 +7,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
 import formatTimestamptz from "@/utils/formatTimestamptz";
-import { fetchUser } from "@/utils/user";
+import { getUser } from "@/utils/user";
 import { BadgeDollarSign, Calendar, Router } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -15,16 +15,14 @@ import { Suspense } from "react";
 import { HiOutlineArrowCircleLeft } from "react-icons/hi";
 import RouteOfferForm from "./route-offer-form";
 
-export default async function Page(
-  props: {
-    params: Promise<{ id: string }>;
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-  }
-) {
+export default async function Page(props: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const searchParams = await props.searchParams;
   const params = await props.params;
   const supabase = await supabaseServer();
-  const user = await fetchUser();
+  const user = await getUser();
   let { data: target } = await supabase
     .from("targets")
     .select("*")

@@ -1,12 +1,12 @@
 import RoutesSearch from "@/components/RoutesSearch";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
-import { fetchUser } from "@/utils/user";
 import { SearchX } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { TargetsTable } from "./targets-table";
+import { getUser } from "@/utils/user";
 
 export default async function Page(
   props: {
@@ -53,7 +53,7 @@ async function TargetRates({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const user = await fetchUser();
+  const user = await getUser();
   const supabase = await supabaseServer();
   let filter: any = {};
   if (searchParams.route_type) {

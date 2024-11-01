@@ -107,7 +107,7 @@ export const routeColumns: ColumnDef<Target>[] = [
     ),
   },
   {
-    accessorKey: "profiles",
+    accessorKey: "company_name",
     header: ({ column }) => {
       return <div className="whitespace-nowrap">Company</div>;
     },

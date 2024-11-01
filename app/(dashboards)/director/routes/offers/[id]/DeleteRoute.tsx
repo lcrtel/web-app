@@ -10,14 +10,12 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { supabaseClient } from "@/lib/supabase-client";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
 import { deleteRoute } from "./actions";
 
 export default function DeleteRoute({ routeID }: { routeID: any }) {
-    const supabase = supabaseClient();
     const router = useRouter();
     const handleDelete = async () => {
         const res = await deleteRoute(routeID);

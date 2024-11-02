@@ -44,7 +44,6 @@ const DirectorActions = () => (
   <>
     <AddAccountForm role="CLIENT" />
     <AddAccountForm role="VENDOR" />
-    <CreateDepartmentExecutive department="finance" />
     <Link
       href="/admin/routes/offers/post"
       className={`${buttonVariants({ variant: "outline", size: "sm" })}`}

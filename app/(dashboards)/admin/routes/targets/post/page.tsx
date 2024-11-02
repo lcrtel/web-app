@@ -4,7 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { getUserRole } from "@/utils/user";
 import { Suspense } from "react";
-import { AddTargetsTable } from "./AddTargetsTable";
+import { AddTargetsTable } from "./_components/AddTargetsTable";
 
 export default async function PostTargetsPage() {
   const userRole = (await getUserRole()) as UserRolesEnum;

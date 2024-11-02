@@ -33,7 +33,7 @@ export async function updateUser(userId: string, formData: userProps) {
     .from("profiles")
     .update(formData)
     .eq("id", userId);
-  await supabase.from("user_actions").insert({
+  supabase.from("user_actions").insert({
     action_type: "updated_profile",
     action_details: `Updated ${formData.name}'s profile`,
   });
@@ -52,10 +52,10 @@ export async function changeEmail(email: string) {
     email: email,
   });
   if (!error) {
-    await supabase.from("user_actions").insert({
+    supabase.from("user_actions").insert({
       action_type: "updated_email",
       action_details: "Updated email",
-    })
+    });
   }
   if (error) {
     return { error: error.message };

@@ -11,7 +11,7 @@ import { getUserRole } from "@/utils/user";
 import Link from "next/link";
 import { Suspense } from "react";
 import { HiOutlinePlusCircle } from "react-icons/hi";
-import { TargetsTable } from "./TargetsTable";
+import { TargetsTable } from "./_components/TargetsTable";
 
 export default async function Page() {
   const userRole = (await getUserRole()) as UserRolesEnum;

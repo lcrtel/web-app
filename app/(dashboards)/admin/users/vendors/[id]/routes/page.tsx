@@ -1,4 +1,4 @@
-import { EditRoute } from "@/app/(dashboards)/admin/routes/offers/[id]/EditRoute";
+import { EditRoute } from "@/app/(dashboards)/admin/routes/offers/[id]/_components/EditRoute";
 import Loader from "@/components/Loader";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import formatDate from "@/utils/formatDate";

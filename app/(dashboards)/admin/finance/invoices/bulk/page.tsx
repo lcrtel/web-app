@@ -2,7 +2,7 @@ import { PageHeader, PageHeaderHeading } from "@/components/page-header";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { Suspense } from "react";
-import BulkInvoiceForm from "./BulkInvoiceForm";
+import BulkInvoiceForm from "./_components/BulkInvoiceForm";
 export const revalidate = 0;
 
 export default function page() {

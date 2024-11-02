@@ -1,7 +1,7 @@
 import Loader from "@/components/Loader";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { Suspense } from "react";
-import { CompanyForm } from "./CompanyForm";
+import { CompanyForm } from "./_components/CompanyForm";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
@@ -19,9 +19,8 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 }
 
 async function Departments({ userId }: { userId: string }) {
-  const supabase = await supabaseAdminServer();
-
-  let { data: vendor } = await supabase
+  const supabaseAdmin = await supabaseAdminServer();
+  let { data: vendor } = await supabaseAdmin
     .from("profiles")
     .select("*")
     .eq("id", userId)

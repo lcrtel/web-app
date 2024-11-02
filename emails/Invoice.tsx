@@ -101,24 +101,6 @@ export default function InvoiceTemplate({ data }: { data: any }) {
               </Text>
             </Section>
             <Section className="mx-auto w-full max-w-[90%] bg-white">
-              <Text className="text-primary mb-0 font-semibold">Pay to</Text>
-              <Text className="my-0 text-gray-500">
-                Bank Name: {data.bill_to.bankName}
-              </Text>
-              <Text className="my-0 text-gray-500">
-                Name: {data.bill_to.accountHolderName}
-              </Text>
-              <Text className="my-0 text-gray-500">
-                Number: {data.bill_to.accountNumber}
-              </Text>
-              <Text className="my-0 text-gray-500">
-                IFSC Code: {data.bill_to.IFSCCode}
-              </Text>
-              <Text className="my-0 text-gray-500">
-                Branch: {data.bill_to.branchName}
-              </Text>
-            </Section>
-            <Section className="mx-auto w-full max-w-[90%] bg-white">
               <Text className="font-medium text-gray-500">
                 This invoice is based on your recent usage of our route. Please
                 review the details and make the payment by the due date to

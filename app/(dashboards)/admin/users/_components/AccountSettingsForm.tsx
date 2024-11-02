@@ -30,8 +30,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
-import { deleteAccount, updateCredentials } from "../actions";
-import { updateAccountDetails } from "./actions";
+import { deleteAccount, updateAccountDetails, updateCredentials } from "./actions";
 
 const profileFormSchema = z.object({
   name: z

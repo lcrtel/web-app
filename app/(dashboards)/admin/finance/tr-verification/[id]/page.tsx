@@ -5,14 +5,18 @@ import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { format } from "date-fns";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import TRInquiryForm from "./TRInquiryForm";
-import VerificationStatusUpdate from "./VerificationStatusUpdate";
+
 import { whoisCheckup } from "@/utils/whoisCheckUp";
-export default async function TRDetailsPage(
-  props: {
-    params: Promise<{ id: number }>;
-  }
-) {
+import VerificationStatusUpdate from "./_components/VerificationStatusUpdate";
+import TRInquiryForm from "./_components/TRInquiryForm";
+import {
+  PageActions,
+  PageHeader,
+  PageHeaderHeading,
+} from "@/components/page-header";
+export default async function TRDetailsPage(props: {
+  params: Promise<{ id: number }>;
+}) {
   const params = await props.params;
   const supabase = await supabaseAdminServer();
   const { data: details } = await supabase
@@ -25,28 +29,13 @@ export default async function TRDetailsPage(
     redirect("/admin/finance/tr-verification");
   }
   return (
-    <div>
-      <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
-        <BackButton />
-        <Link href="/director" className="hover:underline">
-          Dashboard
-        </Link>
-        /
-        <Link href="/admin/finance" className="hover:underline">
-          Finance
-        </Link>
-        /
-        <Link
-          href="/admin/finance/tr-verification"
-          className="font-semibold hover:underline"
-        >
-          TR Verifications
-        </Link>
-      </div>
-      <div className="my-4 flex flex-wrap items-center justify-between gap-2">
-        <h1 className="text-2xl font-bold tracking-tight">TR Verification</h1>
-        <VerificationStatusUpdate TRId={params.id} />
-      </div>
+    <div className="space-y-2">
+      <PageHeader>
+        <PageHeaderHeading>TR Verification</PageHeaderHeading>
+        <PageActions>
+          <VerificationStatusUpdate TRId={params.id} />
+        </PageActions>
+      </PageHeader>
       <div className="grid gap-4 md:grid-cols-4">
         <div className="w- h-fit space-y-3 rounded-lg border bg-slate-50 p-4 text-slate-500">
           <div className="flex flex-wrap items-center gap-x-2 gap-y-0">

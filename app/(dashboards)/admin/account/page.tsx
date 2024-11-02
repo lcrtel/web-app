@@ -1,7 +1,7 @@
 import { getAuthUser, getUser } from "@/utils/user";
 import { AlertCircle } from "lucide-react";
-import { AccountForm } from "./AccountForm";
-import { EmailForm } from "./EmailForm";
+import { AccountForm } from "./_components/AccountForm";
+import { EmailForm } from "./_components/EmailForm";
 
 export default async function Page() {
   const userProfile = await getUser();

@@ -12,15 +12,19 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
-import { HiOutlineTrash, HiTrash } from "react-icons/hi";
-import {
-  deleteDepartmentExecutiveOrManager
-} from "./actions";
+import { HiOutlineTrash } from "react-icons/hi";
+import { deleteExecutive } from "./actions";
 
-export default function DeleteExecutive({ executiveId }: { executiveId: any }) {
+export default function DeleteExecutive({
+  executiveId,
+  executiveName,
+}: {
+  executiveId: string;
+  executiveName: string;
+}) {
   const router = useRouter();
   const handleDelete = async () => {
-    const res = await deleteDepartmentExecutiveOrManager(executiveId);
+    const res = await deleteExecutive(executiveId, executiveName);
     if (res?.error) {
       toast.error(res.error);
       return;

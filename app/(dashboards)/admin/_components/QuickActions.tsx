@@ -5,10 +5,10 @@ import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import Link from "next/link";
 import { Suspense } from "react";
 import { HiOutlinePlusCircle } from "react-icons/hi";
-import { CreateInvoice } from "../finance/invoices/CreateInvoice";
-import AddTRSheet from "../finance/tr-verification/AddTRSheet";
 import { AddAccountForm } from "../users/_components/AddAccount";
 import { CreateDepartmentExecutive } from "../departments/_components/CreateDepartmentExecutive";
+import { CreateInvoice } from "../finance/invoices/_components/CreateInvoice";
+import AddTRSheet from "../finance/tr-verification/_components/AddTRSheet";
 
 export default function QuickActions({
   userRole,

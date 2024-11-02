@@ -1,13 +1,11 @@
-import { buttonVariants } from "@/components/ui/button";
+import BackButton from "@/components/BackButton";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
-import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
-import { VendorNav } from "./VendorNav";
-import { DropDownMenu } from "./dropdownMenu";
-import BackButton from "@/components/BackButton";
+import { DropDownMenu } from "./_components/dropdownMenu";
+import { VendorNav } from "./_components/VendorNav";
 
 interface SettingsLayoutProps {
   children: React.ReactNode;
@@ -17,9 +15,7 @@ interface SettingsLayoutProps {
 export default async function SettingsLayout(props: SettingsLayoutProps) {
   const params = await props.params;
 
-  const {
-    children
-  } = props;
+  const { children } = props;
 
   const basePath = "/admin/users/vendors";
   const NavItems = [
@@ -73,9 +69,9 @@ export default async function SettingsLayout(props: SettingsLayoutProps) {
 }
 
 async function VendorDetails({ userId }: { userId: any }) {
-  const supabase = await supabaseAdminServer();
+  const supabaseAdmin = await supabaseAdminServer();
 
-  let { data: vendor, error } = await supabase
+  let { data: vendor, error } = await supabaseAdmin
     .from("profiles")
     .select("*")
     .eq("id", userId)
@@ -96,7 +92,10 @@ async function VendorDetails({ userId }: { userId: any }) {
             Vendors
           </Link>
           /
-          <Link href={`/admin/users/vendors/${userId}`} className="hover:underline">
+          <Link
+            href={`/admin/users/vendors/${userId}`}
+            className="hover:underline"
+          >
             {vendor?.name}
           </Link>
         </div>

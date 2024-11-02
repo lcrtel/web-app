@@ -12,13 +12,19 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
-import { HiTrash } from "react-icons/hi";
-import { deleteDepartmentExecutiveOrManager } from "./actions";
+import { HiOutlineTrash, HiTrash } from "react-icons/hi";
+import { deleteManager } from "./actions";
 
-export default function DeleteManager({ managerId }: { managerId: string }) {
+export default function DeleteManager({
+  managerId,
+  managerName,
+}: {
+  managerId: string;
+  managerName: string;
+}) {
   const router = useRouter();
   const handleDelete = async () => {
-    const res = await deleteDepartmentExecutiveOrManager(managerId);
+    const res = await deleteManager(managerId, managerName);
     if (res?.error) {
       toast.error(res.error);
       return;
@@ -29,8 +35,8 @@ export default function DeleteManager({ managerId }: { managerId: string }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <div className="cursor-pointer">
-          <HiTrash className="h-5 w-5 text-red-500" />{" "}
+        <div className="flex cursor-pointer items-center gap-2 text-red-500">
+          <HiOutlineTrash className="size-4" /> Delete
         </div>
       </AlertDialogTrigger>
       <AlertDialogContent className="border-red-500">

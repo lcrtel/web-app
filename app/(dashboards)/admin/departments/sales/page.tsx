@@ -3,8 +3,8 @@ import {
   PageHeader,
   PageHeaderHeading,
 } from "@/components/page-header";
-import DepartmentInfo from "../DepartmentInfo";
 import { CreateDepartmentExecutive } from "../_components/CreateDepartmentExecutive";
+import DepartmentInfo from "../_components/DepartmentInfo";
 
 export default function ManagersPage() {
   return (

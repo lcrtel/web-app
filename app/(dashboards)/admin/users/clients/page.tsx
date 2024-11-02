@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { Suspense } from "react";
 import { AddAccountForm } from "../_components/AddAccount";
-import { ClientsTable } from "./ClientsTable";
+import { ClientsTable } from "./_components/ClientsTable";
 
 export default function Page() {
   return (
@@ -26,8 +26,8 @@ export default function Page() {
 }
 
 const Clients = async () => {
-  const supabase = await supabaseAdminServer();
-  let { data: clients } = await supabase
+  const supabaseAdmin = await supabaseAdminServer();
+  let { data: clients } = await supabaseAdmin
     .from("profiles")
     .select("*, user_roles!inner(*)")
     .eq("user_roles.role_slug", "user")

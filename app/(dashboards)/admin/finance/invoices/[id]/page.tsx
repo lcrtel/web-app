@@ -10,7 +10,7 @@ import {
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import formatDate from "@/utils/formatDate";
 import formatString from "@/utils/formatString";
-import InvoiceDetails from "./InvoiceDetails";
+import InvoiceDetails from "./_components/InvoiceDetails";
 export const revalidate = 0;
 
 const page = async (props: { params: Promise<{ id: string }> }) => {

@@ -1,5 +1,9 @@
-import BackButton from "@/components/BackButton";
-import { Button, buttonVariants } from "@/components/ui/button";
+import {
+  PageActions,
+  PageHeader,
+  PageHeaderHeading,
+} from "@/components/page-header";
+import { Button } from "@/components/ui/button";
 import CopyButton from "@/components/ui/copy-button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -16,11 +20,9 @@ import { PlusCircle } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import { FaWhatsapp } from "react-icons/fa6";
-import { HiOutlineExternalLink, HiOutlinePlusCircle } from "react-icons/hi";
-import { fetchVerfiedRoutes } from "../offers/actions";
-import AddPurchaseSheet from "./AddPurchaseSheet";
-import { EditPurchaseRequest } from "./EditPurchaseRequest";
-import { PageActions, PageHeader, PageHeaderHeading } from "@/components/page-header";
+import { HiOutlineExternalLink } from "react-icons/hi";
+import AddPurchaseSheet from "./_components/AddPurchaseSheet";
+import { EditPurchaseRequest } from "./_components/EditPurchaseRequest";
 
 export default function PurchaseRequestsPage() {
   return (
@@ -54,14 +56,10 @@ async function AddPurchaseRequestButton() {
     .from("profiles")
     .select("*, user_roles!inner(*)")
     .eq("user_roles.role_slug", "user");
-  const verified_routes = await fetchVerfiedRoutes();
-  return (
-    users &&
-    verified_routes && (
-      <AddPurchaseSheet routes={verified_routes} users={users} />
-    )
-  );
+  const { data: routes } = await supabase.from("routes").select(`*`);
+  return users && routes && <AddPurchaseSheet routes={routes} users={users} />;
 }
+
 async function PurchaseRequestsTable() {
   const supabase = await supabaseAdminServer();
   let { data: requests } = await supabase

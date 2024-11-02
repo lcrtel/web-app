@@ -4,7 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { getUserRole } from "@/utils/user";
 import { Suspense } from "react";
-import { AddRoutesTable } from "./AddRoutesTable";
+import { AddRoutesTable } from "./_components/AddRoutesTable";
 
 export default function page() {
   return (

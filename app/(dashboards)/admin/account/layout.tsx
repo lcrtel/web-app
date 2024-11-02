@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { SidebarNav } from "./sidebar";
+import { SidebarNav } from "./_components/SidebarNav";
 
 export const metadata: Metadata = {
   title: "Account Settings | LCRTel",

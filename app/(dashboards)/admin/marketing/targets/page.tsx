@@ -4,7 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { getUserRole } from "@/utils/user";
 import { Suspense } from "react";
-import TargetsMarketing from "./TargetsMarketing";
+import TargetsMarketing from "./_components/TargetsMarketing";
 
 export default function RoutesMarketingPage() {
   return (

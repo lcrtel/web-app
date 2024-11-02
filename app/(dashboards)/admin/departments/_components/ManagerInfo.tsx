@@ -1,3 +1,5 @@
+import { AccountSettingsSheet } from "@/components/auth/modals/AccountSettingsSheet";
+import PasswordResetSheet from "@/components/auth/modals/PasswordResetSheet";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -5,17 +7,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
-import {
-  EllipsisVertical,
-  KeyRound,
-  PlusCircle,
-  Settings
-} from "lucide-react";
+import { EllipsisVertical, KeyRound, PlusCircle, Settings } from "lucide-react";
 import { Department } from "./actions";
 import { CreateDepartmentManager } from "./CreateDepartmentManager";
-import DeleteExecutive from "./DeleteExecutive";
-import { AccountSettingsSheet } from "@/components/auth/modals/AccountSettingsSheet";
-import PasswordResetSheet from "@/components/auth/modals/PasswordResetSheet";
+import DeleteManager from "./DeleteManager";
 export default async function ManagerInfo({
   department,
 }: {
@@ -51,7 +46,10 @@ export default async function ManagerInfo({
             </div>
             <DropdownMenuSeparator />
             <div className="px-2 py-1">
-              <DeleteExecutive executiveId={manager.profiles.id} />
+              <DeleteManager
+                managerId={manager.profiles.id}
+                managerName={manager.profiles.name ?? ""}
+              />
             </div>
           </DropdownMenuContent>
         </DropdownMenu>

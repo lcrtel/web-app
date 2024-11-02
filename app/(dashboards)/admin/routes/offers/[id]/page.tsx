@@ -15,10 +15,10 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { FaWhatsapp } from "react-icons/fa6";
 import { HiOutlineExternalLink } from "react-icons/hi";
-import DeleteRoute from "./DeleteRoute";
-import { EditRoute } from "./EditRoute";
-import { RoutesTable } from "./routes-table";
-import { EditPurchaseRequest } from "../../purchases/EditPurchaseRequest";
+import { EditRoute } from "./_components/EditRoute";
+import DeleteRoute from "./_components/DeleteRoute";
+import { RoutesTable } from "./_components/routes-table";
+import { EditPurchaseRequest } from "../../purchases/_components/EditPurchaseRequest";
 
 export const revalidate = 0;
 export default async function Page(props: { params: Promise<{ id: string }> }) {

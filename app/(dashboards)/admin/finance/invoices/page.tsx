@@ -10,8 +10,9 @@ import { unstable_noStore } from "next/cache";
 import Link from "next/link";
 import { Suspense } from "react";
 import { HiOutlinePlusCircle } from "react-icons/hi";
-import { CreateInvoice } from "./CreateInvoice";
-import { InvoiceTable } from "./InvoiceTable";
+import { CreateInvoice } from "./_components/CreateInvoice";
+import { InvoiceTable } from "./_components/InvoiceTable";
+
 
 export default function InvoicesPage() {
   return (

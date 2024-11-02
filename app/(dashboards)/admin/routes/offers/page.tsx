@@ -6,12 +6,12 @@ import {
 } from "@/components/page-header";
 import { RoutesTableReadOnlyAdmin } from "@/components/routes-and-targets/RoutesTableReadOnlyAdmin";
 import { buttonVariants } from "@/components/ui/button";
+import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { getUserRole } from "@/utils/user";
 import Link from "next/link";
 import { Suspense } from "react";
 import { HiOutlinePlusCircle } from "react-icons/hi";
-import { fetchVerfiedRoutes } from "./actions";
-import { RoutesTable } from "./RoutesTable";
+import { RoutesTable } from "./_components/RoutesTable";
 
 export default async function RoutesPage() {
   const userRole = (await getUserRole()) as UserRolesEnum;
@@ -20,7 +20,9 @@ export default async function RoutesPage() {
     <div>
       <PageHeader>
         <PageHeaderHeading>Route Offers</PageHeaderHeading>
-        {(userRole === "director" || userRole === "purchase_executive" || userRole === "purchase_manager") && (
+        {(userRole === "director" ||
+          userRole === "purchase_executive" ||
+          userRole === "purchase_manager") && (
           <PageActions>
             <Link
               passHref
@@ -44,16 +46,19 @@ export default async function RoutesPage() {
 }
 
 async function Routes({ userRole }: { userRole: UserRolesEnum }) {
-  const verified_routes = await fetchVerfiedRoutes();
-  if (verified_routes)
+  const supabaseAdmin = await supabaseAdminServer();
+  const { data: routes } = await supabaseAdmin
+    .from("routes")
+    .select(`*, profiles (name, company_name)`);
+  if (routes)
     return (
       <div className="w-full py-2">
         {userRole === "director" ||
         userRole === "purchase_executive" ||
         userRole === "purchase_manager" ? (
-          <RoutesTable data={verified_routes} />
+          <RoutesTable data={routes} />
         ) : (
-          <RoutesTableReadOnlyAdmin data={verified_routes} />
+          <RoutesTableReadOnlyAdmin data={routes} />
         )}
       </div>
     );

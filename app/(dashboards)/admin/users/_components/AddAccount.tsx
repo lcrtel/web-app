@@ -25,7 +25,7 @@ import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { HiEye, HiEyeOff, HiOutlinePlusCircle } from "react-icons/hi";
-import { addAccount } from "../actions";
+import { addAccount } from "./actions";
 
 const accountSchema = z.object({
   name: z.string(),

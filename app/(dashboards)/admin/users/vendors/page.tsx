@@ -8,7 +8,7 @@ import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { unstable_noStore } from "next/cache";
 import { Suspense } from "react";
 import { AddAccountForm } from "../_components/AddAccount";
-import { VendorsTable } from "./VendorsTable";
+import { VendorsTable } from "./_components/VendorsTable";
 
 export default function Page() {
   return (
@@ -27,8 +27,8 @@ export default function Page() {
 }
 const Vendors = async () => {
   unstable_noStore();
-  const supabase = await supabaseAdminServer();
-  let { data: vendors, error } = await supabase
+  const supabaseAdmin = await supabaseAdminServer();
+  let { data: vendors, error } = await supabaseAdmin
     .from("profiles")
     .select("*, user_roles!inner(*)")
     .eq("user_roles.role_slug", "user")

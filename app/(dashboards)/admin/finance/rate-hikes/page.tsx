@@ -10,9 +10,9 @@ import {
 } from "@/components/ui/table";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { Suspense } from "react";
-import CreateRateHikeForm from "./CreateRateHikeForm";
-import DeleteRateHikeModal from "./DeleteRateHikeModal";
-import UpdateRateHikeModal from "./UpdateRateHikeModal";
+import CreateRateHikeForm from "./_components/CreateRateHikeForm";
+import DeleteRateHikeModal from "./_components/DeleteRateHikeModal";
+import UpdateRateHikeModal from "./_components/UpdateRateHikeModal";
 export default function RateHikesPage() {
   return (
     <section className="space-y-2">
@@ -56,7 +56,7 @@ async function RateHikesList() {
                 <TableCell>{rateHike.increase_percentage}%</TableCell>
                 <TableCell className="flex items-center justify-end gap-2">
                   <UpdateRateHikeModal rateHike={rateHike} />
-                  <DeleteRateHikeModal id={rateHike.id} />
+                  <DeleteRateHikeModal id={rateHike.id} destination_code={rateHike.phone_codes.value} />
                 </TableCell>
               </TableRow>
             ))}

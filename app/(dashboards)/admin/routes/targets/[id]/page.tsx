@@ -2,9 +2,9 @@ import { Separator } from "@/components/ui/separator";
 import { supabaseServer } from "@/lib/supabase-server";
 import formatTimestamptz from "@/utils/formatTimestamptz";
 import { redirect } from "next/navigation";
-import DeleteTarget from "./DeleteTarget";
-import { EditRouteRequest } from "./EditRouteRequest";
-import { RoutesTable } from "./routes-table";
+import DeleteTarget from "./_components/DeleteTarget";
+import { EditRouteRequest } from "./_components/EditRouteRequest";
+import { RoutesTable } from "./_components/routes-table";
 
 export const revalidate = 0;
 

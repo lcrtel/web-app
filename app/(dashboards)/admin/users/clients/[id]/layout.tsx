@@ -1,13 +1,11 @@
-import { buttonVariants } from "@/components/ui/button";
+import BackButton from "@/components/BackButton";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
-import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
-import { ClientNav } from "./ClientNav";
-import { DropDownMenu } from "./dropdownMenu";
-import BackButton from "@/components/BackButton";
+import { ClientNav } from "./_components/ClientNav";
+import { DropDownMenu } from "./_components/dropdownMenu";
 
 interface SettingsLayoutProps {
   children: React.ReactNode;
@@ -17,9 +15,7 @@ interface SettingsLayoutProps {
 export default async function SettingsLayout(props: SettingsLayoutProps) {
   const params = await props.params;
 
-  const {
-    children
-  } = props;
+  const { children } = props;
 
   const basePath = "/admin/users/clients";
   const NavItems = [
@@ -71,9 +67,8 @@ export default async function SettingsLayout(props: SettingsLayoutProps) {
   );
 }
 async function ClientDetails({ userId }: { userId: any }) {
-  const supabase = await supabaseAdminServer();
-
-  let { data: user, error } = await supabase
+  const supabaseAdmin = await supabaseAdminServer();
+  let { data: user } = await supabaseAdmin
     .from("profiles")
     .select("*")
     .eq("id", userId)
@@ -101,7 +96,7 @@ async function ClientDetails({ userId }: { userId: any }) {
             {user?.name}
           </Link>
         </div>
-        <div className="pb-4 flex flex-col gap-2">
+        <div className="flex flex-col gap-2 pb-4">
           <div className="">
             <h1 className="text-xl font-bold capitalize tracking-tight">
               {user?.name}

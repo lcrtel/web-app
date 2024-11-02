@@ -8,8 +8,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { Suspense } from "react";
 import { HiOutlinePlusCircle } from "react-icons/hi";
-import AddTRSheet from "./AddTRSheet";
-import { TRTable } from "./tr-table";
+import { TRTable } from "./_components/tr-table";
+import AddTRSheet from "./_components/AddTRSheet";
 
 export default function TRVerification() {
   return (

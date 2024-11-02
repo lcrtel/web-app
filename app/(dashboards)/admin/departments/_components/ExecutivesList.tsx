@@ -105,6 +105,7 @@ export default async function ExecutivesList({
                         <div className="px-2 py-1">
                           <DeleteExecutive
                             executiveId={executive.profiles.id}
+                            executiveName={executive.profiles.name}
                           />
                         </div>
                       </DropdownMenuContent>

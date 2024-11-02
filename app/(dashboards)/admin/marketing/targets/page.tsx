@@ -1,10 +1,10 @@
-import BackButton from "@/components/BackButton";
+import NotAuthorized from "@/components/NotAuthorized";
+import { PageHeader, PageHeaderHeading } from "@/components/page-header";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
-import Link from "next/link";
+import { getUserRole } from "@/utils/user";
 import { Suspense } from "react";
 import TargetsMarketing from "./TargetsMarketing";
-import { PageHeader, PageHeaderHeading } from "@/components/page-header";
 
 export default function RoutesMarketingPage() {
   return (
@@ -20,6 +20,7 @@ export default function RoutesMarketingPage() {
 }
 
 async function Marketing() {
+  const userRole = (await getUserRole()) as UserRolesEnum;
   const supabase = await supabaseAdminServer();
   let { data: targets } = await supabase
     .from("targets")
@@ -31,5 +32,11 @@ async function Marketing() {
     .eq("user_roles.role_slug", "user");
   // @ts-ignore
   vendors = data?.filter((v) => v.routes[0].count > 0);
-  return <TargetsMarketing targets={targets} vendors={vendors} />;
+  return userRole === "director" ||
+    userRole === "purchase_manager" ||
+    userRole === "purchase_executive" ? (
+    <TargetsMarketing targets={targets} vendors={vendors} />
+  ) : (
+    <NotAuthorized />
+  );
 }

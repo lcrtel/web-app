@@ -1,4 +1,5 @@
 import { CreateDepartmentExecutive } from "@/components/departments/CreateDepartmentExecutive";
+import { rootPath } from "@/components/navigation/navConfig";
 import { buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
@@ -6,9 +7,8 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { HiOutlinePlusCircle } from "react-icons/hi";
 import { CreateInvoice } from "./finance/invoices/CreateInvoice";
-import { AddAccountForm } from "./users/_components/AddAccount";
-import { rootPath } from "@/components/navigation/navConfig";
 import AddTRSheet from "./finance/tr-verification/AddTRSheet";
+import { AddAccountForm } from "./users/_components/AddAccount";
 
 export default function QuickActions({
   userRole,
@@ -34,8 +34,9 @@ async function Actions({ userRole }: { userRole: UserRolesEnum }) {
       {userRole === "sales_executive" && <SalesExecutiveActions />}
       {userRole === "purchase_manager" && <PurchaseManagerActions />}
       {userRole === "purchase_executive" && <PurchaseExecutiveActions />}
-      {userRole === "finance_manager" && <FinanceManagerActions />}
-      {userRole === "finance_executive" && <FinanceExecutiveActions />}
+      {(userRole === "finance_manager" || userRole === "finance_executive") && (
+        <FinanceManagerActions userRole={userRole} />
+      )}
     </div>
   );
 }
@@ -109,7 +110,11 @@ const PurchaseExecutiveActions = () => (
   </>
 );
 
-async function FinanceManagerActions() {
+async function FinanceManagerActions({
+  userRole,
+}: {
+  userRole: UserRolesEnum;
+}) {
   const supabase = await supabaseAdminServer();
   let { data: users } = await supabase
     .from("profiles")
@@ -119,7 +124,9 @@ async function FinanceManagerActions() {
     <>
       <CreateInvoice clients={users} />
       {users && <AddTRSheet users={users} />}
-      <CreateDepartmentExecutive department="finance" />
+      {userRole === "finance_manager" && (
+        <CreateDepartmentExecutive department="finance" />
+      )}
       <Link
         href={rootPath + "/finance/rate-hikes"}
         className={`${buttonVariants({ variant: "outline", size: "sm" })}`}
@@ -130,9 +137,3 @@ async function FinanceManagerActions() {
     </>
   );
 }
-
-const FinanceExecutiveActions = () => (
-  <>
-    <CreateDepartmentExecutive department="finance" />
-  </>
-);

@@ -191,6 +191,18 @@ const navConfig: Record<Roles, NavProps> = {
         title: "Dashboard",
         path: rootPath,
       },
+      {
+        title: "Invoices",
+        path: rootPath + "/finance/invoices",
+      },
+      {
+        title: "Rate hikes",
+        path: rootPath + "/finance/rate-hikes",
+      },
+      {
+        title: "TR Verification",
+        path: rootPath + "/finance/tr-verification",
+      },
     ],
   },
   company_manager: {
@@ -228,6 +240,10 @@ const navConfig: Record<Roles, NavProps> = {
       {
         title: "TR Verification",
         path: rootPath + "/finance/tr-verification",
+      },
+      {
+        title: "Executives",
+        path: rootPath + "/departments/finance/executives",
       },
     ],
   },

@@ -4,7 +4,7 @@ import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import Link from "next/link";
 import { Suspense } from "react";
 
-export default function Overview() {
+export default function Overview({ userRole }: { userRole: UserRolesEnum }) {
   return (
     <section>
       <h2 className="mb-2 text-lg font-semibold">Overview</h2>
@@ -19,17 +19,24 @@ export default function Overview() {
         >
           <Targets />
         </Suspense>
-        <Suspense
-          fallback={<Skeleton className="h-[110px] rounded-xl border" />}
-        >
-          <Clients />
-        </Suspense>
-        <Suspense
-          fallback={<Skeleton className="h-[110px] rounded-xl border" />}
-        >
-          {" "}
-          <Vendors />
-        </Suspense>
+        {(userRole === "director" ||
+          userRole === "sales_manager" ||
+          userRole === "sales_executive") && (
+          <Suspense
+            fallback={<Skeleton className="h-[110px] rounded-xl border" />}
+          >
+            <Clients />
+          </Suspense>
+        )}
+        {(userRole === "director" ||
+          userRole === "purchase_manager" ||
+          userRole === "purchase_executive") && (
+          <Suspense
+            fallback={<Skeleton className="h-[110px] rounded-xl border" />}
+          >
+            <Vendors />
+          </Suspense>
+        )}
       </div>
     </section>
   );

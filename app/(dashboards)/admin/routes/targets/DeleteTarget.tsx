@@ -38,11 +38,9 @@ export default function DeleteTarget({ routeID }: { routeID: any }) {
           <AlertDialogTitle>
             <p className="text-red-500">Are you absolutely sure?</p>
           </AlertDialogTitle>
-          <AlertDialogDescription>
-            <p className="text-red-500">
-              This action cannot be undone. This will permanently delete this
-              target from the database.
-            </p>
+          <AlertDialogDescription className="text-red-500">
+            This action cannot be undone. This will permanently delete this
+            target from the database.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

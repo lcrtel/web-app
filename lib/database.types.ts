@@ -454,15 +454,7 @@ export type Database = {
           timestamp?: string
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "notifications _user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       payments: {
         Row: {
@@ -611,15 +603,7 @@ export type Database = {
           skype_id?: string | null
           user_type?: Database["public"]["Enums"]["user_types"]
         }
-        Relationships: [
-          {
-            foreignKeyName: "profiles_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       purchases: {
         Row: {
@@ -941,13 +925,6 @@ export type Database = {
             referencedRelation: "routes"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "selected_routes_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
         ]
       }
       support_chat: {
@@ -975,22 +952,7 @@ export type Database = {
           timestamp?: string | null
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "public_support_chat_agent_id_fkey"
-            columns: ["agent_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_support_chat_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       targets: {
         Row: {
@@ -1444,13 +1406,6 @@ export type Database = {
             referencedRelation: "routes"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "watchlist_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
         ]
       }
     }
@@ -1463,15 +1418,7 @@ export type Database = {
           name: string | null
           profile_id: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "profiles_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       executive_durations: {
         Row: {
@@ -1481,15 +1428,7 @@ export type Database = {
           profile_id: string | null
           total_duration: number | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "profiles_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       manager_action_counts: {
         Row: {
@@ -1499,15 +1438,7 @@ export type Database = {
           name: string | null
           profile_id: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "profiles_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       manager_durations: {
         Row: {
@@ -1517,15 +1448,7 @@ export type Database = {
           profile_id: string | null
           total_duration: number | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "profiles_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Functions: {
@@ -1577,6 +1500,8 @@ export type Database = {
         | "sales_executive"
         | "sales_manager"
         | "user"
+        | "tech_manager"
+        | "tech_executive"
       statuses: "PENDING" | "VERIFIED" | "DECLINED"
       user_types: "STAFF" | "CLIENT" | "VENDOR"
     }
@@ -1981,5 +1906,20 @@ export type Enums<
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof PublicSchema["CompositeTypes"]
+    | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
 

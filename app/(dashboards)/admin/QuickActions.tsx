@@ -1,6 +1,6 @@
+import { CreateDepartmentExecutive } from "@/components/departments/CreateDepartmentExecutive";
 import { buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getUserRole } from "@/utils/user";
 import Link from "next/link";
 import { Suspense } from "react";
 import { HiOutlinePlusCircle } from "react-icons/hi";
@@ -31,6 +31,14 @@ async function Actions({ userRole }: { userRole: UserRolesEnum }) {
       {(userRole === "director" ||
         userRole === "purchase_manager" ||
         userRole === "purchase_executive") && <AddAccountForm role="VENDOR" />}
+        
+      {userRole === "purchase_manager" && (
+        <CreateDepartmentExecutive department="purchases" />
+      )}
+      {userRole === "sales_manager" && (
+        <CreateDepartmentExecutive department="sales" />
+      )}
+
       {userRole === "director" && (
         <Link
           href="/admin/routes/offers/post"

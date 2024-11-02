@@ -149,6 +149,10 @@ const navConfig: Record<Roles, NavProps> = {
         title: "Routes marketing",
         path: rootPath + "/marketing/routes",
       },
+      {
+        title: "Executives",
+        path: rootPath + "/departments/sales/executives",
+      },
     ],
   },
   finance_executive: {

@@ -1,7 +1,9 @@
-import BackButton from "@/components/BackButton";
+import {
+  PageHeader,
+  PageHeaderHeading
+} from "@/components/page-header";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
-import Link from "next/link";
 import { Suspense } from "react";
 import { fetchVerfiedRoutes } from "../../routes/offers/actions";
 import RoutesMarketing from "./RoutesMarketing";
@@ -9,21 +11,9 @@ import RoutesMarketing from "./RoutesMarketing";
 export default function RoutesMarketingPage() {
   return (
     <section className="space-y-2">
-      <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
-        <BackButton />
-        <Link href="/director" className="hover:underline">
-          Dashboard
-        </Link>
-        /
-        <Link href="/admin/marketing" className="hover:underline">
-          Marketing
-        </Link>
-        /
-        <Link href="/admin/marketing/routes" className="hover:underline">
-          Routes
-        </Link>
-      </div>
-      <h2 className="text-2xl font-bold tracking-tight">Routes Marketing</h2>
+      <PageHeader>
+        <PageHeaderHeading>Routes Marketing</PageHeaderHeading>
+      </PageHeader>
       <Suspense fallback={<Skeleton className="h-96 w-full" />}>
         <Marketing />
       </Suspense>

@@ -1,7 +1,11 @@
+import {
+  PageActions,
+  PageHeader,
+  PageHeaderHeading,
+} from "@/components/page-header";
 import { Button, buttonVariants } from "@/components/ui/button";
 import TableSkeleton from "@/components/ui/table-skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
-import { SupabaseClient } from "@supabase/supabase-js";
 import { unstable_noStore } from "next/cache";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -9,41 +13,39 @@ import { HiOutlinePlusCircle } from "react-icons/hi";
 import { CreateInvoice } from "./CreateInvoice";
 import { InvoiceTable } from "./InvoiceTable";
 
-export default async function InvoicesPage() {
-  const supabase = await supabaseAdminServer();
-
+export default function InvoicesPage() {
   return (
-    <div className=" ">
-      <div className="mb-5">
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-primary text-2xl font-bold">Invoices</h2>
-          <div className="flex items-center gap-2">
-            <Link
-              href="/admin/finance/invoices/bulk"
-              className={buttonVariants({ variant: "outline", size: "sm" })}
-            >
-              Bulk Invoice
-            </Link>
-            <Suspense
-              fallback={
-                <Button className="gap-2" size="sm">
-                  Create Invoice <HiOutlinePlusCircle className="h-4 w-4" />
-                </Button>
-              }
-            >
-              <Create supabase={supabase} />
-            </Suspense>
-          </div>
-        </div>
-        <Suspense fallback={<TableSkeleton />}>
-          <Invoices supabase={supabase} />
-        </Suspense>
-      </div>
+    <div className="space-y-2">
+      <PageHeader>
+        <PageHeaderHeading>Invoices</PageHeaderHeading>
+        <PageActions>
+          <Link
+            href="/admin/finance/invoices/bulk"
+            className={buttonVariants({ variant: "outline", size: "sm" })}
+          >
+            Bulk Invoice
+          </Link>
+          <Suspense
+            fallback={
+              <Button className="gap-2" size="sm">
+                Create Invoice <HiOutlinePlusCircle className="h-4 w-4" />
+              </Button>
+            }
+          >
+            <Create />
+          </Suspense>
+        </PageActions>
+      </PageHeader>
+      <Suspense fallback={<TableSkeleton />}>
+        <Invoices />
+      </Suspense>
     </div>
   );
 }
 
-async function Create({ supabase }: { supabase: SupabaseClient }) {
+async function Create() {
+  const supabase = await supabaseAdminServer();
+
   let { data: users } = await supabase
     .from("profiles")
     .select("*, user_roles!inner(*)")
@@ -52,7 +54,9 @@ async function Create({ supabase }: { supabase: SupabaseClient }) {
   return <CreateInvoice clients={users} paymentMethods={payment_methods} />;
 }
 
-async function Invoices({ supabase }: { supabase: any }) {
+async function Invoices() {
+  const supabase = await supabaseAdminServer();
+
   unstable_noStore();
   const { data: invoices } = await supabase
     .from("invoices")

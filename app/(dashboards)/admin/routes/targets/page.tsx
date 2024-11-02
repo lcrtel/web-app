@@ -1,6 +1,10 @@
-import BackButton from "@/components/BackButton";
+import Loader from "@/components/Loader";
+import {
+  PageActions,
+  PageHeader,
+  PageHeaderHeading,
+} from "@/components/page-header";
 import { buttonVariants } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { unstable_noStore } from "next/cache";
@@ -12,39 +16,26 @@ import { TargetsTable } from "./TargetsTable";
 export default async function Page() {
   const supabase = await supabaseAdminServer();
   return (
-    <div className="space-y-2">
-      <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
-        <BackButton />
-        <Link href="/director" className="hover:underline">
-          Dashboard
-        </Link>
-        /
-        <Link
-          href="/admin/routes/targets"
-          className="font-semibold hover:underline"
-        >
-          Targets
-        </Link>
-      </div>
-      <div className="mb-4 flex flex-wrap justify-between gap-2 md:items-center">
-        <h1 className="text-primary text-2xl font-bold">Buying Targets</h1>
-        <Link
-          passHref
-          href="/admin/routes/targets/post"
-          className={buttonVariants({
-            variant: "default",
-            size: "sm",
-          })}
-        >
-          Add
-          <HiOutlinePlusCircle className="ml-2 h-5 w-5" />
-        </Link>
-      </div>
-      <div className="w-full overflow-y-auto">
-        <Suspense fallback={<Skeleton className="h-28 w-full" />}>
-          <BuyingTargets supabase={supabase} />
-        </Suspense>
-      </div>
+    <div>
+      <PageHeader>
+        <PageHeaderHeading>Buying Targets</PageHeaderHeading>
+        <PageActions>
+          <Link
+            passHref
+            href="/admin/routes/targets/post"
+            className={buttonVariants({
+              variant: "default",
+              size: "sm",
+            })}
+          >
+            Add
+            <HiOutlinePlusCircle className="ml-2 h-5 w-5" />
+          </Link>
+        </PageActions>
+      </PageHeader>
+      <Suspense fallback={<Loader />}>
+        <BuyingTargets supabase={supabase} />
+      </Suspense>
     </div>
   );
 }
@@ -72,5 +63,9 @@ async function BuyingTargets({ supabase }: { supabase: SupabaseClient }) {
         };
       });
   }
-  return <TargetsTable data={addClientNameToTargets(targets, clients)} />;
+  return (
+    <div className="w-full py-2">
+      <TargetsTable data={addClientNameToTargets(targets, clients)} />
+    </div>
+  );
 }

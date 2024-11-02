@@ -1,4 +1,4 @@
-import BackButton from "@/components/BackButton";
+import { PageHeader, PageHeaderHeading } from "@/components/page-header";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
@@ -9,7 +9,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
-import Link from "next/link";
 import { Suspense } from "react";
 import CreateRateHikeForm from "./CreateRateHikeForm";
 import DeleteRateHikeModal from "./DeleteRateHikeModal";
@@ -17,22 +16,12 @@ import UpdateRateHikeModal from "./UpdateRateHikeModal";
 export default function RateHikesPage() {
   return (
     <section className="space-y-2">
-      <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
-        <BackButton />
-        <Link href="/director" className="hover:underline">
-          Dashboard
-        </Link>
-        /
-        <Link href="/admin/finance/rate-hikes" className="hover:underline">
-          Rate Hikes & Deductions
-        </Link>
-      </div>
-      <h2 className="text-2xl font-bold tracking-tight">
-        Rate hikes & Deductions
-      </h2>
-      <div className="grid md:grid-cols-4 gap-5">
+      <PageHeader>
+        <PageHeaderHeading>Rate hikes & Deductions</PageHeaderHeading>
+      </PageHeader>
+      <div className="grid gap-5 md:grid-cols-4">
         <CreateRateHikeForm />
-        <Suspense fallback={<Skeleton className="md:col-span-3 h-96 w-full" />}>
+        <Suspense fallback={<Skeleton className="h-96 w-full md:col-span-3" />}>
           <RateHikesList />
         </Suspense>
       </div>
@@ -46,7 +35,7 @@ async function RateHikesList() {
     .from("rate_hikes")
     .select("*, phone_codes(*)");
   return (
-    <div className="md:col-span-3 h-fit rounded-lg border">
+    <div className="h-fit rounded-lg border md:col-span-3">
       {rateHikes && rateHikes?.length !== 0 ? (
         <Table className="">
           <TableHeader>

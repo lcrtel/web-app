@@ -1,36 +1,26 @@
+import {
+  PageActions,
+  PageHeader,
+  PageHeaderHeading,
+} from "@/components/page-header";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { Suspense } from "react";
 import { AddAccountForm } from "../_components/AddAccount";
 import { ClientsTable } from "./ClientsTable";
-import BackButton from "@/components/BackButton";
-import Link from "next/link";
 
 export default function Page() {
   return (
     <div className="space-y-2">
-      <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
-        <BackButton />
-        <Link href="/director" className="hover:underline">
-          Dashboard
-        </Link>
-        /
-        <Link href="/admin/users/clients" className="hover:underline">
-          Clients
-        </Link>
-      </div>
-      <div>
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-primary text-2xl font-bold">Clients</h2>
+      <PageHeader>
+        <PageHeaderHeading>Clients</PageHeaderHeading>
+        <PageActions>
           <AddAccountForm role="CLIENT" />
-        </div>
-      </div>
-
-      <div className="flex w-full flex-col gap-3 overflow-x-auto xl:flex-row">
-        <Suspense fallback={<Loader />}>
-          <Clients />
-        </Suspense>
-      </div>
+        </PageActions>
+      </PageHeader>
+      <Suspense fallback={<Loader />}>
+        <Clients />
+      </Suspense>
     </div>
   );
 }

@@ -43,7 +43,7 @@ const Routes = async () => {
   const verified_routes = await fetchVerfiedRoutes();
   if (verified_routes)
     return (
-      <div className="my-2 w-full">
+      <div className="py-2 w-full">
         <RoutesTable data={verified_routes} />
       </div>
     );

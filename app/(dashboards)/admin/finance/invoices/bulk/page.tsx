@@ -1,3 +1,4 @@
+import { PageHeader, PageHeaderHeading } from "@/components/page-header";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { Suspense } from "react";
@@ -6,8 +7,10 @@ export const revalidate = 0;
 
 export default function page() {
   return (
-    <section className="flex h-full flex-col">
-      <h3 className="mb-4 text-2xl font-bold tracking-tight">Bulk Invoice</h3>
+    <section className="space-y-2">
+      <PageHeader>
+        <PageHeaderHeading>Bulk Invoice</PageHeaderHeading>
+      </PageHeader>
       <Suspense fallback={<Skeleton className="h-96 w-full" />}>
         <BulkInvoice />
       </Suspense>

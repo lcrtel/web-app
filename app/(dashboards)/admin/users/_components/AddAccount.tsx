@@ -24,7 +24,7 @@ import {
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
-import { HiEye, HiEyeOff } from "react-icons/hi";
+import { HiEye, HiEyeOff, HiOutlinePlusCircle } from "react-icons/hi";
 import { addAccount } from "../actions";
 
 const accountSchema = z.object({
@@ -66,7 +66,7 @@ export const AddAccountForm = ({ role }: { role: UserTypesEnum }) => {
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <Button variant="default" size="sm" className="capitalize">
-          Add {user_type}
+          Add {user_type} <HiOutlinePlusCircle className="ml-2 h-5 w-5" />
         </Button>
       </SheetTrigger>
       <SheetContent>

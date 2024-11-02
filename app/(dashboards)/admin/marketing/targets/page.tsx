@@ -4,25 +4,14 @@ import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import Link from "next/link";
 import { Suspense } from "react";
 import TargetsMarketing from "./TargetsMarketing";
+import { PageHeader, PageHeaderHeading } from "@/components/page-header";
 
 export default function RoutesMarketingPage() {
   return (
     <section className="space-y-2">
-      <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
-        <BackButton />
-        <Link href="/director" className="hover:underline">
-          Dashboard
-        </Link>
-        /
-        <Link href="/admin/marketing" className="hover:underline">
-          Marketing
-        </Link>
-        /
-        <Link href="/admin/marketing/targets" className="hover:underline">
-          Targets
-        </Link>
-      </div>
-      <h2 className="text-2xl font-bold tracking-tight">Targets Marketing</h2>
+      <PageHeader>
+        <PageHeaderHeading>Targets Marketing</PageHeaderHeading>
+      </PageHeader>
       <Suspense fallback={<Skeleton className="h-96 w-full" />}>
         <Marketing />
       </Suspense>

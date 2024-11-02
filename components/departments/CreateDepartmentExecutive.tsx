@@ -66,7 +66,7 @@ export const CreateDepartmentExecutive = ({ department }: Props) => {
     <>
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
-          <Button variant="outline" className="gap-2" size="sm">Add Executive <PlusCircle className="size-4"/></Button>
+          <Button className="gap-2" size="sm">Add Executive <PlusCircle className="size-4"/></Button>
         </SheetTrigger>
         <SheetContent>
           <SheetHeader>

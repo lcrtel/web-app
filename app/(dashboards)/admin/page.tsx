@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Overview from "./Overview";
 import QuickActions from "./QuickActions";
+import { PageHeader, PageHeaderHeading } from "@/components/page-header";
 
 export const metadata: Metadata = {
   title: "Dashboard - Director",
@@ -8,7 +9,7 @@ export const metadata: Metadata = {
 export default function Dashboard() {
   return (
     <div className="space-y-4">
-      <h1 className="text-primary text-2xl font-bold">Dashboard</h1>
+      <PageHeaderHeading>Dashboard</PageHeaderHeading>
       <Overview />
       <QuickActions />
     </div>

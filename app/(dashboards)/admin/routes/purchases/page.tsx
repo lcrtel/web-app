@@ -1,5 +1,5 @@
 import BackButton from "@/components/BackButton";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import CopyButton from "@/components/ui/copy-button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -16,40 +16,30 @@ import { PlusCircle } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import { FaWhatsapp } from "react-icons/fa6";
-import { HiOutlineExternalLink } from "react-icons/hi";
+import { HiOutlineExternalLink, HiOutlinePlusCircle } from "react-icons/hi";
 import { fetchVerfiedRoutes } from "../offers/actions";
 import AddPurchaseSheet from "./AddPurchaseSheet";
 import { EditPurchaseRequest } from "./EditPurchaseRequest";
+import { PageActions, PageHeader, PageHeaderHeading } from "@/components/page-header";
 
 export default function PurchaseRequestsPage() {
   return (
-    <div className="space-y-2">
-      <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
-        <BackButton />
-        <Link href="/director" className="hover:underline">
-          Dashboard
-        </Link>
-        /
-        <Link
-          href="/admin/routes/purchases"
-          className="font-semibold hover:underline"
-        >
-          Purchases
-        </Link>
-      </div>
-      <div className="mb-4 flex flex-wrap justify-between gap-2 md:items-center">
-        <h1 className="text-primary text-2xl font-bold">Purchases</h1>
-        <Suspense
-          fallback={
-            <Button size="sm">
-              Add <PlusCircle className="ml-2 size-4" />
-            </Button>
-          }
-        >
-          <AddPurchaseRequestButton />
-        </Suspense>
-      </div>
-      <div className="w-full overflow-y-auto">
+    <div>
+      <PageHeader>
+        <PageHeaderHeading>Purchases</PageHeaderHeading>
+        <PageActions>
+          <Suspense
+            fallback={
+              <Button size="sm">
+                Add <PlusCircle className="ml-2 size-4" />
+              </Button>
+            }
+          >
+            <AddPurchaseRequestButton />
+          </Suspense>
+        </PageActions>
+      </PageHeader>
+      <div className="w-full overflow-y-auto py-2">
         <Suspense fallback={<Skeleton className="h-28 w-full" />}>
           <PurchaseRequestsTable />
         </Suspense>

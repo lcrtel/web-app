@@ -1,4 +1,7 @@
-import BackButton from "@/components/BackButton";
+import {
+  PageHeader,
+  PageHeaderHeading
+} from "@/components/page-header";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { ExternalLink } from "lucide-react";
@@ -7,21 +10,11 @@ import { Suspense } from "react";
 
 export default function Departments() {
   return (
-    <div className="">
-      <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
-        <BackButton />
-        <Link href="/director" className="hover:underline">
-          Dashboard
-        </Link>
-        /
-        <Link href="/admin/departments" className="hover:underline">
-          Departments
-        </Link>
-      </div>
-      <div className="flex items-center justify-between py-2">
-        <h2 className="text-2xl font-bold tracking-tight">Departments</h2>
-      </div>
-      <Suspense fallback={<Skeleton className="h-32 w-full"/>}>
+    <div className="space-y-2">
+      <PageHeader>
+        <PageHeaderHeading>Departments</PageHeaderHeading>
+      </PageHeader>
+      <Suspense fallback={<Skeleton className="h-32 w-full" />}>
         <DepartmentsList />
       </Suspense>
     </div>
@@ -40,14 +33,15 @@ async function DepartmentsList() {
           <Link
             key={idx}
             href={`/admin/departments/${department.slug}`}
-            className="rounded-2xl flex items-center justify-between border bg-slate-50 p-4"
+            className="flex items-center justify-between rounded-2xl border bg-slate-50 p-4"
           >
             <div className="flex flex-col gap-1">
-            <h3 className="text-xl font-semibold">{department.name}</h3>
-            <p className="text-sm text-slate-500">
-              Executives: {department.executives[0].count || 0}
-            </p></div>
-            <div className="p-4 rounded-full bg-white border">
+              <h3 className="text-xl font-semibold">{department.name}</h3>
+              <p className="text-sm text-slate-500">
+                Executives: {department.executives[0].count || 0}
+              </p>
+            </div>
+            <div className="rounded-full border bg-white p-4">
               <ExternalLink className="size-5 text-primary-900" />
             </div>
           </Link>

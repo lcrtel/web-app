@@ -1,3 +1,8 @@
+import {
+  PageActions,
+  PageHeader,
+  PageHeaderHeading,
+} from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
@@ -9,21 +14,22 @@ import { TRTable } from "./tr-table";
 export default function TRVerification() {
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap justify-between gap-2 md:items-center">
-        <h1 className="text-primary text-2xl font-bold">TR Verification</h1>
-        <Suspense
-          fallback={
-            <Button>
-              {" "}
-              <HiOutlinePlusCircle className="mr-2 h-5 w-5" />
-              Add
-            </Button>
-          }
-        >
-          <AddTRButton />
-        </Suspense>
-      </div>
-
+      <PageHeader>
+        <PageHeaderHeading>TR Verification</PageHeaderHeading>
+        <PageActions>
+          <Suspense
+            fallback={
+              <Button>
+                {" "}
+                <HiOutlinePlusCircle className="mr-2 h-5 w-5" />
+                Add
+              </Button>
+            }
+          >
+            <AddTRButton />
+          </Suspense>
+        </PageActions>
+      </PageHeader>
       <div className="">
         <h1 className="text-primary mb-2 text-xl font-semibold">
           Pending Verification

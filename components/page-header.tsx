@@ -8,7 +8,7 @@ function PageHeader({
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <section
-      className={cn("mx-auto flex items-center gap-2 py-2", className)}
+      className={cn("mx-auto flex items-center flex-wrap gap-2 py-2", className)}
       {...props}
     >
       <BackButton />
@@ -54,7 +54,7 @@ function PageActions({
   return (
     <div
       className={cn(
-        "flex w-full items-center justify-end gap-2",
+        "flex flex-1 items-center justify-end gap-2",
         className,
       )}
       {...props}

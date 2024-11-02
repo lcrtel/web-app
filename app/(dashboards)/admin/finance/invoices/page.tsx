@@ -45,13 +45,11 @@ export default function InvoicesPage() {
 
 async function Create() {
   const supabase = await supabaseAdminServer();
-
   let { data: users } = await supabase
     .from("profiles")
     .select("*, user_roles!inner(*)")
     .eq("user_roles.role_slug", "user");
-  let { data: payment_methods } = await supabase.from("config").select("*");
-  return <CreateInvoice clients={users} paymentMethods={payment_methods} />;
+  return <CreateInvoice clients={users} />;
 }
 
 async function Invoices() {

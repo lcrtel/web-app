@@ -110,7 +110,7 @@ export default function AddTRSheet({ users }: { users: Profile[] }) {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button size="sm">
-          Add
+          Add TR
           <HiOutlinePlusCircle className="ml-2 h-5 w-5" />
         </Button>
       </SheetTrigger>

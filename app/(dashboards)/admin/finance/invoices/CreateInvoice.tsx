@@ -71,10 +71,8 @@ const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 export function CreateInvoice({
   clients,
-  paymentMethods,
 }: {
   clients: any;
-  paymentMethods: any;
 }) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -93,7 +91,6 @@ export function CreateInvoice({
 
   const [cc, setCc] = useState<any>([]);
 
-  const [paymentMethod, setPaymentMethod] = useState(paymentMethods[0]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof invoiceFormSchema>>({

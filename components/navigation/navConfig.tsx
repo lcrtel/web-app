@@ -1,6 +1,6 @@
 import { NavProps } from "./DashboardNav";
 
-const rootPath = "/admin";
+export const rootPath = "/admin";
 const accountPath = "/admin/account";
 
 export type Roles =
@@ -216,6 +216,18 @@ const navConfig: Record<Roles, NavProps> = {
       {
         title: "Dashboard",
         path: rootPath,
+      },
+      {
+        title: "Invoices",
+        path: rootPath + "/finance/invoices",
+      },
+      {
+        title: "Rate hikes",
+        path: rootPath + "/finance/rate-hikes",
+      },
+      {
+        title: "TR Verification",
+        path: rootPath + "/finance/tr-verification",
       },
     ],
   },

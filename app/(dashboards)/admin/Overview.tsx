@@ -37,6 +37,15 @@ export default function Overview({ userRole }: { userRole: UserRolesEnum }) {
             <Vendors />
           </Suspense>
         )}
+        {(userRole === "director" ||
+          userRole === "finance_manager" ||
+          userRole === "finance_executive") && (
+          <Suspense
+            fallback={<Skeleton className="h-[110px] rounded-xl border" />}
+          >
+            <Invoices />
+          </Suspense>
+        )}
       </div>
     </section>
   );
@@ -88,6 +97,18 @@ const Vendors = async () => {
   return (
     <Link href="/admin/users/vendors">
       <MetricsCard count={vendors?.length} label="Vendors" />
+    </Link>
+  );
+};
+const Invoices = async () => {
+  const supabase = await supabaseAdminServer();
+  const { count, error } = await supabase
+    .from("invoices")
+    .select("*", { count: "exact", head: true });
+
+  return (
+    <Link href="/admin/finance/invoices">
+     <MetricsCard count={count ?? 0} label="Invoices" />
     </Link>
   );
 };

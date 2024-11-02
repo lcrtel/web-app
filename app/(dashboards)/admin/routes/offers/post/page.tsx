@@ -1,33 +1,25 @@
-import BackButton from "@/components/BackButton";
+import NotAuthorized from "@/components/NotAuthorized";
+import { PageHeader, PageHeaderHeading } from "@/components/page-header";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
-import Link from "next/link";
+import { getUserRole } from "@/utils/user";
 import { Suspense } from "react";
-import { AddRouteTable } from "./AddRoutes";
+import { AddRoutesTable } from "./AddRoutesTable";
 
-export default function page() {
+export default async function page() {
+  const userRole = (await getUserRole()) as UserRolesEnum;
   return (
-    <section className="">
-      <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
-        <BackButton />
-        <Link href="/director" className="hover:underline">
-          Dashboard
-        </Link>
-        /
-        <Link href="/admin/routes/offers" className="hover:underline">
-          Routes
-        </Link>
-        /
-        <Link
-          href="/admin/routes/offers/post"
-          className="font-semibold hover:underline"
-        >
-          Post Routes
-        </Link>
-      </div>
-      <Suspense fallback={<Skeleton className="h-96 w-full" />}>
-        <AddRoutes />
-      </Suspense>
+    <section className="space-y-2">
+      <PageHeader>
+        <PageHeaderHeading>Post Routes</PageHeaderHeading>
+      </PageHeader>
+      {userRole === "director" ? (
+        <Suspense fallback={<Skeleton className="h-96 w-full" />}>
+          <AddRoutes />
+        </Suspense>
+      ) : (
+        <NotAuthorized />
+      )}
     </section>
   );
 }
@@ -38,5 +30,5 @@ async function AddRoutes() {
     .from("profiles")
     .select("*, user_roles!inner(*)")
     .eq("user_roles.role_slug", "user");
-  return <AddRouteTable users={vendors} />;
+  return <AddRoutesTable users={vendors} />;
 }

@@ -652,12 +652,12 @@ export const ImportDropdown = ({ setData }: { setData: Dispatch<any> }) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <button className="hover:bg-primary text-primary relative flex cursor-pointer items-center justify-center rounded-full border px-3 py-2 text-sm font-medium shadow-sm transition-all ease-in-out hover:bg-opacity-5">
+        <Button size="sm">
           Import
           <HiOutlineCloudDownload className="ml-2 h-4 w-4" />
-        </button>
+        </Button>
       </PopoverTrigger>
-      <PopoverContent align="end">
+      <PopoverContent align="center">
         <div className="flex flex-col items-center justify-center text-primary-900">
           <label
             htmlFor="file-upload"

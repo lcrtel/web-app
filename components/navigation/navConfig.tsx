@@ -141,6 +141,10 @@ const navConfig: Record<Roles, NavProps> = {
         title: "Route offers",
         path: rootPath + "/routes/offers",
       },
+      {
+        title: "Buying targets",
+        path: rootPath + "/routes/targets",
+      },
     ],
   },
   finance_executive: {

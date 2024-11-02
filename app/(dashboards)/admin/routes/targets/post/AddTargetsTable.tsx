@@ -14,7 +14,7 @@ declare module "@tanstack/react-table" {
   }
 }
 
-export function AddRouteTable({ users }: { users: any }) {
+export function AddTargetsTable({ users }: { users: any }) {
   const [posting, setPosting] = useState(false);
   const router = useRouter();
   const [data, setData] = useState<any>([
@@ -52,21 +52,13 @@ export function AddRouteTable({ users }: { users: any }) {
     ) {
       await postRoutes();
       toast.dismiss(postingToast);
-      
     } else {
       setPosting(false);
       toast.error("Please select client");
     }
   };
   return (
-    <div className="w-full">
-      <div className="flex items-center justify-between py-4">
-        <h2 className="text-2xl font-bold tracking-tight">Post buying targets</h2>
-        <div className="flex items-center gap-2 text-sm">
-          <p>{data.length} route(s)</p> <ImportDropdown setData={setData} />
-        </div>
-      </div>
-
+    <div className="w-full space-y-2 py-2">
       <PostRoutesTable
         data={data}
         handleSubmit={handleSubmit}
@@ -74,6 +66,11 @@ export function AddRouteTable({ users }: { users: any }) {
         posting={posting}
         setData={setData}
       />
+      <div className="flex items-center justify-center rounded-lg bg-slate-100 py-16">
+        <div className="flex items-center gap-2 text-sm">
+          <ImportDropdown setData={setData} />
+        </div>
+      </div>
     </div>
   );
 }

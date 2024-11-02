@@ -1,36 +1,36 @@
-import BackButton from "@/components/BackButton";
+import NotAuthorized from "@/components/NotAuthorized";
+import { PageHeader, PageHeaderHeading } from "@/components/page-header";
+import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
-import Link from "next/link";
-import { AddRouteTable } from "./AddTargets";
+import { getUserRole } from "@/utils/user";
+import { Suspense } from "react";
+import { AddTargetsTable } from "./AddTargetsTable";
 
-const page = async () => {
-  const supabase = await supabaseAdminServer();
-  let { data: clients } = await supabase
-    .from("profiles")
-    .select("*, user_roles!inner(*)")
-    .eq("user_roles.role_slug", "user")
+export default async function PostTargetsPage() {
+  const userRole = (await getUserRole()) as UserRolesEnum;
   return (
     <section className="">
-      <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
-        <BackButton />
-        <Link href="/director" className="hover:underline">
-          Dashboard
-        </Link>
-        /
-        <Link href="/admin/routes/targets" className="hover:underline">
-          Buying targets
-        </Link>
-        /
-        <Link
-          href="/admin/routes/targets/post"
-          className="font-semibold hover:underline"
-        >
-          Post targets
-        </Link>
-      </div>
-      <AddRouteTable users={clients} />
+      <PageHeader>
+        <PageHeaderHeading>Post Targets</PageHeaderHeading>
+      </PageHeader>
+      {userRole === "director" ||
+      userRole === "sales_manager" ||
+      userRole === "sales_executive" ? (
+        <Suspense fallback={<Skeleton className="h-96 w-full" />}>
+          <AddTargets />
+        </Suspense>
+      ) : (
+        <NotAuthorized />
+      )}
     </section>
   );
-};
+}
 
-export default page;
+async function AddTargets() {
+  const supabase = await supabaseAdminServer();
+  let { data: vendors } = await supabase
+    .from("profiles")
+    .select("*, user_roles!inner(*)")
+    .eq("user_roles.role_slug", "user");
+  return <AddTargetsTable users={vendors} />;
+}

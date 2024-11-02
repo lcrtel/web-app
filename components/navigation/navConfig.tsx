@@ -155,6 +155,31 @@ const navConfig: Record<Roles, NavProps> = {
       },
     ],
   },
+  sales_executive: {
+    root: {
+      label: "Admin Panel",
+      path: rootPath,
+    },
+    accountPage: accountPath,
+    pages: [
+      {
+        title: "Dashboard",
+        path: rootPath,
+      },
+      {
+        title: "Route offers",
+        path: rootPath + "/routes/offers",
+      },
+      {
+        title: "Buying targets",
+        path: rootPath + "/routes/targets",
+      },
+      {
+        title: "Routes marketing",
+        path: rootPath + "/marketing/routes",
+      },
+    ],
+  },
   finance_executive: {
     root: {
       label: "Admin Panel",
@@ -231,6 +256,18 @@ const navConfig: Record<Roles, NavProps> = {
         title: "Dashboard",
         path: rootPath,
       },
+      {
+        title: "Route offers",
+        path: rootPath + "/routes/offers",
+      },
+      {
+        title: "Buying targets",
+        path: rootPath + "/routes/targets",
+      },
+      {
+        title: "Targets marketing",
+        path: rootPath + "/marketing/targets",
+      },
     ],
   },
   purchase_manager: {
@@ -244,18 +281,21 @@ const navConfig: Record<Roles, NavProps> = {
         title: "Dashboard",
         path: rootPath,
       },
-    ],
-  },
-  sales_executive: {
-    root: {
-      label: "Admin Panel",
-      path: rootPath,
-    },
-    accountPage: accountPath,
-    pages: [
       {
-        title: "Dashboard",
-        path: rootPath,
+        title: "Route offers",
+        path: rootPath + "/routes/offers",
+      },
+      {
+        title: "Buying targets",
+        path: rootPath + "/routes/targets",
+      },
+      {
+        title: "Targets marketing",
+        path: rootPath + "/marketing/targets",
+      },
+      {
+        title: "Executives",
+        path: rootPath + "/departments/purchases/executives",
       },
     ],
   },

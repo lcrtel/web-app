@@ -96,6 +96,10 @@ export async function createDepartmentExecutive(
   if (error) {
     return { error: error.message };
   } else if (user) {
+    const { error } = await supabase
+      .from("user_roles")
+      .update({ role_slug })
+      .eq("user_id", user.id);
     const { error: error2 } = await supabase
       .from("executives")
       .insert({ user_id: user.id, department });

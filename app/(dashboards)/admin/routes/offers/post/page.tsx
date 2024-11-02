@@ -6,29 +6,31 @@ import { getUserRole } from "@/utils/user";
 import { Suspense } from "react";
 import { AddRoutesTable } from "./AddRoutesTable";
 
-export default async function page() {
-  const userRole = (await getUserRole()) as UserRolesEnum;
+export default function page() {
   return (
     <section className="space-y-2">
       <PageHeader>
         <PageHeaderHeading>Post Routes</PageHeaderHeading>
       </PageHeader>
-      {userRole === "director" ? (
-        <Suspense fallback={<Skeleton className="h-96 w-full" />}>
-          <AddRoutes />
-        </Suspense>
-      ) : (
-        <NotAuthorized />
-      )}
+      <Suspense fallback={<Skeleton className="h-96 w-full" />}>
+        <AddRoutes />
+      </Suspense>
     </section>
   );
 }
 
 async function AddRoutes() {
+  const userRole = (await getUserRole()) as UserRolesEnum;
   const supabase = await supabaseAdminServer();
   let { data: vendors } = await supabase
     .from("profiles")
     .select("*, user_roles!inner(*)")
     .eq("user_roles.role_slug", "user");
-  return <AddRoutesTable users={vendors} />;
+  return userRole === "director" ||
+    userRole === "purchase_executive" ||
+    userRole === "purchase_manager" ? (
+    <AddRoutesTable users={vendors} />
+  ) : (
+    <NotAuthorized />
+  );
 }

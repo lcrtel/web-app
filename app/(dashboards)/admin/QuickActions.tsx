@@ -31,7 +31,7 @@ async function Actions({ userRole }: { userRole: UserRolesEnum }) {
       {(userRole === "director" ||
         userRole === "purchase_manager" ||
         userRole === "purchase_executive") && <AddAccountForm role="VENDOR" />}
-        
+
       {userRole === "purchase_manager" && (
         <CreateDepartmentExecutive department="purchases" />
       )}
@@ -39,7 +39,9 @@ async function Actions({ userRole }: { userRole: UserRolesEnum }) {
         <CreateDepartmentExecutive department="sales" />
       )}
 
-      {userRole === "director" && (
+      {(userRole === "director" ||
+        userRole === "purchase_manager" ||
+        userRole === "purchase_executive") && (
         <Link
           href="/admin/routes/offers/post"
           className={`${buttonVariants({

@@ -20,7 +20,7 @@ export default async function RoutesPage() {
     <div>
       <PageHeader>
         <PageHeaderHeading>Route Offers</PageHeaderHeading>
-        {userRole === "director" && (
+        {(userRole === "director" || userRole === "purchase_executive" || userRole === "purchase_manager") && (
           <PageActions>
             <Link
               passHref
@@ -48,7 +48,9 @@ async function Routes({ userRole }: { userRole: UserRolesEnum }) {
   if (verified_routes)
     return (
       <div className="w-full py-2">
-        {userRole === "director" ? (
+        {userRole === "director" ||
+        userRole === "purchase_executive" ||
+        userRole === "purchase_manager" ? (
           <RoutesTable data={verified_routes} />
         ) : (
           <RoutesTableReadOnlyAdmin data={verified_routes} />

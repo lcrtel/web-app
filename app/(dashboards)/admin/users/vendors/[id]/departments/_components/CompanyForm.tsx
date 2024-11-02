@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
-import { updateFinanceDipartment, updateNOCDipartment, updateSalesDipartment } from "../../../../_components/actions";
+import { updateFinanceDipartment, updateNOCDipartment, updateSalesDipartment } from "../../../../clients/[id]/departments/_components/actions";
 
 
 const departmentSchema = z.object({
@@ -41,6 +41,7 @@ export function CompanyForm({ user }: { user: any }) {
     async function onSubmit(data: any) {
       const res = await updateFinanceDipartment({
         user_id: userID,
+        user_type: user.user_type,
         finance_department: data,
       });
       if (res?.error) {
@@ -126,6 +127,7 @@ export function CompanyForm({ user }: { user: any }) {
     async function onSubmit(data: any) {
       const res = await updateNOCDipartment({
         user_id: userID,
+        user_type: user.user_type,
         noc_department: data,
       });
       if (res?.error) {
@@ -209,6 +211,7 @@ export function CompanyForm({ user }: { user: any }) {
     async function onSubmit(data: any) {
       const res = await updateSalesDipartment({
         user_id: userID,
+        user_type: user.user_type,
         sales_department: data,
       });
       if (res?.error) {

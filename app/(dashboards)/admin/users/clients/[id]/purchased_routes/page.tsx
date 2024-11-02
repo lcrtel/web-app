@@ -15,16 +15,17 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { HiOutlineExternalLink } from "react-icons/hi";
-export default function PurchasedRoutesPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function PurchasedRoutesPage(
+  props: {
+    params: Promise<{ id: string }>;
+  }
+) {
+  const params = await props.params;
   return (
     <section className="flex flex-col gap-5">
       <div className="">
         <div className="flex justify-between">
-          <h3 className="mb-2 text-lg font-semibold">Purchases</h3>
+          <h3 className="mb-2 text-xl font-semibold">Purchases</h3>
         </div>
         <Suspense fallback={<Skeleton className="h-28 w-full" />}>
           <PurchaseRequestsTable clientId={params.id} />

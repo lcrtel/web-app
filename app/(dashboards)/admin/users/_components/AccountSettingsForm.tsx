@@ -71,7 +71,7 @@ export function AccountSettingsForm({ user }: { user: any }) {
   async function onSubmit(data: any) {
     setLoading(true);
     const toastId = toast.loading("Updating...");
-    const res = await updateAccountDetails({ id: user?.id, ...data });
+    const res = await updateAccountDetails({ id: user?.id , user_type: user.user_type, ...data });
     if (res?.error) {
       setLoading(false);
       toast.error(res.error);

@@ -52,17 +52,23 @@ export const columns: ColumnDef<Route>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "client",
+    accessorKey: "profiles",
     header: "Client",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("client")}</div>
+      <div className="capitalize">
+        {/* @ts-ignore */}
+        {row.getValue("profiles") ? row.getValue("profiles").name : "N/A"}
+      </div>
     ),
   },
   {
     accessorKey: "client_company",
     header: "Company",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("client_company")}</div>
+      <div className="capitalize">
+        {/* @ts-ignore */}
+        {row.getValue("profiles") ? row.getValue("profiles").company_name : "N/A"}
+      </div>
     ),
   },
 

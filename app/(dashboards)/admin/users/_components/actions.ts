@@ -26,12 +26,13 @@ export async function updateAccountDetails(user: any) {
     return { error: error.message };
   }
   await supabase.from("user_actions").insert({
-    action_type: "updated_account_details",
+    action_type:
+      user.user_type === "VENDOR" ? "updated_vendor" : "updated_client",
     action_details: "Updated account details of " + user.name,
   });
   return;
 }
-export async function deleteAccount(user: any) {
+export async function deleteAccount(user: Profile) {
   const supabaseAdmin = await supabaseAdminServer();
   const supabase = await supabaseServer();
 
@@ -42,14 +43,15 @@ export async function deleteAccount(user: any) {
   }
   transporter.sendMail({
     from: process.env.SMTP_USER,
-    to: user?.email,
+    to: user?.email ?? "",
     subject: "Account Deletion Notification",
     html: await renderAsync(DeleteAccount({ user: user })),
   });
 
   await supabase.from("user_actions").insert({
-    action_type: "delete_account",
-    action_details: `Deleted ${user.name}'s account`,
+    action_type:
+      user.user_type === "VENDOR" ? "deleted_vendor" : "deleted_client",
+    action_details: `Deleted ${user.user_type.toLowerCase()}: ${user.name}`,
   });
 }
 
@@ -72,7 +74,8 @@ export async function updateCredentials(user: any) {
   });
 
   await supabase.from("user_actions").insert({
-    action_type: "updated_credentials",
+    action_type:
+      user.user_type === "VENDOR" ? "updated_vendor" : "updated_client",
     action_details: `Updated ${user.name}'s credentials`,
   });
 }
@@ -104,9 +107,9 @@ export async function addAccount(formData: any, userType: UserTypesEnum) {
       .from("profiles")
       .update({ user_type: userType, added_by: adminUser?.id })
       .eq("id", user?.id);
-    supabase.from("user_actions").insert({
-      action_type: "created_user",
-      action_details: `Created ${formData.name}'s account`,
+    await supabase.from("user_actions").insert({
+      action_type: userType === "VENDOR" ? "added_vendor" : "added_client",
+      action_details: `Added ${userType.toLowerCase()}: ${formData.name}`,
     });
   }
   transporter.sendMail({
@@ -114,62 +117,5 @@ export async function addAccount(formData: any, userType: UserTypesEnum) {
     to: formData?.email,
     subject: "Welcome to LCRTel.com! Account Details Inside.",
     html: await renderAsync(AddAccountEmail({ user: formData })),
-  });
-}
-
-export async function updateFinanceDipartment(data: any) {
-  const supabaseAdmin = await supabaseAdminServer();
-  const supabase = await supabaseServer();
-
-  const { error } = await supabaseAdmin
-    .from("profiles")
-    .update({ finance_department: data.finance_department })
-    .eq("id", data.user_id);
-
-  if (error) {
-    return { error: error.message };
-  }
-
-  await supabase.from("user_actions").insert({
-    action_type: "updated_finance_department",
-    action_details: `Updated ${data.name}'s finance department`,
-  });
-}
-
-export async function updateNOCDipartment(data: any) {
-  const supabaseAdmin = await supabaseAdminServer();
-  const supabase = await supabaseServer();
-
-  const { error } = await supabaseAdmin
-    .from("profiles")
-    .update({ noc_department: data.noc_department })
-    .eq("id", data.user_id);
-
-  if (error) {
-    return { error: error.message };
-  }
-
-  await supabase.from("user_actions").insert({
-    action_type: "updated_noc_department",
-    action_details: `Updated ${data.name}'s noc department`,
-  });
-}
-
-export async function updateSalesDipartment(data: any) {
-  const supabaseAdmin = await supabaseAdminServer();
-  const supabase = await supabaseServer();
-
-  const { error } = await supabaseAdmin
-    .from("profiles")
-    .update({ sales_department: data.sales_department })
-    .eq("id", data.user_id);
-
-  if (error) {
-    return { error: error.message };
-  }
-
-  await supabase.from("user_actions").insert({
-    action_type: "updated_sales_department",
-    action_details: `Updated ${data.name}'s sales department`,
   });
 }

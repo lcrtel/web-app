@@ -194,6 +194,7 @@ function LoginCredentials({ user }: { user: any }) {
     const res = await updateCredentials({
       id: user.id,
       name: user.name,
+      user_type: user.user_type,
       ...data,
     });
     if (res?.error) {

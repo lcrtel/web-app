@@ -52,6 +52,7 @@ export const AddAccountForm = ({ role }: { role: UserTypesEnum }) => {
     const adding = toast.loading("Adding...");
     const res = await addAccount(user, role);
     if (res?.error) {
+      toast.dismiss(adding);
       toast.error(res.error);
       setLoading(false);
       return;

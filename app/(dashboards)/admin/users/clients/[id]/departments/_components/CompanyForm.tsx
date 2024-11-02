@@ -20,7 +20,7 @@ import {
   updateFinanceDipartment,
   updateNOCDipartment,
   updateSalesDipartment,
-} from "../../../../_components/actions";
+} from "./actions";
 
 const departmentSchema = z.object({
   name: z.string().optional(),
@@ -43,6 +43,8 @@ export function CompanyForm({ user }: { user: any }) {
     async function onSubmit(data: any) {
       const res = await updateFinanceDipartment({
         user_id: userID,
+        name: user.name,
+        user_type: user.user_type,
         finance_department: data,
       });
       if (res?.error) {
@@ -126,6 +128,8 @@ export function CompanyForm({ user }: { user: any }) {
     async function onSubmit(data: any) {
       const res = await updateNOCDipartment({
         user_id: userID,
+        name: user.name,
+        user_type: user.user_type,
         noc_department: data,
       });
       if (res?.error) {
@@ -208,6 +212,8 @@ export function CompanyForm({ user }: { user: any }) {
     async function onSubmit(data: any) {
       const res = await updateSalesDipartment({
         user_id: userID,
+        name: user.name,
+        user_type: user.user_type,
         sales_department: data,
       });
       if (res?.error) {

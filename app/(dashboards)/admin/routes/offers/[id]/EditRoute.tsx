@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Sheet,
@@ -34,8 +34,9 @@ import {
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { HiX } from "react-icons/hi";
 import { editRoute } from "./actions";
+import { Pencil1Icon } from "@radix-ui/react-icons";
+import { SquarePen } from "lucide-react";
 const routeFormSchema = z.object({
   destination: z.string(),
   rate: z.string(),
@@ -56,42 +57,36 @@ export function EditRoute({ route }: { route: Route }) {
     defaultValues,
     mode: "onChange",
   });
-
   const router = useRouter();
   async function onSubmit(data: Route) {
+    const submitting = toast.loading("Updating...");
     const res = await editRoute(data, route.id);
     if (res?.error) {
+      toast.dismiss(submitting);
       toast.error(res.error);
       return;
     }
+    toast.dismiss(submitting);
     toast.success("Route updated");
     setIsOpen(false);
     router.refresh();
   }
   return (
-    <Sheet open={isOpen}>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button onClick={(e) => setIsOpen(true)}>Edit</Button>
+        <Button size="sm" onClick={(e) => setIsOpen(true)}>
+          Edit <SquarePen className="ml-2 size-4" />
+        </Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <div className="mb-2 flex items-center justify-between">
-            <SheetTitle>Edit Route</SheetTitle>
-            <div
-              className={`${buttonVariants({
-                variant: "ghost",
-                size: "icon",
-              })} cursor-pointer`}
-              onClick={(e) => setIsOpen(false)}
-            >
-              {" "}
-              <HiX className="h-5 w-5" />
-            </div>
-          </div>
+          <SheetTitle className="text-xl font-bold text-primary-900">
+            Edit Route
+          </SheetTitle>
         </SheetHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="mb-5 grid gap-5 sm:grid-cols-2">
+            <div className="grid gap-5 py-5 sm:grid-cols-2">
               <FormField
                 control={form.control}
                 name="destination"
@@ -140,7 +135,7 @@ export function EditRoute({ route }: { route: Route }) {
                 name="asr"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel> %</FormLabel>
+                    <FormLabel>ASR %</FormLabel>
                     <FormControl>
                       <Input placeholder="ASR %" {...field} />
                     </FormControl>
@@ -252,11 +247,9 @@ export function EditRoute({ route }: { route: Route }) {
                 )}
               />
             </div>
-            <SheetClose asChild>
-              <Button type="submit" className="w-full">
-                Update route
-              </Button>
-            </SheetClose>
+            <Button type="submit" className="w-full">
+              Update route
+            </Button>
           </form>
         </Form>
       </SheetContent>

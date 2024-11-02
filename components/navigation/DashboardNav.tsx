@@ -89,7 +89,7 @@ const MobileNav = ({ navItems }: { navItems: NavProps }) => {
           <span className="sr-only">Toggle navigation menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="flex flex-col overflow-y-auto">
+      <SheetContent side="left" className="flex flex-col overflow-y-auto">
         <Link
           passHref
           href={navItems.root.path}

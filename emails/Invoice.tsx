@@ -126,7 +126,7 @@ export default function InvoiceTemplate({ data }: { data: any }) {
               </Text>
               <Text className="font-medium text-gray-500">
                 If you have any questions or need further assistance, please
-                don't hesitate to contact us.
+                don&apos;t hesitate to contact us.
               </Text>
             </Section>
           </Container>

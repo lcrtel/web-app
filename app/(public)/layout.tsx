@@ -1,5 +1,5 @@
 import Footer from "@/components/Footer";
-import Nav from "@/components/Nav";
+import PublicNav from "@/components/navigation/PublicNav";
 
 export default function PublicLayout({
   children,
@@ -8,7 +8,7 @@ export default function PublicLayout({
 }) {
   return (
     <main className="relative">
-      <Nav />
+      <PublicNav />
       {children}
       <Footer />
     </main>

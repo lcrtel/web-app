@@ -1,8 +1,8 @@
 "use server";
 
+import { calculateNewRate } from "@/components/routes-and-targets/rateHikes";
 import SubmitRoutes from "@/emails/SubmitRoutes";
 import { supabaseServer } from "@/lib/supabase-server";
-import { calculateNewRate } from "@/utils/rateHikes";
 import { transporter } from "@/utils/smtp-transporter";
 import { renderAsync } from "@react-email/render";
 import { User } from "@supabase/supabase-js";

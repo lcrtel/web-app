@@ -17,11 +17,12 @@ import {
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import { Clock, Ellipsis, KeyRound, Settings } from "lucide-react";
 import { Suspense } from "react";
-import { AccountSettingsSheet } from "../auth/modals/AccountSettingsSheet";
-import PasswordResetSheet from "../auth/modals/PasswordResetSheet";
-import { Skeleton } from "../ui/skeleton";
+
 import { Department } from "./actions";
 import DeleteExecutive from "./DeleteExecutive";
+import { Skeleton } from "@/components/ui/skeleton";
+import { AccountSettingsSheet } from "@/components/auth/modals/AccountSettingsSheet";
+import PasswordResetSheet from "@/components/auth/modals/PasswordResetSheet";
 
 export default async function ExecutivesList({
   department,

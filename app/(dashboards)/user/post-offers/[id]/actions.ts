@@ -1,10 +1,10 @@
 "use server";
 
 import { supabaseServer } from "@/lib/supabase-server";
-import { calculateNewRate } from "@/utils/rateHikes";
 import { renderAsync } from "@react-email/render";
 import nodemailer from "nodemailer";
 import RouteOfferUpdatesEmail from "./RouteOfferUpdatesEmail";
+import { calculateNewRate } from "@/components/routes-and-targets/rateHikes";
 
 export async function updateRoute(oldRoute: Route, updatedRoute: Route) {
   const supabase = await supabaseServer();

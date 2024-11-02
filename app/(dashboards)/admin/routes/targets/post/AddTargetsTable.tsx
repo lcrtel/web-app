@@ -4,9 +4,9 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { ImportDropdown, PostRoutesTable } from "@/components/PostRoutesTable";
 import { toast } from "react-hot-toast";
 import { postTargetsAsAdmin } from "./actions";
+import { ImportDropdown, PostRoutesTable } from "@/components/routes-and-targets/PostRoutesTable";
 
 declare module "@tanstack/react-table" {
   interface TableMeta<TData extends RowData> {

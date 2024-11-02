@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { buttonVariants } from "./ui/button";
+import { buttonVariants } from "../ui/button";
 
-export default function Nav() {
+export default function PublicNav() {
   return (
     <div className={`fixed top-0 z-50 w-full p-4`}>
       <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between rounded-full bg-white py-2 pl-3 pr-2 shadow-2xl shadow-primary-900/30">

@@ -11,11 +11,11 @@ import {
   PlusCircle,
   Settings
 } from "lucide-react";
-import { AccountSettingsSheet } from "../auth/modals/AccountSettingsSheet";
-import PasswordResetSheet from "../auth/modals/PasswordResetSheet";
 import { Department } from "./actions";
 import { CreateDepartmentManager } from "./CreateDepartmentManager";
 import DeleteExecutive from "./DeleteExecutive";
+import { AccountSettingsSheet } from "@/components/auth/modals/AccountSettingsSheet";
+import PasswordResetSheet from "@/components/auth/modals/PasswordResetSheet";
 export default async function ManagerInfo({
   department,
 }: {

@@ -1,5 +1,3 @@
-import { CreateDepartmentExecutive } from "@/components/departments/CreateDepartmentExecutive";
-import ExecutivesList from "@/components/departments/ExecutivesList";
 import NotAuthorized from "@/components/NotAuthorized";
 import {
   PageActions,
@@ -7,6 +5,8 @@ import {
   PageHeaderHeading,
 } from "@/components/page-header";
 import { getUserRole } from "@/utils/user";
+import { CreateDepartmentExecutive } from "../../_components/CreateDepartmentExecutive";
+import ExecutivesList from "../../_components/ExecutivesList";
 
 export default async function ExecutivesPage() {
   const userRole = (await getUserRole()) as UserRolesEnum;

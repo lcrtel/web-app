@@ -3,8 +3,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { getUserRole } from "@/utils/user";
 import { Metadata } from "next";
 import { Suspense } from "react";
-import Overview from "./Overview";
-import QuickActions from "./QuickActions";
+import Overview from "./_components/Overview";
+import QuickActions from "./_components/QuickActions";
 
 export const metadata: Metadata = {
   title: "Dashboard - Director",

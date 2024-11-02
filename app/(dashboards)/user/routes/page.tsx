@@ -1,4 +1,3 @@
-import RoutesSearch from "@/components/RoutesSearch";
 import { buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
@@ -9,6 +8,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { OffersTable } from "./offers-table";
+import RoutesSearch from "@/components/routes-and-targets/RoutesSearch";
 
 export default async function Page(props: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;

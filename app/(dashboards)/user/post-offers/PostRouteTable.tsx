@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import OTPLoginForm from "@/components/auth/forms/OTPLoginForm";
-import { ImportDropdown, PostRoutesTable } from "@/components/PostRoutesTable";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -14,6 +13,7 @@ import {
 import { toast } from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
 import { postRoutes } from "./actions";
+import { ImportDropdown, PostRoutesTable } from "@/components/routes-and-targets/PostRoutesTable";
 
 export function PostOffersTable({
   userEmail,

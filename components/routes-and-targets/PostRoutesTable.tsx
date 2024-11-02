@@ -53,7 +53,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "./ui/command";
+} from "../ui/command";
 
 declare module "@tanstack/react-table" {
   interface TableMeta<TData extends RowData> {

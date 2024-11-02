@@ -1,4 +1,3 @@
-import { CreateDepartmentExecutive } from "@/components/departments/CreateDepartmentExecutive";
 import { rootPath } from "@/components/navigation/navConfig";
 import { buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -6,9 +5,10 @@ import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import Link from "next/link";
 import { Suspense } from "react";
 import { HiOutlinePlusCircle } from "react-icons/hi";
-import { CreateInvoice } from "./finance/invoices/CreateInvoice";
-import AddTRSheet from "./finance/tr-verification/AddTRSheet";
-import { AddAccountForm } from "./users/_components/AddAccount";
+import { CreateInvoice } from "../finance/invoices/CreateInvoice";
+import AddTRSheet from "../finance/tr-verification/AddTRSheet";
+import { AddAccountForm } from "../users/_components/AddAccount";
+import { CreateDepartmentExecutive } from "../departments/_components/CreateDepartmentExecutive";
 
 export default function QuickActions({
   userRole,

@@ -1,18 +1,16 @@
-import RoutesSearch from "@/components/RoutesSearch";
+import RoutesSearch from "@/components/routes-and-targets/RoutesSearch";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseServer } from "@/lib/supabase-server";
+import { getUser } from "@/utils/user";
 import { SearchX } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { TargetsTable } from "./targets-table";
-import { getUser } from "@/utils/user";
 
-export default async function Page(
-  props: {
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-  }
-) {
+export default async function Page(props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const searchParams = await props.searchParams;
   return (
     <div className="">

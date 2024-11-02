@@ -1,8 +1,8 @@
-import MetricsCard from "@/components/MetricsCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 import Link from "next/link";
 import { Suspense } from "react";
+import MetricsCard from "./MetricsCard";
 
 export default function Overview({ userRole }: { userRole: UserRolesEnum }) {
   return (

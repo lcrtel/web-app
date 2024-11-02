@@ -1,7 +1,7 @@
 "use server";
 
+import { calculateNewRate } from "@/components/routes-and-targets/rateHikes";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
-import { calculateNewRate } from "@/utils/rateHikes";
 
 export async function postTargetsAsAdmin(data: Target[]) {
   const supabase = await supabaseAdminServer();

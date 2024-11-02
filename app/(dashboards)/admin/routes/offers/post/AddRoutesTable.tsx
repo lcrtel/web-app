@@ -3,9 +3,9 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { ImportDropdown, PostRoutesTable } from "@/components/PostRoutesTable";
 import { toast } from "react-hot-toast";
 import { postRoutesAsAdmin } from "./actions";
+import { ImportDropdown, PostRoutesTable } from "@/components/routes-and-targets/PostRoutesTable";
 
 export function AddRoutesTable({ users }: { users: any }) {
   const [posting, setPosting] = useState(false);

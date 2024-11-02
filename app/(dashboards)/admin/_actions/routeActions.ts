@@ -1,8 +1,8 @@
 "use server";
 
+import { calculateNewRate } from "@/components/routes-and-targets/rateHikes";
 import { supabaseServer } from "@/lib/supabase-server";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
-import { calculateNewRate } from "@/utils/rateHikes";
 
 export async function insertRoutesInDb(newRoutes: Route[]) {
   const supabase = await supabaseAdminServer();

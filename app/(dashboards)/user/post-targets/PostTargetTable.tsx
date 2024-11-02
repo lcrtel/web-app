@@ -1,6 +1,5 @@
 "use client";
 
-import { ImportDropdown, PostRoutesTable } from "@/components/PostRoutesTable";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -14,6 +13,7 @@ import { toast } from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
 import { postTargets } from "./actions";
 import OTPLoginForm from "@/components/auth/forms/OTPLoginForm";
+import { ImportDropdown, PostRoutesTable } from "@/components/routes-and-targets/PostRoutesTable";
 
 declare module "@tanstack/react-table" {
   interface TableMeta<TData extends RowData> {

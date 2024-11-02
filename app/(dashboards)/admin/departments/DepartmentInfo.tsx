@@ -1,5 +1,6 @@
-import ExecutivesList from "@/components/departments/ExecutivesList";
-import ManagerInfo from "@/components/departments/ManagerInfo";
+
+import ExecutivesList from "./_components/ExecutivesList";
+import ManagerInfo from "./_components/ManagerInfo";
 import { Department } from "./actions";
 
 export default function DepartmentInfo({

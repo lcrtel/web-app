@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useIdle } from "react-haiku";
 import toast from "react-hot-toast";
-import { updateDurationInDb } from "./duration-tracking/actions";
+import { updateDurationInDb } from "./actions";
 const DurationTracker = () => {
   const [startTime, setStartTime] = useState(Date.now());
   const idle = useIdle(20000);

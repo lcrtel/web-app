@@ -2,18 +2,13 @@
 
 import updatePhoneCodes from "@/app/(public)/actions";
 import { cn } from "@/lib/utils";
-import {
-  Check,
-  ChevronsUpDown,
-  FilterXIcon,
-  Loader2
-} from "lucide-react";
+import { Check, ChevronsUpDown, FilterXIcon, Loader2 } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { Button } from "./ui/button";
-import { Command, CommandGroup, CommandItem, CommandList } from "./ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { ScrollArea } from "./ui/scroll-area";
+import { Button } from "../ui/button";
+import { Command, CommandGroup, CommandItem, CommandList } from "../ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { ScrollArea } from "../ui/scroll-area";
 
 export default function RoutesSearch() {
   const router = useRouter();
@@ -108,10 +103,7 @@ function SelectRouteType({ routeType, setRouteType }: SelectRouteTypeProps) {
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          className=" justify-between sm:max-w-32"
-        >
+        <Button variant="outline" className="justify-between sm:max-w-32">
           {routeType ? routeType.toUpperCase() : "Route type"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -170,7 +162,7 @@ function SelectDestination({
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="relative flex items-center gap-2">
-      <div className="flex h-10 sm:w-auto items-center justify-between overflow-clip rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm ring-white transition-all duration-300 ease-in-out placeholder:text-gray-400 hover:ring-2 hover:ring-primary-50 focus-visible:border focus-visible:border-gray-400 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary-50">
+      <div className="flex h-10 items-center justify-between overflow-clip rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm ring-white transition-all duration-300 ease-in-out placeholder:text-gray-400 hover:ring-2 hover:ring-primary-50 focus-visible:border focus-visible:border-gray-400 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary-50 sm:w-auto">
         <input
           placeholder="Search destinations..."
           className="w-36 appearance-none focus-visible:outline-none"
@@ -181,7 +173,7 @@ function SelectDestination({
         {loading && <Loader2 className="size-4 animate-spin" />}
       </div>
       {destinations.length > 0 && isOpen && (
-        <ScrollArea className="!absolute left-0 top-11 z-10 h-[250px] drop-shadow-2xl rounded-md border bg-white p-4">
+        <ScrollArea className="!absolute left-0 top-11 z-10 h-[250px] rounded-md border bg-white p-4 drop-shadow-2xl">
           {destinations.map((destination) => (
             <li
               key={destination.code}

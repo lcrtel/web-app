@@ -7,8 +7,8 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // "/user/((?!routes|targets|post-offers|post-targets).*)",
-    "/user/:path*",
+    "/user/((?!routes|targets|post-offers|post-targets).*)",
+    // "/user/:path*",
     "/director/:path*",
     "/company_manager/:path*",
     "/finance_executive/:path*",

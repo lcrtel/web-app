@@ -18,7 +18,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
+import { Loader2, PlusCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -37,10 +37,9 @@ const accountSchema = z.object({
 
 interface Props {
   department: Department;
-  children: React.ReactNode;
 }
 
-export const CreateDepartmentManager = ({ department, children }: Props) => {
+export const CreateDepartmentManager = ({ department }: Props) => {
   const form = useForm<any>({
     resolver: zodResolver(accountSchema),
     mode: "onChange",
@@ -69,7 +68,9 @@ export const CreateDepartmentManager = ({ department, children }: Props) => {
     <>
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
-          <button className="w-full">{children}</button>
+          <Button className="gap-2" size="sm">
+            Add Manager <PlusCircle className="size-4" />
+          </Button>
         </SheetTrigger>
         <SheetContent>
           <SheetHeader>

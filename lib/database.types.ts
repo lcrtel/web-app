@@ -81,18 +81,21 @@ export type Database = {
           created_at: string
           department: string | null
           id: number
+          manager_id: number | null
           user_id: string
         }
         Insert: {
           created_at?: string
           department?: string | null
           id?: number
+          manager_id?: number | null
           user_id?: string
         }
         Update: {
           created_at?: string
           department?: string | null
           id?: number
+          manager_id?: number | null
           user_id?: string
         }
         Relationships: [
@@ -130,6 +133,27 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "manager_durations"
             referencedColumns: ["department_slug"]
+          },
+          {
+            foreignKeyName: "executives_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "manager_action_counts"
+            referencedColumns: ["manager_id"]
+          },
+          {
+            foreignKeyName: "executives_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "manager_durations"
+            referencedColumns: ["manager_id"]
+          },
+          {
+            foreignKeyName: "executives_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "managers"
+            referencedColumns: ["id"]
           },
           {
             foreignKeyName: "executives_user_id_fkey"

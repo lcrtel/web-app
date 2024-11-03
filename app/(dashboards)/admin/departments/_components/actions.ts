@@ -4,6 +4,7 @@ import { supabaseServer } from "@/lib/supabase-server";
 import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 
 interface UserProps {
+  manager_id?: string;
   name: string;
   email: string;
   phone: string;
@@ -12,6 +13,18 @@ interface UserProps {
 }
 export type Department = "sales" | "purchases" | "finance" | "noc" | "tech";
 
+export async function getManagers(department: Department) {
+  const supabaseAdmin = await supabaseAdminServer();
+  const { data: manager, error } = await supabaseAdmin
+    .from("managers")
+    .select("*, profiles(*)")
+    .eq("department", department);
+
+  if (error) {
+    return { error: error.message };
+  }
+  return { data: manager };
+}
 export async function createDepartmentManager(
   manager: UserProps,
   department: Department,
@@ -61,7 +74,8 @@ export async function createDepartmentManager(
     } else {
       await supabase.from("user_actions").insert({
         action_type: "created_manager",
-        action_details: "Created manager " + manager.name + " for " + department,
+        action_details:
+          "Created manager " + manager.name + " for " + department,
       });
       //   transporter.sendMail({
       //     from: process.env.SMTP_USER,
@@ -76,6 +90,7 @@ export async function createDepartmentExecutive(
   executive: UserProps,
   department: Department,
 ) {
+  console.log(executive);
   const supabaseAdmin = await supabaseAdminServer();
   const supabase = await supabaseServer();
   const {
@@ -109,11 +124,13 @@ export async function createDepartmentExecutive(
       .from("user_roles")
       .update({ role_slug })
       .eq("user_id", user.id);
-    const { error: error2 } = await supabaseAdmin
-      .from("executives")
-      .insert({ user_id: user.id, department });
+    const { error: error2 } = await supabaseAdmin.from("executives").insert({
+      user_id: user.id,
+      department,
+      manager_id: executive.manager_id ? +executive.manager_id : null,
+    });
     if (error || error2) {
-      return { error: error2?.message };
+      return { error: error2?.message || error?.message };
     } else {
       await supabase.from("user_actions").insert({
         action_type: "created_executive",
@@ -155,5 +172,24 @@ export async function deleteExecutive(
   await supabase.from("user_actions").insert({
     action_type: "deleted_executive",
     action_details: "Deleted executive: " + executiveName,
+  });
+}
+
+export async function updateExecutiveManager(
+  executiveId: string,
+  managerId: string | null,
+) {
+  const supabaseAdmin = await supabaseAdminServer();
+  const supabase = await supabaseServer();
+  const { error } = await supabaseAdmin
+    .from("executives")
+    .update({ manager_id: managerId ? +managerId : null })
+    .eq("user_id", executiveId);
+  if (error) {
+    return { error: error.message };
+  }
+  await supabase.from("user_actions").insert({
+    action_type: "updated_executive",
+    action_details: "Updated executive's manager",
   });
 }

@@ -19,4 +19,5 @@ declare global {
     type StatusEnum = DB["public"]["Enums"]["statuses"];
     type UserTypesEnum = DB["public"]["Enums"]["user_types"];
     type UserRolesEnum = DB["public"]["Enums"]["roles_enum"];
+    type Manager = DB["public"]["Tables"]["managers"]["Row"];
 }

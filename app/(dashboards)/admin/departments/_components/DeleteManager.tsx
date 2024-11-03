@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
-import { HiOutlineTrash, HiTrash } from "react-icons/hi";
+import { HiOutlineTrash } from "react-icons/hi";
 import { deleteManager } from "./actions";
 
 export default function DeleteManager({
@@ -41,20 +41,17 @@ export default function DeleteManager({
       </AlertDialogTrigger>
       <AlertDialogContent className="border-red-500">
         <AlertDialogHeader>
-          <AlertDialogTitle>
-            <p className="text-red-500">Are you absolutely sure?</p>
+          <AlertDialogTitle className="text-red-500">
+            Are you absolutely sure?
           </AlertDialogTitle>
-          <AlertDialogDescription>
-            <p className="text-red-500">
-              This action cannot be undone. This will permanently delete this
-              manager from our database, the executive will not be able to
-              login.
-            </p>
+          <AlertDialogDescription className="text-red-500">
+            This action cannot be undone. This will permanently delete this
+            manager from our database, the executive will not be able to login.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel className="border-red-200 bg-red-100 text-red-500 hover:bg-red-200 hover:text-red-600">
-            I&apos;m not sure
+            Cancel
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={() => handleDelete()}

@@ -7,6 +7,7 @@ import { supabaseAdminServer } from "@/lib/supabaseAdminServer";
 export async function postRoutesAsAdmin(newRoutes: Route[]) {
   const supabaseAdmin = await supabaseAdminServer();
   const supabase = await supabaseServer();
+
   const routes: any = await Promise.all(
     newRoutes.map(async (route: Route) => {
       return {
@@ -29,6 +30,17 @@ export async function postRoutesAsAdmin(newRoutes: Route[]) {
       };
     }),
   );
+  await supabaseAdmin
+    .from("profiles")
+    .update({
+      user_type: "VENDOR",
+    })
+    .in(
+      "id",
+      newRoutes.map((route) => route.vendor_id),
+    )
+    .select();
+
   const { error } = await supabaseAdmin.from("routes").insert(routes);
 
   if (error) {

@@ -43,12 +43,13 @@ export default async function SettingsLayout(props: SettingsLayoutProps) {
 
   return (
     <div className="w-full">
+      
       <Suspense
         fallback={
           <>
-            <p className="mb-2 flex items-center gap-2 text-sm font-medium text-slate-400">
+            <div className="mb-2 flex items-center gap-2 text-sm font-medium text-slate-400">
               Clients / <Skeleton className="h-4 w-full max-w-xs" />
-            </p>
+            </div>
             <div className="mb-4 flex flex-col gap-2">
               <div className="">
                 <Skeleton className="h-7 w-full max-w-xs" />
@@ -79,6 +80,23 @@ async function ClientDetails({ userId }: { userId: any }) {
   return (
     user && (
       <div className="space-y-4">
+        <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
+          <BackButton />
+          <Link href="/director" className="hover:underline">
+            Dashboard
+          </Link>
+          /
+          <Link href="/admin/users/clients" className="hover:underline">
+            Clients
+          </Link>
+          /
+          <Link
+            href={`/admin/users/clients/${userId}`}
+            className="hover:underline"
+          >
+            {user?.name}
+          </Link>
+        </div>
         <div className="flex flex-col gap-2 pb-4">
           <div className="">
             <h1 className="text-xl font-bold capitalize tracking-tight">

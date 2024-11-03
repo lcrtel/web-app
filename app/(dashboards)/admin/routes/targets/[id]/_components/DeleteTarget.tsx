@@ -1,14 +1,14 @@
 "use client";
 import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
@@ -35,19 +35,17 @@ export default function DeleteTarget({ routeID }: { routeID: any }) {
       </AlertDialogTrigger>
       <AlertDialogContent className="border-red-500">
         <AlertDialogHeader>
-          <AlertDialogTitle>
-            <p className="text-red-500">Are you absolutely sure?</p>
+          <AlertDialogTitle className="text-red-500">
+            Are you absolutely sure?
           </AlertDialogTitle>
-          <AlertDialogDescription>
-            <p className="text-red-500">
-              This action cannot be undone. This will permanently delete this
-              target from the database.
-            </p>
+          <AlertDialogDescription className="text-red-500">
+            This action cannot be undone. This will permanently delete this
+            target from the database.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel className="border-red-200 bg-red-100 text-red-500 hover:bg-red-200 hover:text-red-600">
-            I&apos;m not sure
+            Cancel
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={() => handleDelete()}

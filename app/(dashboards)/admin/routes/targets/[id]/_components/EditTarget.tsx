@@ -1,14 +1,13 @@
 "use client";
 
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
+  SheetTrigger
 } from "@/components/ui/sheet";
 import * as z from "zod";
 
@@ -34,9 +33,8 @@ import {
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { HiX } from "react-icons/hi";
 import { editTarget } from "./actions";
-const routeFormSchema = z.object({
+const targetFormSchema = z.object({
   acd: z.string().optional(),
   asr: z.string().optional(),
   buying_rate: z.string(),
@@ -47,51 +45,43 @@ const routeFormSchema = z.object({
   rate: z.string(),
   route_type: z.string(),
 });
-export function EditRouteRequest({ route_request }: { route_request: Target }) {
+export function EditTarget({ target }: { target: Target }) {
   const [isOpen, setIsOpen] = useState(false);
-  const defaultValues = route_request;
+  const defaultValues = target;
   const form = useForm<Target>({
-    resolver: zodResolver(routeFormSchema),
+    resolver: zodResolver(targetFormSchema),
     defaultValues,
     mode: "onChange",
   });
 
   const router = useRouter();
   async function onSubmit(data: Target) {
-    const res = await editTarget(data, route_request.id);
-
+    const res = await editTarget(data, target.id);
+    const updating = toast.loading("Updating...");
     if (res?.error) {
+      toast.dismiss(updating);
       toast.error(res.error);
       return;
     }
+    toast.dismiss(updating);
     toast.success("Target updated");
     setIsOpen(false);
     router.refresh();
   }
   return (
-    <Sheet open={isOpen}>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <Button onClick={(e) => setIsOpen(true)}>Edit</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <div className="mb-2 flex items-center justify-between">
-            <SheetTitle>Edit Route request</SheetTitle>
-            <div
-              className={`${buttonVariants({
-                variant: "ghost",
-                size: "icon",
-              })} cursor-pointer`}
-              onClick={(e) => setIsOpen(false)}
-            >
-              {" "}
-              <HiX className="h-5 w-5" />
-            </div>
-          </div>
+          <SheetTitle className="text-xl font-bold text-primary-900">
+            Edit Target
+          </SheetTitle>
         </SheetHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="mb-5 grid gap-5 sm:grid-cols-2">
+            <div className="grid gap-5 py-5 sm:grid-cols-2">
               <FormField
                 control={form.control}
                 name="destination"
@@ -105,7 +95,19 @@ export function EditRouteRequest({ route_request }: { route_request: Target }) {
                   </FormItem>
                 )}
               />
-
+              <FormField
+                control={form.control}
+                name="destination_code"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Prefix</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Prefix" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="route_type"
@@ -176,19 +178,7 @@ export function EditRouteRequest({ route_request }: { route_request: Target }) {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="destination_code"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Prefix</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Prefix" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+
               <FormField
                 control={form.control}
                 name="pdd"
@@ -220,7 +210,7 @@ export function EditRouteRequest({ route_request }: { route_request: Target }) {
                 name="buying_rate"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Selling Rate $</FormLabel>
+                    <FormLabel>Buying Rate $</FormLabel>
                     <FormControl>
                       <Input placeholder="Buying rate $" {...field} />
                     </FormControl>
@@ -229,11 +219,9 @@ export function EditRouteRequest({ route_request }: { route_request: Target }) {
                 )}
               />
             </div>
-            <SheetClose asChild>
-              <Button type="submit" className="w-full">
-                Update route
-              </Button>
-            </SheetClose>
+            <Button type="submit" className="w-full">
+              Update target
+            </Button>
           </form>
         </Form>
       </SheetContent>

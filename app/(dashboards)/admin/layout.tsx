@@ -1,5 +1,6 @@
 import DashboardNav, { NavProps } from "@/components/navigation/DashboardNav";
 import navConfig, { Roles } from "@/components/navigation/navConfig";
+import DurationTracker from "@/utils/duration-tracking/DurationTracker";
 import { getUser } from "@/utils/user";
 import { unstable_noStore } from "next/cache";
 
@@ -14,6 +15,7 @@ export default async function DashboardLayout({
 
   return (
     <main className="px-2 md:px-4">
+      <DurationTracker />
       <DashboardNav navItems={NAV_ITEMS} user={user} />
       <div className="p-4">{children}</div>
     </main>

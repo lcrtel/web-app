@@ -23,7 +23,7 @@ const DurationTracker = () => {
     } else if (!idle) {
       setStartTime(Date.now());
     }
-  }, [idle]);
+  }, [idle, startTime]);
 
   return null;
 };
